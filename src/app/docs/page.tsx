@@ -177,13 +177,145 @@ export default function Docs() {
         ))}
       </section>
 
+      {/* Schema / Presets */}
+      <section className="mb-10">
+        <h2 className="text-lg font-semibold text-foreground mb-3">
+          <span className="text-xs font-mono px-2 py-0.5 rounded bg-primary/15 text-primary mr-2">NEW</span>
+          Schema Builder &amp; Presets
+        </h2>
+        <p className="text-sm text-muted-foreground mb-4">
+          Gere registros com multiplos campos correlacionados. O nome no email bate com o nome da pessoa,
+          o endereco e consistente, e o cartao de credito usa o nome do titular.
+        </p>
+
+        <h3 className="text-sm font-medium text-foreground mb-2">Presets prontos</h3>
+        <div className="rounded-lg border border-border overflow-hidden mb-4">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="bg-card">
+                <th className="text-left px-4 py-2 text-muted-foreground font-medium">Preset</th>
+                <th className="text-left px-4 py-2 text-muted-foreground font-medium">Campos</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-border">
+              <tr>
+                <td className="px-4 py-2 font-mono text-primary">customer</td>
+                <td className="px-4 py-2 text-muted-foreground">nome, cpf, email, telefone, endereco</td>
+              </tr>
+              <tr>
+                <td className="px-4 py-2 font-mono text-primary">employee</td>
+                <td className="px-4 py-2 text-muted-foreground">nome, cpf, email, telefone, endereco, conta bancaria, pix</td>
+              </tr>
+              <tr>
+                <td className="px-4 py-2 font-mono text-primary">company</td>
+                <td className="px-4 py-2 text-muted-foreground">razao social, cnpj, telefone, endereco</td>
+              </tr>
+              <tr>
+                <td className="px-4 py-2 font-mono text-primary">ecommerce_order</td>
+                <td className="px-4 py-2 text-muted-foreground">cliente, cpf, email, telefone, endereco, cartao</td>
+              </tr>
+              <tr>
+                <td className="px-4 py-2 font-mono text-primary">contact_list</td>
+                <td className="px-4 py-2 text-muted-foreground">nome, email, celular, fixo</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div className="space-y-4">
+          <div className="rounded-lg bg-background border border-border p-4 font-mono text-xs leading-6">
+            <div className="text-muted"># Usar preset</div>
+            <div>
+              <span className="text-success">curl</span>
+              <span className="text-foreground"> &quot;/api/generate?preset=customer&amp;quantity=5&quot;</span>
+            </div>
+          </div>
+          <div className="rounded-lg bg-background border border-border p-4 font-mono text-xs leading-6">
+            <div className="text-muted"># Schema customizado</div>
+            <div><span className="text-success">curl</span> -X POST /api/generate \</div>
+            <div>{"  "}-H &quot;Content-Type: application/json&quot; \</div>
+            <div>{"  "}-d <span className="text-accent">{`'{"schema":[{"name":"nome","type":"fullName"},{"name":"doc","type":"cpf"},{"name":"contato","type":"email"}],"quantity":10}'`}</span></div>
+          </div>
+        </div>
+      </section>
+
+      {/* Integration snippets */}
+      <section className="mb-10">
+        <h2 className="text-lg font-semibold text-foreground mb-3">Integracao</h2>
+
+        <h3 className="text-sm font-medium text-foreground mb-2">Node.js / TypeScript</h3>
+        <div className="rounded-lg bg-background border border-border p-4 font-mono text-xs leading-6 mb-4">
+          <pre className="text-foreground">{`const res = await fetch("https://fakeforge.com.br/api/generate", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ preset: "customer", quantity: 50 }),
+});
+const { data } = await res.json();
+console.log(data[0]); // { nome, cpf, email, telefone, endereco }`}</pre>
+        </div>
+
+        <h3 className="text-sm font-medium text-foreground mb-2">Python</h3>
+        <div className="rounded-lg bg-background border border-border p-4 font-mono text-xs leading-6 mb-4">
+          <pre className="text-foreground">{`import requests
+
+resp = requests.post("https://fakeforge.com.br/api/generate", json={
+    "preset": "customer",
+    "quantity": 50
+})
+data = resp.json()["data"]
+print(data[0])  # {'nome': '...', 'cpf': '...', ...}`}</pre>
+        </div>
+
+        <h3 className="text-sm font-medium text-foreground mb-2">CI/CD (GitHub Actions)</h3>
+        <div className="rounded-lg bg-background border border-border p-4 font-mono text-xs leading-6">
+          <pre className="text-foreground">{`# .github/workflows/seed.yml
+- name: Seed test database
+  run: |
+    curl -s -X POST https://fakeforge.com.br/api/generate \\
+      -H "Content-Type: application/json" \\
+      -d '{"preset":"customer","quantity":100,"format":"sql"}' \\
+      | psql \$DATABASE_URL`}</pre>
+        </div>
+      </section>
+
       {/* Rate limits */}
       <section>
         <h2 className="text-lg font-semibold text-foreground mb-3">Limites</h2>
-        <div className="rounded-lg border border-border p-4 text-sm text-muted-foreground">
-          <p>Maximo de <strong className="text-foreground">10.000 items</strong> por request.</p>
-          <p className="mt-1">A API e gratuita e aberta. Rate limiting sera implementado em breve.</p>
+        <div className="rounded-lg border border-border overflow-hidden">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="bg-card">
+                <th className="text-left px-4 py-2 text-muted-foreground font-medium">Plano</th>
+                <th className="text-left px-4 py-2 text-muted-foreground font-medium">Requests/dia</th>
+                <th className="text-left px-4 py-2 text-muted-foreground font-medium">Max items/request</th>
+                <th className="text-left px-4 py-2 text-muted-foreground font-medium">Preco</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-border">
+              <tr>
+                <td className="px-4 py-2 font-medium text-foreground">Free</td>
+                <td className="px-4 py-2 text-muted-foreground">100</td>
+                <td className="px-4 py-2 text-muted-foreground">10.000</td>
+                <td className="px-4 py-2 text-success">Gratis</td>
+              </tr>
+              <tr>
+                <td className="px-4 py-2 font-medium text-foreground">Dev</td>
+                <td className="px-4 py-2 text-muted-foreground">10.000</td>
+                <td className="px-4 py-2 text-muted-foreground">10.000</td>
+                <td className="px-4 py-2 text-accent">R$29/mes (em breve)</td>
+              </tr>
+              <tr>
+                <td className="px-4 py-2 font-medium text-foreground">Team</td>
+                <td className="px-4 py-2 text-muted-foreground">100.000</td>
+                <td className="px-4 py-2 text-muted-foreground">10.000</td>
+                <td className="px-4 py-2 text-accent">R$79/mes (em breve)</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
+        <p className="text-xs text-muted mt-3">
+          Headers de rate limit: <code className="text-primary">X-RateLimit-Limit</code>, <code className="text-primary">X-RateLimit-Remaining</code>, <code className="text-primary">X-RateLimit-Reset</code>
+        </p>
       </section>
     </PageShell>
   );
