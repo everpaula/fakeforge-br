@@ -13,8 +13,31 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "FakeForge BR - Gerador de Dados Brasileiros para Testes",
+  title: {
+    default: "FakeForge BR - Gerador de Dados Brasileiros para Testes",
+    template: "%s | FakeForge BR",
+  },
   description: "Gere CPF, CNPJ, CEP, nomes, emails, telefones e mais dados brasileiros fictícios para desenvolvimento e testes. API gratuita.",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || "https://fakeforge.com.br"),
+  openGraph: {
+    type: "website",
+    locale: "pt_BR",
+    siteName: "FakeForge BR",
+    title: "FakeForge BR - Gerador de Dados Brasileiros para Testes",
+    description: "Gere CPF, CNPJ, CEP, nomes, emails, telefones e mais dados brasileiros fictícios para desenvolvimento e testes. Grátis e sem cadastro.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "FakeForge BR - Gerador de Dados Brasileiros",
+    description: "Gere CPF, CNPJ, endereços e mais dados brasileiros fictícios para testes. API REST gratuita.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  alternates: {
+    canonical: "/",
+  },
 };
 
 export default function RootLayout({

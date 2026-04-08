@@ -39,6 +39,7 @@ export default function PageShell({ children }: Props) {
             <Link href="/gerador-cep" className="hover:text-foreground transition-colors">Gerador de CEP</Link>
             <Link href="/validar-cpf" className="hover:text-foreground transition-colors">Validar CPF</Link>
             <Link href="/validar-cnpj" className="hover:text-foreground transition-colors">Validar CNPJ</Link>
+            <Link href="/blog" className="hover:text-foreground transition-colors">Blog</Link>
             <Link href="/docs" className="hover:text-foreground transition-colors">API</Link>
           </div>
           <p className="text-[11px] text-muted text-center">
