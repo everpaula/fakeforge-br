@@ -17,7 +17,6 @@ const PLANS = {
 };
 
 export async function POST(request: NextRequest) {
-  // Get authenticated user
   const cookieStore = await cookies();
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -55,41 +54,62 @@ export async function POST(request: NextRequest) {
     const preference = new Preference(client);
 
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+    const isLocalhost = baseUrl.includes("localhost");
 
-    const result = await preference.create({
-      body: {
-        items: [
-          {
-            id: `fakeforge_${planId}`,
-            title: plan.title,
-            description: plan.description,
-            quantity: 1,
-            unit_price: plan.price,
-            currency_id: "BRL",
-          },
-        ],
-        payer: {
-          email: user.email || "",
+    // Build preference body
+    const preferenceBody: Parameters<typeof preference.create>[0]["body"] = {
+      items: [
+        {
+          id: `fakeforge_${planId}`,
+          title: plan.title,
+          description: plan.description,
+          quantity: 1,
+          unit_price: plan.price,
+          currency_id: "BRL",
         },
+      ],
+      payer: {
+        email: user.email || "",
+      },
+      ...(isLocalhost ? {} : {
         back_urls: {
           success: `${baseUrl}/dashboard?payment=success&plan=${planId}`,
           failure: `${baseUrl}/pricing?payment=failed`,
           pending: `${baseUrl}/dashboard?payment=pending&plan=${planId}`,
         },
-        auto_return: "approved",
-        notification_url: `${baseUrl}/api/webhooks/mercadopago`,
-        metadata: {
-          user_id: user.id,
-          plan: planId,
-          user_email: user.email,
-        },
-        statement_descriptor: "FAKEFORGE BR",
+        auto_return: "approved" as const,
+      }),
+      metadata: {
+        user_id: user.id,
+        plan: planId,
+        user_email: user.email,
       },
-    });
+      statement_descriptor: "FAKEFORGE BR",
+    };
+
+    // MP rejects localhost notification URLs
+    if (!isLocalhost) {
+      preferenceBody.notification_url = `${baseUrl}/api/webhooks/mercadopago`;
+    }
+
+    const result = await preference.create({ body: preferenceBody });
+
+    if (!result.init_point) {
+      console.error("MP response missing init_point:", JSON.stringify(result).slice(0, 500));
+      return NextResponse.json({ error: "Checkout URL nao gerada pelo Mercado Pago" }, { status: 500 });
+    }
 
     return NextResponse.json({ checkout_url: result.init_point });
-  } catch (error) {
-    console.error("Checkout error:", error);
-    return NextResponse.json({ error: "Failed to create checkout" }, { status: 500 });
+  } catch (error: unknown) {
+    let errMsg = "Erro desconhecido";
+    if (error instanceof Error) {
+      errMsg = error.message;
+    } else if (typeof error === "object" && error !== null) {
+      errMsg = JSON.stringify(error);
+    } else {
+      errMsg = String(error);
+    }
+    console.error("Checkout error:", errMsg);
+    return NextResponse.json({ error: errMsg }, { status: 500 });
   }
 }

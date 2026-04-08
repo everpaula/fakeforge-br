@@ -59,6 +59,8 @@ export default function PricingClient() {
   const [loading, setLoading] = useState<string | null>(null);
   const router = useRouter();
 
+  const [error, setError] = useState<string | null>(null);
+
   async function handleSubscribe(planId: string) {
     if (planId === "free") {
       router.push("/login");
@@ -66,6 +68,7 @@ export default function PricingClient() {
     }
 
     setLoading(planId);
+    setError(null);
     try {
       const res = await fetch("/api/checkout", {
         method: "POST",
@@ -75,15 +78,23 @@ export default function PricingClient() {
       const data = await res.json();
 
       if (data.error === "unauthenticated") {
-        router.push("/login");
+        router.push("/login?redirect=/pricing");
+        return;
+      }
+
+      if (data.error) {
+        setError(data.error);
         return;
       }
 
       if (data.checkout_url) {
         window.location.href = data.checkout_url;
+      } else {
+        setError("Checkout URL nao retornada. Tente novamente.");
       }
-    } catch {
-      // handle error
+    } catch (err) {
+      setError("Erro ao conectar com o servidor. Tente novamente.");
+      console.error("Checkout error:", err);
     } finally {
       setLoading(null);
     }
@@ -135,6 +146,12 @@ export default function PricingClient() {
           </button>
         </div>
       ))}
+
+      {error && (
+        <div className="md:col-span-3 mt-4 p-3 rounded-lg bg-danger/10 border border-danger/20 text-center">
+          <p className="text-sm text-danger">{error}</p>
+        </div>
+      )}
 
       <div className="md:col-span-3 mt-4 text-center">
         <p className="text-xs text-muted">
