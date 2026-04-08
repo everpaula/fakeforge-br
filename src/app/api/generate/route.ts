@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { generate, DATA_TYPES, type DataType } from "@/lib/generators";
 import { generateSchema, SCHEMA_PRESETS, type SchemaField } from "@/lib/generators/schema";
 import { checkRateLimit, getRateLimitHeaders } from "@/lib/rate-limit";
+import { resolveApiKey, logApiUsage } from "@/lib/api-auth";
 
 function getClientIP(request: NextRequest): string {
   return (
@@ -11,24 +12,38 @@ function getClientIP(request: NextRequest): string {
   );
 }
 
-function withRateLimit(request: NextRequest): { allowed: boolean; headers: Record<string, string> } {
+async function withRateLimit(request: NextRequest): Promise<{
+  allowed: boolean;
+  headers: Record<string, string>;
+  userId: string | null;
+  keyId: string | null;
+}> {
   // Skip rate limiting for browser requests (same-origin UI)
   const origin = request.headers.get("origin") || "";
   const referer = request.headers.get("referer") || "";
   const isBrowser = origin.includes("localhost") || referer.includes("localhost") ||
     origin.includes("fakeforge") || referer.includes("fakeforge");
-  if (isBrowser) return { allowed: true, headers: {} };
+  if (isBrowser) return { allowed: true, headers: {}, userId: null, keyId: null };
 
+  // Check for API key auth
+  const apiKeyInfo = await resolveApiKey(request);
+  if (apiKeyInfo) {
+    const identifier = `key:${apiKeyInfo.keyId}`;
+    const result = checkRateLimit(identifier, apiKeyInfo.plan);
+    return { allowed: result.allowed, headers: getRateLimitHeaders(result), userId: apiKeyInfo.userId, keyId: apiKeyInfo.keyId };
+  }
+
+  // Fall back to IP-based rate limiting (free tier)
   const ip = getClientIP(request);
-  const result = checkRateLimit(ip);
-  return { allowed: result.allowed, headers: getRateLimitHeaders(result) };
+  const result = checkRateLimit(ip, "free");
+  return { allowed: result.allowed, headers: getRateLimitHeaders(result), userId: null, keyId: null };
 }
 
 export async function POST(request: NextRequest) {
-  const rateLimit = withRateLimit(request);
+  const rateLimit = await withRateLimit(request);
   if (!rateLimit.allowed) {
     return NextResponse.json(
-      { error: "Rate limit exceeded. 100 requests per day on the free tier.", upgrade: "https://fakeforge.com.br/pricing" },
+      { error: "Rate limit exceeded.", upgrade: "https://fakeforge.com.br/pricing", plan: rateLimit.headers["X-RateLimit-Plan"] || "free" },
       { status: 429, headers: rateLimit.headers }
     );
   }
@@ -79,10 +94,10 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET(request: NextRequest) {
-  const rateLimit = withRateLimit(request);
+  const rateLimit = await withRateLimit(request);
   if (!rateLimit.allowed) {
     return NextResponse.json(
-      { error: "Rate limit exceeded. 100 requests per day on the free tier." },
+      { error: "Rate limit exceeded.", upgrade: "https://fakeforge.com.br/pricing" },
       { status: 429, headers: rateLimit.headers }
     );
   }
