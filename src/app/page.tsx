@@ -129,8 +129,8 @@ export default function Home() {
             <span className="text-primary"> em 1 clique</span>
           </h1>
           <p className="text-muted mt-3 max-w-lg mx-auto text-sm leading-relaxed">
-            CPF, CNPJ, nomes, enderecos, telefones e mais.
-            Todos ficticios, todos com formatacao valida. Gratis.
+            CPF, CNPJ, nomes, endereços, telefones e mais.
+            Todos fictícios, todos com formatação válida. Grátis.
           </p>
         </div>
 
@@ -308,8 +308,8 @@ export default function Home() {
                   <span className="text-primary text-base">{"{}"}</span>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-foreground">Precisa disso no seu codigo?</p>
-                  <p className="text-xs text-muted mt-0.5">Essa mesma geracao esta disponivel via API REST. Sem cadastro.</p>
+                  <p className="text-sm font-medium text-foreground">Precisa disso no seu código?</p>
+                  <p className="text-xs text-muted mt-0.5">Essa mesma geração está disponível via API REST. Sem cadastro.</p>
                 </div>
               </div>
               <a
@@ -327,7 +327,7 @@ export default function Home() {
       <footer className="border-t border-border mt-20">
         <div className="max-w-6xl mx-auto px-5 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-[11px] text-muted">
-            Dados 100% ficticios. Nenhum dado real e utilizado ou armazenado.
+            Dados 100% fictícios. Nenhum dado real é utilizado ou armazenado.
           </p>
           <div className="flex items-center gap-4">
             <a href="/api/generate" className="text-[11px] text-muted hover:text-foreground transition-colors">API</a>

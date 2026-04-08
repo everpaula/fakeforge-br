@@ -4,9 +4,9 @@ import ValidatorCPF from "../gerador-cpf/ValidatorCPF";
 import SingleGenerator from "@/components/SingleGenerator";
 
 export const metadata: Metadata = {
-  title: "Validar CPF - Verifique se um CPF e Valido | FakeForge BR",
-  description: "Valide um CPF online gratuitamente. Verifica se os digitos verificadores estao corretos usando o algoritmo mod-11 da Receita Federal.",
-  keywords: "validar cpf, verificar cpf, cpf valido, validacao cpf online, checar cpf",
+  title: "Validar CPF - Verifique se um CPF é Válido | FakeForge BR",
+  description: "Valide um CPF online gratuitamente. Verifica se os dígitos verificadores estão corretos usando o algoritmo mod-11 da Receita Federal.",
+  keywords: "validar cpf, verificar cpf, cpf válido, validação cpf online, checar cpf",
 };
 
 export default function ValidarCPF() {
@@ -17,9 +17,9 @@ export default function ValidarCPF() {
           Validar <span className="text-primary">CPF</span>
         </h1>
         <p className="text-muted mt-2 text-sm leading-relaxed max-w-2xl">
-          Cole um CPF para verificar se os digitos verificadores estao corretos.
-          A validacao usa o algoritmo oficial mod-11 da Receita Federal.
-          Nenhum dado e armazenado ou enviado para servidores externos.
+          Cole um CPF para verificar se os dígitos verificadores estão corretos.
+          A validação usa o algoritmo oficial mod-11 da Receita Federal.
+          Nenhum dado é armazenado ou enviado para servidores externos.
         </p>
       </div>
 
@@ -30,7 +30,7 @@ export default function ValidarCPF() {
         <SingleGenerator
           type="cpf"
           label="CPF"
-          description="Gere CPFs validos e ficticios"
+          description="Gere CPFs válidos e fictícios"
         />
       </div>
     </PageShell>

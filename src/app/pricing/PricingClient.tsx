@@ -9,14 +9,14 @@ const PLANS = [
     name: "Free",
     price: "R$0",
     period: "para sempre",
-    description: "Para uso pessoal e testes rapidos",
+    description: "Para uso pessoal e testes rápidos",
     features: [
       "Web ilimitado (gerar e copiar)",
       "100 requests/dia na API",
       "Todos os 15 tipos de dados",
       "Export JSON, CSV, SQL",
     ],
-    cta: "Usar gratis",
+    cta: "Usar grátis",
     highlighted: false,
   },
   {
@@ -45,10 +45,10 @@ const PLANS = [
     features: [
       "Tudo do Dev +",
       "100.000 requests/dia na API",
-      "Multiplas API keys",
+      "Múltiplas API keys",
       "Schemas customizados salvos",
       "Dashboard de uso por key",
-      "Suporte prioritario",
+      "Suporte prioritário",
     ],
     cta: "Assinar Team",
     highlighted: false,
@@ -90,7 +90,7 @@ export default function PricingClient() {
       if (data.checkout_url) {
         window.location.href = data.checkout_url;
       } else {
-        setError("Checkout URL nao retornada. Tente novamente.");
+        setError("Checkout URL não retornada. Tente novamente.");
       }
     } catch (err) {
       setError("Erro ao conectar com o servidor. Tente novamente.");
@@ -155,7 +155,7 @@ export default function PricingClient() {
 
       <div className="md:col-span-3 mt-4 text-center">
         <p className="text-xs text-muted">
-          Pagamento via Mercado Pago. Pix, cartao de credito ou boleto.
+          Pagamento via Mercado Pago. Pix, cartão de crédito ou boleto.
           Cancele a qualquer momento.
         </p>
       </div>

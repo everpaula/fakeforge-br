@@ -20,7 +20,7 @@ export default function Login() {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center px-5">
         <div className="text-center">
-          <p className="text-sm text-danger font-medium mb-2">Supabase nao configurado</p>
+          <p className="text-sm text-danger font-medium mb-2">Supabase não configurado</p>
           <p className="text-xs text-muted">Crie o arquivo .env.local com as chaves do Supabase.</p>
           <p className="text-xs text-muted mt-1">Veja: docs/SETUP_GUIDE.md</p>
           <Link href="/" className="text-xs text-primary hover:underline mt-4 inline-block">Voltar</Link>
@@ -127,7 +127,7 @@ export default function Login() {
         </div>
 
         <p className="text-[11px] text-muted text-center mt-4">
-          Ao entrar, voce concorda com nossos termos de uso.
+          Ao entrar, você concorda com nossos termos de uso.
         </p>
       </div>
     </div>

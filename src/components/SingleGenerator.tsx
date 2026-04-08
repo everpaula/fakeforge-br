@@ -110,7 +110,7 @@ export default function SingleGenerator({ type, label, description, maxQuantity 
         <div className="max-h-[400px] overflow-auto">
           {!results ? (
             <div className="flex flex-col items-center justify-center py-16 text-muted">
-              <p className="text-sm text-muted-foreground">Clique em <strong>Gerar</strong> para comecar</p>
+              <p className="text-sm text-muted-foreground">Clique em <strong>Gerar</strong> para começar</p>
             </div>
           ) : typeof results[0] === "string" ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-border/40">

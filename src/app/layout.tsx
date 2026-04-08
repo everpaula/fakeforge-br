@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "FakeForge BR - Gerador de Dados Brasileiros para Testes",
-  description: "Gere CPF, CNPJ, CEP, nomes, emails, telefones e mais dados brasileiros ficticios para desenvolvimento e testes. API gratuita.",
+  description: "Gere CPF, CNPJ, CEP, nomes, emails, telefones e mais dados brasileiros fictícios para desenvolvimento e testes. API gratuita.",
 };
 
 export default function RootLayout({

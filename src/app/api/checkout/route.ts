@@ -96,7 +96,7 @@ export async function POST(request: NextRequest) {
 
     if (!result.init_point) {
       console.error("MP response missing init_point:", JSON.stringify(result).slice(0, 500));
-      return NextResponse.json({ error: "Checkout URL nao gerada pelo Mercado Pago" }, { status: 500 });
+      return NextResponse.json({ error: "Checkout URL não gerada pelo Mercado Pago" }, { status: 500 });
     }
 
     return NextResponse.json({ checkout_url: result.init_point });

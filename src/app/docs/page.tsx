@@ -4,7 +4,7 @@ import { DATA_TYPES } from "@/lib/generators";
 
 export const metadata: Metadata = {
   title: "API Documentation - FakeForge BR",
-  description: "Documentacao da API REST do FakeForge BR. Gere dados brasileiros ficticios via API. Sem autenticacao, gratis.",
+  description: "Documentação da API REST do FakeForge BR. Gere dados brasileiros fictícios via API. Sem autenticação, grátis.",
 };
 
 export default function Docs() {
@@ -17,8 +17,8 @@ export default function Docs() {
           <span className="text-primary">API</span> Documentation
         </h1>
         <p className="text-muted mt-2 text-sm leading-relaxed max-w-2xl">
-          Gere dados brasileiros ficticios via API REST. Sem autenticacao, sem cadastro.
-          Retorna JSON por padrao, ou CSV e SQL sob demanda.
+          Gere dados brasileiros fictícios via API REST. Sem autenticação, sem cadastro.
+          Retorna JSON por padrão, ou CSV e SQL sob demanda.
         </p>
       </div>
 
@@ -40,7 +40,7 @@ export default function Docs() {
         </h2>
         <p className="text-sm text-muted-foreground mb-4">Gera dados via query parameters.</p>
 
-        <h3 className="text-sm font-medium text-foreground mb-2">Parametros</h3>
+        <h3 className="text-sm font-medium text-foreground mb-2">Parâmetros</h3>
         <div className="rounded-lg border border-border overflow-hidden mb-4">
           <table className="w-full text-sm">
             <thead>
@@ -48,7 +48,7 @@ export default function Docs() {
                 <th className="text-left px-4 py-2 text-muted-foreground font-medium">Param</th>
                 <th className="text-left px-4 py-2 text-muted-foreground font-medium">Tipo</th>
                 <th className="text-left px-4 py-2 text-muted-foreground font-medium">Default</th>
-                <th className="text-left px-4 py-2 text-muted-foreground font-medium">Descricao</th>
+                <th className="text-left px-4 py-2 text-muted-foreground font-medium">Descrição</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
@@ -68,7 +68,7 @@ export default function Docs() {
                 <td className="px-4 py-2 font-mono text-primary">formatted</td>
                 <td className="px-4 py-2 text-muted-foreground">boolean</td>
                 <td className="px-4 py-2 text-muted-foreground">true</td>
-                <td className="px-4 py-2">Incluir pontuacao (123.456.789-00 vs 12345678900)</td>
+                <td className="px-4 py-2">Incluir pontuação (123.456.789-00 vs 12345678900)</td>
               </tr>
             </tbody>
           </table>
@@ -109,7 +109,7 @@ export default function Docs() {
               <tr className="bg-card">
                 <th className="text-left px-4 py-2 text-muted-foreground font-medium">Campo</th>
                 <th className="text-left px-4 py-2 text-muted-foreground font-medium">Tipo</th>
-                <th className="text-left px-4 py-2 text-muted-foreground font-medium">Descricao</th>
+                <th className="text-left px-4 py-2 text-muted-foreground font-medium">Descrição</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
@@ -126,12 +126,12 @@ export default function Docs() {
               <tr>
                 <td className="px-4 py-2 font-mono text-primary">formatted</td>
                 <td className="px-4 py-2 text-muted-foreground">boolean</td>
-                <td className="px-4 py-2">Incluir pontuacao</td>
+                <td className="px-4 py-2">Incluir pontuação</td>
               </tr>
               <tr>
                 <td className="px-4 py-2 font-mono text-primary">format</td>
                 <td className="px-4 py-2 text-muted-foreground">string</td>
-                <td className="px-4 py-2">&quot;json&quot; (padrao), &quot;csv&quot;, ou &quot;sql&quot;</td>
+                <td className="px-4 py-2">&quot;json&quot; (padrão), &quot;csv&quot;, ou &quot;sql&quot;</td>
               </tr>
             </tbody>
           </table>
@@ -140,7 +140,7 @@ export default function Docs() {
         <h3 className="text-sm font-medium text-foreground mb-2">Exemplos</h3>
         <div className="space-y-4">
           <div className="rounded-lg bg-background border border-border p-4 font-mono text-xs leading-6">
-            <div className="text-muted"># Gerar 10 enderecos em CSV</div>
+            <div className="text-muted"># Gerar 10 endereços em CSV</div>
             <div><span className="text-success">curl</span> -X POST /api/generate \</div>
             <div>{"  "}-H &quot;Content-Type: application/json&quot; \</div>
             <div>{"  "}-d <span className="text-accent">{`'{"type":"address","quantity":10,"format":"csv"}'`}</span></div>
@@ -156,7 +156,7 @@ export default function Docs() {
 
       {/* Types */}
       <section className="mb-10">
-        <h2 className="text-lg font-semibold text-foreground mb-3">Tipos disponiveis</h2>
+        <h2 className="text-lg font-semibold text-foreground mb-3">Tipos disponíveis</h2>
         {categories.map((category) => (
           <div key={category} className="mb-6">
             <h3 className="text-xs font-medium text-accent uppercase tracking-wider mb-2">{category}</h3>
@@ -184,8 +184,8 @@ export default function Docs() {
           Schema Builder &amp; Presets
         </h2>
         <p className="text-sm text-muted-foreground mb-4">
-          Gere registros com multiplos campos correlacionados. O nome no email bate com o nome da pessoa,
-          o endereco e consistente, e o cartao de credito usa o nome do titular.
+          Gere registros com múltiplos campos correlacionados. O nome no email bate com o nome da pessoa,
+          o endereço é consistente, e o cartão de crédito usa o nome do titular.
         </p>
 
         <h3 className="text-sm font-medium text-foreground mb-2">Presets prontos</h3>
@@ -200,19 +200,19 @@ export default function Docs() {
             <tbody className="divide-y divide-border">
               <tr>
                 <td className="px-4 py-2 font-mono text-primary">customer</td>
-                <td className="px-4 py-2 text-muted-foreground">nome, cpf, email, telefone, endereco</td>
+                <td className="px-4 py-2 text-muted-foreground">nome, cpf, email, telefone, endereço</td>
               </tr>
               <tr>
                 <td className="px-4 py-2 font-mono text-primary">employee</td>
-                <td className="px-4 py-2 text-muted-foreground">nome, cpf, email, telefone, endereco, conta bancaria, pix</td>
+                <td className="px-4 py-2 text-muted-foreground">nome, cpf, email, telefone, endereço, conta bancária, pix</td>
               </tr>
               <tr>
                 <td className="px-4 py-2 font-mono text-primary">company</td>
-                <td className="px-4 py-2 text-muted-foreground">razao social, cnpj, telefone, endereco</td>
+                <td className="px-4 py-2 text-muted-foreground">razão social, cnpj, telefone, endereço</td>
               </tr>
               <tr>
                 <td className="px-4 py-2 font-mono text-primary">ecommerce_order</td>
-                <td className="px-4 py-2 text-muted-foreground">cliente, cpf, email, telefone, endereco, cartao</td>
+                <td className="px-4 py-2 text-muted-foreground">cliente, cpf, email, telefone, endereço, cartão</td>
               </tr>
               <tr>
                 <td className="px-4 py-2 font-mono text-primary">contact_list</td>
@@ -241,7 +241,7 @@ export default function Docs() {
 
       {/* Integration snippets */}
       <section className="mb-10">
-        <h2 className="text-lg font-semibold text-foreground mb-3">Integracao</h2>
+        <h2 className="text-lg font-semibold text-foreground mb-3">Integração</h2>
 
         <h3 className="text-sm font-medium text-foreground mb-2">Node.js / TypeScript</h3>
         <div className="rounded-lg bg-background border border-border p-4 font-mono text-xs leading-6 mb-4">
@@ -288,7 +288,7 @@ print(data[0])  # {'nome': '...', 'cpf': '...', ...}`}</pre>
                 <th className="text-left px-4 py-2 text-muted-foreground font-medium">Plano</th>
                 <th className="text-left px-4 py-2 text-muted-foreground font-medium">Requests/dia</th>
                 <th className="text-left px-4 py-2 text-muted-foreground font-medium">Max items/request</th>
-                <th className="text-left px-4 py-2 text-muted-foreground font-medium">Preco</th>
+                <th className="text-left px-4 py-2 text-muted-foreground font-medium">Preço</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
@@ -296,19 +296,19 @@ print(data[0])  # {'nome': '...', 'cpf': '...', ...}`}</pre>
                 <td className="px-4 py-2 font-medium text-foreground">Free</td>
                 <td className="px-4 py-2 text-muted-foreground">100</td>
                 <td className="px-4 py-2 text-muted-foreground">10.000</td>
-                <td className="px-4 py-2 text-success">Gratis</td>
+                <td className="px-4 py-2 text-success">Grátis</td>
               </tr>
               <tr>
                 <td className="px-4 py-2 font-medium text-foreground">Dev</td>
                 <td className="px-4 py-2 text-muted-foreground">10.000</td>
                 <td className="px-4 py-2 text-muted-foreground">10.000</td>
-                <td className="px-4 py-2 text-accent">R$29/mes (em breve)</td>
+                <td className="px-4 py-2 text-accent">R$29/mês (em breve)</td>
               </tr>
               <tr>
                 <td className="px-4 py-2 font-medium text-foreground">Team</td>
                 <td className="px-4 py-2 text-muted-foreground">100.000</td>
                 <td className="px-4 py-2 text-muted-foreground">10.000</td>
-                <td className="px-4 py-2 text-accent">R$79/mes (em breve)</td>
+                <td className="px-4 py-2 text-accent">R$79/mês (em breve)</td>
               </tr>
             </tbody>
           </table>

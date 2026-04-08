@@ -42,7 +42,7 @@ export default function PageShell({ children }: Props) {
             <Link href="/docs" className="hover:text-foreground transition-colors">API</Link>
           </div>
           <p className="text-[11px] text-muted text-center">
-            FakeForge BR - Dados 100% ficticios para desenvolvimento e testes.
+            FakeForge BR - Dados 100% fictícios para desenvolvimento e testes.
           </p>
         </div>
       </footer>

@@ -171,7 +171,7 @@ export default function DashboardClient({ userId, userEmail }: { userId: string;
         {apiKeys.filter(k => k.is_active).length === 0 ? (
           <div className="px-5 py-8 text-center">
             <p className="text-sm text-muted-foreground">Nenhuma API key criada.</p>
-            <p className="text-xs text-muted mt-1">Crie uma key para usar a API com autenticacao.</p>
+            <p className="text-xs text-muted mt-1">Crie uma key para usar a API com autenticação.</p>
           </div>
         ) : (
           <div className="divide-y divide-border">
@@ -184,7 +184,7 @@ export default function DashboardClient({ userId, userEmail }: { userId: string;
                   </div>
                   <p className="text-[11px] text-muted mt-0.5">
                     Criada em {new Date(key.created_at).toLocaleDateString("pt-BR")}
-                    {key.last_used_at && ` · Ultimo uso: ${new Date(key.last_used_at).toLocaleDateString("pt-BR")}`}
+                    {key.last_used_at && ` · Último uso: ${new Date(key.last_used_at).toLocaleDateString("pt-BR")}`}
                   </p>
                 </div>
                 <div className="flex items-center gap-2 shrink-0">

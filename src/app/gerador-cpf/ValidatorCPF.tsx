@@ -9,7 +9,7 @@ export default function ValidatorCPF() {
       label="CPF"
       placeholder="123.456.789-09"
       validate={validateCPF}
-      formatHint="Aceita com ou sem pontuacao."
+      formatHint="Aceita com ou sem pontuação."
     />
   );
 }

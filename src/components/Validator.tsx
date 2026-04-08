@@ -25,7 +25,7 @@ export default function Validator({ label, placeholder, validate, formatHint }: 
   return (
     <div className="rounded-xl bg-card border border-border p-5">
       <h3 className="text-sm font-semibold text-foreground mb-1">Validar {label}</h3>
-      <p className="text-xs text-muted mb-4">Cole um {label} para verificar se e valido. {formatHint}</p>
+      <p className="text-xs text-muted mb-4">Cole um {label} para verificar se é válido. {formatHint}</p>
 
       <div className="flex gap-2">
         <input
@@ -51,7 +51,7 @@ export default function Validator({ label, placeholder, validate, formatHint }: 
             : "bg-danger/10 text-danger border border-danger/20"
         }`}>
           <span className={`w-2 h-2 rounded-full ${result === "valid" ? "bg-success" : "bg-danger"}`} />
-          {result === "valid" ? `${label} valido` : `${label} invalido`}
+          {result === "valid" ? `${label} válido` : `${label} inválido`}
         </div>
       )}
     </div>

@@ -4,9 +4,9 @@ import ValidatorCNPJ from "../gerador-cnpj/ValidatorCNPJ";
 import SingleGenerator from "@/components/SingleGenerator";
 
 export const metadata: Metadata = {
-  title: "Validar CNPJ - Verifique se um CNPJ e Valido | FakeForge BR",
-  description: "Valide um CNPJ online gratuitamente. Verifica se os digitos verificadores estao corretos usando o algoritmo mod-11 da Receita Federal.",
-  keywords: "validar cnpj, verificar cnpj, cnpj valido, validacao cnpj online, checar cnpj",
+  title: "Validar CNPJ - Verifique se um CNPJ é Válido | FakeForge BR",
+  description: "Valide um CNPJ online gratuitamente. Verifica se os dígitos verificadores estão corretos usando o algoritmo mod-11 da Receita Federal.",
+  keywords: "validar cnpj, verificar cnpj, cnpj válido, validação cnpj online, checar cnpj",
 };
 
 export default function ValidarCNPJ() {
@@ -17,9 +17,9 @@ export default function ValidarCNPJ() {
           Validar <span className="text-primary">CNPJ</span>
         </h1>
         <p className="text-muted mt-2 text-sm leading-relaxed max-w-2xl">
-          Cole um CNPJ para verificar se os digitos verificadores estao corretos.
-          A validacao usa o algoritmo oficial mod-11.
-          Nenhum dado e armazenado ou enviado para servidores externos.
+          Cole um CNPJ para verificar se os dígitos verificadores estão corretos.
+          A validação usa o algoritmo oficial mod-11.
+          Nenhum dado é armazenado ou enviado para servidores externos.
         </p>
       </div>
 
@@ -30,7 +30,7 @@ export default function ValidarCNPJ() {
         <SingleGenerator
           type="cnpj"
           label="CNPJ"
-          description="Gere CNPJs validos e ficticios"
+          description="Gere CNPJs válidos e fictícios"
         />
       </div>
     </PageShell>

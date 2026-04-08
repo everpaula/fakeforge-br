@@ -9,7 +9,7 @@ export default function ValidatorCNPJ() {
       label="CNPJ"
       placeholder="12.345.678/0001-95"
       validate={validateCNPJ}
-      formatHint="Aceita com ou sem pontuacao."
+      formatHint="Aceita com ou sem pontuação."
     />
   );
 }
