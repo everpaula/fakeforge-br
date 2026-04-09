@@ -4,7 +4,6 @@ import { useState, useEffect, useCallback } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import Link from "next/link";
 
 interface ApiKey {
   id: string;
