@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import PageShell from "@/components/PageShell";
+import NewsletterCapture from "@/components/NewsletterCapture";
 
 export const metadata: Metadata = {
   title: "Blog - FakeForge BR",
@@ -61,6 +62,10 @@ export default function Blog() {
             </p>
           </Link>
         ))}
+      </div>
+
+      <div className="mt-10">
+        <NewsletterCapture />
       </div>
     </PageShell>
   );

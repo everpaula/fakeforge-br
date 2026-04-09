@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import SingleGenerator from "@/components/SingleGenerator";
 import ApiCtaBanner from "@/components/ApiCtaBanner";
@@ -63,7 +64,61 @@ export default function GeradorCNPJ() {
             de desenvolvimento e staging.
           </p>
         </section>
+
+        {/* FAQ Section */}
+        <section>
+          <h2 className="text-lg font-semibold text-foreground mb-4">Perguntas Frequentes</h2>
+          <div className="space-y-4">
+            {[
+              { q: "O CNPJ gerado pertence a uma empresa real?", a: "Não. Todos os CNPJs são fictícios e gerados algoritmicamente. Os dígitos verificadores são válidos, mas os números não existem na base da Receita Federal." },
+              { q: "Posso usar CNPJ gerado para emitir nota fiscal?", a: "Não. Os CNPJs gerados são para testes em ambiente de desenvolvimento e homologação. Para emitir notas fiscais reais, é necessário um CNPJ verdadeiro registrado na Receita Federal." },
+              { q: "Por que o CNPJ gerado sempre tem /0001?", a: "O sufixo /0001 indica a matriz da empresa. Filiais usam números sequenciais (/0002, /0003, etc.). O FakeForge gera apenas CNPJs de matriz, que é o cenário mais comum em testes." },
+              { q: "O CNPJ gerado passa na validação de APIs?", a: "Sim. Os dígitos verificadores são calculados com o algoritmo oficial mod-11. Qualquer sistema que valida o formato e checksum do CNPJ aceitará os números gerados." },
+              { q: "Posso gerar CNPJs em massa via API?", a: "Sim. Use a API REST: GET https://fakeforge.com.br/api/generate?type=cnpj&quantity=1000. Até 10.000 CNPJs por chamada, com 100 chamadas grátis por dia." },
+              { q: "Gerar CNPJ fictício é ilegal?", a: "Não. Gerar números fictícios para testes de software é legal. Ilegal seria usar um CNPJ de outra empresa para fins fraudulentos." },
+            ].map(({ q, a }) => (
+              <details key={q} className="group border border-border rounded-lg">
+                <summary className="flex items-center justify-between px-4 py-3 cursor-pointer hover:bg-card-hover transition-colors">
+                  <span className="text-sm font-medium text-foreground">{q}</span>
+                  <span className="text-muted group-open:rotate-45 transition-transform text-lg leading-none">+</span>
+                </summary>
+                <p className="px-4 pb-3 text-sm text-muted-foreground">{a}</p>
+              </details>
+            ))}
+          </div>
+        </section>
       </div>
+
+      {/* Cross-links */}
+      <div className="mt-10 pt-8 border-t border-border">
+        <h2 className="text-sm font-semibold text-muted mb-3 uppercase tracking-wider">Ferramentas relacionadas</h2>
+        <div className="flex flex-wrap gap-2">
+          <Link href="/validar-cnpj" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Validar CNPJ</Link>
+          <Link href="/gerador-cpf" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Gerador de CPF</Link>
+          <Link href="/gerador-cep" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Gerador de CEP</Link>
+          <Link href="/docs" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">API REST</Link>
+          <Link href="/blog/lgpd-dados-de-teste" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">LGPD e dados de teste</Link>
+        </div>
+      </div>
+
+      {/* FAQPage JSON-LD */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: [
+              { "@type": "Question", name: "O CNPJ gerado pertence a uma empresa real?", acceptedAnswer: { "@type": "Answer", text: "Não. Todos os CNPJs são fictícios e gerados algoritmicamente. Os dígitos verificadores são válidos, mas os números não existem na base da Receita Federal." } },
+              { "@type": "Question", name: "Posso usar CNPJ gerado para emitir nota fiscal?", acceptedAnswer: { "@type": "Answer", text: "Não. Os CNPJs gerados são para testes em ambiente de desenvolvimento e homologação. Para emitir notas fiscais reais, é necessário um CNPJ verdadeiro registrado na Receita Federal." } },
+              { "@type": "Question", name: "Por que o CNPJ gerado sempre tem /0001?", acceptedAnswer: { "@type": "Answer", text: "O sufixo /0001 indica a matriz da empresa. Filiais usam números sequenciais (/0002, /0003, etc.). O FakeForge gera apenas CNPJs de matriz, que é o cenário mais comum em testes." } },
+              { "@type": "Question", name: "O CNPJ gerado passa na validação de APIs?", acceptedAnswer: { "@type": "Answer", text: "Sim. Os dígitos verificadores são calculados com o algoritmo oficial mod-11. Qualquer sistema que valida o formato e checksum do CNPJ aceitará os números gerados." } },
+              { "@type": "Question", name: "Posso gerar CNPJs em massa via API?", acceptedAnswer: { "@type": "Answer", text: "Sim. Use a API REST: GET https://fakeforge.com.br/api/generate?type=cnpj&quantity=1000. Até 10.000 CNPJs por chamada, com 100 chamadas grátis por dia." } },
+              { "@type": "Question", name: "Gerar CNPJ fictício é ilegal?", acceptedAnswer: { "@type": "Answer", text: "Não. Gerar números fictícios para testes de software é legal. Ilegal seria usar um CNPJ de outra empresa para fins fraudulentos." } },
+            ],
+          }),
+        }}
+      />
     </PageShell>
   );
 }

@@ -40,6 +40,9 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: "/",
+    languages: {
+      "pt-BR": "/",
+    },
   },
 };
 
@@ -53,6 +56,35 @@ export default function RootLayout({
       lang="pt-BR"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
+      <head>
+        {process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID && (
+          <script
+            defer
+            src={process.env.NEXT_PUBLIC_UMAMI_SCRIPT_URL || "https://cloud.umami.is/script.js"}
+            data-website-id={process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID}
+          />
+        )}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "SoftwareApplication",
+              name: "FakeForge BR",
+              description: "Gerador de dados brasileiros fictícios para testes — CPF, CNPJ, CEP, nomes, emails, telefones, cartões e mais. API REST gratuita.",
+              url: "https://fakeforge.com.br",
+              applicationCategory: "DeveloperApplication",
+              operatingSystem: "Web",
+              offers: [
+                { "@type": "Offer", price: "0", priceCurrency: "BRL", name: "Free" },
+                { "@type": "Offer", price: "29", priceCurrency: "BRL", name: "Dev" },
+                { "@type": "Offer", price: "79", priceCurrency: "BRL", name: "Team" },
+              ],
+              inLanguage: "pt-BR",
+            }),
+          }}
+        />
+      </head>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );

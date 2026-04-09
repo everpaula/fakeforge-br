@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import SingleGenerator from "@/components/SingleGenerator";
 import ApiCtaBanner from "@/components/ApiCtaBanner";
@@ -71,7 +72,61 @@ export default function GeradorCPF() {
             na validação sem pertencer a ninguém.
           </p>
         </section>
+
+        {/* FAQ Section */}
+        <section>
+          <h2 className="text-lg font-semibold text-foreground mb-4">Perguntas Frequentes</h2>
+          <div className="space-y-4">
+            {[
+              { q: "O CPF gerado é de uma pessoa real?", a: "Não. Todos os CPFs são 100% fictícios, gerados algoritmicamente. Eles passam na validação matemática (mod-11), mas não pertencem a nenhuma pessoa real e não existem na base da Receita Federal." },
+              { q: "Gerar CPF para testes é crime?", a: "Não. Gerar números fictícios para testes de software é uma prática comum e legal. Crime seria usar um CPF real de outra pessoa (falsidade ideológica). CPFs gerados algoritmicamente não pertencem a ninguém." },
+              { q: "O CPF gerado passa na validação de sistemas?", a: "Sim. Os dígitos verificadores são calculados usando o mesmo algoritmo mod-11 da Receita Federal. Qualquer sistema que valida o formato e os dígitos do CPF aceitará os números gerados." },
+              { q: "Posso usar o gerador de CPF em testes automatizados?", a: "Sim. Use a API REST do FakeForge para gerar CPFs programaticamente em seus testes: GET https://fakeforge.com.br/api/generate?type=cpf&quantity=100. São 100 chamadas grátis por dia." },
+              { q: "Qual a diferença entre CPF formatado e sem formato?", a: "CPF formatado inclui pontos e traço (123.456.789-00). Sem formato retorna apenas os 11 dígitos (12345678900). Use o toggle 'Formatado' para alternar entre os dois." },
+              { q: "O FakeForge armazena os CPFs gerados?", a: "Não. Os CPFs são gerados em tempo real no servidor e descartados imediatamente. Nenhum dado é armazenado, logado ou rastreado." },
+            ].map(({ q, a }) => (
+              <details key={q} className="group border border-border rounded-lg">
+                <summary className="flex items-center justify-between px-4 py-3 cursor-pointer hover:bg-card-hover transition-colors">
+                  <span className="text-sm font-medium text-foreground">{q}</span>
+                  <span className="text-muted group-open:rotate-45 transition-transform text-lg leading-none">+</span>
+                </summary>
+                <p className="px-4 pb-3 text-sm text-muted-foreground">{a}</p>
+              </details>
+            ))}
+          </div>
+        </section>
       </div>
+
+      {/* Cross-links */}
+      <div className="mt-10 pt-8 border-t border-border">
+        <h2 className="text-sm font-semibold text-muted mb-3 uppercase tracking-wider">Ferramentas relacionadas</h2>
+        <div className="flex flex-wrap gap-2">
+          <Link href="/validar-cpf" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Validar CPF</Link>
+          <Link href="/gerador-cnpj" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Gerador de CNPJ</Link>
+          <Link href="/gerador-cep" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Gerador de CEP</Link>
+          <Link href="/docs" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">API REST</Link>
+          <Link href="/blog/como-gerar-cpf-para-testes" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Como gerar CPF para testes</Link>
+        </div>
+      </div>
+
+      {/* FAQPage JSON-LD */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: [
+              { "@type": "Question", name: "O CPF gerado é de uma pessoa real?", acceptedAnswer: { "@type": "Answer", text: "Não. Todos os CPFs são 100% fictícios, gerados algoritmicamente. Eles passam na validação matemática (mod-11), mas não pertencem a nenhuma pessoa real e não existem na base da Receita Federal." } },
+              { "@type": "Question", name: "Gerar CPF para testes é crime?", acceptedAnswer: { "@type": "Answer", text: "Não. Gerar números fictícios para testes de software é uma prática comum e legal. Crime seria usar um CPF real de outra pessoa (falsidade ideológica). CPFs gerados algoritmicamente não pertencem a ninguém." } },
+              { "@type": "Question", name: "O CPF gerado passa na validação de sistemas?", acceptedAnswer: { "@type": "Answer", text: "Sim. Os dígitos verificadores são calculados usando o mesmo algoritmo mod-11 da Receita Federal. Qualquer sistema que valida o formato e os dígitos do CPF aceitará os números gerados." } },
+              { "@type": "Question", name: "Posso usar o gerador de CPF em testes automatizados?", acceptedAnswer: { "@type": "Answer", text: "Sim. Use a API REST do FakeForge para gerar CPFs programaticamente em seus testes: GET https://fakeforge.com.br/api/generate?type=cpf&quantity=100. São 100 chamadas grátis por dia." } },
+              { "@type": "Question", name: "Qual a diferença entre CPF formatado e sem formato?", acceptedAnswer: { "@type": "Answer", text: "CPF formatado inclui pontos e traço (123.456.789-00). Sem formato retorna apenas os 11 dígitos (12345678900). Use o toggle 'Formatado' para alternar entre os dois." } },
+              { "@type": "Question", name: "O FakeForge armazena os CPFs gerados?", acceptedAnswer: { "@type": "Answer", text: "Não. Os CPFs são gerados em tempo real no servidor e descartados imediatamente. Nenhum dado é armazenado, logado ou rastreado." } },
+            ],
+          }),
+        }}
+      />
     </PageShell>
   );
 }
