@@ -43,8 +43,18 @@ export async function POST(request: NextRequest) {
   const rateLimit = await withRateLimit(request);
   if (!rateLimit.allowed) {
     return NextResponse.json(
-      { error: "Rate limit exceeded.", upgrade: "https://fakeforge.com.br/pricing", plan: rateLimit.headers["X-RateLimit-Plan"] || "free" },
-      { status: 429, headers: rateLimit.headers }
+      {
+        error: "rate_limit_exceeded",
+        message: `Limite de ${rateLimit.headers["X-RateLimit-Limit"]} requisições/dia atingido no plano ${rateLimit.headers["X-RateLimit-Plan"] || "Free"}.`,
+        daily_limit: Number(rateLimit.headers["X-RateLimit-Limit"]),
+        reset: rateLimit.headers["X-RateLimit-Reset"],
+        upgrade_url: "https://fakeforge.com.br/pricing?ref=api-429",
+        plans: {
+          dev: { daily_limit: 10000, price: "R$29/mês", url: "https://fakeforge.com.br/pricing?plan=dev" },
+          team: { daily_limit: 100000, price: "R$79/mês", url: "https://fakeforge.com.br/pricing?plan=team" },
+        },
+      },
+      { status: 429, headers: { ...rateLimit.headers, "X-RateLimit-Upgrade": "https://fakeforge.com.br/pricing" } }
     );
   }
 
@@ -97,8 +107,14 @@ export async function GET(request: NextRequest) {
   const rateLimit = await withRateLimit(request);
   if (!rateLimit.allowed) {
     return NextResponse.json(
-      { error: "Rate limit exceeded.", upgrade: "https://fakeforge.com.br/pricing" },
-      { status: 429, headers: rateLimit.headers }
+      {
+        error: "rate_limit_exceeded",
+        message: `Limite de ${rateLimit.headers["X-RateLimit-Limit"]} requisições/dia atingido no plano ${rateLimit.headers["X-RateLimit-Plan"] || "Free"}.`,
+        daily_limit: Number(rateLimit.headers["X-RateLimit-Limit"]),
+        reset: rateLimit.headers["X-RateLimit-Reset"],
+        upgrade_url: "https://fakeforge.com.br/pricing?ref=api-429",
+      },
+      { status: 429, headers: { ...rateLimit.headers, "X-RateLimit-Upgrade": "https://fakeforge.com.br/pricing" } }
     );
   }
 

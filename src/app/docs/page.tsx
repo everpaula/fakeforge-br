@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import { DATA_TYPES } from "@/lib/generators";
 
@@ -313,9 +314,14 @@ print(data[0])  # {'nome': '...', 'cpf': '...', ...}`}</pre>
             </tbody>
           </table>
         </div>
-        <p className="text-xs text-muted mt-3">
-          Headers de rate limit: <code className="text-primary">X-RateLimit-Limit</code>, <code className="text-primary">X-RateLimit-Remaining</code>, <code className="text-primary">X-RateLimit-Reset</code>
-        </p>
+        <div className="mt-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+          <p className="text-xs text-muted">
+            Headers: <code className="text-primary">X-RateLimit-Limit</code>, <code className="text-primary">X-RateLimit-Remaining</code>, <code className="text-primary">X-RateLimit-Reset</code>
+          </p>
+          <Link href="/pricing" className="text-xs text-primary hover:underline font-medium">
+            Precisa de mais chamadas? Compare os planos →
+          </Link>
+        </div>
       </section>
     </PageShell>
   );

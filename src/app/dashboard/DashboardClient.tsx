@@ -131,6 +131,43 @@ export default function DashboardClient({ userId, userEmail }: { userId: string;
         </div>
       </div>
 
+      {/* Usage alert — progressive */}
+      {subscription.plan === "free" && usagePercent >= 50 && (
+        <div className={`mb-6 p-4 rounded-xl border animate-fade-in ${
+          usagePercent >= 90
+            ? "bg-danger/10 border-danger/30"
+            : usagePercent >= 75
+            ? "bg-accent/10 border-accent/30"
+            : "bg-primary/5 border-primary/20"
+        }`}>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <div>
+              <p className={`text-sm font-medium ${
+                usagePercent >= 90 ? "text-danger" : usagePercent >= 75 ? "text-accent" : "text-primary"
+              }`}>
+                {usagePercent >= 90
+                  ? `Apenas ${planInfo.requests - usageToday} chamadas restantes hoje`
+                  : usagePercent >= 75
+                  ? "Você está chegando no limite diário"
+                  : "Você já usou metade do seu limite diário"}
+              </p>
+              <p className="text-xs text-muted-foreground mt-0.5">
+                {usageToday} de {planInfo.requests.toLocaleString()} chamadas usadas.
+                O plano Dev tem 10.000 chamadas/dia por R$29/mês.
+              </p>
+            </div>
+            <Link
+              href="/pricing"
+              className={`shrink-0 px-4 py-2 rounded-lg text-xs font-medium text-white transition-colors ${
+                usagePercent >= 90 ? "bg-danger hover:bg-danger/80" : "bg-primary hover:bg-primary-hover"
+              }`}
+            >
+              Fazer upgrade
+            </Link>
+          </div>
+        </div>
+      )}
+
       {/* Stats cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
         <div className="rounded-xl bg-card border border-border p-5">
@@ -146,12 +183,12 @@ export default function DashboardClient({ userId, userEmail }: { userId: string;
         <div className="rounded-xl bg-card border border-border p-5">
           <p className="text-xs text-muted uppercase tracking-wider mb-1">Uso hoje</p>
           <p className="text-xl font-bold text-foreground">{usageToday} <span className="text-sm text-muted font-normal">/ {planInfo.requests.toLocaleString()}</span></p>
-          <div className="mt-2 h-1.5 bg-background rounded-full overflow-hidden">
+          <div className="mt-2 h-2 bg-background rounded-full overflow-hidden">
             <div
               className="h-full rounded-full transition-all"
               style={{
                 width: `${usagePercent}%`,
-                background: usagePercent > 80 ? "var(--color-danger)" : "var(--color-primary)",
+                background: usagePercent > 90 ? "var(--color-danger)" : usagePercent > 75 ? "var(--color-accent)" : "var(--color-primary)",
               }}
             />
           </div>
@@ -162,6 +199,67 @@ export default function DashboardClient({ userId, userEmail }: { userId: string;
           <p className="text-xl font-bold text-foreground">{apiKeys.filter(k => k.is_active).length}</p>
         </div>
       </div>
+
+      {/* Plan comparison — always visible for free users */}
+      {subscription.plan === "free" && (
+        <div className="rounded-xl bg-card border border-border overflow-hidden mb-8">
+          <div className="px-5 py-3 border-b border-border">
+            <h2 className="text-sm font-semibold text-foreground">Compare os planos</h2>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-border">
+                  <th className="text-left px-4 py-2.5 text-muted-foreground font-medium"></th>
+                  <th className="text-center px-4 py-2.5 text-muted-foreground font-medium">Free (atual)</th>
+                  <th className="text-center px-4 py-2.5 text-primary font-medium">Dev</th>
+                  <th className="text-center px-4 py-2.5 text-accent font-medium">Team</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border">
+                <tr>
+                  <td className="px-4 py-2.5 text-muted-foreground">Chamadas API/dia</td>
+                  <td className="px-4 py-2.5 text-center text-foreground">100</td>
+                  <td className="px-4 py-2.5 text-center text-primary font-medium">10.000</td>
+                  <td className="px-4 py-2.5 text-center text-accent font-medium">100.000</td>
+                </tr>
+                <tr>
+                  <td className="px-4 py-2.5 text-muted-foreground">Schema builder</td>
+                  <td className="px-4 py-2.5 text-center text-muted">—</td>
+                  <td className="px-4 py-2.5 text-center text-success">&#10003;</td>
+                  <td className="px-4 py-2.5 text-center text-success">&#10003;</td>
+                </tr>
+                <tr>
+                  <td className="px-4 py-2.5 text-muted-foreground">Presets prontos</td>
+                  <td className="px-4 py-2.5 text-center text-muted">—</td>
+                  <td className="px-4 py-2.5 text-center text-success">&#10003;</td>
+                  <td className="px-4 py-2.5 text-center text-success">&#10003;</td>
+                </tr>
+                <tr>
+                  <td className="px-4 py-2.5 text-muted-foreground">Suporte</td>
+                  <td className="px-4 py-2.5 text-center text-muted">—</td>
+                  <td className="px-4 py-2.5 text-center text-foreground">Email</td>
+                  <td className="px-4 py-2.5 text-center text-foreground">Prioritário</td>
+                </tr>
+                <tr>
+                  <td className="px-4 py-2.5 text-muted-foreground">Preço</td>
+                  <td className="px-4 py-2.5 text-center text-foreground">R$0</td>
+                  <td className="px-4 py-2.5 text-center text-primary font-bold">R$29/mês</td>
+                  <td className="px-4 py-2.5 text-center text-accent font-bold">R$79/mês</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div className="px-5 py-3 border-t border-border flex justify-center">
+            <Link
+              href="/pricing"
+              className="px-6 py-2 rounded-lg text-xs font-medium bg-primary text-white hover:bg-primary-hover transition-colors"
+            >
+              Ver planos e assinar
+            </Link>
+          </div>
+        </div>
+      )}
 
       {/* API Keys */}
       <div className="rounded-xl bg-card border border-border overflow-hidden mb-8">

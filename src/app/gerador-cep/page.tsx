@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import PageShell from "@/components/PageShell";
 import SingleGenerator from "@/components/SingleGenerator";
+import ApiCtaBanner from "@/components/ApiCtaBanner";
 
 export const metadata: Metadata = {
   title: "Gerador de CEP e Endereço - Gere Endereços Brasileiros | FakeForge BR",
@@ -41,6 +42,8 @@ export default function GeradorCEP() {
           />
         </div>
       </div>
+
+      <ApiCtaBanner dataType="endereços" />
 
       <div className="mt-12 space-y-8 text-sm text-muted-foreground leading-relaxed">
         <section>

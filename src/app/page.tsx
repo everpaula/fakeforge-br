@@ -347,25 +347,41 @@ export default function Home() {
           </div>
         </div>
 
-        {/* API CTA — only after first generation */}
+        {/* API showcase — appears after first generation */}
         {showApiHint && results && (
-          <div className="mt-5 sm:mt-6 animate-fade-in">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-4 rounded-xl border border-primary/20 bg-primary/5">
-              <div className="flex items-start sm:items-center gap-3">
-                <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                  <span className="text-primary text-base">{"{}"}</span>
-                </div>
+          <div className="mt-5 sm:mt-6 animate-fade-in rounded-xl border border-primary/20 bg-primary/5 overflow-hidden">
+            <div className="p-5 sm:p-6">
+              <h3 className="text-base font-semibold text-foreground">Use via API no seu código</h3>
+              <p className="text-xs text-muted-foreground mt-1 mb-4">
+                Essa mesma geração está disponível via API REST. 100 chamadas grátis por dia.
+              </p>
+              <div className="rounded-lg bg-background border border-border p-4 font-mono text-xs leading-6">
+                <div className="text-muted"># Gerar {quantity} {selectedInfo?.label} via API</div>
                 <div>
-                  <p className="text-sm font-medium text-foreground">Precisa disso no seu código?</p>
-                  <p className="text-xs text-muted mt-0.5">Essa mesma geração está disponível via API REST. Sem cadastro.</p>
+                  <span className="text-success">curl</span>
+                  <span className="text-foreground"> &quot;https://fakeforge.com.br/api/generate?type={selectedType}&amp;quantity={quantity}&quot;</span>
                 </div>
               </div>
-              <Link
-                href="/docs"
-                className="shrink-0 px-4 py-2 rounded-lg text-xs font-medium bg-primary text-white hover:bg-primary-hover transition-colors w-full sm:w-auto text-center"
-              >
-                Ver API
-              </Link>
+              <div className="flex flex-col sm:flex-row gap-2 mt-4">
+                <Link
+                  href="/docs"
+                  className="text-center px-5 py-2.5 rounded-lg text-xs font-medium bg-primary text-white hover:bg-primary-hover transition-colors"
+                >
+                  Ver documentação completa
+                </Link>
+                <Link
+                  href="/login"
+                  className="text-center px-5 py-2.5 rounded-lg text-xs font-medium border border-border text-foreground hover:border-border-hover transition-colors"
+                >
+                  Criar conta grátis
+                </Link>
+                <Link
+                  href="/pricing"
+                  className="text-center px-5 py-2.5 rounded-lg text-xs font-medium text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  Ver planos
+                </Link>
+              </div>
             </div>
           </div>
         )}

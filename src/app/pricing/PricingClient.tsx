@@ -159,6 +159,91 @@ export default function PricingClient() {
           Cancele a qualquer momento.
         </p>
       </div>
+
+      {/* Comparison table */}
+      <div className="md:col-span-3 mt-10 rounded-xl bg-card border border-border overflow-hidden">
+        <div className="px-5 py-3 border-b border-border">
+          <h2 className="text-sm font-semibold text-foreground">Comparação detalhada</h2>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="border-b border-border">
+                <th className="text-left px-4 py-2.5 text-muted-foreground font-medium">Feature</th>
+                <th className="text-center px-4 py-2.5 text-muted-foreground font-medium">Free</th>
+                <th className="text-center px-4 py-2.5 text-primary font-medium">Dev</th>
+                <th className="text-center px-4 py-2.5 text-accent font-medium">Team</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-border">
+              {[
+                ["Geração web (copiar/exportar)", "Ilimitado", "Ilimitado", "Ilimitado"],
+                ["Chamadas API por dia", "100", "10.000", "100.000"],
+                ["Export JSON/CSV/SQL", "check", "check", "check"],
+                ["Schema builder (dados correlacionados)", "—", "check", "check"],
+                ["Presets prontos (customer, employee...)", "—", "check", "check"],
+                ["API keys com tracking de uso", "1", "5", "20"],
+                ["Suporte", "—", "Email", "Prioritário"],
+              ].map(([feature, free, dev, team], i) => (
+                <tr key={i}>
+                  <td className="px-4 py-2.5 text-muted-foreground">{feature}</td>
+                  {[free, dev, team].map((val, j) => (
+                    <td key={j} className="px-4 py-2.5 text-center">
+                      {val === "check" ? (
+                        <span className="text-success">&#10003;</span>
+                      ) : val === "—" ? (
+                        <span className="text-muted">—</span>
+                      ) : (
+                        <span className={j === 1 ? "text-primary font-medium" : j === 2 ? "text-accent font-medium" : "text-foreground"}>
+                          {val}
+                        </span>
+                      )}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* FAQ */}
+      <div className="md:col-span-3 mt-10">
+        <h2 className="text-lg font-semibold text-foreground mb-4 text-center">Perguntas frequentes</h2>
+        <div className="space-y-3 max-w-2xl mx-auto">
+          {[
+            {
+              q: "Posso cancelar a qualquer momento?",
+              a: "Sim. Não há fidelidade ou multa. Cancele quando quiser pelo dashboard.",
+            },
+            {
+              q: "O upgrade é instantâneo?",
+              a: "Sim. Assim que o pagamento for confirmado, seu limite de chamadas aumenta automaticamente.",
+            },
+            {
+              q: "Preciso trocar minha API key?",
+              a: "Não. A mesma key que você já usa continua funcionando com o novo limite.",
+            },
+            {
+              q: "Aceita quais formas de pagamento?",
+              a: "Cartão de crédito, Pix e boleto via Mercado Pago.",
+            },
+            {
+              q: "A geração pelo site continua grátis?",
+              a: "Sim. O uso pelo site (gerar, copiar, exportar) é grátis e ilimitado, sempre. Os planos pagos são para uso via API.",
+            },
+          ].map((faq, i) => (
+            <details key={i} className="rounded-lg bg-card border border-border overflow-hidden group">
+              <summary className="px-4 py-3 text-sm font-medium text-foreground cursor-pointer hover:bg-card-hover transition-colors select-none">
+                {faq.q}
+              </summary>
+              <div className="px-4 pb-3 text-sm text-muted-foreground">
+                {faq.a}
+              </div>
+            </details>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

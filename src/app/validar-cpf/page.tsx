@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import PageShell from "@/components/PageShell";
 import ValidatorCPF from "../gerador-cpf/ValidatorCPF";
 import SingleGenerator from "@/components/SingleGenerator";
+import ApiCtaBanner from "@/components/ApiCtaBanner";
 
 export const metadata: Metadata = {
   title: "Validar CPF - Verifique se um CPF é Válido | FakeForge BR",
@@ -33,6 +34,7 @@ export default function ValidarCPF() {
           description="Gere CPFs válidos e fictícios"
         />
       </div>
+      <ApiCtaBanner dataType="CPFs" />
     </PageShell>
   );
 }

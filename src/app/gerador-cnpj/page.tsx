@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import PageShell from "@/components/PageShell";
 import SingleGenerator from "@/components/SingleGenerator";
+import ApiCtaBanner from "@/components/ApiCtaBanner";
 import ValidatorCNPJ from "./ValidatorCNPJ";
 
 export const metadata: Metadata = {
@@ -32,6 +33,8 @@ export default function GeradorCNPJ() {
       <div className="mt-8">
         <ValidatorCNPJ />
       </div>
+
+      <ApiCtaBanner dataType="CNPJs" />
 
       <div className="mt-12 space-y-8 text-sm text-muted-foreground leading-relaxed">
         <section>

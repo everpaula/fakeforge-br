@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import PageShell from "@/components/PageShell";
 import SingleGenerator from "@/components/SingleGenerator";
+import ApiCtaBanner from "@/components/ApiCtaBanner";
 import ValidatorCPF from "./ValidatorCPF";
 
 export const metadata: Metadata = {
@@ -37,6 +38,8 @@ export default function GeradorCPF() {
       <div className="mt-8">
         <ValidatorCPF />
       </div>
+
+      <ApiCtaBanner dataType="CPFs" />
 
       {/* SEO content */}
       <div className="mt-12 space-y-8 text-sm text-muted-foreground leading-relaxed">
