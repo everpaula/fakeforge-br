@@ -302,13 +302,13 @@ print(data[0])  # {'nome': '...', 'cpf': '...', ...}`}</pre>
                 <td className="px-4 py-2 font-medium text-foreground">Dev</td>
                 <td className="px-4 py-2 text-muted-foreground">10.000</td>
                 <td className="px-4 py-2 text-muted-foreground">10.000</td>
-                <td className="px-4 py-2 text-accent">R$29/mês (em breve)</td>
+                <td className="px-4 py-2 text-accent">R$29/mês</td>
               </tr>
               <tr>
                 <td className="px-4 py-2 font-medium text-foreground">Team</td>
                 <td className="px-4 py-2 text-muted-foreground">100.000</td>
                 <td className="px-4 py-2 text-muted-foreground">10.000</td>
-                <td className="px-4 py-2 text-accent">R$79/mês (em breve)</td>
+                <td className="px-4 py-2 text-accent">R$79/mês</td>
               </tr>
             </tbody>
           </table>
