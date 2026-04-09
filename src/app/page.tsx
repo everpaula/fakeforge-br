@@ -38,7 +38,7 @@ export default function Home() {
     try {
       const res = await fetch("/api/generate", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "x-fakeforge-client": "web" },
         body: JSON.stringify({ type: selectedType, quantity, formatted }),
       });
       const data = await res.json();
@@ -63,7 +63,7 @@ export default function Home() {
     try {
       const res = await fetch("/api/generate", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "x-fakeforge-client": "web" },
         body: JSON.stringify({ type: "person", quantity: 5, formatted: true }),
       });
       const data = await res.json();
@@ -80,7 +80,7 @@ export default function Home() {
   async function handleExport(format: ExportFormat) {
     const res = await fetch("/api/generate", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "x-fakeforge-client": "web" },
       body: JSON.stringify({ type: selectedType, quantity, formatted, format }),
     });
     if (format === "json") {

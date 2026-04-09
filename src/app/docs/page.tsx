@@ -4,7 +4,7 @@ import PageShell from "@/components/PageShell";
 import { DATA_TYPES } from "@/lib/generators";
 
 export const metadata: Metadata = {
-  title: "API Documentation - FakeForge BR",
+  title: "Documentação da API - FakeForge BR",
   description: "Documentação da API REST do FakeForge BR. Gere dados brasileiros fictícios via API. Sem autenticação, grátis.",
 };
 
@@ -15,7 +15,7 @@ export default function Docs() {
     <PageShell>
       <div className="mb-10">
         <h1 className="text-3xl font-bold tracking-tight">
-          <span className="text-primary">API</span> Documentation
+          Documentação da <span className="text-primary">API</span>
         </h1>
         <p className="text-muted mt-2 text-sm leading-relaxed max-w-2xl">
           Gere dados brasileiros fictícios via API REST. Sem autenticação, sem cadastro.
@@ -28,7 +28,7 @@ export default function Docs() {
         <h2 className="text-lg font-semibold text-foreground mb-3">Base URL</h2>
         <div className="rounded-lg bg-background border border-border p-4 font-mono text-sm">
           <span className="text-muted">https://</span>
-          <span className="text-foreground">seu-dominio.com</span>
+          <span className="text-foreground">fakeforge.com.br</span>
           <span className="text-primary">/api/generate</span>
         </div>
       </section>

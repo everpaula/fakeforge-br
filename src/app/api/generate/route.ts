@@ -18,12 +18,10 @@ async function withRateLimit(request: NextRequest): Promise<{
   userId: string | null;
   keyId: string | null;
 }> {
-  // Skip rate limiting for browser requests (same-origin UI)
-  const origin = request.headers.get("origin") || "";
-  const referer = request.headers.get("referer") || "";
-  const isBrowser = origin.includes("localhost") || referer.includes("localhost") ||
-    origin.includes("fakeforge") || referer.includes("fakeforge");
-  if (isBrowser) return { allowed: true, headers: {}, userId: null, keyId: null };
+  // Browser UI requests are not rate-limited (they use same-origin fetch with cookies)
+  // We check for the custom header set by our frontend fetch calls
+  const isInternalUI = request.headers.get("x-fakeforge-client") === "web";
+  if (isInternalUI) return { allowed: true, headers: {}, userId: null, keyId: null };
 
   // Check for API key auth
   const apiKeyInfo = await resolveApiKey(request);
@@ -97,6 +95,7 @@ export async function POST(request: NextRequest) {
 
     const qty = Math.min(Math.max(1, Number(quantity)), 10000);
     const data = generate({ type: type as DataType, quantity: qty, formatted });
+    if (rateLimit.userId) logApiUsage(rateLimit.userId, rateLimit.keyId, "/api/generate", type, qty);
     return formatResponse(data, type, qty, format, rateLimit.headers);
   } catch {
     return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
@@ -135,6 +134,7 @@ export async function GET(request: NextRequest) {
     }
     const qty = Math.min(Math.max(1, quantity), 10000);
     const data = generateSchema(schema, qty);
+    if (rateLimit.userId) logApiUsage(rateLimit.userId, rateLimit.keyId, "/api/generate", `preset:${preset}`, qty);
     return NextResponse.json({ preset, quantity: qty, data }, { headers: rateLimit.headers });
   }
 
@@ -155,6 +155,7 @@ export async function GET(request: NextRequest) {
 
   const qty = Math.min(Math.max(1, quantity), 10000);
   const data = generate({ type: type as DataType, quantity: qty, formatted });
+  if (rateLimit.userId) logApiUsage(rateLimit.userId, rateLimit.keyId, "/api/generate", type, qty);
   return NextResponse.json({ type, quantity: qty, data }, { headers: rateLimit.headers });
 }
 
@@ -167,8 +168,9 @@ function formatResponse(
     });
   }
   if (format === "sql") {
-    return new NextResponse(toSQL(data, tableName), {
-      headers: { ...headers, "Content-Type": "text/plain; charset=utf-8", "Content-Disposition": `attachment; filename=${tableName}_${qty}.sql` },
+    const safeTable = tableName.replace(/[^a-zA-Z0-9_]/g, "");
+    return new NextResponse(toSQL(data, safeTable), {
+      headers: { ...headers, "Content-Type": "text/plain; charset=utf-8", "Content-Disposition": `attachment; filename=${safeTable}_${qty}.sql` },
     });
   }
   return NextResponse.json({ type: tableName, quantity: qty, data }, { headers });

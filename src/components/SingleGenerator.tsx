@@ -24,7 +24,7 @@ export default function SingleGenerator({ type, label, description, maxQuantity 
     try {
       const res = await fetch("/api/generate", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "x-fakeforge-client": "web" },
         body: JSON.stringify({ type, quantity, formatted }),
       });
       const data = await res.json();

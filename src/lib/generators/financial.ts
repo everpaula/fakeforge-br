@@ -4,10 +4,8 @@ const BANK_NAMES = [
   { code: "104", name: "Caixa Econômica Federal" },
   { code: "237", name: "Bradesco" },
   { code: "341", name: "Itaú Unibanco" },
-  { code: "356", name: "Banco Real" },
   { code: "389", name: "Banco Mercantil do Brasil" },
   { code: "422", name: "Banco Safra" },
-  { code: "453", name: "Banco Rural" },
   { code: "633", name: "Banco Rendimento" },
   { code: "652", name: "Itaú BBA" },
   { code: "745", name: "Citibank" },
@@ -65,9 +63,11 @@ export function generatePIXKey(type: "cpf" | "email" | "phone" | "random_key" | 
       return `user${randomDigits(4)}@${pick(["gmail.com", "hotmail.com", "outlook.com"])}`;
     case "phone":
       return `+55${pick(["11", "21", "31", "41", "51"])}9${randomDigits(8)}`;
-    case "random_key":
-      const hex = () => randomDigits(8).split("").map(d => "0123456789abcdef"[parseInt(d) % 16]).join("");
-      return `${hex()}-${hex().slice(0, 4)}-${hex().slice(0, 4)}-${hex().slice(0, 4)}-${hex()}${hex().slice(0, 4)}`;
+    case "random_key": {
+      const hexChars = "0123456789abcdef";
+      const rHex = (len: number) => Array.from({ length: len }, () => hexChars[Math.floor(Math.random() * 16)]).join("");
+      return `${rHex(8)}-${rHex(4)}-4${rHex(3)}-${hexChars[8 + Math.floor(Math.random() * 4)]}${rHex(3)}-${rHex(12)}`;
+    }
   }
 }
 
