@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Link from "next/link";
 
 interface ApiKey {
   id: string;
@@ -116,12 +117,19 @@ export default function DashboardClient({ userId, userEmail }: { userId: string;
           <h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
           <p className="text-sm text-muted mt-1">{userEmail}</p>
         </div>
-        <button
-          onClick={handleLogout}
-          className="text-xs text-muted-foreground hover:text-foreground transition-colors"
-        >
-          Sair
-        </button>
+        <div className="flex items-center gap-4">
+          {userEmail === "evertonsilvapaula@gmail.com" && (
+            <Link href="/admin" className="text-xs text-accent hover:text-accent/80 transition-colors font-medium">
+              Admin
+            </Link>
+          )}
+          <button
+            onClick={handleLogout}
+            className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+          >
+            Sair
+          </button>
+        </div>
       </div>
 
       {/* Stats cards */}
