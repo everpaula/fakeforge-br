@@ -10,6 +10,27 @@ export const metadata: Metadata = {
 
 const POSTS = [
   {
+    slug: "validacao-cnpj-nodejs",
+    title: "Validação de CNPJ em Node.js: implementação completa sem dependências",
+    excerpt: "Implemente validação de CNPJ do zero com o algoritmo mod-11. Código pronto para copiar, explicação passo a passo, e como testar com CNPJs fictícios.",
+    date: "2026-04-10",
+    readTime: "7 min",
+  },
+  {
+    slug: "dados-teste-pix-checkout",
+    title: "Dados de teste para PIX e checkout: como testar pagamentos sem dados reais",
+    excerpt: "Como gerar dados fictícios (PIX, cartão, CPF) para testar fluxos de pagamento e checkout em ambiente de desenvolvimento.",
+    date: "2026-04-10",
+    readTime: "6 min",
+  },
+  {
+    slug: "como-testar-cpf-em-staging",
+    title: "Como testar CPF em ambiente de staging sem usar dados reais",
+    excerpt: "Guia prático para testar validação de CPF em staging: por que evitar dados reais, como gerar CPFs fictícios, e como integrar no workflow.",
+    date: "2026-04-10",
+    readTime: "5 min",
+  },
+  {
     slug: "como-gerar-cpf-para-testes",
     title: "Como gerar CPF válido para testes sem violar a LGPD",
     excerpt: "Entenda por que usar CPFs reais em testes é ilegal, como funcionam os dígitos verificadores, e como gerar CPFs fictícios que passam na validação.",
