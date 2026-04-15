@@ -33,14 +33,25 @@ export default function PageShell({ children }: Props) {
 
       <footer className="border-t border-border mt-20">
         <div className="max-w-4xl mx-auto px-5 py-6">
-          <div className="flex flex-wrap gap-4 justify-center text-[11px] text-muted mb-4">
+          <div className="flex flex-wrap gap-4 justify-center text-[11px] text-muted mb-3">
             <Link href="/gerador-cpf" className="hover:text-foreground transition-colors">Gerador de CPF</Link>
             <Link href="/gerador-cnpj" className="hover:text-foreground transition-colors">Gerador de CNPJ</Link>
             <Link href="/gerador-cep" className="hover:text-foreground transition-colors">Gerador de CEP</Link>
+            <Link href="/gerador-telefone" className="hover:text-foreground transition-colors">Gerador de Telefone</Link>
+            <Link href="/gerador-email" className="hover:text-foreground transition-colors">Gerador de Email</Link>
+            <Link href="/gerador-pix" className="hover:text-foreground transition-colors">Gerador de PIX</Link>
+            <Link href="/gerador-cartao" className="hover:text-foreground transition-colors">Gerador de Cartão</Link>
+            <Link href="/gerador-pessoa" className="hover:text-foreground transition-colors">Gerador de Pessoa</Link>
+            <Link href="/gerador-empresa" className="hover:text-foreground transition-colors">Gerador de Empresa</Link>
+            <Link href="/gerador-conta-bancaria" className="hover:text-foreground transition-colors">Conta Bancária</Link>
+            <Link href="/gerador-endereco" className="hover:text-foreground transition-colors">Gerador de Endereço</Link>
+          </div>
+          <div className="flex flex-wrap gap-4 justify-center text-[11px] text-muted mb-4">
             <Link href="/validar-cpf" className="hover:text-foreground transition-colors">Validar CPF</Link>
             <Link href="/validar-cnpj" className="hover:text-foreground transition-colors">Validar CNPJ</Link>
             <Link href="/blog" className="hover:text-foreground transition-colors">Blog</Link>
             <Link href="/docs" className="hover:text-foreground transition-colors">API</Link>
+            <Link href="/pricing" className="hover:text-foreground transition-colors">Preços</Link>
           </div>
           <p className="text-[11px] text-muted text-center">
             FakeForge BR - Dados 100% fictícios para desenvolvimento e testes.
