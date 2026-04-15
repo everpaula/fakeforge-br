@@ -10,6 +10,34 @@ export const metadata: Metadata = {
 
 const POSTS = [
   {
+    slug: "fakeforge-vs-fakerjs-vs-4devs",
+    title: "FakeForge vs Faker.js vs 4devs: qual usar para dados brasileiros?",
+    excerpt: "Comparativo honesto entre os principais geradores de dados fake brasileiros. Acurácia, API, formatos de export e quando usar cada um.",
+    date: "2026-04-10",
+    readTime: "8 min",
+  },
+  {
+    slug: "popular-banco-dados-ficticios",
+    title: "Como popular banco de dados com dados fictícios brasileiros",
+    excerpt: "Guia prático para seed de bancos com CPF, CNPJ, nomes e endereços brasileiros. Exemplos com SQL, Laravel, Prisma e Django.",
+    date: "2026-04-10",
+    readTime: "7 min",
+  },
+  {
+    slug: "testar-pix-desenvolvimento",
+    title: "Como testar pagamento PIX em ambiente de desenvolvimento",
+    excerpt: "Diferença entre dados fictícios e sandbox de gateway. Como gerar chaves PIX de teste e integrar com Mercado Pago, OpenPix e Pagar.me.",
+    date: "2026-04-10",
+    readTime: "6 min",
+  },
+  {
+    slug: "algoritmo-luhn-cartao-credito",
+    title: "Como funciona o algoritmo de Luhn: validação de cartão de crédito explicada",
+    excerpt: "Entenda o algoritmo mod-10 usado para validar cartões de crédito. Implementação em JavaScript e como gerar números válidos para testes.",
+    date: "2026-04-10",
+    readTime: "6 min",
+  },
+  {
     slug: "validacao-cnpj-nodejs",
     title: "Validação de CNPJ em Node.js: implementação completa sem dependências",
     excerpt: "Implemente validação de CNPJ do zero com o algoritmo mod-11. Código pronto para copiar, explicação passo a passo, e como testar com CNPJs fictícios.",
