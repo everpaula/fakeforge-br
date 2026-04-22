@@ -53,10 +53,16 @@ export async function POST(request: NextRequest) {
     const client = new MercadoPagoConfig({ accessToken });
     const preference = new Preference(client);
 
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-    const isLocalhost = baseUrl.includes("localhost");
+    const rawBaseUrl = process.env.NEXT_PUBLIC_BASE_URL?.trim() || "http://localhost:3000";
+    // Normalize: strip trailing slash, force https for non-localhost
+    let baseUrl = rawBaseUrl.replace(/\/$/, "");
+    const isLocalhost = baseUrl.includes("localhost") || baseUrl.includes("127.0.0.1");
+    if (!isLocalhost && baseUrl.startsWith("http://")) {
+      baseUrl = baseUrl.replace("http://", "https://");
+    }
 
-    // Build preference body
+    // Build preference body. MP rejects back_urls with query strings when
+    // auto_return is set, so we use clean paths and let dashboard detect state.
     const preferenceBody: Parameters<typeof preference.create>[0]["body"] = {
       items: [
         {
@@ -73,9 +79,9 @@ export async function POST(request: NextRequest) {
       },
       ...(isLocalhost ? {} : {
         back_urls: {
-          success: `${baseUrl}/dashboard?payment=success&plan=${planId}`,
-          failure: `${baseUrl}/pricing?payment=failed`,
-          pending: `${baseUrl}/dashboard?payment=pending&plan=${planId}`,
+          success: `${baseUrl}/dashboard`,
+          failure: `${baseUrl}/pricing`,
+          pending: `${baseUrl}/dashboard`,
         },
         auto_return: "approved" as const,
       }),
