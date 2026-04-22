@@ -131,6 +131,46 @@ export default function DashboardClient({ userId, userEmail }: { userId: string;
         </div>
       </div>
 
+      {/* Quick access to generators */}
+      <div className="rounded-xl bg-gradient-to-br from-primary/10 to-accent/5 border border-primary/20 p-5 mb-8">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+          <div>
+            <h2 className="text-sm font-semibold text-foreground">Acesso rápido aos geradores</h2>
+            <p className="text-xs text-muted-foreground mt-1">
+              Gere dados brasileiros direto no navegador — CPF, CNPJ, pessoa, PIX e mais.
+            </p>
+          </div>
+          <Link
+            href="/"
+            className="shrink-0 px-4 py-2 rounded-lg text-xs font-medium bg-primary text-white hover:bg-primary-hover transition-colors"
+          >
+            Ir para geradores →
+          </Link>
+        </div>
+        <div className="flex flex-wrap gap-2 mt-4">
+          {[
+            ["/gerador-cpf", "CPF"],
+            ["/gerador-cnpj", "CNPJ"],
+            ["/gerador-pessoa", "Pessoa"],
+            ["/gerador-empresa", "Empresa"],
+            ["/gerador-pix", "PIX"],
+            ["/gerador-cartao", "Cartão"],
+            ["/gerador-email", "Email"],
+            ["/gerador-telefone", "Telefone"],
+            ["/gerador-endereco", "Endereço"],
+            ["/gerador-cep", "CEP"],
+          ].map(([href, label]) => (
+            <Link
+              key={href}
+              href={href}
+              className="px-2.5 py-1 rounded-md text-[11px] bg-background border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors"
+            >
+              {label}
+            </Link>
+          ))}
+        </div>
+      </div>
+
       {/* Usage alert — progressive */}
       {subscription.plan === "free" && usagePercent >= 50 && (
         <div className={`mb-6 p-4 rounded-xl border animate-fade-in ${

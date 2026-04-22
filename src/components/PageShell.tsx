@@ -1,4 +1,5 @@
 import Link from "next/link";
+import UserMenu from "./UserMenu";
 
 interface Props {
   children: React.ReactNode;
@@ -23,6 +24,10 @@ export default function PageShell({ children }: Props) {
             <Link href="/docs" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
               API
             </Link>
+            <Link href="/pricing" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+              Preços
+            </Link>
+            <UserMenu />
           </div>
         </div>
       </nav>
