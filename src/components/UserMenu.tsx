@@ -16,9 +16,9 @@ export default function UserMenu() {
       return;
     }
 
-    supabase.auth.getUser().then(({ data }) => {
-      setStatus(data.user ? "authed" : "anon");
-    });
+    supabase.auth.getSession().then(({ data }) => {
+      setStatus(data.session?.user ? "authed" : "anon");
+    }).catch(() => setStatus("anon"));
 
     const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
       setStatus(session?.user ? "authed" : "anon");
