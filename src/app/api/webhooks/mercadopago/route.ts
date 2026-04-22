@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ ok: true });
     }
 
-    const accessToken = process.env.MP_ACCESS_TOKEN;
+    const accessToken = process.env.MP_ACCESS_TOKEN?.trim();
     if (!accessToken) {
       return NextResponse.json({ error: "Not configured" }, { status: 500 });
     }

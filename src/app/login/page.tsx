@@ -1,15 +1,29 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
 
-export default function Login() {
+function LoginInner() {
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get("redirect");
+  const intentPlan = searchParams.get("plan");
+
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [notConfigured, setNotConfigured] = useState(false);
+
+  useEffect(() => {
+    if (intentPlan && typeof window !== "undefined") {
+      sessionStorage.setItem("fakeforge_checkout_intent", intentPlan);
+    }
+    if (redirect && typeof window !== "undefined") {
+      sessionStorage.setItem("fakeforge_post_login_redirect", redirect);
+    }
+  }, [intentPlan, redirect]);
 
   const supabase = useMemo(() => {
     try { return createClient(); }
@@ -131,5 +145,13 @@ export default function Login() {
         </p>
       </div>
     </div>
+  );
+}
+
+export default function Login() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-background" />}>
+      <LoginInner />
+    </Suspense>
   );
 }

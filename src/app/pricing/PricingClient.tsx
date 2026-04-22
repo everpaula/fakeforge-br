@@ -63,7 +63,7 @@ export default function PricingClient() {
 
   async function handleSubscribe(planId: string) {
     if (planId === "free") {
-      router.push("/login");
+      router.push("/");
       return;
     }
 
@@ -78,7 +78,10 @@ export default function PricingClient() {
       const data = await res.json();
 
       if (data.error === "unauthenticated") {
-        router.push("/login?redirect=/pricing");
+        if (typeof window !== "undefined") {
+          sessionStorage.setItem("fakeforge_checkout_intent", planId);
+        }
+        router.push(`/login?redirect=/pricing&plan=${planId}`);
         return;
       }
 

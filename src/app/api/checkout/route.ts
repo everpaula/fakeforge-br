@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Invalid plan" }, { status: 400 });
     }
 
-    const accessToken = process.env.MP_ACCESS_TOKEN;
+    const accessToken = process.env.MP_ACCESS_TOKEN?.trim();
     if (!accessToken) {
       return NextResponse.json({ error: "Payment not configured" }, { status: 500 });
     }
