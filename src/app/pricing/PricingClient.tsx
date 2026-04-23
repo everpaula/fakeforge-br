@@ -104,7 +104,29 @@ export default function PricingClient() {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
+    <div className="max-w-4xl mx-auto">
+      {/* Hero */}
+      <div className="text-center mb-10">
+        <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">
+          Gratuito no navegador.
+          <br />
+          <span className="text-primary">API paga por volume.</span>
+        </h1>
+        <p className="text-muted mt-4 max-w-xl mx-auto text-sm leading-relaxed">
+          Gerar dados no site é grátis e ilimitado, para sempre. Os planos pagos são
+          para quem integra a API no código, CI/CD ou seed de banco.
+        </p>
+      </div>
+
+      {/* Trust bar */}
+      <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mb-8 text-xs text-muted">
+        <span className="flex items-center gap-1.5"><span className="text-success">✓</span> Cancele quando quiser</span>
+        <span className="flex items-center gap-1.5"><span className="text-success">✓</span> Sem fidelidade</span>
+        <span className="flex items-center gap-1.5"><span className="text-success">✓</span> Pix, cartão ou boleto</span>
+        <span className="flex items-center gap-1.5"><span className="text-success">✓</span> Nota fiscal</span>
+      </div>
+
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
       {PLANS.map((plan) => (
         <div
           key={plan.id}
@@ -162,9 +184,37 @@ export default function PricingClient() {
           Cancele a qualquer momento.
         </p>
       </div>
+    </div>
+      {/* Guarantees */}
+      <div className="mt-10 rounded-xl bg-card border border-border p-6">
+        <h2 className="text-sm font-semibold text-foreground mb-4 text-center">Garantias</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="text-center">
+            <div className="w-10 h-10 rounded-full bg-success/10 mx-auto mb-2 flex items-center justify-center">
+              <span className="text-success">✓</span>
+            </div>
+            <p className="text-xs font-medium text-foreground">Cancelamento fácil</p>
+            <p className="text-[11px] text-muted-foreground mt-1">Um clique no dashboard. Sem taxas.</p>
+          </div>
+          <div className="text-center">
+            <div className="w-10 h-10 rounded-full bg-success/10 mx-auto mb-2 flex items-center justify-center">
+              <span className="text-success">⏱</span>
+            </div>
+            <p className="text-xs font-medium text-foreground">Upgrade instantâneo</p>
+            <p className="text-[11px] text-muted-foreground mt-1">Seu novo limite ativa após a confirmação do pagamento.</p>
+          </div>
+          <div className="text-center">
+            <div className="w-10 h-10 rounded-full bg-success/10 mx-auto mb-2 flex items-center justify-center">
+              <span className="text-success">🔒</span>
+            </div>
+            <p className="text-xs font-medium text-foreground">Dados seguros</p>
+            <p className="text-[11px] text-muted-foreground mt-1">Pagamento via Mercado Pago. Nenhum cartão armazenado no FakeForge.</p>
+          </div>
+        </div>
+      </div>
 
       {/* Comparison table */}
-      <div className="md:col-span-3 mt-10 rounded-xl bg-card border border-border overflow-hidden">
+      <div className="mt-10 rounded-xl bg-card border border-border overflow-hidden">
         <div className="px-5 py-3 border-b border-border">
           <h2 className="text-sm font-semibold text-foreground">Comparação detalhada</h2>
         </div>
@@ -211,7 +261,7 @@ export default function PricingClient() {
       </div>
 
       {/* FAQ */}
-      <div className="md:col-span-3 mt-10">
+      <div className="mt-10">
         <h2 className="text-lg font-semibold text-foreground mb-4 text-center">Perguntas frequentes</h2>
         <div className="space-y-3 max-w-2xl mx-auto">
           {[
@@ -245,6 +295,29 @@ export default function PricingClient() {
               </div>
             </details>
           ))}
+        </div>
+      </div>
+
+      {/* Final CTA */}
+      <div className="mt-10 rounded-xl bg-gradient-to-br from-primary/10 to-accent/5 border border-primary/20 p-8 text-center">
+        <h2 className="text-lg font-semibold text-foreground">Ainda com dúvidas?</h2>
+        <p className="text-sm text-muted-foreground mt-2 max-w-md mx-auto">
+          Comece grátis. A geração web é ilimitada e você pode testar 100 chamadas da API por dia sem pagar nada.
+        </p>
+        <div className="flex flex-col sm:flex-row gap-2 justify-center mt-4">
+          <button
+            onClick={() => handleSubscribe("dev")}
+            disabled={loading !== null}
+            className="px-5 py-2.5 rounded-lg text-sm font-semibold bg-primary text-white hover:bg-primary-hover transition-colors"
+          >
+            {loading === "dev" ? "Processando..." : "Começar com o plano Dev"}
+          </button>
+          <button
+            onClick={() => handleSubscribe("free")}
+            className="px-5 py-2.5 rounded-lg text-sm font-medium border border-border text-foreground hover:border-border-hover transition-colors"
+          >
+            Testar grátis primeiro
+          </button>
         </div>
       </div>
     </div>

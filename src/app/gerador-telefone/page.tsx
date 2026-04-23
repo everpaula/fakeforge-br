@@ -5,14 +5,15 @@ import SingleGenerator from "@/components/SingleGenerator";
 import ApiCtaBanner from "@/components/ApiCtaBanner";
 
 export const metadata: Metadata = {
-  title: "Gerador de Telefone e Celular - Números com DDD Válido | FakeForge BR",
-  description: "Gere números de celular e telefone fixo brasileiros fictícios com DDD válido. Ideal para testes de formulários, SMS e integração com APIs. Grátis e sem cadastro.",
-  keywords: "gerador de telefone, gerador de celular, número de telefone para testes, telefone fictício, celular falso, DDD válido",
+  title: "Gerador de Telefone e Celular — DDD Válido de Todos os Estados",
+  description: "Gere números de celular e telefone fixo com DDD válido de todos os estados brasileiros. Formato ANATEL correto para testes de formulários, SMS e APIs. Grátis.",
+  keywords: "gerador de telefone, gerador de celular, telefone fictício, celular falso, DDD válido, gerador número SMS, anatel formato",
   openGraph: {
-    title: "Gerador de Telefone e Celular - FakeForge BR",
-    description: "Gere números de celular e telefone fixo brasileiros com DDD válido para testes. Grátis e sem cadastro.",
+    title: "Gerador de Telefone Brasileiro — DDD Válido de Todos os Estados",
+    description: "Celular e fixo com DDD válido para testes de formulários, SMS e APIs.",
     type: "website",
   },
+  alternates: { canonical: "/gerador-telefone" },
 };
 
 export default function GeradorTelefone() {

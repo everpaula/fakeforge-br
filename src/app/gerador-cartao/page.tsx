@@ -3,16 +3,19 @@ import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import SingleGenerator from "@/components/SingleGenerator";
 import ApiCtaBanner from "@/components/ApiCtaBanner";
+import ApiCtaTop from "@/components/ApiCtaTop";
+import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "Gerador de Cartão de Crédito - Números Válidos para Testes | FakeForge BR",
-  description: "Gere números de cartão de crédito fictícios (Visa, Mastercard, Elo) com validação Luhn. Ideal para testes de checkout e integração com gateways de pagamento. Grátis.",
-  keywords: "gerador de cartão de crédito, cartão de crédito para testes, número de cartão válido, cartão fictício, gerador visa mastercard, cartão teste checkout",
+  title: "Gerador de Cartão de Crédito Válido — Visa, Master, Elo, Amex",
+  description: "Gere cartões de crédito válidos para testes: Visa, Mastercard, Elo e American Express. BIN, CVV e validade aprovados por checkout. Grátis e sem cadastro.",
+  keywords: "gerador de cartão de crédito, cartão válido teste, gerador visa, gerador mastercard, gerador elo, gerador american express, cartão fictício checkout, número cartão luhn",
   openGraph: {
-    title: "Gerador de Cartão de Crédito - FakeForge BR",
-    description: "Gere cartões fictícios Visa, Mastercard e Elo com validação Luhn para testes de checkout. Grátis.",
+    title: "Gerador de Cartão de Crédito Válido — Visa, Master, Elo, Amex",
+    description: "Cartões fictícios Visa, Mastercard, Elo e Amex com validação Luhn. Prontos para testar checkouts. Grátis.",
     type: "website",
   },
+  alternates: { canonical: "/gerador-cartao" },
 };
 
 export default function GeradorCartao() {
@@ -29,6 +32,8 @@ export default function GeradorCartao() {
         </p>
       </div>
 
+      <ApiCtaTop dataType="cartões de crédito" />
+
       <SingleGenerator
         type="creditCard"
         label="Cartão de Crédito"
@@ -36,6 +41,12 @@ export default function GeradorCartao() {
       />
 
       <ApiCtaBanner dataType="cartões de crédito" />
+
+      <BreadcrumbSchema items={[
+        { name: "Início", url: "/" },
+        { name: "Geradores", url: "/geradores" },
+        { name: "Cartão de Crédito", url: "/gerador-cartao" },
+      ]} />
 
       {/* SEO content */}
       <div className="mt-12 space-y-8 text-sm text-muted-foreground leading-relaxed">

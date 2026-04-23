@@ -3,16 +3,19 @@ import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import SingleGenerator from "@/components/SingleGenerator";
 import ApiCtaBanner from "@/components/ApiCtaBanner";
+import ApiCtaTop from "@/components/ApiCtaTop";
+import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "Gerador de Pessoa Fictícia - Dados Pessoais Completos | FakeForge BR",
-  description: "Gere pessoas fictícias completas com nome, CPF, email, telefone e endereço brasileiro. Dados correlacionados e válidos para testes de software. Grátis e sem cadastro.",
-  keywords: "gerador de pessoa fictícia, gerador de dados pessoais, pessoa fake, dados fictícios brasileiros, gerador de nome cpf email, dados teste cadastro",
+  title: "Gerador de Pessoa — Nome, CPF, Email, Telefone e Endereço",
+  description: "Gere dados completos de pessoa fictícia brasileira: nome, CPF válido, email, telefone e endereço — tudo correlacionado. Ideal para cadastros de teste, seed e QA. Grátis.",
+  keywords: "gerador de pessoa, gerador de pessoas, gerar pessoa, dados fictícios brasileiros, gerador nome cpf email, pessoa fake completa, dados teste cadastro",
   openGraph: {
-    title: "Gerador de Pessoa Fictícia - FakeForge BR",
-    description: "Gere pessoas fictícias completas com dados brasileiros correlacionados para testes. Grátis e sem cadastro.",
+    title: "Gerador de Pessoa Completa — Nome, CPF, Email, Telefone e Endereço",
+    description: "Pessoas fictícias com nome, CPF, email, telefone e endereço correlacionados. Para seed, testes e QA.",
     type: "website",
   },
+  alternates: { canonical: "/gerador-pessoa" },
 };
 
 export default function GeradorPessoa() {
@@ -30,18 +33,23 @@ export default function GeradorPessoa() {
         </p>
       </div>
 
-      <div className="space-y-6">
-        <SingleGenerator
-          type="person"
-          label="Pessoa Completa"
-          description="Clique em Gerar para criar perfis de pessoas fictícias"
-        />
-        <SingleGenerator
-          type="fullName"
-          label="Nome Completo"
-          description="Nomes e sobrenomes brasileiros"
-        />
-      </div>
+      <ApiCtaTop dataType="pessoas completas" />
+
+      <SingleGenerator
+        type="person"
+        label="Pessoa Completa"
+        description="Clique em Gerar para criar perfis de pessoas fictícias"
+      />
+
+      <p className="text-xs text-muted mt-3">
+        Precisa só de nome? Use o <Link href="/" className="text-primary hover:underline">gerador rápido</Link> e selecione &ldquo;Nome Completo&rdquo;.
+      </p>
+
+      <BreadcrumbSchema items={[
+        { name: "Início", url: "/" },
+        { name: "Geradores", url: "/geradores" },
+        { name: "Pessoa Completa", url: "/gerador-pessoa" },
+      ]} />
 
       <ApiCtaBanner dataType="pessoas" />
 

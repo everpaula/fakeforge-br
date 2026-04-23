@@ -3,6 +3,7 @@
 import { useState, useCallback } from "react";
 import { DATA_TYPES, type DataType } from "@/lib/generators";
 import Link from "next/link";
+import UserMenu from "@/components/UserMenu";
 
 type ExportFormat = "json" | "csv" | "sql";
 
@@ -146,15 +147,19 @@ export default function Home() {
             <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded-full bg-accent/15 text-accent border border-accent/20">BR</span>
           </div>
           <div className="flex items-center gap-3 sm:gap-4">
+            <Link href="/geradores" className="text-xs text-muted-foreground hover:text-foreground transition-colors hidden sm:block">
+              Geradores
+            </Link>
             <Link href="/blog" className="text-xs text-muted-foreground hover:text-foreground transition-colors hidden sm:block">
               Blog
             </Link>
             <Link href="/docs" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
               API
             </Link>
-            <Link href="/login" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
-              Entrar
+            <Link href="/pricing" className="text-xs text-muted-foreground hover:text-foreground transition-colors hidden sm:block">
+              Preços
             </Link>
+            <UserMenu />
           </div>
         </div>
       </nav>
@@ -162,23 +167,56 @@ export default function Home() {
       <main className="max-w-6xl mx-auto px-4 sm:px-5 py-8 sm:py-10">
         {/* Hero */}
         <div className="text-center mb-8 sm:mb-10">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight">
-            Gere dados brasileiros
-            <span className="text-primary"> em 1 clique</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 mb-4">
+            <span className="w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
+            <span className="text-[11px] font-medium text-primary">LGPD-safe · 100% fictício · sem cadastro</span>
+          </div>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight leading-tight">
+            Pare de inventar CPFs na mão.
+            <br className="hidden sm:block" />
+            <span className="text-primary">Gere dados brasileiros que passam em qualquer validação.</span>
           </h1>
-          <p className="text-muted mt-2 sm:mt-3 max-w-lg mx-auto text-sm leading-relaxed">
-            CPF, CNPJ, nomes, endereços, telefones e mais.
-            Todos fictícios, todos com formatação válida. Grátis.
+          <p className="text-muted mt-4 sm:mt-5 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
+            CPF, CNPJ, CEP, PIX, cartão de crédito, pessoas completas — todos fictícios, todos com
+            dígito verificador válido (mod-11, Luhn). Para testes, seeds de banco e QA.
           </p>
-          {!hasGenerated && (
-            <button
-              onClick={handleDemo}
-              disabled={loading}
-              className="mt-4 text-xs text-primary hover:text-primary-hover transition-colors underline underline-offset-2"
+          <div className="flex flex-col sm:flex-row gap-2 justify-center mt-6">
+            {!hasGenerated && (
+              <button
+                onClick={handleDemo}
+                disabled={loading}
+                className="px-6 py-2.5 rounded-lg font-semibold text-sm text-white bg-primary hover:bg-primary-hover transition-all"
+              >
+                {loading ? "Gerando..." : "Gerar 5 pessoas de exemplo"}
+              </button>
+            )}
+            <Link
+              href="/docs"
+              className="px-6 py-2.5 rounded-lg font-medium text-sm border border-border text-foreground hover:border-border-hover transition-all"
             >
-              Experimentar agora
-            </button>
-          )}
+              Ver API REST
+            </Link>
+          </div>
+        </div>
+
+        {/* Social proof bar */}
+        <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 mb-10 sm:mb-12 py-4 border-y border-border">
+          <div className="flex items-center gap-2">
+            <span className="text-lg">🇧🇷</span>
+            <span className="text-xs text-muted-foreground">100% focado no Brasil</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-lg">⚡</span>
+            <span className="text-xs text-muted-foreground">10.000 itens por request</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-lg">🔒</span>
+            <span className="text-xs text-muted-foreground">Nada é armazenado</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-lg">📦</span>
+            <span className="text-xs text-muted-foreground">Export JSON, CSV, SQL</span>
+          </div>
         </div>
 
         {/* Type selection */}
@@ -400,6 +438,168 @@ export default function Home() {
             </div>
           ))}
         </div>
+
+        {/* Diferenciais */}
+        <section className="mt-16 sm:mt-20">
+          <div className="text-center mb-10">
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
+              Feito para quem <span className="text-primary">constrói software no Brasil</span>
+            </h2>
+            <p className="text-muted mt-3 max-w-xl mx-auto text-sm">
+              Não é um Faker.js genérico. Cada gerador implementa as regras reais brasileiras — mod-11, Luhn, DDDs, CEPs por estado.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {[
+              {
+                icon: "✅",
+                title: "Validação real, não só formato",
+                desc: "CPF e CNPJ passam no mod-11. Cartões passam no Luhn. CEPs batem com o estado. Dados que passam em qualquer validador.",
+              },
+              {
+                icon: "🔗",
+                title: "Dados correlacionados",
+                desc: "Via API, gere uma pessoa completa onde o email usa o nome, o DDD bate com o estado e o cartão tem o nome do titular. Algo que o Faker.js não faz.",
+              },
+              {
+                icon: "⚙️",
+                title: "API REST para automação",
+                desc: "100 chamadas grátis por dia. Integre no seed do banco, no CI/CD, ou gere em massa. Export direto em JSON, CSV ou SQL.",
+              },
+              {
+                icon: "🛡️",
+                title: "LGPD-safe por design",
+                desc: "Nenhum dado real é usado ou armazenado. Seguro para dev, staging, homologação. Pare de expor CPFs reais em ambiente de teste.",
+              },
+            ].map((item) => (
+              <div key={item.title} className="rounded-xl bg-card border border-border p-5 sm:p-6">
+                <div className="flex items-start gap-3">
+                  <span className="text-2xl">{item.icon}</span>
+                  <div>
+                    <h3 className="text-sm font-semibold text-foreground">{item.title}</h3>
+                    <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">{item.desc}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Comparativo */}
+        <section className="mt-16 sm:mt-20">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
+              Por que não usar o que já existe?
+            </h2>
+            <p className="text-muted mt-3 max-w-xl mx-auto text-sm">
+              Cada ferramenta serve a um propósito. Veja onde o FakeForge ganha.
+            </p>
+          </div>
+          <div className="rounded-xl bg-card border border-border overflow-x-auto">
+            <table className="w-full text-xs sm:text-sm">
+              <thead>
+                <tr className="border-b border-border">
+                  <th className="text-left px-3 sm:px-4 py-3 text-muted-foreground font-medium">Critério</th>
+                  <th className="text-center px-3 sm:px-4 py-3 text-muted-foreground font-medium">Faker.js</th>
+                  <th className="text-center px-3 sm:px-4 py-3 text-muted-foreground font-medium">4devs</th>
+                  <th className="text-center px-3 sm:px-4 py-3 text-primary font-medium">FakeForge</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border">
+                {[
+                  ["CPF/CNPJ válido mod-11", "Não nativo", "✓", "✓"],
+                  ["Dados correlacionados", "—", "—", "✓"],
+                  ["API REST", "—", "—", "✓"],
+                  ["Export SQL/CSV", "—", "—", "✓"],
+                  ["Automação CI/CD", "Código", "—", "API"],
+                  ["Zero dependências no projeto", "—", "N/A", "✓"],
+                ].map(([criterio, faker, devs, ff]) => (
+                  <tr key={criterio}>
+                    <td className="px-3 sm:px-4 py-2.5 text-muted-foreground">{criterio}</td>
+                    <td className="px-3 sm:px-4 py-2.5 text-center text-muted-foreground">{faker}</td>
+                    <td className="px-3 sm:px-4 py-2.5 text-center text-muted-foreground">{devs}</td>
+                    <td className="px-3 sm:px-4 py-2.5 text-center text-primary font-medium">{ff}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="text-xs text-muted text-center mt-3">
+            <Link href="/blog/fakeforge-vs-fakerjs-vs-4devs" className="text-primary hover:underline">
+              Comparativo completo no blog →
+            </Link>
+          </p>
+        </section>
+
+        {/* Pricing teaser */}
+        <section className="mt-16 sm:mt-20">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
+              Gratuito no navegador. API paga por volume.
+            </h2>
+            <p className="text-muted mt-3 max-w-xl mx-auto text-sm">
+              Use sem limite pelo site. Para gerar via código, escolha o plano certo.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            {[
+              { name: "Free", price: "R$0", tagline: "Para uso pessoal", quota: "100 chamadas/dia na API", highlight: false },
+              { name: "Dev", price: "R$29", tagline: "Para devs que integram no CI/CD", quota: "10.000 chamadas/dia", highlight: true },
+              { name: "Team", price: "R$79", tagline: "Para times e empresas", quota: "100.000 chamadas/dia", highlight: false },
+            ].map((p) => (
+              <div
+                key={p.name}
+                className={`rounded-xl p-5 border ${
+                  p.highlight
+                    ? "bg-primary/5 border-primary/30"
+                    : "bg-card border-border"
+                }`}
+              >
+                {p.highlight && (
+                  <span className="text-[10px] font-semibold uppercase tracking-wider text-primary mb-2 block">
+                    Mais popular
+                  </span>
+                )}
+                <h3 className="text-sm font-semibold text-foreground">{p.name}</h3>
+                <p className="text-2xl font-bold text-foreground mt-1">{p.price}<span className="text-xs text-muted font-normal">{p.name === "Free" ? "" : "/mês"}</span></p>
+                <p className="text-xs text-muted mt-0.5">{p.tagline}</p>
+                <p className="text-xs text-muted-foreground mt-3">{p.quota}</p>
+              </div>
+            ))}
+          </div>
+          <div className="text-center mt-6">
+            <Link
+              href="/pricing"
+              className="inline-block px-6 py-2.5 rounded-lg font-semibold text-sm bg-primary text-white hover:bg-primary-hover transition-all"
+            >
+              Ver comparação completa dos planos
+            </Link>
+          </div>
+        </section>
+
+        {/* CTA final */}
+        <section className="mt-16 sm:mt-20 mb-10 rounded-2xl bg-gradient-to-br from-primary/10 to-accent/5 border border-primary/20 p-8 sm:p-12 text-center">
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
+            Pronto para parar de improvisar dados de teste?
+          </h2>
+          <p className="text-muted mt-3 max-w-lg mx-auto text-sm">
+            Sem cadastro, sem cartão. Comece gerando CPFs válidos e explore o resto.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-2 justify-center mt-6">
+            <Link
+              href="/geradores"
+              className="px-6 py-2.5 rounded-lg font-semibold text-sm text-white bg-primary hover:bg-primary-hover transition-all"
+            >
+              Ver todos os geradores
+            </Link>
+            <Link
+              href="/docs"
+              className="px-6 py-2.5 rounded-lg font-medium text-sm border border-border text-foreground hover:border-border-hover transition-all"
+            >
+              Explorar a API REST
+            </Link>
+          </div>
+        </section>
       </main>
 
       {/* Footer */}

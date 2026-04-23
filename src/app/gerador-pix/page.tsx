@@ -3,16 +3,19 @@ import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import SingleGenerator from "@/components/SingleGenerator";
 import ApiCtaBanner from "@/components/ApiCtaBanner";
+import ApiCtaTop from "@/components/ApiCtaTop";
+import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "Gerador de Chave PIX - Chaves Fictícias para Testes | FakeForge BR",
-  description: "Gere chaves PIX fictícias (CPF, email, telefone e aleatória) para testes de integração com APIs de pagamento. Grátis e sem cadastro.",
-  keywords: "gerador de pix, chave pix para testes, pix fictício, gerar chave pix, pix teste, chave pix aleatória",
+  title: "Gerador de Chave PIX para Testes — CPF, CNPJ, Email, Celular",
+  description: "Gere chaves PIX válidas nos 4 formatos aceitos pelo Banco Central: CPF, CNPJ, email, celular e chave aleatória (EVP). Para testes de integração e homologação. Grátis.",
+  keywords: "gerador de pix, chave pix para testes, pix fictício, gerador chave pix, pix teste, chave pix aleatória, evp pix, pix homologação",
   openGraph: {
-    title: "Gerador de Chave PIX - FakeForge BR",
-    description: "Gere chaves PIX fictícias para testes de integração com APIs de pagamento. Grátis e sem cadastro.",
+    title: "Gerador de Chave PIX — CPF, CNPJ, Email, Celular",
+    description: "Chaves PIX válidas nos 4 formatos do BACEN para testes de integração. Grátis.",
     type: "website",
   },
+  alternates: { canonical: "/gerador-pix" },
 };
 
 export default function GeradorPIX() {
@@ -29,6 +32,8 @@ export default function GeradorPIX() {
         </p>
       </div>
 
+      <ApiCtaTop dataType="chaves PIX" />
+
       <SingleGenerator
         type="pixKey"
         label="Chave PIX"
@@ -36,6 +41,12 @@ export default function GeradorPIX() {
       />
 
       <ApiCtaBanner dataType="chaves PIX" />
+
+      <BreadcrumbSchema items={[
+        { name: "Início", url: "/" },
+        { name: "Geradores", url: "/geradores" },
+        { name: "Chave PIX", url: "/gerador-pix" },
+      ]} />
 
       {/* SEO content */}
       <div className="mt-12 space-y-8 text-sm text-muted-foreground leading-relaxed">

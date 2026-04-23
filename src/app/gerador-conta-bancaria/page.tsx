@@ -5,14 +5,15 @@ import SingleGenerator from "@/components/SingleGenerator";
 import ApiCtaBanner from "@/components/ApiCtaBanner";
 
 export const metadata: Metadata = {
-  title: "Gerador de Conta Bancária - Banco, Agência e Conta | FakeForge BR",
-  description: "Gere dados bancários fictícios brasileiros com banco, agência e número de conta. Bancos reais (BB, Itaú, Bradesco, Nubank). Ideal para testes de pagamento. Grátis.",
-  keywords: "gerador de conta bancária, dados bancários teste, conta bancária fictícia, banco agência conta, dados bancários desenvolvimento, gerador banco brasil",
+  title: "Gerador de Conta Bancária Válida — Banco, Agência e Dígito",
+  description: "Gere contas bancárias fictícias com banco, agência e número com dígito verificador válido. Itaú, BB, Bradesco, Nubank e outros. Para testes de integração de pagamento. Grátis.",
+  keywords: "gerador de conta bancária, dados bancários teste, conta bancária válida, banco agência conta, dados bancários desenvolvimento, gerador banco brasil, compe código banco",
   openGraph: {
-    title: "Gerador de Conta Bancária - FakeForge BR",
-    description: "Gere dados bancários fictícios com bancos reais brasileiros para testes. Grátis e sem cadastro.",
+    title: "Gerador de Conta Bancária Válida — Agência e Dígito Verificador",
+    description: "Contas fictícias com banco, agência e dígito verificador válido para testes de pagamento.",
     type: "website",
   },
+  alternates: { canonical: "/gerador-conta-bancaria" },
 };
 
 export default function GeradorContaBancaria() {
