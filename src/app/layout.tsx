@@ -19,30 +19,42 @@ export const metadata: Metadata = {
   },
   description: "Gere CPF, CNPJ, CEP, nomes, emails, telefones e mais dados brasileiros fictícios para desenvolvimento e testes. API gratuita.",
   metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || "https://fakeforge.com.br"),
-  openGraph: {
-    type: "website",
-    locale: "pt_BR",
-    siteName: "FakeForge BR",
-    title: "FakeForge BR - Gerador de Dados Brasileiros para Testes",
-    description: "Gere CPF, CNPJ, CEP, nomes, emails, telefones e mais dados brasileiros fictícios para desenvolvimento e testes. Grátis e sem cadastro.",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "FakeForge BR - Gerador de Dados Brasileiros",
-    description: "Gere CPF, CNPJ, endereços e mais dados brasileiros fictícios para testes. API REST gratuita.",
-  },
   robots: {
     index: true,
     follow: true,
   },
   icons: {
-    icon: "/icon.svg",
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+    ],
+    apple: "/icon.svg",
   },
   alternates: {
     canonical: "/",
     languages: {
       "pt-BR": "/",
     },
+  },
+  openGraph: {
+    type: "website",
+    locale: "pt_BR",
+    siteName: "FakeForge BR",
+    title: "FakeForge BR - Gerador de Dados Brasileiros para Testes",
+    description: "Gere CPF, CNPJ, CEP, nomes, emails, telefones e mais dados brasileiros fictícios para desenvolvimento e testes. Grátis e sem cadastro.",
+    images: [
+      {
+        url: "/og-image.svg",
+        width: 1200,
+        height: 630,
+        alt: "FakeForge BR — Gerador de dados brasileiros para testes",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "FakeForge BR - Gerador de Dados Brasileiros",
+    description: "Gere CPF, CNPJ, endereços e mais dados brasileiros fictícios para testes. API REST gratuita.",
+    images: ["/og-image.svg"],
   },
 };
 

@@ -4,6 +4,7 @@ import { useState, useCallback } from "react";
 import { DATA_TYPES, type DataType } from "@/lib/generators";
 import Link from "next/link";
 import UserMenu from "@/components/UserMenu";
+import Logo from "@/components/Logo";
 
 type ExportFormat = "json" | "csv" | "sql";
 
@@ -139,13 +140,8 @@ export default function Home() {
       {/* Navbar */}
       <nav className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-xl">
         <div className="max-w-6xl mx-auto px-4 sm:px-5 h-12 flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-lg bg-primary flex items-center justify-center">
-              <span className="text-white text-[10px] font-bold tracking-tight">FF</span>
-            </div>
-            <span className="font-semibold text-sm text-foreground">FakeForge</span>
-            <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded-full bg-accent/15 text-accent border border-accent/20">BR</span>
-          </div>
+          <Logo />
+          <div className="hidden">legacy-removed</div>
           <div className="flex items-center gap-3 sm:gap-4">
             <Link href="/geradores" className="text-xs text-muted-foreground hover:text-foreground transition-colors hidden sm:block">
               Geradores

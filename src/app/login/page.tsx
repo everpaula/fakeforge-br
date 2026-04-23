@@ -4,6 +4,7 @@ import { useState, useMemo, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
+import Logo from "@/components/Logo";
 
 function LoginInner() {
   const searchParams = useSearchParams();
@@ -71,13 +72,9 @@ function LoginInner() {
   return (
     <div className="min-h-screen bg-background flex items-center justify-center px-5">
       <div className="w-full max-w-sm">
-        <Link href="/" className="flex items-center gap-2.5 justify-center mb-8">
-          <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-            <span className="text-white text-[11px] font-bold">FF</span>
-          </div>
-          <span className="font-semibold text-foreground">FakeForge</span>
-          <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded-full bg-accent/15 text-accent border border-accent/20">BR</span>
-        </Link>
+        <div className="flex justify-center mb-8">
+          <Logo size="md" />
+        </div>
 
         <div className="rounded-xl bg-card border border-border p-6">
           <h1 className="text-lg font-semibold text-foreground text-center mb-1">Entrar</h1>

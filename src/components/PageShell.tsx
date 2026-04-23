@@ -1,5 +1,6 @@
 import Link from "next/link";
 import UserMenu from "./UserMenu";
+import Logo from "./Logo";
 
 interface Props {
   children: React.ReactNode;
@@ -10,13 +11,7 @@ export default function PageShell({ children }: Props) {
     <div className="min-h-screen bg-background text-foreground">
       <nav className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-xl">
         <div className="max-w-4xl mx-auto px-5 h-12 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-lg bg-primary flex items-center justify-center">
-              <span className="text-white text-[10px] font-bold tracking-tight">FF</span>
-            </div>
-            <span className="font-semibold text-sm text-foreground">FakeForge</span>
-            <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded-full bg-accent/15 text-accent border border-accent/20">BR</span>
-          </Link>
+          <Logo />
           <div className="flex items-center gap-4">
             <Link href="/" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
               Todos os geradores

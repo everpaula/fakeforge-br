@@ -9,11 +9,11 @@
   --color-border-hover: #3f3f46;
   --color-muted: #71717a;
   --color-muted-foreground: #a1a1aa;
-  --color-primary: #14b8a6;
-  --color-primary-hover: #2dd4bf;
-  --color-primary-muted: rgba(20, 184, 166, 0.1);
-  --color-accent: #f59e0b;
-  --color-accent-muted: rgba(245, 158, 11, 0.1);
+  --color-primary: #1e40af;
+  --color-primary-hover: #2563eb;
+  --color-primary-muted: rgba(30, 64, 175, 0.1);
+  --color-accent: #f97316;
+  --color-accent-muted: rgba(249, 115, 22, 0.1);
   --color-success: #22c55e;
   --color-danger: #ef4444;
   --font-sans: var(--font-geist-sans);
