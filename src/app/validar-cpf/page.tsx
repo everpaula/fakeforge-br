@@ -4,6 +4,7 @@ import PageShell from "@/components/PageShell";
 import ValidatorCPF from "../gerador-cpf/ValidatorCPF";
 import SingleGenerator from "@/components/SingleGenerator";
 import ApiCtaBanner from "@/components/ApiCtaBanner";
+import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
   title: "Validar CPF - Verifique se um CPF é Válido | FakeForge BR",
@@ -88,6 +89,12 @@ export default function ValidarCPF() {
           }),
         }}
       />
+
+      <BreadcrumbSchema items={[
+        { name: "Início", url: "/" },
+        { name: "Validadores", url: "/geradores" },
+        { name: "Validar CPF", url: "/validar-cpf" },
+      ]} />
     </PageShell>
   );
 }

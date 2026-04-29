@@ -3,6 +3,7 @@ import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import SingleGenerator from "@/components/SingleGenerator";
 import ApiCtaBanner from "@/components/ApiCtaBanner";
+import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import ValidatorCPF from "./ValidatorCPF";
 
 export const metadata: Metadata = {
@@ -129,6 +130,12 @@ export default function GeradorCPF() {
           }),
         }}
       />
+
+      <BreadcrumbSchema items={[
+        { name: "Início", url: "/" },
+        { name: "Geradores", url: "/geradores" },
+        { name: "CPF", url: "/gerador-cpf" },
+      ]} />
     </PageShell>
   );
 }

@@ -3,6 +3,7 @@ import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import SingleGenerator from "@/components/SingleGenerator";
 import ApiCtaBanner from "@/components/ApiCtaBanner";
+import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
   title: "Gerador de CEP e Endereço - Gere Endereços Brasileiros | FakeForge BR",
@@ -126,6 +127,12 @@ export default function GeradorCEP() {
           }),
         }}
       />
+
+      <BreadcrumbSchema items={[
+        { name: "Início", url: "/" },
+        { name: "Geradores", url: "/geradores" },
+        { name: "CEP", url: "/gerador-cep" },
+      ]} />
     </PageShell>
   );
 }

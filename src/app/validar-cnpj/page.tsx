@@ -4,6 +4,7 @@ import PageShell from "@/components/PageShell";
 import ValidatorCNPJ from "../gerador-cnpj/ValidatorCNPJ";
 import SingleGenerator from "@/components/SingleGenerator";
 import ApiCtaBanner from "@/components/ApiCtaBanner";
+import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
   title: "Validar CNPJ - Verifique se um CNPJ é Válido | FakeForge BR",
@@ -88,6 +89,12 @@ export default function ValidarCNPJ() {
           }),
         }}
       />
+
+      <BreadcrumbSchema items={[
+        { name: "Início", url: "/" },
+        { name: "Validadores", url: "/geradores" },
+        { name: "Validar CNPJ", url: "/validar-cnpj" },
+      ]} />
     </PageShell>
   );
 }

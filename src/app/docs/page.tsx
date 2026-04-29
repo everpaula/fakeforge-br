@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import PageShell from "@/components/PageShell";
+import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import { DATA_TYPES } from "@/lib/generators";
 
 export const metadata: Metadata = {
-  title: "Documentação da API - FakeForge BR",
-  description: "Documentação da API REST do FakeForge BR. Gere dados brasileiros fictícios via API. Sem autenticação, grátis.",
+  title: "Documentação da API REST — Gerar Dados Brasileiros via Código",
+  description: "Documentação completa da API do FakeForge BR. Gere CPF, CNPJ, PIX, cartão e mais via curl, Node.js ou Python. Endpoints GET/POST, export JSON/CSV/SQL. 100 chamadas grátis por dia.",
+  keywords: "api dados brasileiros, api cpf cnpj rest, gerador api brasil, fakeforge api docs, dados teste curl",
+  alternates: { canonical: "/docs" },
 };
 
 export default function Docs() {
@@ -323,6 +326,33 @@ print(data[0])  # {'nome': '...', 'cpf': '...', ...}`}</pre>
           </Link>
         </div>
       </section>
+
+      <BreadcrumbSchema items={[
+        { name: "Início", url: "/" },
+        { name: "API", url: "/docs" },
+      ]} />
+
+      {/* TechArticle schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            headline: "Documentação da API REST — FakeForge BR",
+            description: "API REST para gerar dados brasileiros fictícios. Endpoints GET/POST, suporte a presets e schemas customizados, export em JSON, CSV e SQL.",
+            url: "https://fakeforge.com.br/docs",
+            inLanguage: "pt-BR",
+            isPartOf: {
+              "@type": "WebSite",
+              name: "FakeForge BR",
+              url: "https://fakeforge.com.br",
+            },
+            proficiencyLevel: "Beginner",
+            dependencies: "curl, Node.js, ou qualquer cliente HTTP",
+          }),
+        }}
+      />
     </PageShell>
   );
 }

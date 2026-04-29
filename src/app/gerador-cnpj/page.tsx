@@ -3,6 +3,7 @@ import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import SingleGenerator from "@/components/SingleGenerator";
 import ApiCtaBanner from "@/components/ApiCtaBanner";
+import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import ValidatorCNPJ from "./ValidatorCNPJ";
 
 export const metadata: Metadata = {
@@ -120,6 +121,12 @@ export default function GeradorCNPJ() {
           }),
         }}
       />
+
+      <BreadcrumbSchema items={[
+        { name: "Início", url: "/" },
+        { name: "Geradores", url: "/geradores" },
+        { name: "CNPJ", url: "/gerador-cnpj" },
+      ]} />
     </PageShell>
   );
 }
