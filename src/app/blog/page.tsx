@@ -3,6 +3,7 @@ import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import NewsletterCapture from "@/components/NewsletterCapture";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
+import BlogFeaturedImage from "@/components/BlogFeaturedImage";
 
 export const metadata: Metadata = {
   title: "Blog FakeForge BR — Artigos sobre Dados de Teste, LGPD e Automação",
@@ -132,28 +133,28 @@ export default function Blog() {
         })}
       </div>
 
-      {/* Posts list */}
-      <div className="space-y-3">
+      {/* Posts list with featured images */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {POSTS.map((post) => (
           <Link
             key={post.slug}
             href={`/blog/${post.slug}`}
-            className="block rounded-xl bg-card border border-border p-5 sm:p-6 hover:border-primary/40 hover:bg-card-hover transition-all group"
+            className="block rounded-xl bg-card border border-border overflow-hidden hover:border-primary/40 hover:bg-card-hover transition-all group"
           >
-            <div className="flex items-center gap-3 text-xs text-muted mb-2">
-              <span className="px-2 py-0.5 rounded-full bg-primary/10 text-primary font-medium text-[10px]">
-                {post.category}
-              </span>
-              <time>{new Date(post.date).toLocaleDateString("pt-BR")}</time>
-              <span>·</span>
-              <span>{post.readTime} de leitura</span>
+            <BlogFeaturedImage category={post.category} title={post.title} />
+            <div className="p-5">
+              <div className="flex items-center gap-3 text-xs text-muted mb-2">
+                <time>{new Date(post.date).toLocaleDateString("pt-BR")}</time>
+                <span>·</span>
+                <span>{post.readTime} de leitura</span>
+              </div>
+              <h2 className="text-base font-semibold text-foreground group-hover:text-primary transition-colors leading-snug">
+                {post.title}
+              </h2>
+              <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
+                {post.excerpt}
+              </p>
             </div>
-            <h2 className="text-base sm:text-lg font-semibold text-foreground group-hover:text-primary transition-colors leading-snug">
-              {post.title}
-            </h2>
-            <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
-              {post.excerpt}
-            </p>
           </Link>
         ))}
       </div>
