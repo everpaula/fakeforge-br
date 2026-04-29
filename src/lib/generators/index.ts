@@ -1,5 +1,7 @@
 import { generateCPF } from "./cpf";
 import { generateCNPJ, generateCnpjAlfa } from "./cnpj";
+import { generateCNH } from "./cnh";
+import { generateCIN } from "./cin";
 import { generateCEP, generateAddress } from "./cep";
 import { generatePerson, generateFullName, generateFirstName, generateLastName } from "./person";
 import { generateEmail, generatePhone, generateLandline } from "./contact";
@@ -10,6 +12,8 @@ export {
   generateCPF,
   generateCNPJ,
   generateCnpjAlfa,
+  generateCNH,
+  generateCIN,
   generateCEP,
   generateAddress,
   generatePerson,
@@ -29,6 +33,8 @@ export type DataType =
   | "cpf"
   | "cnpj"
   | "cnpjAlfa"
+  | "cnh"
+  | "cin"
   | "cep"
   | "address"
   | "person"
@@ -58,6 +64,8 @@ export function generate(config: GeneratorConfig): unknown[] {
       case "cpf": results.push(generateCPF(formatted)); break;
       case "cnpj": results.push(generateCNPJ(formatted)); break;
       case "cnpjAlfa": results.push(generateCnpjAlfa(formatted)); break;
+      case "cnh": results.push(generateCNH(formatted)); break;
+      case "cin": results.push(generateCIN()); break;
       case "cep": results.push(generateCEP(formatted)); break;
       case "address": results.push(generateAddress(formatted)); break;
       case "person": results.push(generatePerson()); break;
@@ -81,6 +89,8 @@ export const DATA_TYPES: { value: DataType; label: string; description: string; 
   { value: "cpf", label: "CPF", description: "Cadastro de Pessoa Física (válido)", category: "Documentos" },
   { value: "cnpj", label: "CNPJ", description: "Cadastro Nacional de Pessoa Jurídica (válido)", category: "Documentos" },
   { value: "cnpjAlfa", label: "CNPJ Alfanumérico", description: "Novo CNPJ com letras (vigência 01/07/2026)", category: "Documentos" },
+  { value: "cnh", label: "CNH", description: "Carteira Nacional de Habilitação válida (mod-11 DENATRAN)", category: "Documentos" },
+  { value: "cin", label: "CIN", description: "Carteira de Identidade Nacional (substitui o RG)", category: "Documentos" },
   { value: "person", label: "Pessoa Completa", description: "Nome, sobrenome e gênero", category: "Pessoa" },
   { value: "fullName", label: "Nome Completo", description: "Nome e sobrenome brasileiro", category: "Pessoa" },
   { value: "firstName", label: "Primeiro Nome", description: "Nomes populares brasileiros", category: "Pessoa" },

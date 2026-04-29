@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import PageShell from "@/components/PageShell";
+import BlogFeaturedImage from "@/components/BlogFeaturedImage";
 
 export const metadata: Metadata = {
   title: "LGPD e dados de teste: o que todo dev precisa saber",
@@ -17,10 +18,11 @@ export default function Post() {
   return (
     <PageShell>
       <article className="max-w-2xl">
+        <Link href="/blog" className="text-xs text-primary hover:underline mb-4 inline-block">
+          ← Voltar ao blog
+        </Link>
+        <BlogFeaturedImage category="LGPD" title="LGPD e dados de teste: o que todo dev precisa saber" className="mb-6" />
         <div className="mb-8">
-          <Link href="/blog" className="text-xs text-primary hover:underline mb-4 inline-block">
-            ← Voltar ao blog
-          </Link>
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight leading-tight">
             LGPD e dados de teste: o que todo dev precisa saber
           </h1>
