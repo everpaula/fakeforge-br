@@ -1,5 +1,12 @@
 import { createClient } from "@supabase/supabase-js";
 import { NextRequest } from "next/server";
+import { createHash } from "crypto";
+
+const IP_HASH_SALT = process.env.IP_HASH_SALT || "fakeforge-anon-salt-v1";
+
+export function hashIp(ip: string): string {
+  return createHash("sha256").update(ip + IP_HASH_SALT).digest("hex").slice(0, 32);
+}
 
 interface ApiKeyInfo {
   userId: string;
@@ -56,7 +63,7 @@ export async function resolveApiKey(request: NextRequest): Promise<ApiKeyInfo | 
 }
 
 /**
- * Log API usage for tracking.
+ * Log API usage for tracking (authenticated requests).
  */
 export async function logApiUsage(
   userId: string | null,
@@ -72,6 +79,29 @@ export async function logApiUsage(
     user_id: userId,
     api_key_id: keyId,
     endpoint,
+    data_type: dataType,
+    quantity,
+  });
+}
+
+/**
+ * Log anonymous usage (web UI generations and API calls without key).
+ * Uses hashed IP to count unique visitors without storing PII.
+ */
+export async function logAnonymousUsage(
+  clientType: "web" | "api_anon",
+  ip: string,
+  dataType: string,
+  quantity: number
+) {
+  const supabase = getAdminSupabase();
+  if (!supabase) return;
+  if (!ip || ip === "unknown") return;
+
+  // Fire-and-forget — don't block the response
+  void supabase.from("anonymous_usage").insert({
+    client_type: clientType,
+    ip_hash: hashIp(ip),
     data_type: dataType,
     quantity,
   });

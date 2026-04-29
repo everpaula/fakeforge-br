@@ -39,12 +39,32 @@ interface Subscriber {
   current_period_end: string | null;
 }
 
+interface AnonBucket {
+  web: number;
+  api: number;
+  total: number;
+  items: number;
+  unique_visitors: number;
+}
+
+interface AnonByType {
+  data_type: string;
+  total_calls: number;
+  total_items: number;
+  unique_visitors: number;
+  web: number;
+  api: number;
+}
+
 interface AdminData {
   metrics: Metrics;
   usageByType: UsageByType[];
   usersDaily: DailyData[];
   apiDaily: DailyData[];
   subscribers: Subscriber[];
+  anon: { today: AnonBucket; last_7d: AnonBucket; last_30d: AnonBucket };
+  anonByType: AnonByType[];
+  anonDaily: DailyData[];
 }
 
 export default function AdminDashboard() {
@@ -108,6 +128,13 @@ export default function AdminDashboard() {
   if (!data) return null;
 
   const { metrics: m } = data;
+  const anon = data.anon || {
+    today: { web: 0, api: 0, total: 0, items: 0, unique_visitors: 0 },
+    last_7d: { web: 0, api: 0, total: 0, items: 0, unique_visitors: 0 },
+    last_30d: { web: 0, api: 0, total: 0, items: 0, unique_visitors: 0 },
+  };
+  const anonByType = data.anonByType || [];
+  const anonDaily = data.anonDaily || [];
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -177,6 +204,113 @@ export default function AdminDashboard() {
           <MetricCard label="Chamadas API hoje" value={m.api_calls_today} highlight={m.api_calls_today > 0} />
           <MetricCard label="Chamadas 7 dias" value={m.api_calls_7d} />
           <MetricCard label="Chamadas 30 dias" value={m.api_calls_30d} />
+        </div>
+
+        {/* Anonymous traffic — visitors who use the site without signing up */}
+        <div className="rounded-xl bg-card border border-border overflow-hidden mb-8">
+          <div className="px-5 py-3 border-b border-border flex items-center justify-between">
+            <h2 className="text-sm font-semibold">Tráfego anônimo (sem cadastro)</h2>
+            <span className="text-[10px] text-muted">
+              IP hasheado · privacy-safe
+            </span>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-border">
+            {[
+              ["Hoje (24h)", anon.today],
+              ["Últimos 7 dias", anon.last_7d],
+              ["Últimos 30 dias", anon.last_30d],
+            ].map(([label, b]) => {
+              const bucket = b as AnonBucket;
+              return (
+                <div key={label as string} className="p-5">
+                  <p className="text-[11px] text-muted uppercase tracking-wider mb-3">{label as string}</p>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <p className="text-2xl font-bold text-foreground">{bucket.unique_visitors.toLocaleString()}</p>
+                      <p className="text-[11px] text-muted">visitantes únicos</p>
+                    </div>
+                    <div>
+                      <p className="text-2xl font-bold text-foreground">{bucket.total.toLocaleString()}</p>
+                      <p className="text-[11px] text-muted">gerações</p>
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-primary">{bucket.web.toLocaleString()}</p>
+                      <p className="text-[10px] text-muted">via web</p>
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-accent">{bucket.api.toLocaleString()}</p>
+                      <p className="text-[10px] text-muted">via API anônima</p>
+                    </div>
+                    <div className="col-span-2 pt-2 border-t border-border">
+                      <p className="text-sm font-medium text-foreground">{bucket.items.toLocaleString()}</p>
+                      <p className="text-[10px] text-muted">items gerados (soma das quantidades)</p>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Anonymous timeline + types side-by-side */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          <div className="rounded-xl bg-card border border-border overflow-hidden">
+            <div className="px-5 py-3 border-b border-border">
+              <h2 className="text-sm font-semibold">Gerações anônimas por dia (14 dias)</h2>
+            </div>
+            <div className="p-4">
+              {anonDaily.length === 0 ? (
+                <p className="text-xs text-muted text-center py-8">Sem dados ainda</p>
+              ) : (
+                <div className="space-y-1.5">
+                  {anonDaily.map((d) => (
+                    <div key={d.day} className="flex items-center gap-3">
+                      <span className="text-xs text-muted w-20 shrink-0 font-mono">
+                        {new Date(d.day + "T12:00:00").toLocaleDateString("pt-BR", { day: "2-digit", month: "short" })}
+                      </span>
+                      <div className="flex-1 h-5 bg-background rounded-full overflow-hidden">
+                        <div
+                          className="h-full bg-primary/60 rounded-full transition-all"
+                          style={{
+                            width: `${Math.max(4, ((d.total_calls || 0) / Math.max(...anonDaily.map(x => x.total_calls || 1))) * 100)}%`,
+                          }}
+                        />
+                      </div>
+                      <span className="text-xs font-medium text-foreground w-12 text-right">{d.total_calls?.toLocaleString()}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="rounded-xl bg-card border border-border overflow-hidden">
+            <div className="px-5 py-3 border-b border-border">
+              <h2 className="text-sm font-semibold">Tipos mais gerados anônimos (30 dias)</h2>
+            </div>
+            {anonByType.length === 0 ? (
+              <p className="text-xs text-muted text-center py-8">Sem dados ainda</p>
+            ) : (
+              <div className="divide-y divide-border max-h-[420px] overflow-y-auto">
+                {anonByType.map((t) => (
+                  <div key={t.data_type} className="px-5 py-2.5">
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-sm font-mono text-primary">{t.data_type}</span>
+                      <span className="text-xs font-medium text-foreground">{t.total_calls.toLocaleString()} <span className="text-[10px] text-muted">calls</span></span>
+                    </div>
+                    <div className="flex items-center gap-3 text-[10px] text-muted">
+                      <span>{t.unique_visitors} visitantes</span>
+                      <span>·</span>
+                      <span>{t.total_items.toLocaleString()} items</span>
+                      <span>·</span>
+                      <span className="text-primary">{t.web} web</span>
+                      <span className="text-accent">{t.api} api</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">

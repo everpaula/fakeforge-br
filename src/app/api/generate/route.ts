@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { generate, DATA_TYPES, type DataType } from "@/lib/generators";
 import { generateSchema, SCHEMA_PRESETS, type SchemaField } from "@/lib/generators/schema";
 import { checkRateLimit, getRateLimitHeaders } from "@/lib/rate-limit";
-import { resolveApiKey, logApiUsage } from "@/lib/api-auth";
+import { resolveApiKey, logApiUsage, logAnonymousUsage } from "@/lib/api-auth";
 
 function getClientIP(request: NextRequest): string {
   return (
@@ -17,24 +17,53 @@ async function withRateLimit(request: NextRequest): Promise<{
   headers: Record<string, string>;
   userId: string | null;
   keyId: string | null;
+  clientType: "web" | "api_anon" | "api_authed";
+  ip: string;
 }> {
+  const ip = getClientIP(request);
+
   // Browser UI requests are not rate-limited (they use same-origin fetch with cookies)
   // We check for the custom header set by our frontend fetch calls
   const isInternalUI = request.headers.get("x-fakeforge-client") === "web";
-  if (isInternalUI) return { allowed: true, headers: {}, userId: null, keyId: null };
+  if (isInternalUI) return { allowed: true, headers: {}, userId: null, keyId: null, clientType: "web", ip };
 
   // Check for API key auth
   const apiKeyInfo = await resolveApiKey(request);
   if (apiKeyInfo) {
     const identifier = `key:${apiKeyInfo.keyId}`;
     const result = checkRateLimit(identifier, apiKeyInfo.plan);
-    return { allowed: result.allowed, headers: getRateLimitHeaders(result), userId: apiKeyInfo.userId, keyId: apiKeyInfo.keyId };
+    return {
+      allowed: result.allowed,
+      headers: getRateLimitHeaders(result),
+      userId: apiKeyInfo.userId,
+      keyId: apiKeyInfo.keyId,
+      clientType: "api_authed",
+      ip,
+    };
   }
 
   // Fall back to IP-based rate limiting (free tier)
-  const ip = getClientIP(request);
   const result = checkRateLimit(ip, "free");
-  return { allowed: result.allowed, headers: getRateLimitHeaders(result), userId: null, keyId: null };
+  return {
+    allowed: result.allowed,
+    headers: getRateLimitHeaders(result),
+    userId: null,
+    keyId: null,
+    clientType: "api_anon",
+    ip,
+  };
+}
+
+function logUsage(
+  rateLimit: { userId: string | null; keyId: string | null; clientType: "web" | "api_anon" | "api_authed"; ip: string },
+  dataType: string,
+  qty: number
+) {
+  if (rateLimit.userId) {
+    logApiUsage(rateLimit.userId, rateLimit.keyId, "/api/generate", dataType, qty);
+  } else if (rateLimit.clientType === "web" || rateLimit.clientType === "api_anon") {
+    logAnonymousUsage(rateLimit.clientType, rateLimit.ip, dataType, qty);
+  }
 }
 
 export async function POST(request: NextRequest) {
@@ -95,7 +124,7 @@ export async function POST(request: NextRequest) {
 
     const qty = Math.min(Math.max(1, Number(quantity)), 10000);
     const data = generate({ type: type as DataType, quantity: qty, formatted });
-    if (rateLimit.userId) logApiUsage(rateLimit.userId, rateLimit.keyId, "/api/generate", type, qty);
+    logUsage(rateLimit, type, qty);
     return formatResponse(data, type, qty, format, rateLimit.headers);
   } catch {
     return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
@@ -134,7 +163,7 @@ export async function GET(request: NextRequest) {
     }
     const qty = Math.min(Math.max(1, quantity), 10000);
     const data = generateSchema(schema, qty);
-    if (rateLimit.userId) logApiUsage(rateLimit.userId, rateLimit.keyId, "/api/generate", `preset:${preset}`, qty);
+    logUsage(rateLimit, `preset:${preset}`, qty);
     return NextResponse.json({ preset, quantity: qty, data }, { headers: rateLimit.headers });
   }
 
@@ -155,7 +184,7 @@ export async function GET(request: NextRequest) {
 
   const qty = Math.min(Math.max(1, quantity), 10000);
   const data = generate({ type: type as DataType, quantity: qty, formatted });
-  if (rateLimit.userId) logApiUsage(rateLimit.userId, rateLimit.keyId, "/api/generate", type, qty);
+  logUsage(rateLimit, type, qty);
   return NextResponse.json({ type, quantity: qty, data }, { headers: rateLimit.headers });
 }
 
