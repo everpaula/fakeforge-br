@@ -3,6 +3,7 @@ import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import SingleGenerator from "@/components/SingleGenerator";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
+import AffiliateBanner from "@/components/AffiliateBanner";
 
 export const metadata: Metadata = {
   title: "Validação de CNPJ em Node.js: implementação completa sem dependências",
@@ -139,6 +140,8 @@ export default function Post() {
             <li>Use a <Link href="/docs" className="text-primary hover:underline">API</Link> para gerar CNPJs em massa no CI/CD</li>
           </ul>
         </div>
+
+        <AffiliateBanner variant="rocketseat" />
       </article>
     </PageShell>
   );

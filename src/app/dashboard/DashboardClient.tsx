@@ -20,6 +20,14 @@ interface Subscription {
   current_period_end: string | null;
 }
 
+interface ReferralStats {
+  total: number;
+  pending: number;
+  converted: number;
+  monthly_recurring: number;
+  total_earned: number;
+}
+
 const PLAN_LIMITS: Record<string, { requests: number; label: string; color: string }> = {
   free: { requests: 100, label: "Free", color: "text-muted-foreground" },
   dev: { requests: 10000, label: "Dev", color: "text-primary" },
@@ -31,7 +39,9 @@ export default function DashboardClient({ userId, userEmail }: { userId: string;
   const [subscription, setSubscription] = useState<Subscription>({ plan: "free", status: "active", current_period_end: null });
   const [usageToday, setUsageToday] = useState(0);
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
+  const [copiedRef, setCopiedRef] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [refStats, setRefStats] = useState<ReferralStats>({ total: 0, pending: 0, converted: 0, monthly_recurring: 0, total_earned: 0 });
 
   const supabase = useMemo(() => createClient(), []);
   const router = useRouter();
@@ -66,6 +76,15 @@ export default function DashboardClient({ userId, userEmail }: { userId: string;
       .gte("created_at", today.toISOString());
     setUsageToday(count || 0);
 
+    // Load referral stats (independent fetch)
+    try {
+      const refRes = await fetch("/api/referral");
+      if (refRes.ok) {
+        const refData = await refRes.json();
+        if (refData.stats) setRefStats(refData.stats);
+      }
+    } catch {/* ignore */}
+
     setLoading(false);
   }, [supabase, userId]);
 
@@ -90,6 +109,16 @@ export default function DashboardClient({ userId, userEmail }: { userId: string;
     await navigator.clipboard.writeText(key);
     setCopiedKey(key);
     setTimeout(() => setCopiedKey(null), 2000);
+  }
+
+  const referralLink = typeof window !== "undefined"
+    ? `${window.location.origin}/?ref=${userId}`
+    : `https://fakeforge.com.br/?ref=${userId}`;
+
+  async function handleCopyReferral() {
+    await navigator.clipboard.writeText(referralLink);
+    setCopiedRef(true);
+    setTimeout(() => setCopiedRef(false), 2000);
   }
 
   async function handleLogout() {
@@ -352,6 +381,64 @@ export default function DashboardClient({ userId, userEmail }: { userId: string;
             ))}
           </div>
         )}
+      </div>
+
+      {/* Affiliate / Referral program */}
+      <div className="rounded-xl bg-card border border-border overflow-hidden mb-8">
+        <div className="px-5 py-3 border-b border-border flex items-center justify-between">
+          <div>
+            <h2 className="text-sm font-semibold text-foreground">Programa de Afiliados</h2>
+            <p className="text-[11px] text-muted mt-0.5">Ganhe 30% recorrente sobre cada indicação que assinar plano pago</p>
+          </div>
+          <span className="text-[10px] px-2 py-0.5 rounded-full bg-success/10 text-success font-medium">Beta</span>
+        </div>
+
+        <div className="p-5 space-y-4">
+          {/* Stats grid */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div className="rounded-lg bg-background border border-border p-3">
+              <p className="text-[10px] text-muted uppercase tracking-wider">Cliques convertidos</p>
+              <p className="text-xl font-bold text-foreground mt-1">{refStats.total}</p>
+            </div>
+            <div className="rounded-lg bg-background border border-border p-3">
+              <p className="text-[10px] text-muted uppercase tracking-wider">Assinaturas ativas</p>
+              <p className="text-xl font-bold text-success mt-1">{refStats.converted}</p>
+            </div>
+            <div className="rounded-lg bg-background border border-border p-3">
+              <p className="text-[10px] text-muted uppercase tracking-wider">MRR/mês</p>
+              <p className="text-xl font-bold text-primary mt-1">R${refStats.monthly_recurring.toFixed(2)}</p>
+            </div>
+            <div className="rounded-lg bg-background border border-border p-3">
+              <p className="text-[10px] text-muted uppercase tracking-wider">Total ganho</p>
+              <p className="text-xl font-bold text-accent mt-1">R${refStats.total_earned.toFixed(2)}</p>
+            </div>
+          </div>
+
+          {/* Referral link */}
+          <div>
+            <label className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">Seu link de indicação</label>
+            <div className="flex items-center gap-2 mt-1.5">
+              <input
+                type="text"
+                value={referralLink}
+                readOnly
+                className="flex-1 px-3 py-2 rounded-lg text-xs font-mono bg-background border border-border text-foreground"
+              />
+              <button
+                onClick={handleCopyReferral}
+                className={`shrink-0 px-3 py-2 rounded-lg text-xs font-medium transition-colors ${
+                  copiedRef ? "bg-success text-white" : "bg-primary text-white hover:bg-primary-hover"
+                }`}
+              >
+                {copiedRef ? "Copiado!" : "Copiar"}
+              </button>
+            </div>
+            <p className="text-[11px] text-muted mt-2">
+              Compartilhe o link. Quem se cadastrar e assinar plano pago via essa indicação gera <strong className="text-foreground">30% recorrente</strong> pra você
+              (R$8,70/mês por Dev assinante, R$23,70/mês por Team).
+            </p>
+          </div>
+        </div>
       </div>
 
       {/* Usage hint */}

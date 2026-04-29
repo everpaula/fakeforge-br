@@ -68,6 +68,24 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "DB error" }, { status: 500 });
     }
 
+    // Convert pending referral if exists (30% recurring commission)
+    const COMMISSION_RATE = 0.30;
+    const PLAN_PRICES: Record<string, number> = { dev: 29, team: 79 };
+    const monthlyCommission = (PLAN_PRICES[plan] || 0) * COMMISSION_RATE;
+
+    if (monthlyCommission > 0) {
+      await supabase
+        .from("referrals")
+        .update({
+          status: "converted",
+          plan,
+          monthly_commission_brl: monthlyCommission,
+          converted_at: new Date().toISOString(),
+        })
+        .eq("referred_user_id", userId)
+        .eq("status", "pending");
+    }
+
     return NextResponse.json({ ok: true, plan, userId });
   } catch (error) {
     console.error("Webhook error:", error);

@@ -3,6 +3,7 @@ import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import SingleGenerator from "@/components/SingleGenerator";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
+import AffiliateBanner from "@/components/AffiliateBanner";
 
 export const metadata: Metadata = {
   title: "Como popular banco de dados com dados fictícios brasileiros",
@@ -170,6 +171,8 @@ export default function Post() {
             <li>Consulte a <Link href="/docs" className="text-primary hover:underline">documentação da API</Link> para detalhes dos endpoints</li>
           </ul>
         </div>
+
+        <AffiliateBanner variant="hostinger" />
       </article>
     </PageShell>
   );

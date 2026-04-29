@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
+import AffiliateBanner from "@/components/AffiliateBanner";
 
 export const metadata: Metadata = {
   title: "Como automatizar dados de teste no CI/CD com API",
@@ -167,6 +168,8 @@ jobs:
             oferece 10.000 requests por dia com API key dedicada.
           </p>
         </div>
+
+        <AffiliateBanner variant="hostinger" />
       </article>
     </PageShell>
   );

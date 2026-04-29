@@ -13,6 +13,19 @@ export default function PostLogin() {
     sessionStorage.removeItem("fakeforge_checkout_intent");
     sessionStorage.removeItem("fakeforge_post_login_redirect");
 
+    // Register referral if cookie exists
+    const refMatch = document.cookie.match(/(?:^|;\s*)ff_ref=([^;]+)/);
+    if (refMatch) {
+      const referrerId = decodeURIComponent(refMatch[1]);
+      fetch("/api/referral", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ referrerId }),
+      }).catch(() => {/* fire-and-forget */});
+      // Clear ref cookie after attempt
+      document.cookie = "ff_ref=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+    }
+
     async function proceed() {
       if (intentPlan && intentPlan !== "free") {
         try {
