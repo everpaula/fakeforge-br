@@ -13,6 +13,7 @@ export const metadata: Metadata = {
 const GERADORES = [
   { href: "/gerador-cpf", title: "CPF", desc: "Números com dígitos verificadores válidos (mod-11)", icon: "📄", category: "Documentos" },
   { href: "/gerador-cnpj", title: "CNPJ", desc: "CNPJs válidos com razão social e endereço", icon: "📄", category: "Documentos" },
+  { href: "/gerador-cnpj-alfanumerico", title: "CNPJ Alfanumérico", desc: "Novo formato 2026 (com letras A-Z) — vigência 01/07/2026", icon: "🆕", category: "Documentos" },
   { href: "/gerador-pessoa", title: "Pessoa Completa", desc: "Nome, CPF, email, telefone e endereço correlacionados", icon: "👤", category: "Pessoa" },
   { href: "/gerador-empresa", title: "Empresa", desc: "CNPJ, razão social, nome fantasia e endereço comercial", icon: "🏢", category: "Pessoa" },
   { href: "/gerador-email", title: "Email", desc: "Emails fictícios com nomes brasileiros realistas", icon: "📧", category: "Contato" },

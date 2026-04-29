@@ -1,5 +1,5 @@
 import { generateCPF } from "./cpf";
-import { generateCNPJ } from "./cnpj";
+import { generateCNPJ, generateCnpjAlfa } from "./cnpj";
 import { generateCEP, generateAddress } from "./cep";
 import { generatePerson, generateFullName, generateFirstName, generateLastName } from "./person";
 import { generateEmail, generatePhone, generateLandline } from "./contact";
@@ -9,6 +9,7 @@ import { generateCompany } from "./company";
 export {
   generateCPF,
   generateCNPJ,
+  generateCnpjAlfa,
   generateCEP,
   generateAddress,
   generatePerson,
@@ -27,6 +28,7 @@ export {
 export type DataType =
   | "cpf"
   | "cnpj"
+  | "cnpjAlfa"
   | "cep"
   | "address"
   | "person"
@@ -55,6 +57,7 @@ export function generate(config: GeneratorConfig): unknown[] {
     switch (type) {
       case "cpf": results.push(generateCPF(formatted)); break;
       case "cnpj": results.push(generateCNPJ(formatted)); break;
+      case "cnpjAlfa": results.push(generateCnpjAlfa(formatted)); break;
       case "cep": results.push(generateCEP(formatted)); break;
       case "address": results.push(generateAddress(formatted)); break;
       case "person": results.push(generatePerson()); break;
@@ -77,6 +80,7 @@ export function generate(config: GeneratorConfig): unknown[] {
 export const DATA_TYPES: { value: DataType; label: string; description: string; category: string }[] = [
   { value: "cpf", label: "CPF", description: "Cadastro de Pessoa Física (válido)", category: "Documentos" },
   { value: "cnpj", label: "CNPJ", description: "Cadastro Nacional de Pessoa Jurídica (válido)", category: "Documentos" },
+  { value: "cnpjAlfa", label: "CNPJ Alfanumérico", description: "Novo CNPJ com letras (vigência 01/07/2026)", category: "Documentos" },
   { value: "person", label: "Pessoa Completa", description: "Nome, sobrenome e gênero", category: "Pessoa" },
   { value: "fullName", label: "Nome Completo", description: "Nome e sobrenome brasileiro", category: "Pessoa" },
   { value: "firstName", label: "Primeiro Nome", description: "Nomes populares brasileiros", category: "Pessoa" },

@@ -8,6 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/geradores`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.9 },
     { url: `${baseUrl}/gerador-cpf`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/gerador-cnpj`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/gerador-cnpj-alfanumerico`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.95 },
     { url: `${baseUrl}/gerador-cep`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/gerador-telefone`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/gerador-email`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
