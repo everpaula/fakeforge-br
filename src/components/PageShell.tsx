@@ -45,6 +45,9 @@ export default function PageShell({ children }: Props) {
             <Link href="/gerador-empresa" className="hover:text-foreground transition-colors">Gerador de Empresa</Link>
             <Link href="/gerador-conta-bancaria" className="hover:text-foreground transition-colors">Conta Bancária</Link>
             <Link href="/gerador-endereco" className="hover:text-foreground transition-colors">Gerador de Endereço</Link>
+            <Link href="/gerador-rg" className="hover:text-foreground transition-colors">Gerador de RG</Link>
+            <Link href="/gerador-pis" className="hover:text-foreground transition-colors">PIS/PASEP</Link>
+            <Link href="/gerador-titulo-eleitor" className="hover:text-foreground transition-colors">Título de Eleitor</Link>
           </div>
           <div className="flex flex-wrap gap-4 justify-center text-[11px] text-muted mb-3">
             <Link href="/validar-cpf" className="hover:text-foreground transition-colors">Validar CPF</Link>

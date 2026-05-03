@@ -1,5 +1,8 @@
 import { generateCPF } from "./cpf";
 import { generateCNPJ, generateCnpjAlfa } from "./cnpj";
+import { generateRG } from "./rg";
+import { generatePIS } from "./pis";
+import { generateTituloEleitor } from "./titulo-eleitor";
 import { generateCNH } from "./cnh";
 import { generateCIN } from "./cin";
 import { generateCEP, generateAddress } from "./cep";
@@ -14,6 +17,9 @@ export {
   generateCnpjAlfa,
   generateCNH,
   generateCIN,
+  generateRG,
+  generatePIS,
+  generateTituloEleitor,
   generateCEP,
   generateAddress,
   generatePerson,
@@ -35,6 +41,9 @@ export type DataType =
   | "cnpjAlfa"
   | "cnh"
   | "cin"
+  | "rg"
+  | "pis"
+  | "tituloEleitor"
   | "cep"
   | "address"
   | "person"
@@ -66,6 +75,9 @@ export function generate(config: GeneratorConfig): unknown[] {
       case "cnpjAlfa": results.push(generateCnpjAlfa(formatted)); break;
       case "cnh": results.push(generateCNH(formatted)); break;
       case "cin": results.push(generateCIN()); break;
+      case "rg": results.push(generateRG(formatted)); break;
+      case "pis": results.push(generatePIS(formatted)); break;
+      case "tituloEleitor": results.push(generateTituloEleitor(formatted)); break;
       case "cep": results.push(generateCEP(formatted)); break;
       case "address": results.push(generateAddress(formatted)); break;
       case "person": results.push(generatePerson()); break;
@@ -91,6 +103,9 @@ export const DATA_TYPES: { value: DataType; label: string; description: string; 
   { value: "cnpjAlfa", label: "CNPJ Alfanumérico", description: "Novo CNPJ com letras (vigência 01/07/2026)", category: "Documentos" },
   { value: "cnh", label: "CNH", description: "Carteira Nacional de Habilitação válida (mod-11 DENATRAN)", category: "Documentos" },
   { value: "cin", label: "CIN", description: "Carteira de Identidade Nacional (substitui o RG)", category: "Documentos" },
+  { value: "rg", label: "RG", description: "Registro Geral formato SP (mod-11 com dígito X)", category: "Documentos" },
+  { value: "pis", label: "PIS/PASEP", description: "PIS/PASEP/NIT/NIS válido (mod-11 com pesos 3-2)", category: "Documentos" },
+  { value: "tituloEleitor", label: "Título de Eleitor", description: "Título com UF e dígitos verificadores TSE", category: "Documentos" },
   { value: "person", label: "Pessoa Completa", description: "Nome, sobrenome e gênero", category: "Pessoa" },
   { value: "fullName", label: "Nome Completo", description: "Nome e sobrenome brasileiro", category: "Pessoa" },
   { value: "firstName", label: "Primeiro Nome", description: "Nomes populares brasileiros", category: "Pessoa" },
