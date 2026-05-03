@@ -1,0 +1,25 @@
+#!/bin/sh
+# Bloqueia push se o build falhar.
+# Pula se for branch de auto-blog (rodam quality gate próprio) ou se a flag SKIP_BUILD_HOOK=1 for usada.
+
+if [ "$SKIP_BUILD_HOOK" = "1" ]; then
+  echo "⚠ pre-push: build skipped (SKIP_BUILD_HOOK=1)"
+  exit 0
+fi
+
+echo "🔨 pre-push: rodando npm run build pra validar tipos antes do push..."
+
+npm run build > /tmp/ff-prepush-build.log 2>&1
+status=$?
+
+if [ $status -ne 0 ]; then
+  echo ""
+  echo "❌ Build falhou. Push abortado. Veja os últimos 30 linhas do log:"
+  echo ""
+  tail -30 /tmp/ff-prepush-build.log
+  echo ""
+  echo "Pra pular esse hook excepcionalmente: SKIP_BUILD_HOOK=1 git push"
+  exit 1
+fi
+
+echo "✓ build OK, push liberado"
