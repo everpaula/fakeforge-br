@@ -172,7 +172,7 @@ export default function Post() {
           </ul>
         </div>
 
-        <AffiliateBanner variant="hostinger" />
+        <AffiliateBanner variant="digitalocean" />
       </article>
     </PageShell>
   );

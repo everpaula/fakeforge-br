@@ -1,5 +1,5 @@
 interface Props {
-  variant?: "hostinger" | "rocketseat" | "digitalocean" | "clerk" | "hotmart";
+  variant?: "hostinger" | "rocketseat" | "digitalocean" | "hotmart";
 }
 
 const VARIANTS = {
@@ -21,15 +21,8 @@ const VARIANTS = {
     title: "$200 de crédito pra testar Cloud",
     desc: "DigitalOcean é a forma mais fácil de subir VPS, banco gerenciado e Kubernetes — interface limpa e preço transparente. Ganhe US$200 em créditos pelos primeiros 60 dias.",
     cta: "Resgatar US$200",
-    href: "https://m.do.co/c/FAKEFORGE",
+    href: "https://m.do.co/c/2adfff05c9d0",
     accent: "from-blue-600/20 to-blue-900/20 border-blue-500/30",
-  },
-  clerk: {
-    title: "Pare de implementar autenticação do zero",
-    desc: "Clerk é o auth-as-a-service que devs SaaS usam pra economizar semanas: GitHub OAuth, magic link, MFA, organizações. Plano grátis pra 10K MAUs.",
-    cta: "Testar Clerk grátis",
-    href: "https://clerk.com/?ref=fakeforge",
-    accent: "from-violet-600/20 to-violet-900/20 border-violet-500/30",
   },
   hotmart: {
     title: "Cursos brasileiros de programação",

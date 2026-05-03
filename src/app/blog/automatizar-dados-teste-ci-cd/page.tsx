@@ -169,7 +169,7 @@ jobs:
           </p>
         </div>
 
-        <AffiliateBanner variant="hostinger" />
+        <AffiliateBanner variant="digitalocean" />
       </article>
     </PageShell>
   );

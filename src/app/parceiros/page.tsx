@@ -10,32 +10,20 @@ export const metadata: Metadata = {
 
 const PARCEIROS = [
   {
+    nome: "DigitalOcean",
+    desc: "Cloud com VPS, bancos gerenciados e Kubernetes. UI limpa e preço previsível.",
+    porque: "Ideal pra projetos que precisam de mais controle que Vercel mas menos complexidade que AWS. Oferta atual: US$200 em créditos por 60 dias para novos clientes.",
+    comissao: "US$25 por novo cliente que gaste US$25 em 60 dias",
+    href: "https://m.do.co/c/2adfff05c9d0",
+    status: "ativo" as const,
+  },
+  {
     nome: "Hostinger",
     desc: "Hospedagem web com servidores no Brasil, suporte em pt-BR e preços a partir de R$11,99/mês.",
     porque: "Recomendamos para devs solo lançando projetos pessoais. Bom custo-benefício pra MVP.",
     comissao: "~50% sobre primeira mensalidade (varia por plano)",
     href: "https://www.hostinger.com.br/",
-  },
-  {
-    nome: "DigitalOcean",
-    desc: "Cloud com VPS, bancos gerenciados e Kubernetes. UI limpa e preço previsível.",
-    porque: "Ideal pra projetos que precisam de mais controle que Vercel mas menos complexidade que AWS.",
-    comissao: "US$25 por novo cliente que gaste US$25 em 60 dias",
-    href: "https://www.digitalocean.com/",
-  },
-  {
-    nome: "Clerk",
-    desc: "Auth-as-a-service com GitHub OAuth, magic link, MFA e gestão de organizações.",
-    porque: "Pra quem está construindo SaaS B2B e quer terceirizar auth. Plano grátis até 10K MAUs.",
-    comissao: "30% recorrente por 12 meses",
-    href: "https://clerk.com/",
-  },
-  {
-    nome: "Rocketseat",
-    desc: "Trilhas e cursos de programação em pt-BR com comunidade ativa.",
-    porque: "Ecossistema completo pra dev brasileiro evoluir, do básico ao avançado.",
-    comissao: "Variável (programa restrito)",
-    href: "https://www.rocketseat.com.br/",
+    status: "pendente" as const,
   },
   {
     nome: "Hotmart",
@@ -43,6 +31,7 @@ const PARCEIROS = [
     porque: "Modelo &ldquo;compra uma vez, acessa pra sempre&rdquo; é bom pra autoaprendizado.",
     comissao: "Variável por produto (5-50%)",
     href: "https://hotmart.com/",
+    status: "pendente" as const,
   },
 ];
 
@@ -81,11 +70,18 @@ export default function Parceiros() {
           {PARCEIROS.map((p) => (
             <div key={p.nome} className="rounded-xl bg-card border border-border p-5">
               <div className="flex items-start justify-between gap-3 mb-2">
-                <h3 className="text-base font-semibold text-foreground">{p.nome}</h3>
+                <div className="flex items-center gap-2">
+                  <h3 className="text-base font-semibold text-foreground">{p.nome}</h3>
+                  {p.status === "pendente" && (
+                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-accent/10 text-accent font-medium">
+                      Programa em aprovação
+                    </span>
+                  )}
+                </div>
                 <a
                   href={p.href}
                   target="_blank"
-                  rel="sponsored noopener noreferrer"
+                  rel={p.status === "ativo" ? "sponsored noopener noreferrer" : "noopener noreferrer"}
                   className="text-xs text-primary hover:underline whitespace-nowrap"
                 >
                   Visitar →
