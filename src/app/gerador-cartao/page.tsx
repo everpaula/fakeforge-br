@@ -37,8 +37,17 @@ export default function GeradorCartao() {
       <SingleGenerator
         type="creditCard"
         label="Cartão de Crédito"
-        description="Clique em Gerar para criar cartões fictícios"
+        description="Clique em Gerar para criar cartões fictícios (qualquer bandeira)"
       />
+
+      <div className="mt-6 flex flex-wrap gap-2">
+        <span className="text-xs text-muted self-center mr-2">Por bandeira:</span>
+        <Link href="/gerador-cartao/visa" className="px-3 py-1.5 rounded-lg text-xs bg-primary/10 border border-primary/30 text-primary hover:bg-primary/20 transition-colors">Visa</Link>
+        <Link href="/gerador-cartao/mastercard" className="px-3 py-1.5 rounded-lg text-xs bg-primary/10 border border-primary/30 text-primary hover:bg-primary/20 transition-colors">Mastercard</Link>
+        <Link href="/gerador-cartao/elo" className="px-3 py-1.5 rounded-lg text-xs bg-primary/10 border border-primary/30 text-primary hover:bg-primary/20 transition-colors">Elo</Link>
+        <Link href="/gerador-cartao/hipercard" className="px-3 py-1.5 rounded-lg text-xs bg-primary/10 border border-primary/30 text-primary hover:bg-primary/20 transition-colors">Hipercard</Link>
+        <Link href="/gerador-cartao/amex" className="px-3 py-1.5 rounded-lg text-xs bg-primary/10 border border-primary/30 text-primary hover:bg-primary/20 transition-colors">Amex</Link>
+      </div>
 
       <ApiCtaBanner dataType="cartões de crédito" />
 

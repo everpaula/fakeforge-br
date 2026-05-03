@@ -44,6 +44,11 @@ export type DataType =
   | "rg"
   | "pis"
   | "tituloEleitor"
+  | "creditCardVisa"
+  | "creditCardMastercard"
+  | "creditCardElo"
+  | "creditCardHipercard"
+  | "creditCardAmex"
   | "cep"
   | "address"
   | "person"
@@ -90,6 +95,11 @@ export function generate(config: GeneratorConfig): unknown[] {
       case "bankAccount": results.push(generateBankAccount()); break;
       case "pixKey": results.push(generatePIXKey()); break;
       case "creditCard": results.push(generateCreditCard()); break;
+      case "creditCardVisa": results.push(generateCreditCard("visa")); break;
+      case "creditCardMastercard": results.push(generateCreditCard("mastercard")); break;
+      case "creditCardElo": results.push(generateCreditCard("elo")); break;
+      case "creditCardHipercard": results.push(generateCreditCard("hipercard")); break;
+      case "creditCardAmex": results.push(generateCreditCard("amex")); break;
       case "company": results.push(generateCompany()); break;
     }
   }
@@ -117,6 +127,11 @@ export const DATA_TYPES: { value: DataType; label: string; description: string; 
   { value: "address", label: "Endereço Completo", description: "Rua, bairro, cidade, estado e CEP", category: "Endereço" },
   { value: "bankAccount", label: "Conta Bancária", description: "Banco, agência e conta", category: "Financeiro" },
   { value: "pixKey", label: "Chave PIX", description: "CPF, email, telefone ou aleatória", category: "Financeiro" },
-  { value: "creditCard", label: "Cartão de Crédito", description: "Visa, Mastercard ou Elo (Luhn válido)", category: "Financeiro" },
+  { value: "creditCard", label: "Cartão de Crédito", description: "Qualquer bandeira (Luhn válido)", category: "Financeiro" },
+  { value: "creditCardVisa", label: "Cartão Visa", description: "Cartão Visa válido (prefixo 4 + Luhn)", category: "Financeiro" },
+  { value: "creditCardMastercard", label: "Cartão Mastercard", description: "Cartão Mastercard válido (prefixo 51-55 + Luhn)", category: "Financeiro" },
+  { value: "creditCardElo", label: "Cartão Elo", description: "Cartão Elo válido (prefixos BR + Luhn)", category: "Financeiro" },
+  { value: "creditCardHipercard", label: "Cartão Hipercard", description: "Cartão Hipercard válido (prefixo 606282 + Luhn)", category: "Financeiro" },
+  { value: "creditCardAmex", label: "Cartão Amex", description: "American Express (15 dígitos, prefixo 34/37 + Luhn)", category: "Financeiro" },
   { value: "company", label: "Empresa", description: "CNPJ, razão social, endereço e contato", category: "Empresa" },
 ];

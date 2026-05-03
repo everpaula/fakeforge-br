@@ -79,18 +79,24 @@ export interface CreditCard {
   brand: string;
 }
 
-export function generateCreditCard(holderName?: string): CreditCard {
-  const brands = [
-    { name: "Visa", prefix: "4", length: 16 },
-    { name: "Mastercard", prefix: pick(["51", "52", "53", "54", "55"]), length: 16 },
-    { name: "Elo", prefix: pick(["636368", "438935", "504175"]), length: 16 },
-  ];
+export type CardBrand = "visa" | "mastercard" | "elo" | "hipercard" | "amex" | "any";
 
-  const brand = pick(brands);
-  let number = brand.prefix;
-  while (number.length < brand.length - 1) {
-    number += randomDigits(1);
-  }
+const BRAND_SPECS: Record<Exclude<CardBrand, "any">, { name: string; prefixes: string[]; length: number; cvvLen: number }> = {
+  visa: { name: "Visa", prefixes: ["4"], length: 16, cvvLen: 3 },
+  mastercard: { name: "Mastercard", prefixes: ["51", "52", "53", "54", "55"], length: 16, cvvLen: 3 },
+  elo: { name: "Elo", prefixes: ["636368", "438935", "504175", "451416", "509048"], length: 16, cvvLen: 3 },
+  hipercard: { name: "Hipercard", prefixes: ["606282", "3841"], length: 16, cvvLen: 3 },
+  amex: { name: "American Express", prefixes: ["34", "37"], length: 15, cvvLen: 4 },
+};
+
+export function generateCreditCard(brandKey: CardBrand = "any", holderName?: string): CreditCard {
+  const key: Exclude<CardBrand, "any"> = brandKey === "any"
+    ? pick(["visa", "mastercard", "elo", "hipercard", "amex"] as const)
+    : brandKey;
+  const spec = BRAND_SPECS[key];
+
+  let number = pick(spec.prefixes);
+  while (number.length < spec.length - 1) number += randomDigits(1);
 
   // Luhn check digit
   const digits = number.split("").map(Number);
@@ -98,10 +104,7 @@ export function generateCreditCard(holderName?: string): CreditCard {
   let isEven = true;
   for (let i = digits.length - 1; i >= 0; i--) {
     let d = digits[i];
-    if (isEven) {
-      d *= 2;
-      if (d > 9) d -= 9;
-    }
+    if (isEven) { d *= 2; if (d > 9) d -= 9; }
     sum += d;
     isEven = !isEven;
   }
@@ -112,11 +115,16 @@ export function generateCreditCard(holderName?: string): CreditCard {
   const expMonth = String(Math.floor(Math.random() * 12) + 1).padStart(2, "0");
   const expYear = String(now.getFullYear() + Math.floor(Math.random() * 5) + 1).slice(-2);
 
+  // Amex uses 4-6-5 grouping
+  const formatted = key === "amex"
+    ? number.replace(/^(\d{4})(\d{6})(\d{5})$/, "$1 $2 $3")
+    : number.replace(/(\d{4})/g, "$1 ").trim();
+
   return {
-    number: number.replace(/(\d{4})/g, "$1 ").trim(),
+    number: formatted,
     holder: holderName || "FULANO D SILVA",
     expiry: `${expMonth}/${expYear}`,
-    cvv: randomDigits(3),
-    brand: brand.name,
+    cvv: randomDigits(spec.cvvLen),
+    brand: spec.name,
   };
 }
