@@ -57,7 +57,7 @@ function generateCorrelatedField(
     case "landline": return generateLandline();
     case "bankAccount": return generateBankAccount();
     case "pixKey": return generatePIXKey();
-    case "creditCard": return generateCreditCard(person.fullName.toUpperCase());
+    case "creditCard": return generateCreditCard("any", person.fullName.toUpperCase());
     case "company": return generateCompany();
   }
 }
