@@ -46,12 +46,19 @@ export default function PageShell({ children }: Props) {
             <Link href="/gerador-conta-bancaria" className="hover:text-foreground transition-colors">Conta Bancária</Link>
             <Link href="/gerador-endereco" className="hover:text-foreground transition-colors">Gerador de Endereço</Link>
           </div>
-          <div className="flex flex-wrap gap-4 justify-center text-[11px] text-muted mb-4">
+          <div className="flex flex-wrap gap-4 justify-center text-[11px] text-muted mb-3">
             <Link href="/validar-cpf" className="hover:text-foreground transition-colors">Validar CPF</Link>
             <Link href="/validar-cnpj" className="hover:text-foreground transition-colors">Validar CNPJ</Link>
             <Link href="/blog" className="hover:text-foreground transition-colors">Blog</Link>
             <Link href="/docs" className="hover:text-foreground transition-colors">API</Link>
             <Link href="/pricing" className="hover:text-foreground transition-colors">Preços</Link>
+          </div>
+          <div className="flex flex-wrap gap-4 justify-center text-[11px] text-muted mb-4">
+            <Link href="/sobre" className="hover:text-foreground transition-colors">Sobre</Link>
+            <Link href="/contato" className="hover:text-foreground transition-colors">Contato</Link>
+            <Link href="/parceiros" className="hover:text-foreground transition-colors">Parceiros</Link>
+            <Link href="/privacidade" className="hover:text-foreground transition-colors">Privacidade</Link>
+            <Link href="/termos" className="hover:text-foreground transition-colors">Termos</Link>
           </div>
           <p className="text-[11px] text-muted text-center">
             FakeForge BR - Dados 100% fictícios para desenvolvimento e testes.

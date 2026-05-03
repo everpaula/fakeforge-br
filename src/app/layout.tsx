@@ -87,6 +87,9 @@ export default function RootLayout({
             crossOrigin="anonymous"
           />
         )}
+        {process.env.NEXT_PUBLIC_ETHICALADS_PUBLISHER && (
+          <script async src="https://media.ethicalads.io/media/client/ethicalads.min.js" />
+        )}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -113,6 +116,15 @@ export default function RootLayout({
           <ReferralCapture />
         </Suspense>
         {children}
+        {/* Sticky footer ad slot — only renders if EthicalAds publisher ID is set */}
+        {process.env.NEXT_PUBLIC_ETHICALADS_PUBLISHER && (
+          <div
+            data-ea-publisher={process.env.NEXT_PUBLIC_ETHICALADS_PUBLISHER}
+            data-ea-type="image"
+            data-ea-style="fixedfooter"
+            data-ea-campaign-types="paid|community|house"
+          />
+        )}
       </body>
     </html>
   );
