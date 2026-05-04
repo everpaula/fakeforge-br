@@ -26,6 +26,7 @@ import type { Category } from "./config.js";
 const KEYWORD = process.env.KEYWORD?.trim();
 const INTENT = (process.env.INTENT?.trim() || "tutorial") as Intent;
 const SKIP_PR = process.env.SKIP_PR === "true";
+const RESUME_FROM_DRAFT = process.env.RESUME_FROM_DRAFT?.trim();
 const PROJECT_ROOT = process.cwd();
 
 if (!KEYWORD) {
@@ -34,30 +35,33 @@ if (!KEYWORD) {
   process.exit(1);
 }
 
-// Detecta o comando do Claude (Windows precisa do .cmd)
-const CLAUDE_BIN = process.platform === "win32" ? "claude.cmd" : "claude";
-
 interface ClaudeResult {
   text: string;
   costUsd?: number;
   durationMs?: number;
 }
 
+const IS_WIN = process.platform === "win32";
+
 /**
  * Chama o Claude CLI via stdin com prompt completo.
  * Retorna o texto (campo `result` do JSON output).
+ *
+ * No Windows, Node não consegue spawn .cmd files diretamente,
+ * então invocamos via cmd.exe /c.
  */
 async function callClaude(model: "sonnet" | "haiku", prompt: string): Promise<ClaudeResult> {
-  const stdout = execFileSync(
-    CLAUDE_BIN,
-    ["-p", "--model", model, "--output-format", "json"],
-    {
-      input: prompt,
-      encoding: "utf-8",
-      maxBuffer: 20 * 1024 * 1024, // 20MB
-      env: process.env,
-    }
-  );
+  const baseArgs = ["-p", "--model", model, "--output-format", "json"];
+  const cmd = IS_WIN ? "cmd" : "claude";
+  const args = IS_WIN ? ["/c", "claude", ...baseArgs] : baseArgs;
+
+  const stdout = execFileSync(cmd, args, {
+    input: prompt,
+    encoding: "utf-8",
+    maxBuffer: 20 * 1024 * 1024,
+    env: process.env,
+    windowsHide: true,
+  });
 
   const parsed = JSON.parse(stdout);
   return {
@@ -117,59 +121,124 @@ function parseFaqs(text: string): FaqResult {
   }
 }
 
+async function readFileText(path: string): Promise<string> {
+  const { readFile } = await import("node:fs/promises");
+  return readFile(path, "utf-8");
+}
+
 async function main() {
   console.log(`\n🚀 FakeForge Blog Pipeline (Claude Code CLI)`);
   console.log(`Keyword: ${KEYWORD}`);
-  console.log(`Intent: ${INTENT}\n`);
+  console.log(`Intent: ${INTENT}`);
+  if (RESUME_FROM_DRAFT) console.log(`Resume from draft: ${RESUME_FROM_DRAFT}`);
+  console.log("");
 
   let totalCost = 0;
   const startedAt = Date.now();
+  let parsed: OutlineParsed;
+  let draftText: string;
+  let faqResult: FaqResult;
 
-  // STEP 1: Outline
-  console.log("⏳ Step 1/4: outline (Sonnet)...");
-  const t1 = Date.now();
-  const outlineRes = await callClaude("sonnet", outlinePrompt(KEYWORD!, INTENT));
-  totalCost += outlineRes.costUsd || 0;
-  console.log(`✓ outline ${((Date.now() - t1) / 1000).toFixed(1)}s`);
-  const parsed = parseOutline(outlineRes.text);
-  console.log(`  → "${parsed.title}"`);
-  console.log(`  → /blog/${parsed.slug}`);
+  if (RESUME_FROM_DRAFT) {
+    // Modo retry: lê draft de arquivo, deriva metadata mínima, ainda chama FAQ se não tiver
+    console.log(`⏳ Lendo draft de ${RESUME_FROM_DRAFT}...`);
+    draftText = await readFileText(RESUME_FROM_DRAFT);
 
-  // Verifica duplicação
-  const targetDir = join(PROJECT_ROOT, "src", "app", "blog", parsed.slug);
-  if (existsSync(targetDir)) {
-    console.error(`\n✗ Slug "${parsed.slug}" já existe em src/app/blog/. Aborte ou remova primeiro.`);
-    process.exit(1);
+    // Espera frontmatter manual: title, slug, meta, category, readTime
+    const fmTitle = draftText.match(/^Title:\s*(.+)$/m);
+    const fmSlug = draftText.match(/^Slug:\s*(.+)$/m);
+    const fmMeta = draftText.match(/^Meta:\s*(.+)$/m);
+    const fmCat = draftText.match(/^Category:\s*(.+)$/m);
+    const fmRT = draftText.match(/^ReadTime:\s*(.+)$/m);
+    if (!fmTitle || !fmSlug || !fmMeta || !fmCat) {
+      console.error("✗ Draft precisa começar com frontmatter:");
+      console.error("Title: ...");
+      console.error("Slug: ...");
+      console.error("Meta: ...");
+      console.error("Category: Tutoriais|LGPD|Conceitos|Comparativos|News");
+      console.error("ReadTime: 7 min");
+      console.error("");
+      console.error("Em seguida o corpo do artigo (sem H1).");
+      process.exit(1);
+    }
+    parsed = {
+      title: fmTitle[1].trim(),
+      slug: fmSlug[1].trim().toLowerCase().replace(/[^a-z0-9-]/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, ""),
+      meta: fmMeta[1].trim(),
+      category: (fmCat[1].trim() as Category) || "Tutoriais",
+      readTime: (fmRT?.[1].trim() || "6 min").replace(/\s*de leitura\s*$/i, ""),
+      outline: "",
+    };
+    // Remove o frontmatter do corpo
+    draftText = draftText.replace(/^(Title|Slug|Meta|Category|ReadTime):.+$/gm, "").trim();
+
+    console.log(`  → "${parsed.title}"`);
+    console.log(`  → /blog/${parsed.slug}`);
+
+    const targetDir = join(PROJECT_ROOT, "src", "app", "blog", parsed.slug);
+    if (existsSync(targetDir)) {
+      console.error(`\n✗ Slug "${parsed.slug}" já existe. Remova primeiro.`);
+      process.exit(1);
+    }
+
+    console.log("\n⏳ Gerando FAQs (Haiku)...");
+    const t = Date.now();
+    const faqRes = await callClaude("haiku", faqPrompt(parsed.title, draftText));
+    totalCost += faqRes.costUsd || 0;
+    console.log(`✓ FAQs ${((Date.now() - t) / 1000).toFixed(1)}s`);
+    faqResult = parseFaqs(faqRes.text);
+  } else {
+    // STEP 1: Outline
+    console.log("⏳ Step 1/4: outline (Sonnet)...");
+    const t1 = Date.now();
+    const outlineRes = await callClaude("sonnet", outlinePrompt(KEYWORD!, INTENT));
+    totalCost += outlineRes.costUsd || 0;
+    console.log(`✓ outline ${((Date.now() - t1) / 1000).toFixed(1)}s`);
+    parsed = parseOutline(outlineRes.text);
+    console.log(`  → "${parsed.title}"`);
+    console.log(`  → /blog/${parsed.slug}`);
+
+    // Verifica duplicação
+    const targetDir = join(PROJECT_ROOT, "src", "app", "blog", parsed.slug);
+    if (existsSync(targetDir)) {
+      console.error(`\n✗ Slug "${parsed.slug}" já existe em src/app/blog/. Aborte ou remova primeiro.`);
+      process.exit(1);
+    }
+
+    // STEP 2: Draft
+    console.log("\n⏳ Step 2/4: draft (Sonnet)...");
+    const t2 = Date.now();
+    const draftRes = await callClaude("sonnet", draftPrompt(KEYWORD!, INTENT, outlineRes.text));
+    totalCost += draftRes.costUsd || 0;
+    console.log(`✓ draft ${((Date.now() - t2) / 1000).toFixed(1)}s`);
+    draftText = draftRes.text;
+
+    // STEP 3: FAQs
+    console.log("\n⏳ Step 3/4: FAQs (Haiku)...");
+    const t3 = Date.now();
+    const faqRes = await callClaude("haiku", faqPrompt(parsed.title, draftText));
+    totalCost += faqRes.costUsd || 0;
+    console.log(`✓ FAQs ${((Date.now() - t3) / 1000).toFixed(1)}s`);
+    faqResult = parseFaqs(faqRes.text);
   }
-
-  // STEP 2: Draft
-  console.log("\n⏳ Step 2/4: draft (Sonnet)...");
-  const t2 = Date.now();
-  const draftRes = await callClaude("sonnet", draftPrompt(KEYWORD!, INTENT, outlineRes.text));
-  totalCost += draftRes.costUsd || 0;
-  console.log(`✓ draft ${((Date.now() - t2) / 1000).toFixed(1)}s`);
-
-  // STEP 3: FAQs
-  console.log("\n⏳ Step 3/4: FAQs (Haiku)...");
-  const t3 = Date.now();
-  const faqRes = await callClaude("haiku", faqPrompt(parsed.title, draftRes.text));
-  totalCost += faqRes.costUsd || 0;
-  console.log(`✓ FAQs ${((Date.now() - t3) / 1000).toFixed(1)}s`);
-  const faqResult = parseFaqs(faqRes.text);
 
   // STEP 4: Quality Gate
   console.log("\n⏳ Step 4/4: quality gate...");
   const allowFew = INTENT === "comparison" || INTENT === "informational";
-  const quality = runQualityGate(draftRes.text, faqResult.faqs.length, { allowFewCodeBlocks: allowFew });
+  const quality = runQualityGate(draftText, faqResult.faqs.length, { allowFewCodeBlocks: allowFew });
   console.log(`  metrics: ${quality.metrics.wordCount} palavras, ${quality.metrics.h2Count} H2s, ${quality.metrics.codeBlocks} code blocks, ${quality.metrics.faqCount} FAQs`);
 
   if (quality.warnings.length) console.log(`  ⚠ warnings: ${quality.warnings.join(", ")}`);
   if (!quality.pass) {
     const draftPath = join(tmpdir(), `ff-draft-${parsed.slug}.md`);
-    await writeFile(draftPath, draftRes.text);
+    // Inclui frontmatter pra resume funcionar
+    const withFrontmatter = `Title: ${parsed.title}\nSlug: ${parsed.slug}\nMeta: ${parsed.meta}\nCategory: ${parsed.category}\nReadTime: ${parsed.readTime}\n\n${draftText}`;
+    await writeFile(draftPath, withFrontmatter);
     console.error(`\n✗ Quality gate FAILED:`);
     quality.failures.forEach(f => console.error(`  - ${f}`));
     console.error(`\nDraft salvo em: ${draftPath}`);
+    console.error(`\nPra retomar (após editar o draft):`);
+    console.error(`  RESUME_FROM_DRAFT="${draftPath}" KEYWORD="${KEYWORD}" npm run gen:blog`);
     process.exit(1);
   }
   console.log(`✓ quality OK`);
@@ -183,11 +252,12 @@ async function main() {
     category: parsed.category,
     readTime: parsed.readTime,
     date: today,
-    body: draftRes.text,
+    body: draftText,
     faqs: faqResult.faqs,
   };
   const tsx = generatePageTsx(post);
 
+  const targetDir = join(PROJECT_ROOT, "src", "app", "blog", parsed.slug);
   await mkdir(targetDir, { recursive: true });
   const filePath = join(targetDir, "page.tsx");
   await writeFile(filePath, tsx);

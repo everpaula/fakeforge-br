@@ -13,10 +13,16 @@ export interface PostData {
 }
 
 function escapeJsx(s: string): string {
-  // Para literais TSX simples, só precisamos escapar { e }
-  // Tudo dentro do componente é JSX text que aceita texto literal,
-  // mas chaves precisam ser escapadas como caracteres unicode ou via braces
-  return s.replace(/{/g, "&#123;").replace(/}/g, "&#125;");
+  // JSX text accepts literal characters EXCEPT:
+  // - { and } (interpreted as expressions)
+  // - < and > (interpreted as tags)
+  // We use HTML entities to escape these.
+  return s
+    .replace(/&/g, "&amp;")
+    .replace(/{/g, "&#123;")
+    .replace(/}/g, "&#125;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
 }
 
 function escapeJsString(s: string): string {
@@ -124,11 +130,16 @@ export function mdToJsx(md: string): string {
 }
 
 function inlineMd(text: string): string {
+  // FIRST escape all braces in the raw input — JSX would interpret them as expressions.
+  // Our generated tags only use string-literal attributes (className="..."), so we
+  // never need real { } in the output.
+  text = text.replace(/\{/g, "&#123;").replace(/\}/g, "&#125;");
+
   // bold **text**
-  text = text.replace(/\*\*([^*]+)\*\*/g, "<strong className=\"text-foreground\">$1</strong>");
+  text = text.replace(/\*\*([^*]+)\*\*/g, '<strong className="text-foreground">$1</strong>');
   // inline code `text`
-  text = text.replace(/`([^`]+)`/g, "<code className=\"text-xs bg-background border border-border px-1.5 py-0.5 rounded\">$1</code>");
-  // links [text](url) — internal links use Link, external use a
+  text = text.replace(/`([^`]+)`/g, '<code className="text-xs bg-background border border-border px-1.5 py-0.5 rounded">$1</code>');
+  // links [text](url)
   text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, t, url) => {
     if (url.startsWith("/")) {
       return `<Link href="${url}" className="text-primary hover:underline">${t}</Link>`;
