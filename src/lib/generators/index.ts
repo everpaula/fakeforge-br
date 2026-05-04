@@ -3,6 +3,7 @@ import { generateCNPJ, generateCnpjAlfa } from "./cnpj";
 import { generateRG } from "./rg";
 import { generatePIS } from "./pis";
 import { generateTituloEleitor } from "./titulo-eleitor";
+import { generatePlaca } from "./placa";
 import { generateCNH } from "./cnh";
 import { generateCIN } from "./cin";
 import { generateCEP, generateAddress } from "./cep";
@@ -20,6 +21,7 @@ export {
   generateRG,
   generatePIS,
   generateTituloEleitor,
+  generatePlaca,
   generateCEP,
   generateAddress,
   generatePerson,
@@ -44,6 +46,8 @@ export type DataType =
   | "rg"
   | "pis"
   | "tituloEleitor"
+  | "placa"
+  | "placaAntiga"
   | "creditCardVisa"
   | "creditCardMastercard"
   | "creditCardElo"
@@ -83,6 +87,8 @@ export function generate(config: GeneratorConfig): unknown[] {
       case "rg": results.push(generateRG(formatted)); break;
       case "pis": results.push(generatePIS(formatted)); break;
       case "tituloEleitor": results.push(generateTituloEleitor(formatted)); break;
+      case "placa": results.push(generatePlaca("mercosul")); break;
+      case "placaAntiga": results.push(generatePlaca("antiga")); break;
       case "cep": results.push(generateCEP(formatted)); break;
       case "address": results.push(generateAddress(formatted)); break;
       case "person": results.push(generatePerson()); break;
@@ -116,6 +122,8 @@ export const DATA_TYPES: { value: DataType; label: string; description: string; 
   { value: "rg", label: "RG", description: "Registro Geral formato SP (mod-11 com dígito X)", category: "Documentos" },
   { value: "pis", label: "PIS/PASEP", description: "PIS/PASEP/NIT/NIS válido (mod-11 com pesos 3-2)", category: "Documentos" },
   { value: "tituloEleitor", label: "Título de Eleitor", description: "Título com UF e dígitos verificadores TSE", category: "Documentos" },
+  { value: "placa", label: "Placa Mercosul", description: "Placa formato LLLNLNN (CONTRAN 729/2018)", category: "Documentos" },
+  { value: "placaAntiga", label: "Placa Antiga", description: "Placa formato LLL-NNNN (legado pré-2018)", category: "Documentos" },
   { value: "person", label: "Pessoa Completa", description: "Nome, sobrenome e gênero", category: "Pessoa" },
   { value: "fullName", label: "Nome Completo", description: "Nome e sobrenome brasileiro", category: "Pessoa" },
   { value: "firstName", label: "Primeiro Nome", description: "Nomes populares brasileiros", category: "Pessoa" },

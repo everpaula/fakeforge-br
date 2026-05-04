@@ -19,6 +19,7 @@ const GERADORES = [
   { href: "/gerador-rg", title: "RG", desc: "Registro Geral formato SP (mod-11 com dígito X)", icon: "📇", category: "Documentos" },
   { href: "/gerador-pis", title: "PIS / PASEP / NIT / NIS", desc: "Número previdenciário válido (mod-11 com pesos 3-2)", icon: "🧾", category: "Documentos" },
   { href: "/gerador-titulo-eleitor", title: "Título de Eleitor", desc: "12 dígitos com UF e dígitos verificadores TSE", icon: "🗳️", category: "Documentos" },
+  { href: "/gerador-placa-mercosul", title: "Placa Mercosul", desc: "Placa formato Mercosul (LLLNLNN) e antigo (LLL-NNNN)", icon: "🚘", category: "Documentos" },
   { href: "/gerador-pessoa", title: "Pessoa Completa", desc: "Nome, CPF, email, telefone e endereço correlacionados", icon: "👤", category: "Pessoa" },
   { href: "/gerador-empresa", title: "Empresa", desc: "CNPJ, razão social, nome fantasia e endereço comercial", icon: "🏢", category: "Pessoa" },
   { href: "/gerador-email", title: "Email", desc: "Emails fictícios com nomes brasileiros realistas", icon: "📧", category: "Contato" },
