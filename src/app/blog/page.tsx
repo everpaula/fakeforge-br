@@ -14,6 +14,30 @@ export const metadata: Metadata = {
 
 const POSTS = [
   {
+    slug: "cnpj-alfanumerico-checklist-migracao-2026",
+    title: "CNPJ Alfanumérico: checklist para migrar antes de 01/07/2026",
+    excerpt: "Guia prático com 7 áreas que precisam de atenção antes da virada do CNPJ alfanumérico. Schema de banco, regex, integrações com SEFAZ, eSocial, e validação JS/Python pronta.",
+    date: "2026-05-05",
+    readTime: "9 min",
+    category: "News",
+  },
+  {
+    slug: "como-gerar-cpf-valido-python-testes",
+    title: "Como Gerar CPF Válido em Python para Testes",
+    excerpt: "Algoritmo do dígito verificador (mod-11) implementado em Python com Faker, pytest fixtures, integração com Pandas e seed de banco. Código rodável copiável.",
+    date: "2026-05-05",
+    readTime: "10 min",
+    category: "Tutoriais",
+  },
+  {
+    slug: "gerador-placa-mercosul-teste-software",
+    title: "Gerador de Placa Mercosul para Testes: Algoritmo e Validação",
+    excerpt: "Implementação TypeScript do formato Mercosul (LLLNLNN) e antigo (LLL-NNNN), validação Zod, fixtures Vitest determinísticos e seed de banco.",
+    date: "2026-05-04",
+    readTime: "11 min",
+    category: "Tutoriais",
+  },
+  {
     slug: "fakeforge-vs-fakerjs-vs-4devs",
     title: "FakeForge vs Faker.js vs 4devs: qual usar para dados brasileiros?",
     excerpt: "Comparativo honesto entre os principais geradores de dados fake brasileiros. Acurácia, API, formatos de export e quando usar cada um.",
