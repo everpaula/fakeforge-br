@@ -130,21 +130,29 @@ export function mdToJsx(md: string): string {
 }
 
 function inlineMd(text: string): string {
-  // FIRST escape all braces in the raw input — JSX would interpret them as expressions.
-  // Our generated tags only use string-literal attributes (className="..."), so we
-  // never need real { } in the output.
-  text = text.replace(/\{/g, "&#123;").replace(/\}/g, "&#125;");
+  // FIRST escape characters that JSX interprets specially in text nodes:
+  //   { } → expression boundaries
+  //   < > → tag boundaries
+  // We use HTML entities. Our generated tags use only literal-string attributes
+  // (className="..."), so we never need real {, }, <, > in the output.
+  // We escape & first to avoid double-escaping the entities we insert next.
+  text = text.replace(/&/g, "&amp;");
+  text = text.replace(/</g, "&lt;");
+  text = text.replace(/>/g, "&gt;");
+  text = text.replace(/\{/g, "&#123;");
+  text = text.replace(/\}/g, "&#125;");
 
   // bold **text**
   text = text.replace(/\*\*([^*]+)\*\*/g, '<strong className="text-foreground">$1</strong>');
   // inline code `text`
   text = text.replace(/`([^`]+)`/g, '<code className="text-xs bg-background border border-border px-1.5 py-0.5 rounded">$1</code>');
-  // links [text](url)
+  // links [text](url) — URLs were also escaped above; restore for valid hrefs
   text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, t, url) => {
-    if (url.startsWith("/")) {
-      return `<Link href="${url}" className="text-primary hover:underline">${t}</Link>`;
+    const realUrl = String(url).replace(/&amp;/g, "&");
+    if (realUrl.startsWith("/")) {
+      return `<Link href="${realUrl}" className="text-primary hover:underline">${t}</Link>`;
     }
-    return `<a href="${url}" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">${t}</a>`;
+    return `<a href="${realUrl}" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">${t}</a>`;
   });
   return text;
 }

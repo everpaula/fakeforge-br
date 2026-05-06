@@ -4,8 +4,14 @@ import { FAKEFORGE_CONTEXT, TONE_RULES } from "./config.js";
 export type Intent = "tutorial" | "comparison" | "informational" | "news";
 export type Category = "Tutoriais" | "LGPD" | "Conceitos" | "Comparativos" | "News";
 
+const NO_TOOLS_PREAMBLE = `IMPORTANTE: Esta é uma tarefa de pure-text. NÃO use ferramentas (Write, Read, Edit, Bash, etc.).
+Não crie arquivos. Não execute código. Não diga "o artigo foi gerado com sucesso".
+Sua resposta deve ser APENAS o conteúdo solicitado (markdown puro), nada antes nem depois.
+
+`;
+
 export function outlinePrompt(keyword: string, intent: Intent): string {
-  return `Você é redator técnico do blog FakeForge BR.
+  return `${NO_TOOLS_PREAMBLE}Você é redator técnico do blog FakeForge BR.
 
 ${FAKEFORGE_CONTEXT}
 
@@ -47,7 +53,7 @@ Sem fluff. Comece já com o título.`;
 }
 
 export function draftPrompt(keyword: string, intent: Intent, outline: string): string {
-  return `Você é redator técnico do blog FakeForge BR.
+  return `${NO_TOOLS_PREAMBLE}Você é redator técnico do blog FakeForge BR.
 
 ${FAKEFORGE_CONTEXT}
 
@@ -73,24 +79,22 @@ Comece já com o primeiro parágrafo do artigo (sem cabeçalho, sem H1 — o H1 
 }
 
 export function faqPrompt(title: string, body: string): string {
-  return `Você é redator do blog FakeForge BR.
+  return `${NO_TOOLS_PREAMBLE}Sua resposta deve ser APENAS JSON, nada antes nem depois.
 
-ARTIGO:
+CONTEXTO: você é redator do blog FakeForge BR.
+
+ARTIGO PUBLICADO:
 ${body}
 
 TAREFA: gerar 5 FAQs realistas que devs brasileiros buscariam após ler este artigo.
 
-REGRAS:
+REGRAS DE CONTEÚDO:
 - Cada pergunta concreta, NÃO retórica.
 - Resposta de 40-90 palavras, técnica, com exemplo concreto se aplicável.
 - Tom: ${TONE_RULES.split("\n")[2]}
 - NÃO repita conteúdo idêntico do artigo — complemente.
 
-FORMATO DE SAÍDA — JSON puro, sem markdown, sem comentários, exatamente:
-{
-  "faqs": [
-    { "q": "...", "a": "..." },
-    ...
-  ]
-}`;
+FORMATO DE SAÍDA — sua resposta inteira deve ser EXATAMENTE este JSON, sem texto antes, sem markdown, sem comentários, sem código \`\`\`json:
+
+{"faqs":[{"q":"...","a":"..."},{"q":"...","a":"..."},{"q":"...","a":"..."},{"q":"...","a":"..."},{"q":"...","a":"..."}]}`;
 }

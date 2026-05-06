@@ -213,6 +213,12 @@ async function main() {
     console.log(`✓ draft ${((Date.now() - t2) / 1000).toFixed(1)}s`);
     draftText = draftRes.text;
 
+    // Salva draft no tmp imediatamente — se algo falhar depois, podemos retomar barato
+    const backupPath = join(tmpdir(), `ff-draft-${parsed.slug}.md`);
+    const withFrontmatter = `Title: ${parsed.title}\nSlug: ${parsed.slug}\nMeta: ${parsed.meta}\nCategory: ${parsed.category}\nReadTime: ${parsed.readTime}\n\n${draftText}`;
+    await writeFile(backupPath, withFrontmatter);
+    console.log(`  💾 backup: ${backupPath}`);
+
     // STEP 3: FAQs
     console.log("\n⏳ Step 3/4: FAQs (Haiku)...");
     const t3 = Date.now();
