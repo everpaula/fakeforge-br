@@ -14,6 +14,22 @@ export const metadata: Metadata = {
 
 const POSTS = [
   {
+    slug: "validar-cpf-javascript-algoritmo-passo-a-passo",
+    title: "Validar CPF em JavaScript — Algoritmo Mod-11 Passo a Passo",
+    excerpt: "Implementação completa do validador de CPF em JavaScript vanilla. Algoritmo mod-11 da Receita Federal, regex, Zod schema, integração com React forms e edge cases. Código rodável.",
+    date: "2026-05-07",
+    readTime: "9 min",
+    category: "Tutoriais",
+  },
+  {
+    slug: "popular-postgresql-dados-brasileiros-staging",
+    title: "Como Popular PostgreSQL com Dados Brasileiros para Staging",
+    excerpt: "Seed de banco PostgreSQL com CPF, CNPJ, CEP e dados correlacionados via FakeForge API. Scripts pgbench, COPY FROM, transações, índices e dataset de 100k+ rows.",
+    date: "2026-05-07",
+    readTime: "11 min",
+    category: "Tutoriais",
+  },
+  {
     slug: "cnpj-alfanumerico-checklist-migracao-2026",
     title: "CNPJ Alfanumérico: checklist para migrar antes de 01/07/2026",
     excerpt: "Guia prático com 7 áreas que precisam de atenção antes da virada do CNPJ alfanumérico. Schema de banco, regex, integrações com SEFAZ, eSocial, e validação JS/Python pronta.",
