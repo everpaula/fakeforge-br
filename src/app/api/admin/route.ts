@@ -62,6 +62,7 @@ export async function GET(request: NextRequest) {
     anon7d,
     anon30d,
     anonRecent,
+    recentUsersData,
   ] = await Promise.all([
     admin.from("admin_metrics").select("*").single(),
     admin.from("admin_usage_by_type").select("*"),
@@ -72,7 +73,18 @@ export async function GET(request: NextRequest) {
     admin.from("anonymous_usage").select("client_type, ip_hash, quantity").gte("created_at", since7d),
     admin.from("anonymous_usage").select("client_type, ip_hash, data_type, quantity, created_at").gte("created_at", since30d),
     admin.from("anonymous_usage").select("client_type, data_type, quantity, created_at").gte("created_at", since30d).order("created_at", { ascending: false }).limit(2000),
+    admin.auth.admin.listUsers({ page: 1, perPage: 30 }),
   ]);
+
+  // Recent users — list of last 30 sign-ups with email + created_at + last_sign_in
+  const recentUsers = (recentUsersData.data?.users || []).map(u => ({
+    id: u.id,
+    email: u.email || "(sem email)",
+    created_at: u.created_at,
+    last_sign_in_at: u.last_sign_in_at,
+    provider: u.app_metadata?.provider || "email",
+    confirmed: !!u.email_confirmed_at || !!u.confirmed_at,
+  })).sort((a, b) => b.created_at.localeCompare(a.created_at));
 
   // Aggregate anonymous metrics
   const anonRows = (anon30d.data || []) as Array<{ client_type: string; ip_hash: string; data_type: string; quantity: number; created_at: string }>;
@@ -135,5 +147,6 @@ export async function GET(request: NextRequest) {
     anon,
     anonByType,
     anonDaily,
+    recentUsers,
   });
 }

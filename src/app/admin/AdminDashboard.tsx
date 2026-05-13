@@ -39,6 +39,15 @@ interface Subscriber {
   current_period_end: string | null;
 }
 
+interface RecentUser {
+  id: string;
+  email: string;
+  created_at: string;
+  last_sign_in_at: string | null;
+  provider: string;
+  confirmed: boolean;
+}
+
 interface AnonBucket {
   web: number;
   api: number;
@@ -65,6 +74,7 @@ interface AdminData {
   anon: { today: AnonBucket; last_7d: AnonBucket; last_30d: AnonBucket };
   anonByType: AnonByType[];
   anonDaily: DailyData[];
+  recentUsers?: RecentUser[];
 }
 
 export default function AdminDashboard() {
@@ -447,6 +457,48 @@ export default function AdminDashboard() {
             )}
           </div>
         </div>
+
+        {/* Recent users (new sign-ups) */}
+        {data.recentUsers && data.recentUsers.length > 0 && (
+          <div className="mt-8 rounded-xl bg-card border border-border overflow-hidden">
+            <div className="px-5 py-3 border-b border-border flex items-center justify-between">
+              <h2 className="text-sm font-semibold">Usuários recentes (cadastros)</h2>
+              <span className="text-[10px] text-muted">{data.recentUsers.length} mais recentes</span>
+            </div>
+            <div className="divide-y divide-border max-h-[500px] overflow-y-auto">
+              {data.recentUsers.map((u) => (
+                <div key={u.id} className="flex items-center justify-between px-5 py-3 gap-3">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm text-foreground truncate" title={u.email}>{u.email}</span>
+                      {!u.confirmed && (
+                        <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-accent/10 text-accent shrink-0">não confirmado</span>
+                      )}
+                    </div>
+                    <p className="text-[10px] text-muted mt-0.5 font-mono">
+                      {u.id.slice(0, 8)}…{u.id.slice(-4)}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-3 shrink-0">
+                    <span className="text-[10px] text-muted px-2 py-0.5 rounded-full bg-background border border-border">
+                      {u.provider}
+                    </span>
+                    <div className="text-right">
+                      <p className="text-[11px] text-foreground">
+                        {new Date(u.created_at).toLocaleDateString("pt-BR", { day: "2-digit", month: "short" })}
+                      </p>
+                      {u.last_sign_in_at && (
+                        <p className="text-[10px] text-muted">
+                          último login: {new Date(u.last_sign_in_at).toLocaleDateString("pt-BR", { day: "2-digit", month: "short" })}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Success metrics targets */}
         <div className="mt-8 rounded-xl bg-card border border-border p-6">
