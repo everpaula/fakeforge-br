@@ -14,6 +14,22 @@ export const metadata: Metadata = {
 
 const POSTS = [
   {
+    slug: "qr-code-pix-dinamico-emv-br-code-nodejs",
+    title: "QR Code PIX Dinâmico (EMV BR Code) em Node.js",
+    excerpt: "Gere QR Code PIX dinâmico no padrão EMV BR Code em Node.js: payload TLV, cálculo CRC16-CCITT, integração com PSPs e validação com TXID único. Código rodável copiável.",
+    date: "2026-05-20",
+    readTime: "12 min",
+    category: "Tutoriais",
+  },
+  {
+    slug: "popular-mysql-dados-brasileiros-fake-staging",
+    title: "Popular MySQL com Dados Brasileiros Falsos no Staging",
+    excerpt: "Seed de banco MySQL com CPF, CNPJ, endereços e PIX falsos via FakeForge API. Scripts LOAD DATA INFILE, transações, índices e dataset de 100k rows sem violar LGPD.",
+    date: "2026-05-20",
+    readTime: "10 min",
+    category: "Tutoriais",
+  },
+  {
     slug: "validar-cpf-javascript-algoritmo-passo-a-passo",
     title: "Validar CPF em JavaScript — Algoritmo Mod-11 Passo a Passo",
     excerpt: "Implementação completa do validador de CPF em JavaScript vanilla. Algoritmo mod-11 da Receita Federal, regex, Zod schema, integração com React forms e edge cases. Código rodável.",
