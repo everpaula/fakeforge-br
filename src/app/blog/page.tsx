@@ -14,6 +14,22 @@ export const metadata: Metadata = {
 
 const POSTS = [
   {
+    slug: "fakeforge-vs-mockaroo-vs-fakerjs-dados-brasileiros",
+    title: "FakeForge vs Mockaroo vs Faker.js: qual gera dados brasileiros de verdade?",
+    excerpt: "Comparativo prático entre FakeForge, Mockaroo e Faker.js para gerar CPF, CNPJ, PIX e endereços BR. Quem valida checksums, quem exporta SQL, quem respeita a LGPD.",
+    date: "2026-05-21",
+    readTime: "14 min",
+    category: "Comparativos",
+  },
+  {
+    slug: "mockar-cep-cypress-dados-brasileiros-falsos",
+    title: "Como Mockar CEP no Cypress com Dados Brasileiros Falsos",
+    excerpt: "Intercepte chamadas ViaCEP no Cypress e devolva endereços BR coerentes sem depender de API externa. cy.intercept, fixtures determinísticos e testes E2E confiáveis.",
+    date: "2026-05-21",
+    readTime: "10 min",
+    category: "Tutoriais",
+  },
+  {
     slug: "qr-code-pix-dinamico-emv-br-code-nodejs",
     title: "QR Code PIX Dinâmico (EMV BR Code) em Node.js",
     excerpt: "Gere QR Code PIX dinâmico no padrão EMV BR Code em Node.js: payload TLV, cálculo CRC16-CCITT, integração com PSPs e validação com TXID único. Código rodável copiável.",
