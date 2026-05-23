@@ -4,6 +4,7 @@ import PageShell from "@/components/PageShell";
 import SingleGenerator from "@/components/SingleGenerator";
 import ApiCtaBanner from "@/components/ApiCtaBanner";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
+import GeneratorSchema from "@/components/GeneratorSchema";
 import ValidatorCPF from "./ValidatorCPF";
 
 export const metadata: Metadata = {
@@ -136,6 +137,20 @@ export default function GeradorCPF() {
         { name: "Geradores", url: "/geradores" },
         { name: "CPF", url: "/gerador-cpf" },
       ]} />
+
+      <GeneratorSchema
+        name="Gerador de CPF Válido"
+        url="https://fakeforge.com.br/gerador-cpf"
+        description="Gere CPF válido e fictício para testes de software. Dígitos verificadores corretos pelo algoritmo mod-11. Formatado ou sem pontuação. API REST gratuita."
+        features={[
+          "Geração em lote até 10.000 CPFs por chamada",
+          "Algoritmo mod-11 com dígitos verificadores corretos",
+          "Validador integrado de CPF",
+          "Formato com pontuação (XXX.XXX.XXX-XX) ou apenas dígitos",
+          "Export JSON, CSV e SQL",
+          "API REST gratuita com 100 chamadas/dia",
+        ]}
+      />
     </PageShell>
   );
 }

@@ -4,6 +4,7 @@ import PageShell from "@/components/PageShell";
 import SingleGenerator from "@/components/SingleGenerator";
 import ApiCtaBanner from "@/components/ApiCtaBanner";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
+import GeneratorSchema from "@/components/GeneratorSchema";
 import ValidatorCNPJ from "./ValidatorCNPJ";
 
 export const metadata: Metadata = {
@@ -127,6 +128,21 @@ export default function GeradorCNPJ() {
         { name: "Geradores", url: "/geradores" },
         { name: "CNPJ", url: "/gerador-cnpj" },
       ]} />
+
+      <GeneratorSchema
+        name="Gerador de CNPJ Válido"
+        url="https://fakeforge.com.br/gerador-cnpj"
+        description="Gere CNPJ válido e fictício para testes de software. Dígitos verificadores corretos pelo algoritmo mod-11. Inclui sufixo /0001 (matriz). API REST gratuita."
+        features={[
+          "Geração em lote até 10.000 CNPJs por chamada",
+          "Algoritmo mod-11 com dígitos verificadores corretos",
+          "Validador integrado de CNPJ",
+          "Formato com pontuação (XX.XXX.XXX/XXXX-XX) ou apenas dígitos",
+          "Sufixo /0001 (matriz) padrão",
+          "Export JSON, CSV e SQL",
+          "API REST gratuita com 100 chamadas/dia",
+        ]}
+      />
     </PageShell>
   );
 }

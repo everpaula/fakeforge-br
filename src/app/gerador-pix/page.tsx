@@ -5,6 +5,7 @@ import SingleGenerator from "@/components/SingleGenerator";
 import ApiCtaBanner from "@/components/ApiCtaBanner";
 import ApiCtaTop from "@/components/ApiCtaTop";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
+import GeneratorSchema from "@/components/GeneratorSchema";
 
 export const metadata: Metadata = {
   title: "Gerador de Chave PIX para Testes — CPF, CNPJ, Email, Celular",
@@ -130,6 +131,20 @@ export default function GeradorPIX() {
             ],
           }),
         }}
+      />
+
+      <GeneratorSchema
+        name="Gerador de Chave PIX para Testes"
+        url="https://fakeforge.com.br/gerador-pix"
+        description="Gere chaves PIX fictícias nos quatro tipos do BACEN: CPF, email, telefone e EVP (UUID v4). Formato válido sem registro no DICT. Ideal para testes de integração com PSPs."
+        features={[
+          "4 tipos de chave: CPF, email, telefone (+5511...), EVP UUID v4",
+          "Formato BACEN-compatível, passa em validação de PSPs",
+          "Não está registrada no DICT (não recebe transferências)",
+          "Geração em lote até 10.000 chaves por chamada",
+          "Export JSON, CSV e SQL",
+          "API REST gratuita com 100 chamadas/dia",
+        ]}
       />
     </PageShell>
   );

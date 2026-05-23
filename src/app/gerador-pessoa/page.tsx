@@ -5,6 +5,7 @@ import SingleGenerator from "@/components/SingleGenerator";
 import ApiCtaBanner from "@/components/ApiCtaBanner";
 import ApiCtaTop from "@/components/ApiCtaTop";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
+import GeneratorSchema from "@/components/GeneratorSchema";
 
 export const metadata: Metadata = {
   title: "Gerador de Pessoa — Nome, CPF, Email, Telefone e Endereço",
@@ -136,6 +137,20 @@ export default function GeradorPessoa() {
             ],
           }),
         }}
+      />
+
+      <GeneratorSchema
+        name="Gerador de Pessoa Brasileira para Testes"
+        url="https://fakeforge.com.br/gerador-pessoa"
+        description="Gere perfis fictícios completos de pessoas brasileiras: nome, CPF, email, telefone e endereço. Mais de 40 nomes masculinos, 40 femininos, 45 sobrenomes. Dados correlacionados via presets de API."
+        features={[
+          "40+ nomes masculinos e femininos, 45+ sobrenomes brasileiros",
+          "Geração coerente: nome compõe o email, CPF é válido mod-11",
+          "Preset 'customer' correlaciona nome + CPF + email + telefone + endereço",
+          "Preset 'employee' inclui CTPS, PIS e dados profissionais",
+          "Export JSON, CSV e SQL",
+          "API REST gratuita com 100 chamadas/dia",
+        ]}
       />
     </PageShell>
   );

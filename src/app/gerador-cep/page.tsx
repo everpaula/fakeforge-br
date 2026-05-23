@@ -4,6 +4,7 @@ import PageShell from "@/components/PageShell";
 import SingleGenerator from "@/components/SingleGenerator";
 import ApiCtaBanner from "@/components/ApiCtaBanner";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
+import GeneratorSchema from "@/components/GeneratorSchema";
 
 export const metadata: Metadata = {
   title: "Gerador de CEP e Endereço - Gere Endereços Brasileiros | FakeForge BR",
@@ -133,6 +134,20 @@ export default function GeradorCEP() {
         { name: "Geradores", url: "/geradores" },
         { name: "CEP", url: "/gerador-cep" },
       ]} />
+
+      <GeneratorSchema
+        name="Gerador de CEP e Endereço Brasileiro"
+        url="https://fakeforge.com.br/gerador-cep"
+        description="Gere CEP e endereço brasileiro fictício e coerente para testes. Rua, bairro, cidade e estado consistentes entre si. 10 estados cobertos. API REST gratuita."
+        features={[
+          "Endereço completo: CEP, rua, bairro, cidade, estado",
+          "Dados coerentes (CEP bate com estado, bairro com cidade)",
+          "10 estados cobertos com referências reais",
+          "Geração em lote até 10.000 endereços",
+          "Export JSON, CSV e SQL",
+          "API REST gratuita com 100 chamadas/dia",
+        ]}
+      />
     </PageShell>
   );
 }
