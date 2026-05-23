@@ -5,6 +5,7 @@ import SingleGenerator from "@/components/SingleGenerator";
 import ApiCtaBanner from "@/components/ApiCtaBanner";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import GeneratorSchema from "@/components/GeneratorSchema";
+import { CEP_CITIES } from "@/lib/cep-cities";
 
 export const metadata: Metadata = {
   title: "Gerador de CEP e Endereço - Gere Endereços Brasileiros | FakeForge BR",
@@ -128,6 +129,28 @@ export default function GeradorCEP() {
           }),
         }}
       />
+
+      {/* City-specific generators */}
+      <div className="mt-12 pt-8 border-t border-border">
+        <h2 className="text-lg font-semibold text-foreground mb-2">
+          Gerador de CEP por cidade
+        </h2>
+        <p className="text-sm text-muted-foreground mb-4 max-w-2xl leading-relaxed">
+          Precisa de CEP de uma cidade específica? Use as páginas dedicadas com bairros e prefixos reais de cada capital, ideais para testes regionais ou validação geográfica.
+        </p>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
+          {CEP_CITIES.map((c) => (
+            <Link
+              key={c.slug}
+              href={`/gerador-cep/${c.slug}`}
+              className="block px-3 py-2 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors text-center"
+            >
+              {c.name}
+              <span className="block text-[10px] text-muted opacity-70">{c.stateCode}</span>
+            </Link>
+          ))}
+        </div>
+      </div>
 
       <BreadcrumbSchema items={[
         { name: "Início", url: "/" },
