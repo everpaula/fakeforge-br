@@ -5,6 +5,7 @@ import SingleGenerator from "@/components/SingleGenerator";
 import ApiCtaBanner from "@/components/ApiCtaBanner";
 import ApiCtaTop from "@/components/ApiCtaTop";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
+import GeneratorSchema from "@/components/GeneratorSchema";
 
 export const metadata: Metadata = {
   title: "Gerador de CNH Válida — Carteira Nacional de Habilitação para Testes",
@@ -116,6 +117,20 @@ export default function GeradorCNH() {
             ],
           }),
         }}
+      />
+
+      <GeneratorSchema
+        name="Gerador de CNH Válida"
+        url="https://fakeforge.com.br/gerador-cnh"
+        description="Gere CNH (Carteira Nacional de Habilitação) válida e fictícia para testes. Algoritmo mod-11 invertido do DENATRAN com dígitos verificadores corretos. Para uso exclusivo em desenvolvimento e QA."
+        features={[
+          "Algoritmo mod-11 invertido DENATRAN com dígitos verificadores corretos",
+          "Categoria (A, B, AB, etc.) configurável",
+          "Validador integrado de CNH",
+          "Geração em lote até 10.000 por chamada",
+          "Export JSON, CSV e SQL",
+          "API REST gratuita com 100 chamadas/dia",
+        ]}
       />
     </PageShell>
   );

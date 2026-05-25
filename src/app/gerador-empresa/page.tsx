@@ -3,6 +3,7 @@ import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import SingleGenerator from "@/components/SingleGenerator";
 import ApiCtaBanner from "@/components/ApiCtaBanner";
+import GeneratorSchema from "@/components/GeneratorSchema";
 
 export const metadata: Metadata = {
   title: "Gerador de Empresa Fictícia - CNPJ, Razão Social e Endereço | FakeForge BR",
@@ -121,6 +122,20 @@ export default function GeradorEmpresa() {
             ],
           }),
         }}
+      />
+
+      <GeneratorSchema
+        name="Gerador de Empresa Fictícia"
+        url="https://fakeforge.com.br/gerador-empresa"
+        description="Gere empresa fictícia completa para testes: CNPJ válido, razão social, nome fantasia, endereço coerente, telefone e email. Para uso em ambiente de desenvolvimento."
+        features={[
+          "CNPJ válido via algoritmo mod-11",
+          "Razão social, nome fantasia, endereço, telefone e email correlacionados",
+          "Endereço com CEP coerente por estado",
+          "Geração em lote até 10.000 por chamada",
+          "Export JSON, CSV e SQL",
+          "API REST gratuita com 100 chamadas/dia",
+        ]}
       />
     </PageShell>
   );

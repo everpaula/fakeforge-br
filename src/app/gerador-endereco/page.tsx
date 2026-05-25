@@ -3,6 +3,7 @@ import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import SingleGenerator from "@/components/SingleGenerator";
 import ApiCtaBanner from "@/components/ApiCtaBanner";
+import GeneratorSchema from "@/components/GeneratorSchema";
 
 export const metadata: Metadata = {
   title: "Gerador de Endereço Brasileiro - CEP, Rua, Bairro, Cidade | FakeForge BR",
@@ -128,6 +129,20 @@ export default function GeradorEndereco() {
             ],
           }),
         }}
+      />
+
+      <GeneratorSchema
+        name="Gerador de Endereço Brasileiro"
+        url="https://fakeforge.com.br/gerador-endereco"
+        description="Gere endereço brasileiro fictício e coerente para testes: logradouro, número, bairro, cidade, estado e CEP. Bairros e cidades reais, CEP coerente por estado."
+        features={[
+          "Logradouro, bairro, cidade, estado e CEP coerentes",
+          "10 estados cobertos com bairros e cidades reais",
+          "CEP no formato XXXXX-XXX com prefixo correto por estado",
+          "Geração em lote até 10.000 por chamada",
+          "Export JSON, CSV e SQL",
+          "API REST gratuita com 100 chamadas/dia",
+        ]}
       />
     </PageShell>
   );

@@ -5,6 +5,7 @@ import SingleGenerator from "@/components/SingleGenerator";
 import ApiCtaBanner from "@/components/ApiCtaBanner";
 import ApiCtaTop from "@/components/ApiCtaTop";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
+import GeneratorSchema from "@/components/GeneratorSchema";
 
 export const metadata: Metadata = {
   title: "Gerador de Placa Mercosul e Placa Antiga — Para Testes de Software",
@@ -154,6 +155,20 @@ REGEX_PLACA.test("ABI1234"); // false (I não permitido)`}</pre>
             ],
           }),
         }}
+      />
+
+      <GeneratorSchema
+        name="Gerador de Placa Mercosul"
+        url="https://fakeforge.com.br/gerador-placa-mercosul"
+        description="Gere placa veicular Mercosul (LLLNLNN) ou formato antigo (LLL-NNNN) válida e fictícia para testes. Respeita as regras do DENATRAN (sem letras I, O, Q)."
+        features={[
+          "Formato Mercosul (LLLNLNN) e formato antigo (LLL-NNNN)",
+          "Exclui letras I, O e Q conforme regra do DENATRAN",
+          "Validador integrado de placa",
+          "Geração em lote até 10.000 por chamada",
+          "Export JSON, CSV e SQL",
+          "API REST gratuita com 100 chamadas/dia",
+        ]}
       />
     </PageShell>
   );

@@ -5,6 +5,7 @@ import SingleGenerator from "@/components/SingleGenerator";
 import ApiCtaBanner from "@/components/ApiCtaBanner";
 import ApiCtaTop from "@/components/ApiCtaTop";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
+import GeneratorSchema from "@/components/GeneratorSchema";
 
 export const metadata: Metadata = {
   title: "Gerador de CIN — Carteira de Identidade Nacional (Novo RG) para Testes",
@@ -139,6 +140,20 @@ export default function GeradorCIN() {
             ],
           }),
         }}
+      />
+
+      <GeneratorSchema
+        name="Gerador de CIN (Carteira de Identidade Nacional)"
+        url="https://fakeforge.com.br/gerador-cin"
+        description="Gere CIN (novo documento de identidade biométrico que substitui o RG) válida e fictícia para testes. Usa CPF como base, conforme regulamentação do Decreto 10.977/2022."
+        features={[
+          "Formato CPF como base do documento (regra do Decreto 10.977/2022)",
+          "Dígitos verificadores corretos via mod-11",
+          "Substituto oficial do RG no Brasil",
+          "Geração em lote até 10.000 por chamada",
+          "Export JSON, CSV e SQL",
+          "API REST gratuita com 100 chamadas/dia",
+        ]}
       />
     </PageShell>
   );

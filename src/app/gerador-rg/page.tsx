@@ -5,6 +5,7 @@ import SingleGenerator from "@/components/SingleGenerator";
 import ApiCtaBanner from "@/components/ApiCtaBanner";
 import ApiCtaTop from "@/components/ApiCtaTop";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
+import GeneratorSchema from "@/components/GeneratorSchema";
 
 export const metadata: Metadata = {
   title: "Gerador de RG Válido — Registro Geral Formato SP para Testes",
@@ -126,6 +127,20 @@ export default function GeradorRG() {
             ],
           }),
         }}
+      />
+
+      <GeneratorSchema
+        name="Gerador de RG por Estado"
+        url="https://fakeforge.com.br/gerador-rg"
+        description="Gere RG (Registro Geral) fictício por estado para testes. Formatos específicos de SP, RJ, MG e outros estados brasileiros. Para uso em ambiente de desenvolvimento."
+        features={[
+          "Formato específico por estado emissor",
+          "Dígito verificador conforme regra de cada SSP",
+          "Geração em lote até 10.000 por chamada",
+          "Formatado ou apenas dígitos",
+          "Export JSON, CSV e SQL",
+          "API REST gratuita com 100 chamadas/dia",
+        ]}
       />
     </PageShell>
   );

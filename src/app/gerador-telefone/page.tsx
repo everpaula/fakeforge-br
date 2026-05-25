@@ -3,6 +3,7 @@ import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import SingleGenerator from "@/components/SingleGenerator";
 import ApiCtaBanner from "@/components/ApiCtaBanner";
+import GeneratorSchema from "@/components/GeneratorSchema";
 
 export const metadata: Metadata = {
   title: "Gerador de Telefone e Celular — DDD Válido de Todos os Estados",
@@ -129,6 +130,20 @@ export default function GeradorTelefone() {
             ],
           }),
         }}
+      />
+
+      <GeneratorSchema
+        name="Gerador de Telefone Brasileiro"
+        url="https://fakeforge.com.br/gerador-telefone"
+        description="Gere telefone brasileiro fictício para testes: celular (9 prefix) ou fixo, com DDD válido entre os 67 códigos de área do Brasil. Para uso em desenvolvimento e QA."
+        features={[
+          "67 DDDs válidos do Brasil cobertos",
+          "Celular (9XXXX-XXXX) e fixo",
+          "Formato +55(DDD) ou apenas dígitos",
+          "Geração em lote até 10.000 por chamada",
+          "Export JSON, CSV e SQL",
+          "API REST gratuita com 100 chamadas/dia",
+        ]}
       />
     </PageShell>
   );

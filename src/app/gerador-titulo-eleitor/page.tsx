@@ -5,6 +5,7 @@ import SingleGenerator from "@/components/SingleGenerator";
 import ApiCtaBanner from "@/components/ApiCtaBanner";
 import ApiCtaTop from "@/components/ApiCtaTop";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
+import GeneratorSchema from "@/components/GeneratorSchema";
 
 export const metadata: Metadata = {
   title: "Gerador de Título de Eleitor Válido — Algoritmo TSE para Testes",
@@ -124,6 +125,20 @@ export default function GeradorTituloEleitor() {
             ],
           }),
         }}
+      />
+
+      <GeneratorSchema
+        name="Gerador de Título de Eleitor"
+        url="https://fakeforge.com.br/gerador-titulo-eleitor"
+        description="Gere título de eleitor fictício para testes. Algoritmo do TSE com dígitos verificadores corretos e zona eleitoral por estado. Para uso em desenvolvimento e QA."
+        features={[
+          "Algoritmo oficial do TSE com dígitos verificadores corretos",
+          "Zona eleitoral coerente com o estado emissor",
+          "Geração em lote até 10.000 por chamada",
+          "Formatado ou apenas dígitos",
+          "Export JSON, CSV e SQL",
+          "API REST gratuita com 100 chamadas/dia",
+        ]}
       />
     </PageShell>
   );

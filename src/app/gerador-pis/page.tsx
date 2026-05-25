@@ -5,6 +5,7 @@ import SingleGenerator from "@/components/SingleGenerator";
 import ApiCtaBanner from "@/components/ApiCtaBanner";
 import ApiCtaTop from "@/components/ApiCtaTop";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
+import GeneratorSchema from "@/components/GeneratorSchema";
 
 export const metadata: Metadata = {
   title: "Gerador de PIS/PASEP/NIT/NIS Válido — Mod-11 para Testes",
@@ -123,6 +124,20 @@ export default function GeradorPIS() {
             ],
           }),
         }}
+      />
+
+      <GeneratorSchema
+        name="Gerador de PIS/PASEP Válido"
+        url="https://fakeforge.com.br/gerador-pis"
+        description="Gere número de PIS, PASEP ou NIS fictício e válido para testes. Algoritmo mod-11 com dígito verificador correto. Compatível com sistemas eSocial, FGTS e INSS."
+        features={[
+          "Algoritmo mod-11 com dígito verificador correto",
+          "Compatível com PIS, PASEP e NIS (mesmo formato)",
+          "Geração em lote até 10.000 por chamada",
+          "Formatado (XXX.XXXXX.XX-X) ou apenas dígitos",
+          "Export JSON, CSV e SQL",
+          "API REST gratuita com 100 chamadas/dia",
+        ]}
       />
     </PageShell>
   );

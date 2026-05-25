@@ -3,6 +3,7 @@ import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import SingleGenerator from "@/components/SingleGenerator";
 import ApiCtaBanner from "@/components/ApiCtaBanner";
+import GeneratorSchema from "@/components/GeneratorSchema";
 
 export const metadata: Metadata = {
   title: "Gerador de Conta Bancária Válida — Banco, Agência e Dígito",
@@ -122,6 +123,20 @@ export default function GeradorContaBancaria() {
             ],
           }),
         }}
+      />
+
+      <GeneratorSchema
+        name="Gerador de Conta Bancária"
+        url="https://fakeforge.com.br/gerador-conta-bancaria"
+        description="Gere dados de conta bancária fictícia para testes: banco, agência, conta corrente e dígito verificador. Inclui 17 bancos brasileiros (Nubank, Inter, C6, Itaú, Bradesco, entre outros)."
+        features={[
+          "17 bancos brasileiros incluindo digitais (Nubank, Inter, C6)",
+          "Agência e conta corrente no formato de cada banco",
+          "Dígito verificador conforme regra do banco emissor",
+          "Geração em lote até 10.000 por chamada",
+          "Export JSON, CSV e SQL",
+          "API REST gratuita com 100 chamadas/dia",
+        ]}
       />
     </PageShell>
   );

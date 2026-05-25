@@ -5,6 +5,7 @@ import SingleGenerator from "@/components/SingleGenerator";
 import ApiCtaBanner from "@/components/ApiCtaBanner";
 import ApiCtaTop from "@/components/ApiCtaTop";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
+import GeneratorSchema from "@/components/GeneratorSchema";
 
 export const metadata: Metadata = {
   title: "Gerador de CNPJ Alfanumérico — Novo Formato 2026 | FakeForge BR",
@@ -195,6 +196,20 @@ export default function GeradorCnpjAlfanumerico() {
             ],
           }),
         }}
+      />
+
+      <GeneratorSchema
+        name="Gerador de CNPJ Alfanumérico (2026)"
+        url="https://fakeforge.com.br/gerador-cnpj-alfanumerico"
+        description="Gere CNPJ alfanumérico válido conforme a Instrução Normativa 2.229 da Receita Federal, com vigência em 01/07/2026. Cálculo do dígito verificador via ASCII-48."
+        features={[
+          "Conforme IN 2.229 da Receita Federal (vigência 01/07/2026)",
+          "Cálculo de dígito verificador via ASCII-48",
+          "Aceita letras (A-Z) e dígitos (0-9) nos primeiros 12 caracteres",
+          "Geração em lote até 10.000 por chamada",
+          "Export JSON, CSV e SQL",
+          "API REST gratuita com 100 chamadas/dia",
+        ]}
       />
     </PageShell>
   );

@@ -3,6 +3,7 @@ import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import SingleGenerator from "@/components/SingleGenerator";
 import ApiCtaBanner from "@/components/ApiCtaBanner";
+import GeneratorSchema from "@/components/GeneratorSchema";
 
 export const metadata: Metadata = {
   title: "Gerador de Email Fictício - Emails para Testes | FakeForge BR",
@@ -119,6 +120,20 @@ export default function GeradorEmail() {
             ],
           }),
         }}
+      />
+
+      <GeneratorSchema
+        name="Gerador de Email Brasileiro"
+        url="https://fakeforge.com.br/gerador-email"
+        description="Gere email fictício com domínios brasileiros (gmail.com, hotmail.com, outlook.com.br, uol.com.br, terra.com.br) e nomes derivados de nomes brasileiros típicos para testes."
+        features={[
+          "Domínios brasileiros populares (gmail, hotmail, outlook, uol, terra)",
+          "Nome de usuário derivado de nomes brasileiros (acentos removidos)",
+          "Geração em lote até 10.000 por chamada",
+          "Formato primeironome.sobrenome ou primeironome_sobrenome",
+          "Export JSON, CSV e SQL",
+          "API REST gratuita com 100 chamadas/dia",
+        ]}
       />
     </PageShell>
   );

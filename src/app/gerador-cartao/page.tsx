@@ -5,6 +5,7 @@ import SingleGenerator from "@/components/SingleGenerator";
 import ApiCtaBanner from "@/components/ApiCtaBanner";
 import ApiCtaTop from "@/components/ApiCtaTop";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
+import GeneratorSchema from "@/components/GeneratorSchema";
 
 export const metadata: Metadata = {
   title: "Gerador de Cartão de Crédito Válido — Visa, Master, Elo, Amex",
@@ -141,6 +142,20 @@ export default function GeradorCartao() {
             ],
           }),
         }}
+      />
+
+      <GeneratorSchema
+        name="Gerador de Cartão de Crédito"
+        url="https://fakeforge.com.br/gerador-cartao"
+        description="Gere número de cartão de crédito fictício e válido para testes (Visa, Mastercard, Elo, Hipercard, Amex). Algoritmo de Luhn com dígito verificador correto. Para uso exclusivo em desenvolvimento."
+        features={[
+          "5 bandeiras brasileiras: Visa, Mastercard, Elo, Hipercard, Amex",
+          "Algoritmo de Luhn com dígito verificador correto",
+          "Inclui CVV e data de validade fictícios",
+          "Geração em lote até 10.000 por chamada",
+          "Export JSON, CSV e SQL",
+          "API REST gratuita com 100 chamadas/dia",
+        ]}
       />
     </PageShell>
   );
