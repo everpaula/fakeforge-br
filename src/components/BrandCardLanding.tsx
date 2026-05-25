@@ -4,6 +4,7 @@ import SingleGenerator from "@/components/SingleGenerator";
 import ApiCtaBanner from "@/components/ApiCtaBanner";
 import ApiCtaTop from "@/components/ApiCtaTop";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
+import GeneratorSchema from "@/components/GeneratorSchema";
 import type { DataType } from "@/lib/generators";
 
 export interface BrandLandingConfig {
@@ -101,6 +102,21 @@ export default function BrandCardLanding({ config }: { config: BrandLandingConfi
         { name: "Cartão de Crédito", url: "/gerador-cartao" },
         { name: brandName, url: `/gerador-cartao/${brandSlug}` },
       ]} />
+
+      <GeneratorSchema
+        name={`Gerador de Cartão ${brandName}`}
+        url={`https://fakeforge.com.br/gerador-cartao/${brandSlug}`}
+        description={`Gere cartão ${brandName} fictício válido pelo algoritmo de Luhn (mod-10) com ${cardLength} dígitos e CVV de ${cvvLength}. Para testes de checkout, gateways de pagamento e formulários, sem usar cartões reais.`}
+        features={[
+          "Algoritmo de Luhn (mod-10) com dígito verificador correto",
+          `${cardLength} dígitos no formato ISO/IEC 7812`,
+          `CVV de ${cvvLength} dígitos e data de validade fictícia`,
+          `Prefixo BIN específico da bandeira ${brandName}`,
+          "Geração em lote até 10.000 por chamada",
+          "Export JSON, CSV e SQL",
+          "API REST gratuita com 100 chamadas/dia",
+        ]}
+      />
 
       <script
         type="application/ld+json"
