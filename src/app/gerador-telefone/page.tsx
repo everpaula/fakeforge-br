@@ -6,12 +6,12 @@ import ApiCtaBanner from "@/components/ApiCtaBanner";
 import GeneratorSchema from "@/components/GeneratorSchema";
 
 export const metadata: Metadata = {
-  title: "Gerador de Telefone e Celular — DDD Válido de Todos os Estados",
-  description: "Gere números de celular e telefone fixo com DDD válido de todos os estados brasileiros. Formato ANATEL correto para testes de formulários, SMS e APIs. Grátis.",
-  keywords: "gerador de telefone, gerador de celular, telefone fictício, celular falso, DDD válido, gerador número SMS, anatel formato",
+  title: "Gerador de Telefone e Celular Válido com DDD Real do Brasil",
+  description: "Gere número de celular ou telefone fixo brasileiro com DDD real (67 DDDs válidos), formato ANATEL e prefixo 9 do celular. Para testes de formulários, SMS, APIs e checkout. Grátis e sem cadastro.",
+  keywords: "gerador de telefone, gerador de celular, número celular fictício, telefone fake brasileiro, DDD válido, gerador número SMS, ANATEL formato, gerar telefone teste",
   openGraph: {
-    title: "Gerador de Telefone Brasileiro — DDD Válido de Todos os Estados",
-    description: "Celular e fixo com DDD válido para testes de formulários, SMS e APIs.",
+    title: "Gerador de Telefone e Celular Brasileiro Válido",
+    description: "Celular e fixo com DDD real do Brasil para testes de formulários, SMS, APIs e checkout. Grátis.",
     type: "website",
   },
   alternates: { canonical: "/gerador-telefone" },

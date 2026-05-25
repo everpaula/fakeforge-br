@@ -8,12 +8,12 @@ import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import GeneratorSchema from "@/components/GeneratorSchema";
 
 export const metadata: Metadata = {
-  title: "Gerador de Pessoa — Nome, CPF, Email, Telefone e Endereço",
-  description: "Gere dados completos de pessoa fictícia brasileira: nome, CPF válido, email, telefone e endereço — tudo correlacionado. Ideal para cadastros de teste, seed e QA. Grátis.",
-  keywords: "gerador de pessoa, gerador de pessoas, gerar pessoa, dados fictícios brasileiros, gerador nome cpf email, pessoa fake completa, dados teste cadastro",
+  title: "Gerador de Pessoa Fictícia Brasileira (Nome, CPF, Email, Endereço)",
+  description: "Gere pessoa fictícia brasileira completa: nome típico, CPF válido (mod-11), email derivado do nome, telefone com DDD real e endereço coerente. Tudo correlacionado para seed de banco, cadastros de teste e QA. Grátis e sem cadastro.",
+  keywords: "gerador de pessoa, gerador de pessoa fictícia, gerar pessoa fake, pessoa fake brasileira, dados fictícios brasileiros, gerador nome cpf email correlacionados, dados teste cadastro, seed banco staging",
   openGraph: {
-    title: "Gerador de Pessoa Completa — Nome, CPF, Email, Telefone e Endereço",
-    description: "Pessoas fictícias com nome, CPF, email, telefone e endereço correlacionados. Para seed, testes e QA.",
+    title: "Gerador de Pessoa Fictícia Brasileira Completa",
+    description: "Pessoa com nome, CPF válido, email, telefone e endereço correlacionados para seed de banco e cadastros de teste.",
     type: "website",
   },
   alternates: { canonical: "/gerador-pessoa" },
