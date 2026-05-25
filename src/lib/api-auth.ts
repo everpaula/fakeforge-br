@@ -87,6 +87,11 @@ export async function logApiUsage(
 /**
  * Log anonymous usage (web UI generations and API calls without key).
  * Uses hashed IP to count unique visitors without storing PII.
+ *
+ * Callers should wrap with `after()` from `next/server` so the insert runs
+ * after the response is sent but before the function terminates. A bare
+ * fire-and-forget here would let Vercel kill the function before the insert
+ * reaches Supabase, which is what kept the table empty.
  */
 export async function logAnonymousUsage(
   clientType: "web" | "api_anon",
@@ -98,11 +103,11 @@ export async function logAnonymousUsage(
   if (!supabase) return;
   if (!ip || ip === "unknown") return;
 
-  // Fire-and-forget — don't block the response
-  void supabase.from("anonymous_usage").insert({
+  const { error } = await supabase.from("anonymous_usage").insert({
     client_type: clientType,
     ip_hash: hashIp(ip),
     data_type: dataType,
     quantity,
   });
+  if (error) console.error("[anonymous_usage insert]", error.message);
 }

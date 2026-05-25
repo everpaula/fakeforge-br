@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { after } from "next/server";
 import { generate, DATA_TYPES, type DataType } from "@/lib/generators";
 import { generateSchema, SCHEMA_PRESETS, type SchemaField } from "@/lib/generators/schema";
 import { checkRateLimit, getRateLimitHeaders } from "@/lib/rate-limit";
@@ -59,11 +60,17 @@ function logUsage(
   dataType: string,
   qty: number
 ) {
-  if (rateLimit.userId) {
-    logApiUsage(rateLimit.userId, rateLimit.keyId, "/api/generate", dataType, qty);
-  } else if (rateLimit.clientType === "web" || rateLimit.clientType === "api_anon") {
-    logAnonymousUsage(rateLimit.clientType, rateLimit.ip, dataType, qty);
-  }
+  // Defer to `after()` so the response goes out first but Vercel waits for
+  // the insert to land in Supabase before killing the function. Without this
+  // the insert was being dropped post-response and the dashboard saw zero
+  // anonymous activity despite real traffic.
+  after(async () => {
+    if (rateLimit.userId) {
+      await logApiUsage(rateLimit.userId, rateLimit.keyId, "/api/generate", dataType, qty);
+    } else if (rateLimit.clientType === "web" || rateLimit.clientType === "api_anon") {
+      await logAnonymousUsage(rateLimit.clientType, rateLimit.ip, dataType, qty);
+    }
+  });
 }
 
 export async function POST(request: NextRequest) {
