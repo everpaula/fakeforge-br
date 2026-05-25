@@ -161,6 +161,42 @@ export default function Comparacao() {
           </div>
         </div>
 
+        <h2 className="text-xl font-semibold text-foreground mt-12 mb-4">Comparações detalhadas</h2>
+        <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+          Cada concorrente tem uma página dedicada com tabela de 24 recursos, exemplos de código
+          lado a lado e cenários de uso. Vá direto para o que interessa:
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-12">
+          <Link
+            href="/comparacao/fakeforge-vs-mockaroo"
+            className="rounded-lg bg-card border border-border p-4 hover:border-primary/40 hover:bg-card-hover transition-all group"
+          >
+            <p className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">FakeForge vs Mockaroo</p>
+            <p className="text-xs text-muted-foreground mt-1">Mockaroo é internacional com 200+ tipos. FakeForge é BR especialista.</p>
+          </Link>
+          <Link
+            href="/comparacao/fakeforge-vs-fakerjs"
+            className="rounded-lg bg-card border border-border p-4 hover:border-primary/40 hover:bg-card-hover transition-all group"
+          >
+            <p className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">FakeForge vs Faker.js</p>
+            <p className="text-xs text-muted-foreground mt-1">Lib JS internacional com locale pt_BR, CPF/CNPJ sem mod-11 nativo.</p>
+          </Link>
+          <Link
+            href="/comparacao/fakeforge-vs-4devs"
+            className="rounded-lg bg-card border border-border p-4 hover:border-primary/40 hover:bg-card-hover transition-all group"
+          >
+            <p className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">FakeForge vs 4devs</p>
+            <p className="text-xs text-muted-foreground mt-1">4devs é veterano BR sem API. FakeForge é API + correlação + export SQL.</p>
+          </Link>
+          <Link
+            href="/comparacao/fakeforge-vs-faker-py"
+            className="rounded-lg bg-card border border-border p-4 hover:border-primary/40 hover:bg-card-hover transition-all group"
+          >
+            <p className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">FakeForge vs Faker (Python)</p>
+            <p className="text-xs text-muted-foreground mt-1">Faker.py tem CPF/CNPJ válidos. Falta PIX, CNH, CIN e correlação.</p>
+          </Link>
+        </div>
+
         <div className="mt-12 rounded-xl bg-gradient-to-br from-primary/10 to-accent/5 border border-primary/20 p-6 text-center">
           <h2 className="text-lg font-semibold text-foreground">Quer começar agora?</h2>
           <p className="text-sm text-muted-foreground mt-2 max-w-md mx-auto">

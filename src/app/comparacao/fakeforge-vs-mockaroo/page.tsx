@@ -247,7 +247,7 @@ export default function ComparacaoMockaroo() {
               href="/comparacao/fakeforge-vs-alternativas"
               className="inline-block px-4 py-2 rounded-lg text-sm bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors"
             >
-              Comparar com 4devs, Faker.js, fakerbr
+              Comparar com Faker.js, 4devs, Faker (Python)
             </Link>
           </div>
         </div>
