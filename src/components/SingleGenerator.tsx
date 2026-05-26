@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from "react";
 import type { DataType } from "@/lib/generators";
+import { useGenerationNudge, SignupNudge } from "@/components/SignupNudge";
 
 interface Props {
   type: DataType;
@@ -17,6 +18,7 @@ export default function SingleGenerator({ type, label, description, maxQuantity 
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
+  const nudge = useGenerationNudge();
 
   const handleGenerate = useCallback(async () => {
     setLoading(true);
@@ -29,12 +31,13 @@ export default function SingleGenerator({ type, label, description, maxQuantity 
       });
       const data = await res.json();
       setResults(data.data);
+      nudge.bump();
     } catch {
       setResults(null);
     } finally {
       setLoading(false);
     }
-  }, [type, quantity, formatted]);
+  }, [type, quantity, formatted, nudge]);
 
   async function handleCopyItem(item: unknown, index: number) {
     const text = typeof item === "string" ? item : JSON.stringify(item);
@@ -163,6 +166,8 @@ export default function SingleGenerator({ type, label, description, maxQuantity 
           )}
         </div>
       </div>
+
+      {nudge.show && <SignupNudge onDismiss={nudge.dismiss} />}
     </div>
   );
 }
