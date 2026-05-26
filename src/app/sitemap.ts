@@ -47,6 +47,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/validar-cnpj`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/docs`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/blog`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.7 },
+    { url: `${baseUrl}/blog/validar-cnh-javascript-algoritmo-denatran`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/blog/anonimizacao-vs-pseudonimizacao-lgpd-developers`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.85 },
     { url: `${baseUrl}/blog/fakeforge-vs-mockaroo-vs-fakerjs-dados-brasileiros`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/blog/mockar-cep-cypress-dados-brasileiros-falsos`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.85 },
     { url: `${baseUrl}/blog/qr-code-pix-dinamico-emv-br-code-nodejs`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },

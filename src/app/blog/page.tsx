@@ -14,6 +14,22 @@ export const metadata: Metadata = {
 
 const POSTS = [
   {
+    slug: "validar-cnh-javascript-algoritmo-denatran",
+    title: "Validar CNH em JavaScript: Algoritmo DENATRAN Passo a Passo",
+    excerpt: "Implementação completa do validador de CNH em JavaScript e TypeScript. Algoritmo oficial do DENATRAN com mod-11 invertido, 2 dígitos verificadores, regex e Zod schema. Código rodável.",
+    date: "2026-05-26",
+    readTime: "13 min",
+    category: "Tutoriais",
+  },
+  {
+    slug: "anonimizacao-vs-pseudonimizacao-lgpd-developers",
+    title: "Anonimização vs Pseudonimização LGPD: Guia Prático para Devs",
+    excerpt: "Diferença técnica entre anonimização e pseudonimização pela LGPD, quando cada técnica se aplica, exemplos em TypeScript e como evitar reidentificação em ambientes de teste.",
+    date: "2026-05-26",
+    readTime: "11 min",
+    category: "LGPD",
+  },
+  {
     slug: "fakeforge-vs-mockaroo-vs-fakerjs-dados-brasileiros",
     title: "FakeForge vs Mockaroo vs Faker.js: qual gera dados brasileiros de verdade?",
     excerpt: "Comparativo prático entre FakeForge, Mockaroo e Faker.js para gerar CPF, CNPJ, PIX e endereços BR. Quem valida checksums, quem exporta SQL, quem respeita a LGPD.",
