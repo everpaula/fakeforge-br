@@ -14,6 +14,22 @@ export const metadata: Metadata = {
 
 const POSTS = [
   {
+    slug: "gerar-boleto-febraban-linha-digitavel-nodejs-testes",
+    title: "Boleto FEBRABAN em Node.js: Gerar Linha Digitável para Testes",
+    excerpt: "Implementação completa do cálculo da linha digitável FEBRABAN em Node.js: código de barras, dígitos verificadores mod-10 e mod-11, conversão para 47 dígitos digitáveis. Pronto pra QA e CI/CD.",
+    date: "2026-05-26",
+    readTime: "12 min",
+    category: "Tutoriais",
+  },
+  {
+    slug: "conta-bancaria-fake-bradesco-itau-nubank-testes",
+    title: "Conta Bancária Fake para Testes: Bradesco, Itaú e Nubank",
+    excerpt: "Gere conta corrente fictícia para testes nos 17 principais bancos brasileiros (Bradesco, Itaú, Nubank, BB, Inter, C6). Agência, conta e dígito verificador no formato de cada emissor.",
+    date: "2026-05-26",
+    readTime: "12 min",
+    category: "Tutoriais",
+  },
+  {
     slug: "validar-cnh-javascript-algoritmo-denatran",
     title: "Validar CNH em JavaScript: Algoritmo DENATRAN Passo a Passo",
     excerpt: "Implementação completa do validador de CNH em JavaScript e TypeScript. Algoritmo oficial do DENATRAN com mod-11 invertido, 2 dígitos verificadores, regex e Zod schema. Código rodável.",
