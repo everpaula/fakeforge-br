@@ -15,6 +15,7 @@ export const metadata: Metadata = {
     description:
       "Faker.py tem locale pt_BR com CPF e CNPJ válidos via mod-11. FakeForge cobre CNPJ alfanumérico, PIX BACEN, CIN e dados correlacionados. Quando usar cada um.",
     type: "article",
+    images: ["/api/og?title=FakeForge+vs+Faker+%28Python%29&subtitle=Faker.py+tem+CPF%2FCNPJ+v%C3%A1lidos.+Falta+PIX%2C+CNH%2C+CIN+e+correla%C3%A7%C3%A3o&category=COMPARATIVO"],
   },
 };
 

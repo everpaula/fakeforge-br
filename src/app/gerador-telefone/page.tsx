@@ -13,6 +13,7 @@ export const metadata: Metadata = {
     title: "Gerador de Telefone e Celular Brasileiro Válido",
     description: "Celular e fixo com DDD real do Brasil para testes de formulários, SMS, APIs e checkout. Grátis.",
     type: "website",
+    images: ["/api/og?title=Gerador+de+Telefone+e+Celular&subtitle=N%C3%BAmero+brasileiro+com+DDD+real+para+testes+de+SMS+e+formul%C3%A1rios&category=GERADOR"],
   },
   alternates: { canonical: "/gerador-telefone" },
 };

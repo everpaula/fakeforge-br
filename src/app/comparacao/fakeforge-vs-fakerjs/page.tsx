@@ -15,6 +15,7 @@ export const metadata: Metadata = {
     description:
       "Faker.js é uma lib JS internacional com locale pt_BR mas CPF/CNPJ não passam em mod-11. FakeForge é API BR com validação algorítmica. Quando usar cada um.",
     type: "article",
+    images: ["/api/og?title=FakeForge+vs+Faker.js&subtitle=Lib+JS+com+locale+pt_BR+vs+API+BR+com+valida%C3%A7%C3%A3o+algor%C3%ADtmica&category=COMPARATIVO"],
   },
 };
 

@@ -47,10 +47,10 @@ export const metadata: Metadata = {
     description: "Gere CPF, CNPJ, CEP, nomes, emails, telefones e mais dados brasileiros fictícios para desenvolvimento e testes. Grátis e sem cadastro.",
     images: [
       {
-        url: "/og-image.png",
+        url: "/api/og?title=FakeForge+BR&subtitle=Gerador+de+dados+brasileiros+v%C3%A1lidos+para+testes",
         width: 1200,
         height: 630,
-        alt: "FakeForge BR — Gerador de dados brasileiros para testes",
+        alt: "FakeForge BR: gerador de dados brasileiros para testes",
       },
     ],
   },
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "FakeForge BR - Gerador de Dados Brasileiros",
     description: "Gere CPF, CNPJ, endereços e mais dados brasileiros fictícios para testes. API REST gratuita.",
-    images: ["/og-image.png"],
+    images: ["/api/og?title=FakeForge+BR&subtitle=Gerador+de+dados+brasileiros+v%C3%A1lidos+para+testes"],
   },
 };
 

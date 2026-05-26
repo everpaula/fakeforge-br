@@ -15,6 +15,7 @@ export const metadata: Metadata = {
     title: "Gerador de Pessoa Fictícia Brasileira Completa",
     description: "Pessoa com nome, CPF válido, email, telefone e endereço correlacionados para seed de banco e cadastros de teste.",
     type: "website",
+    images: ["/api/og?title=Gerador+de+Pessoa+Fict%C3%ADcia&subtitle=Nome%2C+CPF+v%C3%A1lido%2C+email%2C+telefone+e+endere%C3%A7o+correlacionados&category=GERADOR"],
   },
   alternates: { canonical: "/gerador-pessoa" },
 };

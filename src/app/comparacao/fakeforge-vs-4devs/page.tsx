@@ -15,6 +15,7 @@ export const metadata: Metadata = {
     description:
       "4devs é veterano do nicho, copia-e-cola no navegador. FakeForge tem API REST, export SQL, dados correlacionados e CNPJ alfanumérico. Quando usar cada um.",
     type: "article",
+    images: ["/api/og?title=FakeForge+vs+4devs&subtitle=4devs+%C3%A9+veterano+sem+API.+FakeForge+%C3%A9+API+%2B+correla%C3%A7%C3%A3o+%2B+SQL&category=COMPARATIVO"],
   },
 };
 

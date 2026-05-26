@@ -13,6 +13,7 @@ export const metadata: Metadata = {
     title: "Gerador de Empresa Fictícia - FakeForge BR",
     description: "Gere empresas fictícias com CNPJ válido, razão social e endereço para testes. Grátis e sem cadastro.",
     type: "website",
+    images: ["/api/og?title=Gerador+de+Empresa+Fict%C3%ADcia&subtitle=CNPJ+v%C3%A1lido%2C+raz%C3%A3o+social%2C+endere%C3%A7o+e+contato+correlacionados&category=GERADOR"],
   },
 };
 

@@ -13,6 +13,7 @@ export const metadata: Metadata = {
     title: "Gerador de Conta Bancária Válida — Agência e Dígito Verificador",
     description: "Contas fictícias com banco, agência e dígito verificador válido para testes de pagamento.",
     type: "website",
+    images: ["/api/og?title=Gerador+de+Conta+Banc%C3%A1ria&subtitle=Banco%2C+ag%C3%AAncia+e+d%C3%ADgito+verificador+v%C3%A1lido+para+testes&category=GERADOR"],
   },
   alternates: { canonical: "/gerador-conta-bancaria" },
 };

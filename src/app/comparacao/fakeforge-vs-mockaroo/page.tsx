@@ -15,6 +15,7 @@ export const metadata: Metadata = {
     description:
       "Mockaroo é internacional, FakeForge é especialista BR. Comparativo de validações, API, preço e quando usar cada um.",
     type: "article",
+    images: ["/api/og?title=FakeForge+vs+Mockaroo&subtitle=Mockaroo+%C3%A9+internacional%2C+FakeForge+%C3%A9+BR+especialista&category=COMPARATIVO"],
   },
 };
 

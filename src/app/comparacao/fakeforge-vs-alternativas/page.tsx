@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   description: "Comparativo técnico entre FakeForge BR e as principais alternativas para gerar dados brasileiros de teste: 4devs.com.br, Faker.js (locale pt_BR), fakerbr (npm). Recursos, API, validação e quando usar cada um.",
   keywords: "fakeforge vs 4devs, alternativa faker.js brasil, comparação geradores dados brasileiros, fakerbr alternativa, melhor gerador cpf cnpj brasil",
   alternates: { canonical: "/comparacao/fakeforge-vs-alternativas" },
+  openGraph: {
+    images: ["/api/og?title=FakeForge+vs+Alternativas&subtitle=Compara%C3%A7%C3%A3o+t%C3%A9cnica+entre+os+principais+geradores+brasileiros+em+2026&category=COMPARATIVO"],
+  },
 };
 
 const COMPARISON = [

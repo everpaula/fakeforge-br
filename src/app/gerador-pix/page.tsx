@@ -15,6 +15,7 @@ export const metadata: Metadata = {
     title: "Gerador de Chave PIX — CPF, CNPJ, Email, Celular",
     description: "Chaves PIX válidas nos 4 formatos do BACEN para testes de integração. Grátis.",
     type: "website",
+    images: ["/api/og?title=Gerador+de+Chave+PIX&subtitle=CPF%2C+email%2C+telefone+ou+EVP+UUID+no+formato+BACEN&category=GERADOR"],
   },
   alternates: { canonical: "/gerador-pix" },
 };
