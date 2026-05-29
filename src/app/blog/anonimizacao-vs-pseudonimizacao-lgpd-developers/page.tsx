@@ -10,6 +10,7 @@ export const metadata: Metadata = {
     title: "Anonimização vs Pseudonimização LGPD: guia prático para devs",
     description: "Entenda a diferença técnica entre anonimização e pseudonimização pela LGPD, quando cada técnica se aplica e como implementá-las em código TypeScript.",
     type: "article",
+    images: ["/api/og?title=Anonimiza%C3%A7%C3%A3o%20vs%20Pseudonimiza%C3%A7%C3%A3o%20LGPD%3A%20guia%20pr%C3%A1tico%20para%20devs&subtitle=Entenda%20a%20diferen%C3%A7a%20t%C3%A9cnica%20entre%20anonimiza%C3%A7%C3%A3o%20e%20pseudonimiza%C3%A7%C3%A3o%20pela%20LGPD%2C%20quando%20cada%20t%C3%A9cnica%20se%20aplica%20e%20como%20implement%C3%A1-las%20em%20c%C3%B3digo%20Ty&category=LGPD"],
   },
   alternates: { canonical: "/blog/anonimizacao-vs-pseudonimizacao-lgpd-developers" },
 };

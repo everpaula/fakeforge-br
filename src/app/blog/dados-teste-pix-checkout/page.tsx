@@ -12,6 +12,7 @@ export const metadata: Metadata = {
     title: "Dados de teste para PIX e checkout",
     description: "Como gerar dados fictícios para testar fluxos de pagamento sem usar dados reais.",
     type: "article",
+    images: ["/api/og?title=Dados%20de%20teste%20para%20PIX%20e%20checkout&subtitle=Como%20gerar%20dados%20fict%C3%ADcios%20para%20testar%20fluxos%20de%20pagamento%20sem%20usar%20dados%20reais.&category=TUTORIAIS"],
   },
 };
 

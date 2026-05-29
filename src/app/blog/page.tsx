@@ -14,6 +14,14 @@ export const metadata: Metadata = {
 
 const POSTS = [
   {
+    slug: "gerador-inscricao-estadual-sp-algoritmo",
+    title: "Inscrição Estadual SP: Algoritmo Passo a Passo e Gerador em TypeScript",
+    excerpt: "Formato e algoritmo do dígito verificador da IE-SP, implementação completa do gerador e validador em TypeScript com exemplos rodáveis e edge cases.",
+    date: "2026-05-26",
+    readTime: "11 min",
+    category: "Tutoriais",
+  },
+  {
     slug: "gerar-boleto-febraban-linha-digitavel-nodejs-testes",
     title: "Boleto FEBRABAN em Node.js: Gerar Linha Digitável para Testes",
     excerpt: "Implementação completa do cálculo da linha digitável FEBRABAN em Node.js: código de barras, dígitos verificadores mod-10 e mod-11, conversão para 47 dígitos digitáveis. Pronto pra QA e CI/CD.",

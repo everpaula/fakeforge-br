@@ -12,6 +12,7 @@ export const metadata: Metadata = {
     title: "Como automatizar dados de teste no CI/CD com API",
     description: "Exemplos práticos para integrar geração de dados brasileiros no seu pipeline.",
     type: "article",
+    images: ["/api/og?title=Como%20automatizar%20dados%20de%20teste%20no%20CI%2FCD%20com%20API&subtitle=Exemplos%20pr%C3%A1ticos%20para%20integrar%20gera%C3%A7%C3%A3o%20de%20dados%20brasileiros%20no%20seu%20pipeline.&category=TUTORIAIS"],
   },
 };
 

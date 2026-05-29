@@ -12,6 +12,7 @@ export const metadata: Metadata = {
     title: "Como funciona o algoritmo de Luhn: validação de cartão de crédito",
     description: "Entenda o algoritmo de Luhn (mod-10) e como validar números de cartão de crédito.",
     type: "article",
+    images: ["/api/og?title=Como%20funciona%20o%20algoritmo%20de%20Luhn%3A%20valida%C3%A7%C3%A3o%20de%20cart%C3%A3o%20de%20cr%C3%A9dito&subtitle=Entenda%20o%20algoritmo%20de%20Luhn%20(mod-10)%20e%20como%20validar%20n%C3%BAmeros%20de%20cart%C3%A3o%20de%20cr%C3%A9dito.&category=CONCEITOS"],
   },
 };
 

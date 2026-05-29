@@ -11,6 +11,7 @@ export const metadata: Metadata = {
     title: "LGPD e dados de teste: o que todo dev precisa saber",
     description: "Guia sobre como a LGPD afeta o uso de dados em ambientes de desenvolvimento e teste.",
     type: "article",
+    images: ["/api/og?title=LGPD%20e%20dados%20de%20teste%3A%20o%20que%20todo%20dev%20precisa%20saber&subtitle=Guia%20sobre%20como%20a%20LGPD%20afeta%20o%20uso%20de%20dados%20em%20ambientes%20de%20desenvolvimento%20e%20teste.&category=LGPD"],
   },
 };
 

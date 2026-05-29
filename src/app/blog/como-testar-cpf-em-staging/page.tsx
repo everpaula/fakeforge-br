@@ -12,6 +12,7 @@ export const metadata: Metadata = {
     title: "Como testar CPF em ambiente de staging sem usar dados reais",
     description: "Guia prático para testar validação de CPF em staging sem violar a LGPD.",
     type: "article",
+    images: ["/api/og?title=Como%20testar%20CPF%20em%20ambiente%20de%20staging%20sem%20usar%20dados%20reais&subtitle=Guia%20pr%C3%A1tico%20para%20testar%20valida%C3%A7%C3%A3o%20de%20CPF%20em%20staging%20sem%20violar%20a%20LGPD.&category=LGPD"],
   },
 };
 

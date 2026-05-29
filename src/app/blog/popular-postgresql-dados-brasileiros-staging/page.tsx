@@ -10,6 +10,7 @@ export const metadata: Metadata = {
     title: "Popular PostgreSQL com dados brasileiros para staging",
     description: "Aprenda a gerar CPF, CNPJ, endereços e PIX válidos e inserir em um banco PostgreSQL de staging com scripts prontos e API REST.",
     type: "article",
+    images: ["/api/og?title=Popular%20PostgreSQL%20com%20dados%20brasileiros%20para%20staging&subtitle=Aprenda%20a%20gerar%20CPF%2C%20CNPJ%2C%20endere%C3%A7os%20e%20PIX%20v%C3%A1lidos%20e%20inserir%20em%20um%20banco%20PostgreSQL%20de%20staging%20com%20scripts%20prontos%20e%20API%20REST.&category=TUTORIAIS"],
   },
   alternates: { canonical: "/blog/popular-postgresql-dados-brasileiros-staging" },
 };

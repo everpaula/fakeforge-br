@@ -10,6 +10,7 @@ export const metadata: Metadata = {
     title: "QR Code PIX Dinâmico (EMV BR Code) em Node.js",
     description: "Aprenda a gerar QR Code PIX dinâmico no padrão EMV BR Code em Node.js — payload, cálculo CRC16-CCITT, bibliotecas e testes com dados fictícios.",
     type: "article",
+    images: ["/api/og?title=QR%20Code%20PIX%20Din%C3%A2mico%20(EMV%20BR%20Code)%20em%20Node.js&subtitle=Aprenda%20a%20gerar%20QR%20Code%20PIX%20din%C3%A2mico%20no%20padr%C3%A3o%20EMV%20BR%20Code%20em%20Node.js%20%E2%80%94%20payload%2C%20c%C3%A1lculo%20CRC16-CCITT%2C%20bibliotecas%20e%20testes%20com%20dados%20fict%C3%ADci&category=TUTORIAIS"],
   },
   alternates: { canonical: "/blog/qr-code-pix-dinamico-emv-br-code-nodejs" },
 };

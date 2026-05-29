@@ -10,6 +10,7 @@ export const metadata: Metadata = {
     title: "FakeForge vs Mockaroo vs Faker.js: qual gera dados brasileiros de verdade?",
     description: "Compare FakeForge, Mockaroo e Faker.js para CPF, CNPJ, PIX e endereços BR. Veja qual valida checksums, exporta SQL e respeita a LGPD.",
     type: "article",
+    images: ["/api/og?title=FakeForge%20vs%20Mockaroo%20vs%20Faker.js%3A%20qual%20gera%20dados%20brasileiros%20de%20verdade%3F&subtitle=Compare%20FakeForge%2C%20Mockaroo%20e%20Faker.js%20para%20CPF%2C%20CNPJ%2C%20PIX%20e%20endere%C3%A7os%20BR.%20Veja%20qual%20valida%20checksums%2C%20exporta%20SQL%20e%20respeita%20a%20LGPD.&category=COMPARATIVOS"],
   },
   alternates: { canonical: "/blog/fakeforge-vs-mockaroo-vs-fakerjs-dados-brasileiros" },
 };

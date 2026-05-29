@@ -12,6 +12,7 @@ export const metadata: Metadata = {
     title: "Como gerar CPF válido para testes sem violar a LGPD",
     description: "Guia completo sobre geração de CPFs fictícios para desenvolvimento e testes.",
     type: "article",
+    images: ["/api/og?title=Como%20gerar%20CPF%20v%C3%A1lido%20para%20testes%20sem%20violar%20a%20LGPD&subtitle=Guia%20completo%20sobre%20gera%C3%A7%C3%A3o%20de%20CPFs%20fict%C3%ADcios%20para%20desenvolvimento%20e%20testes.&category=LGPD"],
   },
 };
 

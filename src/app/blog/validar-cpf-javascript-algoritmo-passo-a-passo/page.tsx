@@ -10,6 +10,7 @@ export const metadata: Metadata = {
     title: "Validar CPF em JavaScript: algoritmo passo a passo",
     description: "Implemente a validação de CPF em JavaScript do zero: cálculo dos dígitos verificadores, casos extremos e integração com formulários reais.",
     type: "article",
+    images: ["/api/og?title=Validar%20CPF%20em%20JavaScript%3A%20algoritmo%20passo%20a%20passo&subtitle=Implemente%20a%20valida%C3%A7%C3%A3o%20de%20CPF%20em%20JavaScript%20do%20zero%3A%20c%C3%A1lculo%20dos%20d%C3%ADgitos%20verificadores%2C%20casos%20extremos%20e%20integra%C3%A7%C3%A3o%20com%20formul%C3%A1rios%20reais.&category=TUTORIAIS"],
   },
   alternates: { canonical: "/blog/validar-cpf-javascript-algoritmo-passo-a-passo" },
 };

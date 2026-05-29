@@ -10,6 +10,7 @@ export const metadata: Metadata = {
     title: "Como mockar CEP no Cypress com dados brasileiros falsos",
     description: "Aprenda a interceptar chamadas de CEP no Cypress e retornar endereços brasileiros falsos e coerentes — sem depender de APIs externas nos seus testes.",
     type: "article",
+    images: ["/api/og?title=Como%20mockar%20CEP%20no%20Cypress%20com%20dados%20brasileiros%20falsos&subtitle=Aprenda%20a%20interceptar%20chamadas%20de%20CEP%20no%20Cypress%20e%20retornar%20endere%C3%A7os%20brasileiros%20falsos%20e%20coerentes%20%E2%80%94%20sem%20depender%20de%20APIs%20externas%20nos%20seu&category=TUTORIAIS"],
   },
   alternates: { canonical: "/blog/mockar-cep-cypress-dados-brasileiros-falsos" },
 };

@@ -13,6 +13,7 @@ export const metadata: Metadata = {
     title: "Como popular banco de dados com dados fictícios brasileiros",
     description: "Guia prático para seed de bancos de dados com dados brasileiros realistas via API.",
     type: "article",
+    images: ["/api/og?title=Como%20popular%20banco%20de%20dados%20com%20dados%20fict%C3%ADcios%20brasileiros&subtitle=Guia%20pr%C3%A1tico%20para%20seed%20de%20bancos%20de%20dados%20com%20dados%20brasileiros%20realistas%20via%20API.&category=TUTORIAIS"],
   },
 };
 

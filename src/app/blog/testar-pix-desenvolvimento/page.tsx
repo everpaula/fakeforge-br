@@ -12,6 +12,7 @@ export const metadata: Metadata = {
     title: "Como testar pagamento PIX em ambiente de desenvolvimento",
     description: "Guia para testar PIX em dev: dados fictícios vs sandbox de gateway.",
     type: "article",
+    images: ["/api/og?title=Como%20testar%20pagamento%20PIX%20em%20ambiente%20de%20desenvolvimento&subtitle=Guia%20para%20testar%20PIX%20em%20dev%3A%20dados%20fict%C3%ADcios%20vs%20sandbox%20de%20gateway.&category=TUTORIAIS"],
   },
 };
 

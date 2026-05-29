@@ -193,6 +193,8 @@ export function generatePageTsx(post: PostData): string {
               <p className="px-4 pb-3 text-sm text-muted-foreground">${escapeJsx(a)}</p>
             </details>`).join("");
 
+  const ogImageUrl = `/api/og?title=${encodeURIComponent(post.title)}&subtitle=${encodeURIComponent(post.metaDescription.slice(0, 140))}&category=${encodeURIComponent(post.category.toUpperCase())}`;
+
   return `import type { Metadata } from "next";
 import Link from "next/link";
 import PageShell from "@/components/PageShell";
@@ -205,6 +207,7 @@ export const metadata: Metadata = {
     title: ${JSON.stringify(post.title)},
     description: ${JSON.stringify(post.metaDescription)},
     type: "article",
+    images: [${JSON.stringify(ogImageUrl)}],
   },
   alternates: { canonical: ${JSON.stringify("/blog/" + post.slug)} },
 };

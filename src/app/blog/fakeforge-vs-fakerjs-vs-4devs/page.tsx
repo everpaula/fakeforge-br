@@ -11,6 +11,7 @@ export const metadata: Metadata = {
     title: "FakeForge vs Faker.js vs 4devs: qual usar para dados brasileiros?",
     description: "Comparativo honesto entre os principais geradores de dados fake brasileiros.",
     type: "article",
+    images: ["/api/og?title=FakeForge%20vs%20Faker.js%20vs%204devs%3A%20qual%20usar%20para%20dados%20brasileiros%3F&subtitle=Comparativo%20honesto%20entre%20os%20principais%20geradores%20de%20dados%20fake%20brasileiros.&category=COMPARATIVOS"],
   },
 };
 
