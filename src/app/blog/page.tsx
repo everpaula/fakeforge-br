@@ -14,6 +14,14 @@ export const metadata: Metadata = {
 
 const POSTS = [
   {
+    slug: "documentos-brasileiros-formatos-algoritmos-validacao",
+    title: "Documentos Brasileiros para Devs: Formatos e Algoritmos de Validação",
+    excerpt: "Guia completo de CPF, CNPJ, RG, CIN, CNH, PIS, Título de Eleitor, CEP e mais: formatos, dígitos verificadores, algoritmos mod-11 e ASCII-48, exemplos de validação e implementação.",
+    date: "2026-06-02",
+    readTime: "14 min",
+    category: "Conceitos",
+  },
+  {
     slug: "gerador-conta-corrente-nodejs-digito-verificador-banco",
     title: "Conta Corrente em Node.js: Calculando o Dígito Verificador por Banco",
     excerpt: "Implementação do dígito verificador de conta corrente em Node.js para Itaú, Bradesco, Banco do Brasil, Nubank, Inter e mais 12 bancos. Algoritmos mod-10 e mod-11 com pesos específicos por instituição.",
