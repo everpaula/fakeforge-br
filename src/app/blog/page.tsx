@@ -14,6 +14,14 @@ export const metadata: Metadata = {
 
 const POSTS = [
   {
+    slug: "cnpj-fake-vs-cnpj-valido-testes",
+    title: "CNPJ Fake vs CNPJ Válido: Diferença e Quando Usar em Testes",
+    excerpt: "Diferença técnica entre CNPJ fake (formato apenas) e CNPJ válido (com mod-11 calculado). Quando usar cada um em unit tests, integração, staging e load testing sem violar LGPD.",
+    date: "2026-05-27",
+    readTime: "10 min",
+    category: "Conceitos",
+  },
+  {
     slug: "gerador-inscricao-estadual-sp-algoritmo",
     title: "Inscrição Estadual SP: Algoritmo Passo a Passo e Gerador em TypeScript",
     excerpt: "Formato e algoritmo do dígito verificador da IE-SP, implementação completa do gerador e validador em TypeScript com exemplos rodáveis e edge cases.",

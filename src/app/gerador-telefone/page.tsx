@@ -6,9 +6,9 @@ import ApiCtaBanner from "@/components/ApiCtaBanner";
 import GeneratorSchema from "@/components/GeneratorSchema";
 
 export const metadata: Metadata = {
-  title: "Gerador de Telefone e Celular Válido com DDD Real do Brasil",
-  description: "Gere número de celular ou telefone fixo brasileiro com DDD real (67 DDDs válidos), formato ANATEL e prefixo 9 do celular. Para testes de formulários, SMS, APIs e checkout. Grátis e sem cadastro.",
-  keywords: "gerador de telefone, gerador de celular, número celular fictício, telefone fake brasileiro, DDD válido, gerador número SMS, ANATEL formato, gerar telefone teste",
+  title: "Gerador de Telefone, Celular e Fixo Residencial com DDD do Brasil",
+  description: "Gere número de celular, telefone fixo ou residencial brasileiro com DDD real (67 DDDs válidos), formato ANATEL e prefixo 9 do celular. Para testes de formulários, SMS, APIs e checkout. Grátis e sem cadastro.",
+  keywords: "gerador de telefone, gerador de celular, gerador telefone fixo, números telefones residenciais, número celular fictício, telefone fake brasileiro, DDD válido, gerador número SMS, ANATEL formato, gerar telefone teste, gerador de tel",
   openGraph: {
     title: "Gerador de Telefone e Celular Brasileiro Válido",
     description: "Celular e fixo com DDD real do Brasil para testes de formulários, SMS, APIs e checkout. Grátis.",
@@ -23,12 +23,13 @@ export default function GeradorTelefone() {
     <PageShell>
       <div className="mb-8">
         <h1 className="text-3xl font-bold tracking-tight">
-          Gerador de <span className="text-primary">Telefone</span> e Celular
+          Gerador de <span className="text-primary">Telefone</span>, Celular e Fixo Residencial
         </h1>
         <p className="text-muted mt-2 text-sm leading-relaxed max-w-2xl">
-          Gere números de celular e telefone fixo brasileiros fictícios com DDDs válidos.
-          Os números seguem o formato real da ANATEL (celular com 9 dígitos, fixo com 8),
-          mas não pertencem a nenhuma linha ativa. Ideal para testes de formulários, validação de campos e integração com APIs de SMS.
+          Gere números de celular, telefone fixo e residencial brasileiros fictícios com DDDs válidos.
+          Os números seguem o formato real da ANATEL (celular com 9 dígitos, fixo e residencial com 8),
+          mas não pertencem a nenhuma linha ativa. Ideal para testes de formulários, validação de campos
+          e integração com APIs de SMS.
         </p>
       </div>
 
@@ -40,8 +41,8 @@ export default function GeradorTelefone() {
         />
         <SingleGenerator
           type="landline"
-          label="Telefone Fixo"
-          description="Clique em Gerar para criar números de telefone fixo"
+          label="Telefone Fixo / Residencial"
+          description="Clique em Gerar para criar números de telefone fixo ou residencial"
         />
       </div>
 
@@ -83,7 +84,8 @@ export default function GeradorTelefone() {
           <h2 className="text-lg font-semibold text-foreground mb-4">Perguntas Frequentes</h2>
           <div className="space-y-4">
             {[
-              { q: "Os números gerados são de linhas reais?", a: "Não. Os números são fictícios — seguem o formato correto da ANATEL com DDDs válidos, mas não correspondem a nenhuma linha telefônica ativa." },
+              { q: "Os números gerados são de linhas reais?", a: "Não. Os números são fictícios. Seguem o formato correto da ANATEL com DDDs válidos, mas não correspondem a nenhuma linha telefônica ativa." },
+              { q: "Qual a diferença entre celular, telefone fixo e residencial?", a: "Celular tem 9 dígitos e começa com 9 após o DDD (ex: (11) 98765-4321). Telefone fixo comercial e residencial têm 8 dígitos e começam com 2, 3, 4 ou 5 após o DDD (ex: (11) 3456-7890). O FakeForge gera ambos os formatos respeitando a regra ANATEL." },
               { q: "Posso usar esses números para testes de SMS?", a: "Sim. São ideais para testar a validação e formatação em sistemas que enviam SMS. Obviamente, nenhuma mensagem será entregue, já que os números não existem." },
               { q: "Os DDDs gerados são reais?", a: "Sim. O FakeForge usa DDDs reais dos principais estados brasileiros (11-SP, 21-RJ, 31-MG, 41-PR, 51-RS, etc.), garantindo que o formato passe em validações regionais." },
               { q: "Qual o formato do número gerado?", a: "Celular: (11) 98765-4321 (formatado) ou 11987654321 (sem formato). Fixo: (11) 3456-7890 (formatado) ou 1134567890 (sem formato). Use o toggle 'Formatado' para alternar." },
@@ -122,7 +124,8 @@ export default function GeradorTelefone() {
             "@context": "https://schema.org",
             "@type": "FAQPage",
             mainEntity: [
-              { "@type": "Question", name: "Os números gerados são de linhas reais?", acceptedAnswer: { "@type": "Answer", text: "Não. Os números são fictícios — seguem o formato correto da ANATEL com DDDs válidos, mas não correspondem a nenhuma linha telefônica ativa." } },
+              { "@type": "Question", name: "Os números gerados são de linhas reais?", acceptedAnswer: { "@type": "Answer", text: "Não. Os números são fictícios. Seguem o formato correto da ANATEL com DDDs válidos, mas não correspondem a nenhuma linha telefônica ativa." } },
+              { "@type": "Question", name: "Qual a diferença entre celular, telefone fixo e residencial?", acceptedAnswer: { "@type": "Answer", text: "Celular tem 9 dígitos e começa com 9 após o DDD (ex: (11) 98765-4321). Telefone fixo comercial e residencial têm 8 dígitos e começam com 2, 3, 4 ou 5 após o DDD (ex: (11) 3456-7890). O FakeForge gera ambos os formatos respeitando a regra ANATEL." } },
               { "@type": "Question", name: "Posso usar esses números para testes de SMS?", acceptedAnswer: { "@type": "Answer", text: "Sim. São ideais para testar a validação e formatação em sistemas que enviam SMS. Obviamente, nenhuma mensagem será entregue, já que os números não existem." } },
               { "@type": "Question", name: "Os DDDs gerados são reais?", acceptedAnswer: { "@type": "Answer", text: "Sim. O FakeForge usa DDDs reais dos principais estados brasileiros (11-SP, 21-RJ, 31-MG, 41-PR, 51-RS, etc.), garantindo que o formato passe em validações regionais." } },
               { "@type": "Question", name: "Qual o formato do número gerado?", acceptedAnswer: { "@type": "Answer", text: "Celular: (11) 98765-4321 (formatado) ou 11987654321 (sem formato). Fixo: (11) 3456-7890 (formatado) ou 1134567890 (sem formato). Use o toggle 'Formatado' para alternar." } },
