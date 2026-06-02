@@ -6,12 +6,12 @@ import ApiCtaBanner from "@/components/ApiCtaBanner";
 import GeneratorSchema from "@/components/GeneratorSchema";
 
 export const metadata: Metadata = {
-  title: "Gerador de Conta Bancária Válida — Banco, Agência e Dígito",
-  description: "Gere contas bancárias fictícias com banco, agência e número com dígito verificador válido. Itaú, BB, Bradesco, Nubank e outros. Para testes de integração de pagamento. Grátis.",
-  keywords: "gerador de conta bancária, dados bancários teste, conta bancária válida, banco agência conta, dados bancários desenvolvimento, gerador banco brasil, compe código banco",
+  title: "Gerador de Conta Bancária e Conta Corrente Válida (Banco, Agência, Dígito)",
+  description: "Gere conta bancária e conta corrente fictícia com banco, agência e número com dígito verificador válido. 17 bancos: Bradesco, Itaú, Nubank, BB, Santander, Inter, C6 e mais. Para testes de pagamento e cadastros. Grátis.",
+  keywords: "gerador de conta bancária, gerador de conta corrente, geradores de contas, gerador conta bancaria, dados bancários teste, conta bancária válida, conta corrente fake, banco agência conta, dados bancários desenvolvimento, gerador banco brasil, compe código banco",
   openGraph: {
-    title: "Gerador de Conta Bancária Válida — Agência e Dígito Verificador",
-    description: "Contas fictícias com banco, agência e dígito verificador válido para testes de pagamento.",
+    title: "Gerador de Conta Bancária e Conta Corrente Brasileira",
+    description: "Contas correntes fictícias com banco, agência e dígito verificador válido para testes de pagamento e cadastros.",
     type: "website",
     images: ["/api/og?title=Gerador+de+Conta+Banc%C3%A1ria&subtitle=Banco%2C+ag%C3%AAncia+e+d%C3%ADgito+verificador+v%C3%A1lido+para+testes&category=GERADOR"],
   },
@@ -23,11 +23,12 @@ export default function GeradorContaBancaria() {
     <PageShell>
       <div className="mb-8">
         <h1 className="text-3xl font-bold tracking-tight">
-          Gerador de <span className="text-primary">Conta Bancária</span>
+          Gerador de <span className="text-primary">Conta Bancária</span> e Conta Corrente
         </h1>
         <p className="text-muted mt-2 text-sm leading-relaxed max-w-2xl">
-          Gere dados bancários fictícios brasileiros com códigos de banco reais (Banco do Brasil, Itaú,
-          Bradesco, Santander, Nubank, Inter e outros), número de agência e conta. Ideal para testar
+          Gere conta corrente e dados bancários fictícios brasileiros com códigos de banco reais
+          (Banco do Brasil, Itaú, Bradesco, Santander, Nubank, Inter, C6, BTG e mais 9 instituições),
+          número de agência e conta com dígito verificador no formato de cada banco. Ideal para testar
           integração com APIs de pagamento, validar formulários de dados bancários e popular ambientes de staging.
         </p>
       </div>
@@ -70,6 +71,36 @@ export default function GeradorContaBancaria() {
           </p>
         </section>
 
+        <section>
+          <h2 className="text-lg font-semibold text-foreground mb-2">Diferença entre conta corrente, poupança e conta digital</h2>
+          <p className="mb-2">
+            Conta corrente é a modalidade tradicional usada para movimentação diária, com cheque, débito e
+            crédito. Conta poupança rende juros mas tem restrições de saque para manter rendimento.
+            Conta digital (Nubank, Inter, C6, BTG) é uma variação moderna da conta corrente, totalmente
+            online, geralmente sem tarifas.
+          </p>
+          <p>
+            O FakeForge gera os três tipos. O formato do número da conta varia por banco: Itaú usa 5 dígitos
+            + 1 verificador, Bradesco usa 6 + 1, Banco do Brasil usa até 8 + 1, Nubank e Inter usam formato
+            próprio com mais dígitos. Cada conta gerada respeita o padrão do banco emissor.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-lg font-semibold text-foreground mb-2">17 bancos brasileiros cobertos</h2>
+          <p className="mb-3">
+            Banco do Brasil (001), Bradesco (237), Itaú (341), Santander (033), Caixa Econômica (104),
+            Nubank (260), Inter (077), C6 Bank (336), BTG Pactual (208), Original (212), Sicredi (748),
+            Sicoob (756), Banco Safra (422), Banco Pan (623), Will Bank (646), Neon (655), Mercado Pago (323).
+          </p>
+          <p>
+            Cada banco tem regras específicas de dígito verificador (mod-10 ou mod-11 com pesos variados).
+            O FakeForge gera contas que passam na regra de cada instituição, então o número da conta para
+            o Itaú segue o algoritmo do Itaú, e o número da conta para o Bradesco segue o algoritmo do
+            Bradesco.
+          </p>
+        </section>
+
         {/* FAQ Section */}
         <section>
           <h2 className="text-lg font-semibold text-foreground mb-4">Perguntas Frequentes</h2>
@@ -103,6 +134,7 @@ export default function GeradorContaBancaria() {
           <Link href="/gerador-cpf" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Gerador de CPF</Link>
           <Link href="/gerador-pessoa" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Gerador de Pessoa</Link>
           <Link href="/docs" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">API REST</Link>
+          <Link href="/blog/gerador-conta-corrente-nodejs-digito-verificador-banco" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Dígito verificador por banco</Link>
           <Link href="/blog/conta-bancaria-fake-bradesco-itau-nubank-testes" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Bradesco, Itaú e Nubank fake</Link>
           <Link href="/blog/gerar-boleto-febraban-linha-digitavel-nodejs-testes" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Boleto FEBRABAN em Node.js</Link>
           <Link href="/blog/dados-teste-pix-checkout" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Dados de teste para PIX</Link>

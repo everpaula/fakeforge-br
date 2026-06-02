@@ -14,6 +14,14 @@ export const metadata: Metadata = {
 
 const POSTS = [
   {
+    slug: "gerador-conta-corrente-nodejs-digito-verificador-banco",
+    title: "Conta Corrente em Node.js: Calculando o Dígito Verificador por Banco",
+    excerpt: "Implementação do dígito verificador de conta corrente em Node.js para Itaú, Bradesco, Banco do Brasil, Nubank, Inter e mais 12 bancos. Algoritmos mod-10 e mod-11 com pesos específicos por instituição.",
+    date: "2026-06-02",
+    readTime: "12 min",
+    category: "Tutoriais",
+  },
+  {
     slug: "cnpj-fake-vs-cnpj-valido-testes",
     title: "CNPJ Fake vs CNPJ Válido: Diferença e Quando Usar em Testes",
     excerpt: "Diferença técnica entre CNPJ fake (formato apenas) e CNPJ válido (com mod-11 calculado). Quando usar cada um em unit tests, integração, staging e load testing sem violar LGPD.",

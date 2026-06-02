@@ -8,7 +8,7 @@ import GeneratorSchema from "@/components/GeneratorSchema";
 export const metadata: Metadata = {
   title: "Gerador de Telefone, Celular e Fixo Residencial com DDD do Brasil",
   description: "Gere número de celular, telefone fixo ou residencial brasileiro com DDD real (67 DDDs válidos), formato ANATEL e prefixo 9 do celular. Para testes de formulários, SMS, APIs e checkout. Grátis e sem cadastro.",
-  keywords: "gerador de telefone, gerador de celular, gerador telefone fixo, números telefones residenciais, número celular fictício, telefone fake brasileiro, DDD válido, gerador número SMS, ANATEL formato, gerar telefone teste, gerador de tel",
+  keywords: "gerador de telefone, gerador de celular, gerador telefone fixo, números telefones residenciais, número celular fictício, telefone fake brasileiro, DDD válido, gerador número SMS, ANATEL formato, gerar telefone teste, gerador de tel, generador de numero de telefono brasil, numero de telefono brasil generador, generador telefono brasileño",
   openGraph: {
     title: "Gerador de Telefone e Celular Brasileiro Válido",
     description: "Celular e fixo com DDD real do Brasil para testes de formulários, SMS, APIs e checkout. Grátis.",
@@ -76,6 +76,17 @@ export default function GeradorTelefone() {
             Celulares brasileiros sempre começam com 9 após o DDD (ex: 11 9XXXX-XXXX), totalizando 11 dígitos.
             Telefones fixos não têm o 9 inicial e têm 10 dígitos (ex: 11 XXXX-XXXX). O FakeForge gera ambos
             os formatos corretamente, com ou sem formatação.
+          </p>
+        </section>
+
+        {/* Spanish section for ES-speaking developers */}
+        <section lang="es">
+          <h2 className="text-lg font-semibold text-foreground mb-2">Generador de números de teléfono de Brasil</h2>
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            Si llegaste buscando un <strong>generador de número de teléfono brasileño</strong> para tus tests:
+            FakeForge crea números de móvil y fijo brasileños con DDD real (los 67 códigos de área del país)
+            y formato ANATEL. Útil para QA, integraciones con APIs de SMS, formularios y datos de prueba en
+            checkout. Gratis y sin registro. Los números son ficticios, no corresponden a líneas activas.
           </p>
         </section>
 
