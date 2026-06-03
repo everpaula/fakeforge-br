@@ -18,10 +18,16 @@ export interface BrandLandingConfig {
   about: string;
   history: string;
   technicalNote?: string;
+  // Optional English section for international developer queries
+  // (visa card generator, fake card generator, etc — 3K+ vol/mo combined)
+  englishSection?: {
+    headline: string;
+    body: string;
+  };
 }
 
 export default function BrandCardLanding({ config }: { config: BrandLandingConfig }) {
-  const { brandName, brandSlug, generatorType, prefixDescription, cardLength, cvvLength, faqs, about, history, technicalNote } = config;
+  const { brandName, brandSlug, generatorType, prefixDescription, cardLength, cvvLength, faqs, about, history, technicalNote, englishSection } = config;
 
   return (
     <PageShell>
@@ -74,6 +80,15 @@ export default function BrandCardLanding({ config }: { config: BrandLandingConfi
             ))}
           </div>
         </section>
+
+        {englishSection && (
+          <section lang="en">
+            <h2 className="text-lg font-semibold text-foreground mb-2">{englishSection.headline}</h2>
+            <p className="text-sm text-muted-foreground leading-relaxed whitespace-pre-line">
+              {englishSection.body}
+            </p>
+          </section>
+        )}
       </div>
 
       <div className="mt-10 pt-8 border-t border-border">

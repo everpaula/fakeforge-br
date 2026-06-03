@@ -47,6 +47,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/validar-cnpj`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/docs`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/blog`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.7 },
+    { url: `${baseUrl}/blog/como-validar-cpf-online-e-no-codigo`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.95 },
     { url: `${baseUrl}/blog/gerar-cnpj-valido-testes-algoritmo-mod11-api`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.95 },
     { url: `${baseUrl}/blog/documentos-brasileiros-formatos-algoritmos-validacao`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.95 },
     { url: `${baseUrl}/blog/gerador-conta-corrente-nodejs-digito-verificador-banco`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.95 },

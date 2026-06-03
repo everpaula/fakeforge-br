@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import BrandCardLanding from "@/components/BrandCardLanding";
 
 export const metadata: Metadata = {
-  title: "Gerador de Cartão Visa Válido — Luhn + Prefixo 4 para Testes",
-  description: "Gere cartões Visa fictícios válidos com prefixo 4 e algoritmo Luhn. 16 dígitos, CVV de 3 dígitos. Para testes de checkout, gateways de pagamento e formulários. Grátis e sem cadastro.",
-  keywords: "gerador cartao visa, cartao visa valido, numero cartao visa teste, visa fictício, gerador visa luhn",
+  title: "Gerador de Cartão Visa Válido (Visa Card Generator + Luhn)",
+  description: "Gere cartões Visa fictícios válidos com prefixo 4 e algoritmo Luhn. 16 dígitos, CVV de 3 dígitos. Para testes de checkout, gateways e formulários. Free Visa card generator for testing. Grátis e sem cadastro.",
+  keywords: "gerador cartao visa, cartao visa valido, numero cartao visa teste, visa fictício, gerador visa luhn, visa card generator, fake visa card generator, visa credit card generator, free credit card generator, credit card generator for testing, fake card generator",
   alternates: { canonical: "/gerador-cartao/visa" },
 };
 
@@ -27,6 +27,10 @@ export default function GeradorVisa() {
         { q: "Por que o cartão tem 16 dígitos?", a: "É o padrão ISO/IEC 7812 adotado pela maioria das bandeiras. Os primeiros 6 dígitos são o BIN (banco emissor), os 9 seguintes identificam a conta, e o último é o dígito Luhn." },
         { q: "Posso gerar cartões Visa em massa via API?", a: "Sim. Use GET https://fakeforge.com.br/api/generate?type=creditCardVisa&quantity=100. São 100 chamadas grátis por dia." },
       ],
+      englishSection: {
+        headline: "Visa Card Generator (for testing purposes)",
+        body: "Looking for a fake Visa card generator for testing checkout flows, form validation, or sandbox integration? FakeForge generates 16-digit Visa card numbers that pass Luhn (mod-10) validation, with prefix 4 (the official Visa BIN). Numbers are fictitious and will fail at the gateway authorization step, so they are safe for development environments only.\n\nUseful for QA teams, developers integrating Stripe, Mercado Pago, PagSeguro, Adyen sandboxes, and anyone testing credit card form behavior. Free, no signup required. REST API available with 100 free requests per day.",
+      },
     }} />
   );
 }
