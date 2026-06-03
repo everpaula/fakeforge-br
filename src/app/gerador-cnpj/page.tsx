@@ -8,9 +8,16 @@ import GeneratorSchema from "@/components/GeneratorSchema";
 import ValidatorCNPJ from "./ValidatorCNPJ";
 
 export const metadata: Metadata = {
-  title: "Gerador de CNPJ Válido - Gere CNPJ para Testes | FakeForge BR",
-  description: "Gere CNPJ válido e fictício para testes e desenvolvimento. Números com dígitos verificadores corretos, formatados ou sem pontuação. Grátis e sem cadastro.",
-  keywords: "gerador de cnpj, cnpj válido, gerar cnpj, cnpj para testes, cnpj fictício",
+  title: "Gerador de CNPJ Válido Online Grátis (Mod-11 com Dígito Verificador)",
+  description: "Gere CNPJ válido online com algoritmo mod-11 e dígitos verificadores corretos. Para testes de cadastros, integração ERP, NF-e em homologação e seed de banco. Grátis, sem cadastro. API REST com 100 chamadas/dia.",
+  keywords: "gerador de cnpj, gerador cnpj, gerar cnpj, gerar um cnpj, gerar cnpj válido, gerador de cnpj válido, gerador de cnpj para testes, cnpj válido, cnpj fictício, cnpj fake, cnpj aleatorio, generate cnpj, gerador cnpj online, gerar cnpj online",
+  openGraph: {
+    title: "Gerador de CNPJ Válido Online com Mod-11",
+    description: "CNPJ fictício com dígito verificador correto pelo algoritmo mod-11. Para testes, integração ERP e NF-e em homologação. Grátis.",
+    type: "website",
+    images: ["/api/og?title=Gerador+de+CNPJ+V%C3%A1lido&subtitle=CNPJ+fict%C3%ADcio+com+algoritmo+mod-11+e+d%C3%ADgito+verificador+correto+para+testes&category=GERADOR"],
+  },
+  alternates: { canonical: "/gerador-cnpj" },
 };
 
 export default function GeradorCNPJ() {
@@ -18,12 +25,13 @@ export default function GeradorCNPJ() {
     <PageShell>
       <div className="mb-8">
         <h1 className="text-3xl font-bold tracking-tight">
-          Gerador de <span className="text-primary">CNPJ</span> Válido
+          Gerador de <span className="text-primary">CNPJ</span> Válido Online
         </h1>
         <p className="text-muted mt-2 text-sm leading-relaxed max-w-2xl">
-          Gere números de CNPJ fictícios com dígitos verificadores matematicamente corretos.
-          Os CNPJs gerados usam o sufixo /0001 (matriz) e passam na validação do algoritmo mod-11.
-          Não pertencem a nenhuma empresa real.
+          Gere CNPJ fictício online com dígitos verificadores matematicamente corretos pelo algoritmo
+          mod-11 da Receita Federal. Os CNPJs gerados usam o sufixo /0001 (matriz) e passam na
+          validação de qualquer sistema brasileiro: ERP, NF-e, integração SEFAZ, cadastros B2B
+          e seed de banco. Não pertencem a nenhuma empresa real.
         </p>
       </div>
 
@@ -59,11 +67,63 @@ export default function GeradorCNPJ() {
         </section>
 
         <section>
-          <h2 className="text-lg font-semibold text-foreground mb-2">Para que usar?</h2>
+          <h2 className="text-lg font-semibold text-foreground mb-2">Para que usar um CNPJ fictício</h2>
           <p>
             Testes de cadastro de empresas, integração com APIs de consulta CNPJ,
             sistemas de emissão de nota fiscal em homologação, e população de bancos de dados
             de desenvolvimento e staging.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-lg font-semibold text-foreground mb-2">CNPJ válido, CNPJ fake e CNPJ aleatório: qual a diferença</h2>
+          <p className="mb-2">
+            <strong>CNPJ aleatório</strong> é qualquer número de 14 dígitos que segue o formato XX.XXX.XXX/XXXX-XX.
+            Quase sempre falha no validador da Receita porque os dígitos verificadores são randômicos.
+            <strong> CNPJ fake</strong> e <strong>CNPJ fictício</strong> são termos genéricos que podem
+            se referir tanto a CNPJs com checksum válido quanto inválido, dependendo da ferramenta usada.
+          </p>
+          <p>
+            O <strong>CNPJ válido</strong> que o FakeForge gera é diferente: os 12 primeiros dígitos são
+            aleatórios, mas os 2 últimos são calculados pelo algoritmo oficial mod-11, garantindo que
+            o número passe em qualquer validador (Receita Federal, eSocial, SEFAZ, gateways de pagamento,
+            integrações ERP). É a opção correta para testar fluxos que validam checksum antes de aceitar
+            o cadastro.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-lg font-semibold text-foreground mb-2">Como gerar CNPJ via API REST</h2>
+          <p className="mb-3">
+            Para automatizar a geração de CNPJs (CI/CD, seed de banco, testes de carga), use a API REST:
+          </p>
+          <pre className="bg-card border border-border rounded-lg p-3 text-xs overflow-x-auto mb-3">
+            <code>{`# Gerar 100 CNPJs em uma chamada
+curl "https://fakeforge.com.br/api/generate?type=cnpj&quantity=100"
+
+# Gerar e exportar direto em SQL
+curl -X POST "https://fakeforge.com.br/api/generate" \\
+  -H "Content-Type: application/json" \\
+  -d '{"type":"cnpj","quantity":1000,"format":"sql"}'`}</code>
+          </pre>
+          <p>
+            Plano grátis: 100 chamadas/dia, até 10.000 CNPJs por chamada. Sem cadastro, sem token.
+            Para volumes maiores ou rate limit dedicado, planos pagos começam em R$ 29/mês.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-lg font-semibold text-foreground mb-2">CNPJ alfanumérico (vigência 01/07/2026)</h2>
+          <p className="mb-2">
+            A Receita Federal vai introduzir o CNPJ alfanumérico em 2026 (Instrução Normativa 2.229).
+            Os 8 primeiros caracteres da raiz e os 4 da ordem podem conter letras (A-Z) além de dígitos
+            (0-9). O dígito verificador é calculado via ASCII-48 (valor numérico = código ASCII menos 48).
+          </p>
+          <p>
+            Se você precisa testar o suporte ao novo formato antes da vigência,
+            use o <Link href="/gerador-cnpj-alfanumerico" className="text-primary hover:underline">Gerador de CNPJ Alfanumérico</Link>{" "}
+            do FakeForge. Recomendado validar schema de banco, regex de validação, integrações com SEFAZ
+            e eSocial nos próximos meses.
           </p>
         </section>
 

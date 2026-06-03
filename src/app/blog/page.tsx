@@ -14,6 +14,14 @@ export const metadata: Metadata = {
 
 const POSTS = [
   {
+    slug: "gerar-cnpj-valido-testes-algoritmo-mod11-api",
+    title: "Gerar CNPJ Válido para Testes: Algoritmo Mod-11 e API REST",
+    excerpt: "Como gerar CNPJ válido online para testes: implementação do algoritmo mod-11 da Receita Federal em Node.js e Python, cálculo dos dois dígitos verificadores e como integrar via API REST sem rodar código.",
+    date: "2026-06-03",
+    readTime: "10 min",
+    category: "Tutoriais",
+  },
+  {
     slug: "documentos-brasileiros-formatos-algoritmos-validacao",
     title: "Documentos Brasileiros para Devs: Formatos e Algoritmos de Validação",
     excerpt: "Guia completo de CPF, CNPJ, RG, CIN, CNH, PIS, Título de Eleitor, CEP e mais: formatos, dígitos verificadores, algoritmos mod-11 e ASCII-48, exemplos de validação e implementação.",

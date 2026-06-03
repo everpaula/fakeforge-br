@@ -29,6 +29,11 @@ export default function GeradorEmpresa() {
           corretos), razão social, nome fantasia, endereço comercial e telefone. Ideal para testar
           cadastros B2B, marketplaces, emissão de NF-e em homologação e integração com sistemas empresariais.
         </p>
+        <p className="text-xs text-muted mt-2 max-w-2xl">
+          Precisa só do número do CNPJ, sem razão social e endereço? Use o{" "}
+          <Link href="/gerador-cnpj" className="text-primary hover:underline">Gerador de CNPJ Válido</Link>{" "}
+          (atômico, mais rápido).
+        </p>
       </div>
 
       <SingleGenerator
