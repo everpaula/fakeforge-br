@@ -4,6 +4,7 @@ import PageShell from "@/components/PageShell";
 import SingleGenerator from "@/components/SingleGenerator";
 import ApiCtaBanner from "@/components/ApiCtaBanner";
 import GeneratorSchema from "@/components/GeneratorSchema";
+import RelatedGenerators from "@/components/RelatedGenerators";
 
 export const metadata: Metadata = {
   title: "Gerador de Empresa Fictícia - CNPJ, Razão Social e Endereço | FakeForge BR",
@@ -98,18 +99,7 @@ export default function GeradorEmpresa() {
         </section>
       </div>
 
-      {/* Cross-links */}
-      <div className="mt-10 pt-8 border-t border-border">
-        <h2 className="text-sm font-semibold text-muted mb-3 uppercase tracking-wider">Ferramentas relacionadas</h2>
-        <div className="flex flex-wrap gap-2">
-          <Link href="/gerador-cnpj" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Gerador de CNPJ</Link>
-          <Link href="/validar-cnpj" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Validar CNPJ</Link>
-          <Link href="/gerador-pessoa" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Gerador de Pessoa</Link>
-          <Link href="/gerador-endereco" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Gerador de Endereço</Link>
-          <Link href="/gerador-telefone" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Gerador de Telefone</Link>
-          <Link href="/docs" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">API REST</Link>
-        </div>
-      </div>
+      <RelatedGenerators currentSlug="gerador-empresa" />
 
       {/* FAQPage JSON-LD */}
       <script

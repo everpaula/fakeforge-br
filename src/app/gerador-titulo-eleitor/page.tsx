@@ -6,6 +6,7 @@ import ApiCtaBanner from "@/components/ApiCtaBanner";
 import ApiCtaTop from "@/components/ApiCtaTop";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import GeneratorSchema from "@/components/GeneratorSchema";
+import RelatedGenerators from "@/components/RelatedGenerators";
 
 export const metadata: Metadata = {
   title: "Gerador de Título de Eleitor Válido — Algoritmo TSE para Testes",
@@ -95,16 +96,7 @@ export default function GeradorTituloEleitor() {
         </section>
       </div>
 
-      <div className="mt-10 pt-8 border-t border-border">
-        <h2 className="text-sm font-semibold text-muted mb-3 uppercase tracking-wider">Ferramentas relacionadas</h2>
-        <div className="flex flex-wrap gap-2">
-          <Link href="/gerador-cpf" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Gerador de CPF</Link>
-          <Link href="/gerador-rg" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Gerador de RG</Link>
-          <Link href="/gerador-pis" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">PIS/PASEP</Link>
-          <Link href="/gerador-cin" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Gerador de CIN</Link>
-          <Link href="/docs" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">API REST</Link>
-        </div>
-      </div>
+      <RelatedGenerators currentSlug="gerador-titulo-eleitor" />
 
       <BreadcrumbSchema items={[
         { name: "Início", url: "/" },

@@ -6,6 +6,7 @@ import ApiCtaBanner from "@/components/ApiCtaBanner";
 import ApiCtaTop from "@/components/ApiCtaTop";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import GeneratorSchema from "@/components/GeneratorSchema";
+import RelatedGenerators from "@/components/RelatedGenerators";
 
 export const metadata: Metadata = {
   title: "Gerador de Cartão de Crédito Válido — Visa, Master, Elo, Amex",
@@ -112,15 +113,12 @@ export default function GeradorCartao() {
         </section>
       </div>
 
-      {/* Cross-links */}
-      <div className="mt-10 pt-8 border-t border-border">
-        <h2 className="text-sm font-semibold text-muted mb-3 uppercase tracking-wider">Ferramentas relacionadas</h2>
+      <RelatedGenerators currentSlug="gerador-cartao" />
+
+      {/* Artigos relacionados */}
+      <div className="mt-8">
+        <h2 className="text-sm font-semibold text-muted mb-3 uppercase tracking-wider">Artigos relacionados</h2>
         <div className="flex flex-wrap gap-2">
-          <Link href="/gerador-pix" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Gerador de PIX</Link>
-          <Link href="/gerador-cpf" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Gerador de CPF</Link>
-          <Link href="/gerador-cnpj" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Gerador de CNPJ</Link>
-          <Link href="/gerador-telefone" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Gerador de Telefone</Link>
-          <Link href="/docs" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">API REST</Link>
           <Link href="/blog/dados-teste-pix-checkout" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Dados de teste para PIX</Link>
         </div>
       </div>

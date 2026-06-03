@@ -6,6 +6,7 @@ import ApiCtaBanner from "@/components/ApiCtaBanner";
 import ApiCtaTop from "@/components/ApiCtaTop";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import GeneratorSchema from "@/components/GeneratorSchema";
+import RelatedGenerators from "@/components/RelatedGenerators";
 
 export const metadata: Metadata = {
   title: "Gerador de RG Válido — Registro Geral Formato SP para Testes",
@@ -96,16 +97,7 @@ export default function GeradorRG() {
         </section>
       </div>
 
-      <div className="mt-10 pt-8 border-t border-border">
-        <h2 className="text-sm font-semibold text-muted mb-3 uppercase tracking-wider">Ferramentas relacionadas</h2>
-        <div className="flex flex-wrap gap-2">
-          <Link href="/gerador-cin" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Gerador de CIN</Link>
-          <Link href="/gerador-cpf" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Gerador de CPF</Link>
-          <Link href="/gerador-cnh" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Gerador de CNH</Link>
-          <Link href="/gerador-pessoa" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Pessoa Completa</Link>
-          <Link href="/docs" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">API REST</Link>
-        </div>
-      </div>
+      <RelatedGenerators currentSlug="gerador-rg" />
 
       <BreadcrumbSchema items={[
         { name: "Início", url: "/" },

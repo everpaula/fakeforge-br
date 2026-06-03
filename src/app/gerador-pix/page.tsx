@@ -6,6 +6,7 @@ import ApiCtaBanner from "@/components/ApiCtaBanner";
 import ApiCtaTop from "@/components/ApiCtaTop";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import GeneratorSchema from "@/components/GeneratorSchema";
+import RelatedGenerators from "@/components/RelatedGenerators";
 
 export const metadata: Metadata = {
   title: "Gerador de Chave PIX para Testes — CPF, CNPJ, Email, Celular",
@@ -103,18 +104,14 @@ export default function GeradorPIX() {
         </section>
       </div>
 
-      {/* Cross-links */}
-      <div className="mt-10 pt-8 border-t border-border">
-        <h2 className="text-sm font-semibold text-muted mb-3 uppercase tracking-wider">Ferramentas relacionadas</h2>
+      <RelatedGenerators currentSlug="gerador-pix" />
+
+      {/* Artigos relacionados */}
+      <div className="mt-8">
+        <h2 className="text-sm font-semibold text-muted mb-3 uppercase tracking-wider">Artigos relacionados</h2>
         <div className="flex flex-wrap gap-2">
-          <Link href="/gerador-cartao" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Gerador de Cartão</Link>
-          <Link href="/gerador-cpf" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Gerador de CPF</Link>
-          <Link href="/gerador-cnpj" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Gerador de CNPJ</Link>
-          <Link href="/gerador-telefone" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Gerador de Telefone</Link>
-          <Link href="/gerador-conta-bancaria" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Gerador de Conta Bancária</Link>
           <Link href="/blog/qr-code-pix-dinamico-emv-br-code-nodejs" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">QR Code PIX dinâmico em Node.js</Link>
           <Link href="/blog/gerar-boleto-febraban-linha-digitavel-nodejs-testes" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Boleto FEBRABAN em Node.js</Link>
-          <Link href="/docs" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">API REST</Link>
         </div>
       </div>
 

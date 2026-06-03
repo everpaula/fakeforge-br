@@ -4,6 +4,7 @@ import PageShell from "@/components/PageShell";
 import SingleGenerator from "@/components/SingleGenerator";
 import ApiCtaBanner from "@/components/ApiCtaBanner";
 import GeneratorSchema from "@/components/GeneratorSchema";
+import RelatedGenerators from "@/components/RelatedGenerators";
 
 export const metadata: Metadata = {
   title: "Gerador de Telefone, Celular e Fixo Residencial com DDD do Brasil",
@@ -115,17 +116,7 @@ export default function GeradorTelefone() {
         </section>
       </div>
 
-      {/* Cross-links */}
-      <div className="mt-10 pt-8 border-t border-border">
-        <h2 className="text-sm font-semibold text-muted mb-3 uppercase tracking-wider">Ferramentas relacionadas</h2>
-        <div className="flex flex-wrap gap-2">
-          <Link href="/gerador-email" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Gerador de Email</Link>
-          <Link href="/gerador-cpf" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Gerador de CPF</Link>
-          <Link href="/gerador-pix" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Gerador de PIX</Link>
-          <Link href="/gerador-cartao" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Gerador de Cartão</Link>
-          <Link href="/docs" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">API REST</Link>
-        </div>
-      </div>
+      <RelatedGenerators currentSlug="gerador-telefone" />
 
       {/* FAQPage JSON-LD */}
       <script

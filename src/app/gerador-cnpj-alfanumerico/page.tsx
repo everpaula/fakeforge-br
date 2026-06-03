@@ -6,6 +6,7 @@ import ApiCtaBanner from "@/components/ApiCtaBanner";
 import ApiCtaTop from "@/components/ApiCtaTop";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import GeneratorSchema from "@/components/GeneratorSchema";
+import RelatedGenerators from "@/components/RelatedGenerators";
 
 export const metadata: Metadata = {
   title: "Gerador de CNPJ Alfanumérico — Novo Formato 2026 | FakeForge BR",
@@ -161,15 +162,12 @@ export default function GeradorCnpjAlfanumerico() {
         </section>
       </div>
 
-      {/* Cross-links */}
-      <div className="mt-10 pt-8 border-t border-border">
-        <h2 className="text-sm font-semibold text-muted mb-3 uppercase tracking-wider">Ferramentas relacionadas</h2>
+      <RelatedGenerators currentSlug="gerador-cnpj-alfanumerico" />
+
+      {/* Artigos relacionados */}
+      <div className="mt-8">
+        <h2 className="text-sm font-semibold text-muted mb-3 uppercase tracking-wider">Artigos relacionados</h2>
         <div className="flex flex-wrap gap-2">
-          <Link href="/gerador-cnpj" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">CNPJ Tradicional</Link>
-          <Link href="/validar-cnpj" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Validar CNPJ</Link>
-          <Link href="/gerador-empresa" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Gerador de Empresa</Link>
-          <Link href="/gerador-cpf" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Gerador de CPF</Link>
-          <Link href="/docs" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">API REST</Link>
           <Link href="/blog/validacao-cnpj-nodejs" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Validação CNPJ Node.js</Link>
         </div>
       </div>
