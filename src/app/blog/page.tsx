@@ -14,6 +14,14 @@ export const metadata: Metadata = {
 
 const POSTS = [
   {
+    slug: "validar-cpf-java-spring-boot-algoritmo-mod11-junit",
+    title: "Validar CPF em Java Spring Boot: Algoritmo Mod-11 e JUnit",
+    excerpt: "Implementação do validador de CPF em Java/Spring Boot. Algoritmo mod-11, custom annotation @CPF com Bean Validation, validator class, testes JUnit + Mockito e integração com REST controllers.",
+    date: "2026-06-03",
+    readTime: "9 min",
+    category: "Tutoriais",
+  },
+  {
     slug: "cpf-php-laravel-algoritmo-mod11-validacao-testes",
     title: "CPF em PHP e Laravel: Algoritmo Mod-11 com Testes",
     excerpt: "Implementação completa do validador e gerador de CPF em PHP puro e Laravel. Algoritmo mod-11 da Receita Federal, custom validation rule, FormRequest, factory para Eloquent e PHPUnit tests.",
