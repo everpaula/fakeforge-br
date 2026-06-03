@@ -9,9 +9,16 @@ import RelatedGenerators from "@/components/RelatedGenerators";
 import { CEP_CITIES } from "@/lib/cep-cities";
 
 export const metadata: Metadata = {
-  title: "Gerador de CEP e Endereço - Gere Endereços Brasileiros | FakeForge BR",
-  description: "Gere CEP e endereços brasileiros fictícios e completos para testes. Rua, bairro, cidade e estado coerentes. Grátis e sem cadastro.",
-  keywords: "gerador de cep, gerar endereço, endereço fictício, cep para testes, endereço brasileiro falso",
+  title: "Gerador de CEP Brasileiro Fictício (e Diferença de Busca de CEP)",
+  description: "Gere CEP brasileiro fictício e válido com cidade, estado e bairro coerentes para testes. Diferença entre gerar CEP fake e consultar CEP real (ViaCEP). Grátis, sem cadastro.",
+  keywords: "gerador de cep, gerar cep, gerar endereço, cep fictício, cep para testes, cep brasileiro falso, cep brasil, ceps brasil, busca cep, busca por cep, consultar cep, cep busca, gerador de cep brasileiro",
+  openGraph: {
+    title: "Gerador de CEP Brasileiro Fictício (Gerar vs Buscar)",
+    description: "CEP fictício com cidade e estado coerentes para testes. Para buscar CEP real, use ViaCEP/Correios.",
+    type: "website",
+    images: ["/api/og?title=Gerador+de+CEP+Brasileiro&subtitle=CEP+fict%C3%ADcio+com+cidade+e+estado+coerentes+para+testes+de+software&category=GERADOR"],
+  },
+  alternates: { canonical: "/gerador-cep" },
 };
 
 export default function GeradorCEP() {
@@ -23,9 +30,18 @@ export default function GeradorCEP() {
         </h1>
         <p className="text-muted mt-2 text-sm leading-relaxed max-w-2xl">
           Gere endereços brasileiros completos e coerentes para testes.
-          Cada endereço inclui rua, número, bairro, cidade, estado e CEP — todos consistentes entre si.
+          Cada endereço inclui rua, número, bairro, cidade, estado e CEP, todos consistentes entre si.
           Os dados cobrem 10 estados brasileiros com bairros reais.
         </p>
+        <div className="mt-3 max-w-2xl rounded-lg border border-border bg-card px-3 py-2.5">
+          <p className="text-xs text-muted leading-relaxed">
+            <strong className="text-foreground">Procurando buscar ou consultar um CEP real?</strong>{" "}
+            Para isso, use{" "}
+            <a href="https://viacep.com.br" rel="noopener noreferrer" target="_blank" className="text-primary hover:underline">ViaCEP</a>{" "}ou{" "}
+            <a href="https://buscacepinter.correios.com.br" rel="noopener noreferrer" target="_blank" className="text-primary hover:underline">Correios</a>.
+            Aqui você <strong className="text-foreground">gera CEPs fictícios</strong> com formato válido e estado coerente, exclusivamente para ambientes de teste e desenvolvimento (CEPs reais em staging violam a LGPD).
+          </p>
+        </div>
       </div>
 
       <div className="space-y-8">
@@ -72,7 +88,25 @@ export default function GeradorCEP() {
         <section>
           <h2 className="text-lg font-semibold text-foreground mb-2">Estados cobertos</h2>
           <p>
-            SP, RJ, MG, RS, PR, BA, PE, CE, DF e SC — cobrindo as maiores capitais e cidades do Brasil.
+            SP, RJ, MG, RS, PR, BA, PE, CE, DF e SC, cobrindo as maiores capitais e cidades do Brasil.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-lg font-semibold text-foreground mb-2">Diferença entre gerar CEP e consultar CEP</h2>
+          <p className="mb-2">
+            <strong>Consultar CEP</strong> (também chamado de busca de CEP) é descobrir o endereço
+            correspondente a um CEP que já existe. Use serviços como ViaCEP, BrasilAPI ou o site
+            oficial dos Correios. Útil quando você tem um CEP digitado pelo usuário e quer preencher
+            rua/bairro/cidade automaticamente no formulário.
+          </p>
+          <p>
+            <strong>Gerar CEP</strong> (o que o FakeForge faz aqui) é criar um CEP fictício para
+            ambientes de teste. Os 5 primeiros dígitos correspondem a um prefixo real do estado
+            (para passar em validações regionais), mas a combinação completa não existe em nenhum
+            endereço real. Use quando você precisa popular um banco de staging, rodar testes de
+            checkout, ou validar campos de CEP sem expor endereços reais (CEP de pessoa real em
+            staging viola a LGPD).
           </p>
         </section>
 

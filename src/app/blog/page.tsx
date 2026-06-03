@@ -14,6 +14,14 @@ export const metadata: Metadata = {
 
 const POSTS = [
   {
+    slug: "cpf-php-laravel-algoritmo-mod11-validacao-testes",
+    title: "CPF em PHP e Laravel: Algoritmo Mod-11 com Testes",
+    excerpt: "Implementação completa do validador e gerador de CPF em PHP puro e Laravel. Algoritmo mod-11 da Receita Federal, custom validation rule, FormRequest, factory para Eloquent e PHPUnit tests.",
+    date: "2026-06-03",
+    readTime: "11 min",
+    category: "Tutoriais",
+  },
+  {
     slug: "lgpd-testes-software-guia-pratico-devs",
     title: "LGPD em Testes de Software: Guia Prático para Devs",
     excerpt: "Como estruturar fixtures, seeds e pipelines de CI/CD sem tocar em dados pessoais reais. Por que usar CPF/CNPJ real em staging viola a LGPD (multa até R$50M) e como gerar fixtures válidos sem risco.",
