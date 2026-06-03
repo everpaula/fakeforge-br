@@ -173,8 +173,11 @@ export default function Home() {
             <span className="text-primary">Gere dados brasileiros que passam em qualquer validação.</span>
           </h1>
           <p className="text-muted mt-4 sm:mt-5 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
-            CPF, CNPJ, CEP, PIX, cartão de crédito, pessoas completas — todos fictícios, todos com
+            CPF, CNPJ, CEP, PIX, cartão de crédito, pessoas completas. Todos fictícios, todos com
             dígito verificador válido (mod-11, Luhn). Para testes, seeds de banco e QA.
+          </p>
+          <p className="text-xs text-muted mt-3">
+            <a href="/en/cpf-generator" className="hover:text-primary transition-colors">English version</a>
           </p>
           <div className="flex flex-col sm:flex-row gap-2 justify-center mt-6">
             {!hasGenerated && (

@@ -14,6 +14,14 @@ export const metadata: Metadata = {
 
 const POSTS = [
   {
+    slug: "lgpd-testes-software-guia-pratico-devs",
+    title: "LGPD em Testes de Software: Guia Prático para Devs",
+    excerpt: "Como estruturar fixtures, seeds e pipelines de CI/CD sem tocar em dados pessoais reais. Por que usar CPF/CNPJ real em staging viola a LGPD (multa até R$50M) e como gerar fixtures válidos sem risco.",
+    date: "2026-06-03",
+    readTime: "11 min",
+    category: "LGPD",
+  },
+  {
     slug: "como-validar-cpf-online-e-no-codigo",
     title: "Validar CPF: Como Checar se um CPF é Válido Online e no Código",
     excerpt: "Como checar se um CPF é válido: validador online no navegador, implementação do algoritmo mod-11 em JavaScript e Python, regex de formato, e diferença entre CPF válido e CPF real.",
