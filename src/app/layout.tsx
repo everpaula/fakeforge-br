@@ -16,8 +16,10 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "FakeForge BR - Gerador de Dados Brasileiros para Testes",
-    template: "%s | FakeForge BR",
+    default: "FakeForge BR: Gerador de Dados Brasileiros Válidos para Testes",
+    // No suffix. Each page sets its own complete title so we can keep them
+    // under the 60-char SERP truncation limit per page.
+    template: "%s",
   },
   description: "Gere CPF, CNPJ, CEP, nomes, emails, telefones e mais dados brasileiros fictícios para desenvolvimento e testes. API gratuita.",
   metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || "https://fakeforge.com.br"),

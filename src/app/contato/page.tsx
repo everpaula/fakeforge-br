@@ -16,8 +16,34 @@ export default function Contato() {
         <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
           Fale com a gente
         </h1>
-        <p className="text-base text-muted-foreground leading-relaxed mb-10">
-          Suporte, sugestões, parcerias ou exercício de direitos LGPD — tudo passa por aqui.
+        <p className="text-base text-muted-foreground leading-relaxed mb-3">
+          Suporte, sugestões, parcerias ou exercício de direitos LGPD. Tudo passa por aqui.
+        </p>
+        <p className="text-sm text-muted-foreground leading-relaxed mb-3">
+          O FakeForge BR é um projeto independente mantido por um desenvolvedor brasileiro radicado
+          nos Estados Unidos. Todo email é lido pessoalmente, sem tickets automáticos nem chatbot.
+          Se você tem uma dúvida específica sobre um gerador, encontrou um bug, quer sugerir um
+          gerador novo (DARF, GTIN, INSS, SUS, dados específicos de tributação estadual) ou
+          propor uma integração, escreva. As ideias dos próprios devs que usam a ferramenta são
+          a principal fonte de roadmap.
+        </p>
+        <p className="text-sm text-muted-foreground leading-relaxed mb-3">
+          Antes de mandar email, vale checar se a resposta está na{" "}
+          <a href="/docs" className="text-primary hover:underline">documentação da API</a>{" "}
+          (rate limit, formatos, presets, errors codes) ou no{" "}
+          <a href="/blog" className="text-primary hover:underline">blog</a>{" "}
+          (algoritmos mod-11, ASCII-48 do CNPJ alfanumérico, Luhn, integrações com gateways).
+          Para parcerias de afiliados, conteúdo patrocinado em comparativos ou outras propostas
+          comerciais, alinhamos por email caso a caso. Não fazemos publi disfarçada de tutorial
+          nem cobramos por menção em comparativos: o que está nos comparison pages é o que
+          consideramos verdadeiro.
+        </p>
+        <p className="text-sm text-muted-foreground leading-relaxed mb-10">
+          Para questões de LGPD (acesso aos seus dados, eliminação de conta, portabilidade,
+          revogação de consentimento), use o canal específico abaixo. Atendimento em até 15 dias
+          úteis conforme o artigo 19 da LGPD. Reportes de vulnerabilidade de segurança, se preferir
+          divulgação responsável, podem ser enviados ao email principal com o assunto começando
+          em &ldquo;[SECURITY]&rdquo;.
         </p>
 
         <div className="space-y-6">

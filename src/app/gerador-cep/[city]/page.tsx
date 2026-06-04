@@ -17,15 +17,15 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { city: slug } = await params;
   const city = getCity(slug);
-  if (!city) return { title: "Cidade não encontrada | FakeForge BR" };
+  if (!city) return { title: "Cidade não encontrada" };
 
   return {
-    title: `Gerador de CEP ${city.name} — Endereços ${city.stateCode} válidos para testes | FakeForge BR`,
+    title: `Gerador de CEP ${city.name} (${city.stateCode}) Fictício para Testes`,
     description: `Gere CEP e endereço fictício de ${city.name} (${city.stateCode}) para testes de software. Prefixo ${city.cepPrefix}, bairros reais (${city.neighborhoods.slice(0, 3).join(", ")}), formato Correios válido. Grátis e sem cadastro.`,
     keywords: `gerador de cep ${city.name.toLowerCase()}, cep ${city.stateCode.toLowerCase()} válido, gerador endereço ${city.name.toLowerCase()}, cep fictício ${city.stateCode.toLowerCase()}, cep para testes ${city.name.toLowerCase()}`,
     alternates: { canonical: `/gerador-cep/${slug}` },
     openGraph: {
-      title: `Gerador de CEP ${city.name} — FakeForge BR`,
+      title: `Gerador de CEP ${city.name} (${city.stateCode})`,
       description: `Gere CEP e endereço fictício de ${city.name} (${city.stateCode}) para testes. Prefixo ${city.cepPrefix}, bairros reais, sem cadastro.`,
       type: "website",
     },

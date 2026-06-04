@@ -53,6 +53,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/validar-cnpj`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/docs`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/blog`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.7 },
+    { url: `${baseUrl}/blog/gerador-cpf-valido-online-como-funciona`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.95 },
+    { url: `${baseUrl}/blog/gerador-cep-brasileiro-testes-formato-estados`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.95 },
     { url: `${baseUrl}/blog/validar-cpf-csharp-dotnet-mod11-xunit`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/blog/validar-cpf-ruby-on-rails-mod-11-rspec`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/blog/validar-cpf-java-spring-boot-algoritmo-mod11-junit`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },

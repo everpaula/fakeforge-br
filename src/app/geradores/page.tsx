@@ -45,9 +45,27 @@ export default function Geradores() {
         <h1 className="text-3xl font-bold tracking-tight">
           Geradores de <span className="text-primary">Dados Brasileiros</span>
         </h1>
-        <p className="text-muted mt-2 text-sm leading-relaxed max-w-2xl">
-          Todas as ferramentas do FakeForge BR em um só lugar. Geração grátis e ilimitada pelo navegador.
-          Para uso programático, <Link href="/docs" className="text-primary hover:underline">confira a API REST</Link>.
+        <p className="text-muted mt-3 text-sm leading-relaxed max-w-3xl">
+          Todas as ferramentas do FakeForge BR em um só lugar. Geração grátis e ilimitada pelo
+          navegador. Para uso programático, <Link href="/docs" className="text-primary hover:underline">confira a API REST</Link>{" "}com 100 chamadas grátis por dia.
+        </p>
+        <p className="text-muted mt-3 text-sm leading-relaxed max-w-3xl">
+          Cada gerador implementa o algoritmo oficial do documento ou padrão correspondente.
+          CPF e CNPJ usam o módulo 11 da Receita Federal com os pesos corretos para cada dígito
+          verificador. CNPJ alfanumérico (vigência 01/07/2026) calcula o dígito via ASCII-48
+          conforme a Instrução Normativa 2.229. Cartões de crédito (Visa, Mastercard, Elo,
+          Hipercard, Amex) passam na validação Luhn (mod-10). Chaves PIX cobrem os 4 formatos
+          BACEN: CPF, email, telefone +55 e EVP UUID v4. Telefones usam os 67 DDDs reais do
+          Brasil conforme padrão ANATEL. CEPs respeitam os prefixos por estado.
+        </p>
+        <p className="text-muted mt-3 text-sm leading-relaxed max-w-3xl">
+          Todos os dados são <strong className="text-foreground">fictícios</strong>: passam em
+          validadores reais, mas não pertencem a nenhuma pessoa, empresa ou linha telefônica
+          existente. Seguro para ambientes de teste, CI/CD, seed de banco e homologação, sem
+          violar a LGPD. Para gerar perfis correlacionados (nome + CPF + email + endereço com
+          coerência entre estado, DDD e CEP), use o{" "}
+          <Link href="/gerador-pessoa" className="text-primary hover:underline">Gerador de Pessoa Completa</Link>{" "}
+          ou os presets da API.
         </p>
       </div>
 

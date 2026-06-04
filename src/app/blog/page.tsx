@@ -6,13 +6,29 @@ import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
 
 export const metadata: Metadata = {
-  title: "Blog FakeForge BR — Artigos sobre Dados de Teste, LGPD e Automação",
+  title: "Blog FakeForge BR: Tutoriais de Dados de Teste, LGPD e API",
   description: "Artigos práticos sobre geração de dados brasileiros para testes: CPF/CNPJ válido, LGPD em ambiente de desenvolvimento, seed de banco de dados, automação no CI/CD e comparativos de ferramentas.",
   keywords: "blog dados teste, lgpd desenvolvimento, gerar cpf testes, cnpj validacao node, faker brasileiro, seed banco dados",
   alternates: { canonical: "/blog" },
 };
 
 const POSTS = [
+  {
+    slug: "gerador-cpf-valido-online-como-funciona",
+    title: "Gerador de CPF Válido Online: Como Funciona e Quando Usar",
+    excerpt: "Como funciona um gerador de CPF válido online: algoritmo mod-11 da Receita Federal, diferença entre CPF válido e CPF real, quando usar fictício em testes, exemplos de integração com API REST.",
+    date: "2026-06-04",
+    readTime: "10 min",
+    category: "Conceitos",
+  },
+  {
+    slug: "gerador-cep-brasileiro-testes-formato-estados",
+    title: "Gerador de CEP para Testes: Formato, Algoritmo e Estados Cobertos",
+    excerpt: "Como gerar CEP brasileiro fictício para testes: formato XXXXX-XXX, prefixos por estado, 10 estados cobertos pelo FakeForge, diferença entre gerar e consultar CEP (ViaCEP) e integração API REST.",
+    date: "2026-06-04",
+    readTime: "11 min",
+    category: "Conceitos",
+  },
   {
     slug: "validar-cpf-csharp-dotnet-mod11-xunit",
     title: "Validar CPF em C# .NET: Algoritmo Mod-11 e xUnit",
@@ -304,8 +320,27 @@ export default function Blog() {
         </p>
         <p className="text-muted-foreground mt-3 text-sm leading-relaxed max-w-2xl">
           Todo conteúdo é baseado em prática real de desenvolvimento solo no Brasil. Sem
-          marketing chato, sem listas de 50 itens — apenas o que funciona quando você precisa
+          marketing chato, sem listas de 50 itens. Apenas o que funciona quando você precisa
           gerar 10.000 CPFs válidos pro seed de staging na sexta às 18h.
+        </p>
+        <p className="text-muted-foreground mt-3 text-sm leading-relaxed max-w-2xl">
+          Os tutoriais cobrem implementação do algoritmo mod-11 da Receita Federal em múltiplas
+          linguagens (JavaScript, TypeScript, Python, PHP, Laravel, Java, Spring Boot, Ruby on
+          Rails, C# .NET). Para cada linguagem mostramos validador funcional, integração com o
+          framework (Custom Annotation, Bean Validation, FluentValidation, ActiveModel Validator,
+          Form Request) e testes automatizados (PHPUnit, JUnit, xUnit, RSpec, Jest, pytest).
+          A intenção é que você consiga copiar e colar uma implementação funcional, não decorar
+          conceitos abstratos.
+        </p>
+        <p className="text-muted-foreground mt-3 text-sm leading-relaxed max-w-2xl">
+          Em LGPD aplicada a dev, cobrimos por que usar CPF real em staging viola a lei
+          (multa até R$50M por incidente), como estruturar fixtures sem dados pessoais reais,
+          a diferença entre anonimização e pseudonimização do ponto de vista técnico, e como
+          rodar testes em pipelines de CI/CD com fixtures geradas em runtime. Em integrações
+          com gateways de pagamento, cobrimos PIX EMV BR Code, boleto FEBRABAN linha digitável,
+          QR Code dinâmico em Node.js, cartões de teste por bandeira e por gateway (Mercado Pago,
+          Stripe Brasil, PagBank, Adyen, Braintree). Os comparativos honestos avaliam FakeForge,
+          Mockaroo, Faker.js, Faker (Python) e 4devs sem patrocínio nem viés de marketing.
         </p>
       </div>
 
