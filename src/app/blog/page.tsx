@@ -14,6 +14,22 @@ export const metadata: Metadata = {
 
 const POSTS = [
   {
+    slug: "validar-cpf-csharp-dotnet-mod11-xunit",
+    title: "Validar CPF em C# .NET: Algoritmo Mod-11 e xUnit",
+    excerpt: "Implementação do validador de CPF em C# .NET: algoritmo mod-11, custom ValidationAttribute, integração com ASP.NET Core Web API, FluentValidation, xUnit tests e Bogus para dados de teste.",
+    date: "2026-06-03",
+    readTime: "9 min",
+    category: "Tutoriais",
+  },
+  {
+    slug: "validar-cpf-ruby-on-rails-mod-11-rspec",
+    title: "Validar CPF em Ruby on Rails: Mod-11 e RSpec do Zero",
+    excerpt: "Implementação do validador de CPF em Ruby on Rails: ActiveModel custom validator, integração com ActiveRecord, FactoryBot para fixtures, RSpec tests e helper module reutilizável.",
+    date: "2026-06-03",
+    readTime: "9 min",
+    category: "Tutoriais",
+  },
+  {
     slug: "validar-cpf-java-spring-boot-algoritmo-mod11-junit",
     title: "Validar CPF em Java Spring Boot: Algoritmo Mod-11 e JUnit",
     excerpt: "Implementação do validador de CPF em Java/Spring Boot. Algoritmo mod-11, custom annotation @CPF com Bean Validation, validator class, testes JUnit + Mockito e integração com REST controllers.",

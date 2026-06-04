@@ -7,14 +7,16 @@ import GeneratorSchema from "@/components/GeneratorSchema";
 import RelatedGenerators from "@/components/RelatedGenerators";
 
 export const metadata: Metadata = {
-  title: "Gerador de Endereço Brasileiro - CEP, Rua, Bairro, Cidade | FakeForge BR",
-  description: "Gere endereços brasileiros fictícios completos com CEP válido, rua, bairro, cidade e estado. CEPs correspondem ao estado correto. Grátis e sem cadastro.",
-  keywords: "gerador de endereço, endereço fictício, gerador de endereço brasileiro, endereço para testes, cep válido, endereço fake brasil",
+  title: "Gerador de Endereço Brasileiro Aleatório (Rua, Bairro, Cidade, CEP)",
+  description: "Gere endereço brasileiro aleatório e fictício completo: rua, bairro, cidade, estado e CEP coerentes. Para testes de cadastro, validação de formulário, seed de banco e checkout. Grátis e sem cadastro.",
+  keywords: "gerador de endereço, gerar endereço, endereço fictício, endereços aleatorios, gerador de endereço brasileiro, endereço para testes, cep válido, endereço fake brasil, gerador endereco aleatorio, endereco brasileiro fake, gerador endereco completo",
   openGraph: {
-    title: "Gerador de Endereço Brasileiro - FakeForge BR",
-    description: "Gere endereços brasileiros fictícios com CEP válido e dados regionais corretos. Grátis e sem cadastro.",
+    title: "Gerador de Endereço Brasileiro Aleatório",
+    description: "Endereços brasileiros fictícios com rua, bairro, cidade, estado e CEP coerentes. Para testes e seed de banco.",
     type: "website",
+    images: ["/api/og?title=Gerador+de+Endere%C3%A7o+Brasileiro&subtitle=Endere%C3%A7os+fict%C3%ADcios+com+CEP+coerente+por+estado+para+testes&category=GERADOR"],
   },
+  alternates: { canonical: "/gerador-endereco" },
 };
 
 export default function GeradorEndereco() {
@@ -22,13 +24,15 @@ export default function GeradorEndereco() {
     <PageShell>
       <div className="mb-8">
         <h1 className="text-3xl font-bold tracking-tight">
-          Gerador de <span className="text-primary">Endereço</span> Brasileiro
+          Gerador de <span className="text-primary">Endereço</span> Brasileiro Aleatório
         </h1>
         <p className="text-muted mt-2 text-sm leading-relaxed max-w-2xl">
-          Gere endereços brasileiros fictícios completos com CEP, logradouro, número, bairro, cidade e estado.
-          Os CEPs seguem os prefixos corretos de cada estado (01xxx para SP, 20xxx para RJ, etc.)
-          e os nomes de ruas e bairros são realistas. Ideal para testes de formulários de frete,
-          cadastros e integração com APIs de endereço.
+          Gere endereços brasileiros aleatórios e fictícios completos com CEP, logradouro,
+          número, bairro, cidade e estado. Os CEPs seguem os prefixos corretos de cada estado
+          (01xxx para SP, 20xxx para RJ, 30xxx para MG, etc.) e os nomes de ruas e bairros são
+          realistas. Ideal para gerar endereços aleatórios em testes de formulários de frete,
+          cadastros, validação de checkout e integração com APIs de endereço como ViaCEP e
+          BrasilAPI (no formato).
         </p>
       </div>
 
