@@ -10,6 +10,42 @@ function getAdminSupabase() {
   );
 }
 
+/**
+ * Paginate through anonymous_usage in 1000-row batches until exhausted.
+ * Supabase PostgREST enforces a server-side max of 1000 rows per response
+ * even when no `.limit()` is set, so simple selects silently truncate the
+ * 30-day window once we cross that threshold (visible as the dashboard
+ * "geracoes" counter sticking at 1000).
+ */
+async function fetchAllAnon<T = Record<string, unknown>>(
+  adminClient: ReturnType<typeof getAdminSupabase>,
+  selectFields: string,
+  sinceIso: string,
+): Promise<T[]> {
+  const PAGE = 1000;
+  const out: T[] = [];
+  let offset = 0;
+  // Hard ceiling to avoid runaway loops if something is wrong upstream.
+  // 50 pages = 50_000 rows = generous headroom for the 30-day window.
+  for (let i = 0; i < 50; i++) {
+    const { data, error } = await adminClient
+      .from("anonymous_usage")
+      .select(selectFields)
+      .gte("created_at", sinceIso)
+      .order("created_at", { ascending: false })
+      .range(offset, offset + PAGE - 1);
+    if (error) {
+      console.error("[fetchAllAnon] page", i, "error:", error.message);
+      break;
+    }
+    const batch = (data || []) as T[];
+    out.push(...batch);
+    if (batch.length < PAGE) break;
+    offset += PAGE;
+  }
+  return out;
+}
+
 async function getAuthenticatedUser(request: NextRequest) {
   const cookieStore = await cookies();
   const supabase = createServerClient(
@@ -52,6 +88,10 @@ export async function GET(request: NextRequest) {
   const since30d = new Date(now.getTime() - 30 * 24 * 3600 * 1000).toISOString();
 
   // Fetch all metrics in parallel
+  // anon1d / anon7d / anon30d use paginated fetches because Supabase PostgREST
+  // caps single-call results at 1000 rows. The previous direct selects were
+  // silently truncating the 30-day window, causing the dashboard counter to
+  // stick at exactly 1.000 geracoes.
   const [
     metrics,
     usageByType,
@@ -61,7 +101,6 @@ export async function GET(request: NextRequest) {
     anon1d,
     anon7d,
     anon30d,
-    anonRecent,
     recentUsersData,
   ] = await Promise.all([
     admin.from("admin_metrics").select("*").single(),
@@ -69,12 +108,20 @@ export async function GET(request: NextRequest) {
     admin.from("admin_users_daily").select("*"),
     admin.from("admin_api_daily").select("*"),
     admin.from("admin_subscribers").select("*"),
-    admin.from("anonymous_usage").select("client_type, ip_hash, quantity").gte("created_at", since1d),
-    admin.from("anonymous_usage").select("client_type, ip_hash, quantity").gte("created_at", since7d),
-    admin.from("anonymous_usage").select("client_type, ip_hash, data_type, quantity, created_at").gte("created_at", since30d),
-    admin.from("anonymous_usage").select("client_type, data_type, quantity, created_at").gte("created_at", since30d).order("created_at", { ascending: false }).limit(2000),
+    fetchAllAnon<{ client_type: string; ip_hash: string; quantity: number }>(
+      admin, "client_type, ip_hash, quantity", since1d,
+    ),
+    fetchAllAnon<{ client_type: string; ip_hash: string; quantity: number }>(
+      admin, "client_type, ip_hash, quantity", since7d,
+    ),
+    fetchAllAnon<{ client_type: string; ip_hash: string; data_type: string; quantity: number; created_at: string }>(
+      admin, "client_type, ip_hash, data_type, quantity, created_at", since30d,
+    ),
     admin.auth.admin.listUsers({ page: 1, perPage: 30 }),
   ]);
+  // anonRecent was a separate query that overlapped with anon30d (same window).
+  // Use anon30d directly for the recent feed to avoid a second paginated fetch.
+  const anonRecent = { data: anon30d.slice(0, 2000) };
 
   // Recent users — list of last 30 sign-ups with email + created_at + last_sign_in
   const recentUsers = (recentUsersData.data?.users || []).map(u => ({
@@ -87,9 +134,10 @@ export async function GET(request: NextRequest) {
   })).sort((a, b) => b.created_at.localeCompare(a.created_at));
 
   // Aggregate anonymous metrics
-  const anonRows = (anon30d.data || []) as Array<{ client_type: string; ip_hash: string; data_type: string; quantity: number; created_at: string }>;
-  const rows1d = (anon1d.data || []) as Array<{ client_type: string; ip_hash: string; quantity: number }>;
-  const rows7d = (anon7d.data || []) as Array<{ client_type: string; ip_hash: string; quantity: number }>;
+  // fetchAllAnon returns the rows array directly (no .data wrapper).
+  const anonRows = anon30d;
+  const rows1d = anon1d;
+  const rows7d = anon7d;
 
   const aggCount = (rows: Array<{ client_type: string; quantity: number }>) => {
     let web = 0, api = 0, items = 0;
