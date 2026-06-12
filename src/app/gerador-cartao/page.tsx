@@ -9,12 +9,12 @@ import GeneratorSchema from "@/components/GeneratorSchema";
 import RelatedGenerators from "@/components/RelatedGenerators";
 
 export const metadata: Metadata = {
-  title: "Gerador de Cartão de Crédito Válido — Visa, Master, Elo, Amex",
-  description: "Gere cartões de crédito válidos para testes: Visa, Mastercard, Elo e American Express. BIN, CVV e validade aprovados por checkout. Grátis e sem cadastro.",
-  keywords: "gerador de cartão de crédito, cartão válido teste, gerador visa, gerador mastercard, gerador elo, gerador american express, cartão fictício checkout, número cartão luhn",
+  title: "Gerador de Cartão de Crédito Falso para Testes (Luhn Válido)",
+  description: "Gere cartão de crédito falso, fake ou teste para checkout. Visa, Mastercard, Elo, Hipercard, Amex e débito com algoritmo Luhn válido. Cartão fictício para sandbox de pagamento. Grátis e sem cadastro.",
+  keywords: "gerador de cartão de crédito, cartão de crédito falso, cartão de credito falso, cartão fake, cartão falso, cartão teste, cartão de crédito teste, gerador de número de cartão de débito, cartão de débito fake, cartão válido teste, gerador visa, gerador mastercard, gerador elo, gerador american express, cartão fictício checkout, número cartão luhn, cartao falso para teste",
   openGraph: {
-    title: "Gerador de Cartão de Crédito Válido — Visa, Master, Elo, Amex",
-    description: "Cartões fictícios Visa, Mastercard, Elo e Amex com validação Luhn. Prontos para testar checkouts. Grátis.",
+    title: "Gerador de Cartão de Crédito Falso para Testes (Luhn)",
+    description: "Cartão fake Visa, Mastercard, Elo, Hipercard, Amex e débito com Luhn válido. Para testar checkouts e sandbox de pagamento. Grátis.",
     type: "website",
   },
   alternates: { canonical: "/gerador-cartao" },
@@ -86,6 +86,28 @@ export default function GeradorCartao() {
             Não. Os números passam apenas na validação matemática (Luhn). Eles não estão vinculados
             a nenhuma conta bancária, não têm limite de crédito e serão recusados por qualquer gateway
             de pagamento em ambiente de produção. São exclusivamente para testes.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-lg font-semibold text-foreground mb-2">Cartão de crédito vs cartão de débito</h2>
+          <p className="mb-2">
+            O <strong>número</strong> de cartão de crédito e cartão de débito segue exatamente o mesmo
+            padrão ISO/IEC 7812: 16 dígitos, prefixo BIN da bandeira (4 para Visa, 51-55 para Mastercard,
+            etc.) e dígito verificador Luhn no final. Visualmente e no algoritmo, são idênticos.
+          </p>
+          <p className="mb-2">
+            A diferença está no <strong>tipo de conta vinculada</strong> ao número (corrente/poupança para
+            débito, conta de crédito para crédito) e no <strong>fluxo de autorização</strong> (débito exige
+            saldo em tempo real, crédito tem limite pré-aprovado). Para teste de formulário, validação Luhn
+            e mock de checkout, o gerador de cartão funciona indistintamente como gerador de cartão de
+            crédito ou gerador de número de cartão de débito.
+          </p>
+          <p>
+            Se você precisa diferenciar débito vs crédito no fluxo de teste, use o campo de bandeira/tipo
+            do seu formulário. Para testes ponta-a-ponta no gateway, use os cartões de teste oficiais do
+            PSP (Stripe, Mercado Pago, Pagar.me, Adyen, Cielo) que já vêm marcados como débito ou crédito
+            no sandbox.
           </p>
         </section>
 

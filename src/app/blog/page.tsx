@@ -14,6 +14,22 @@ export const metadata: Metadata = {
 
 const POSTS = [
   {
+    slug: "cartao-credito-falso-testes-fake-teste-sandbox",
+    title: "Cartão de Crédito Falso para Testes: Fake, Teste ou Sandbox?",
+    excerpt: "Diferença entre cartão de crédito falso, cartão fake, cartão de teste e cartão de sandbox dos gateways. Quando usar cada um para testar checkout, validação Luhn e fluxo ponta-a-ponta de pagamento.",
+    date: "2026-06-12",
+    readTime: "11 min",
+    category: "Conceitos",
+  },
+  {
+    slug: "gerador-conta-bancaria-17-bancos-brasileiros",
+    title: "Gerador de Conta Bancária: 17 Bancos BR para Testes",
+    excerpt: "Comparativo dos 17 maiores bancos brasileiros para geração de conta bancária fictícia em testes: Bradesco, Itaú, Nubank, BB, Santander, Inter, C6, BTG, Caixa e outros. Algoritmos de dígito verificador por banco e exemplos de seed.",
+    date: "2026-06-12",
+    readTime: "13 min",
+    category: "Comparativos",
+  },
+  {
     slug: "gerador-cpf-valido-online-como-funciona",
     title: "Gerador de CPF Válido Online: Como Funciona e Quando Usar",
     excerpt: "Como funciona um gerador de CPF válido online: algoritmo mod-11 da Receita Federal, diferença entre CPF válido e CPF real, quando usar fictício em testes, exemplos de integração com API REST.",
