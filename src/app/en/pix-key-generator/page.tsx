@@ -6,7 +6,7 @@ import GeneratorSchema from "@/components/GeneratorSchema";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "Brazilian PIX Key Generator: CPF, Email, Phone, EVP UUID for Testing",
+  title: "Brazilian PIX Key Generator (CPF, Email, Phone, EVP)",
   description: "Generate Brazilian PIX keys for testing payment integrations. Supports all 4 BACEN formats: CPF, email, phone (+55) and EVP (UUID v4). For Mercado Pago, PagBank, Stripe Brazil sandbox testing. Free REST API.",
   keywords: "brazilian pix generator, pix key generator, fake pix key, pix key for testing, brazilian instant payment, bacen pix, pix evp uuid, pix api test, brazilian payment sandbox, mercado pago pix test",
   openGraph: {

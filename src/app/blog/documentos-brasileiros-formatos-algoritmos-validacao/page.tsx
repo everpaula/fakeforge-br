@@ -4,10 +4,10 @@ import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
 
 export const metadata: Metadata = {
-  title: "Documentos brasileiros para devs: formatos e algoritmos de validação",
+  title: "Documentos Brasileiros: Formatos e Algoritmos de Validação",
   description: "CPF, CNPJ, RG, CIN e CNH: estrutura de dígitos, cálculo de verificação e exemplos de código para validar cada documento em TypeScript.",
   openGraph: {
-    title: "Documentos brasileiros para devs: formatos e algoritmos de validação",
+    title: "Documentos Brasileiros: Formatos e Algoritmos de Validação",
     description: "CPF, CNPJ, RG, CIN e CNH: estrutura de dígitos, cálculo de verificação e exemplos de código para validar cada documento em TypeScript.",
     type: "article",
     images: ["/api/og?title=Documentos%20brasileiros%20para%20devs%3A%20formatos%20e%20algoritmos%20de%20valida%C3%A7%C3%A3o&subtitle=CPF%2C%20CNPJ%2C%20RG%2C%20CIN%20e%20CNH%3A%20estrutura%20de%20d%C3%ADgitos%2C%20c%C3%A1lculo%20de%20verifica%C3%A7%C3%A3o%20e%20exemplos%20de%20c%C3%B3digo%20para%20validar%20cada%20documento%20em%20TypeScript.&category=TUTORIAIS"],

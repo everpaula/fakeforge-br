@@ -7,7 +7,7 @@ import GeneratorSchema from "@/components/GeneratorSchema";
 import RelatedGenerators from "@/components/RelatedGenerators";
 
 export const metadata: Metadata = {
-  title: "Gerador de Endereço Brasileiro Aleatório (Rua, Bairro, Cidade, CEP)",
+  title: "Gerador de Endereço Brasileiro Aleatório (com CEP)",
   description: "Gere endereço brasileiro aleatório e fictício completo: rua, bairro, cidade, estado e CEP coerentes. Para testes de cadastro, validação de formulário, seed de banco e checkout. Grátis e sem cadastro.",
   keywords: "gerador de endereço, gerar endereço, endereço fictício, endereços aleatorios, gerador de endereço brasileiro, endereço para testes, cep válido, endereço fake brasil, gerador endereco aleatorio, endereco brasileiro fake, gerador endereco completo",
   openGraph: {

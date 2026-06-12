@@ -9,7 +9,7 @@ import GeneratorSchema from "@/components/GeneratorSchema";
 import RelatedGenerators from "@/components/RelatedGenerators";
 
 export const metadata: Metadata = {
-  title: "Gerador de Pessoa Fictícia Brasileira (Nome, CPF, Email, Endereço)",
+  title: "Gerador de Pessoa Fictícia (Nome, CPF, Email, Endereço)",
   description: "Gere pessoa fictícia brasileira completa: nome típico, CPF válido (mod-11), email derivado do nome, telefone com DDD real e endereço coerente. Tudo correlacionado para seed de banco, cadastros de teste e QA. Grátis e sem cadastro.",
   keywords: "gerador de pessoa, gerador de pessoa fictícia, gerar pessoa fake, pessoa fake brasileira, dados fictícios brasileiros, gerador nome cpf email correlacionados, dados teste cadastro, seed banco staging",
   openGraph: {

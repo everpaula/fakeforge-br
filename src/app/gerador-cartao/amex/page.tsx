@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import BrandCardLanding from "@/components/BrandCardLanding";
 
 export const metadata: Metadata = {
-  title: "Gerador de Cartão American Express (Amex) Válido — 15 Dígitos + CID",
+  title: "Gerador de Cartão Amex Válido (15 Dígitos + CID)",
   description: "Gere cartões Amex fictícios válidos com prefixo 34 ou 37, 15 dígitos e CID de 4 dígitos. Algoritmo Luhn. Para testes de checkout que precisam diferenciar Amex de outras bandeiras.",
   keywords: "gerador cartao amex, american express valido, numero amex teste, cartao amex fictício, amex luhn 15 digitos",
   alternates: { canonical: "/gerador-cartao/amex" },

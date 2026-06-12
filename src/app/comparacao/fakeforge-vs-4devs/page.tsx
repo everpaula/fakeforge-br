@@ -4,7 +4,7 @@ import PageShell from "@/components/PageShell";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "FakeForge vs 4devs: qual gerador de dados brasileiros usar em 2026?",
+  title: "FakeForge vs 4devs: Qual Usar em 2026 (Dados Brasileiros)",
   description:
     "Comparativo técnico entre FakeForge BR e 4devs.com.br. CPF mod-11, CNPJ alfanumérico, PIX BACEN, API REST, export SQL, dados correlacionados. Quando usar cada um.",
   keywords:

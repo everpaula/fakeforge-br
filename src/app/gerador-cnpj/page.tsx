@@ -9,7 +9,7 @@ import RelatedGenerators from "@/components/RelatedGenerators";
 import ValidatorCNPJ from "./ValidatorCNPJ";
 
 export const metadata: Metadata = {
-  title: "Gerador de CNPJ Válido Online Grátis (Mod-11 com Dígito Verificador)",
+  title: "Gerador de CNPJ Válido Online com Mod-11",
   description: "Gere CNPJ válido online com algoritmo mod-11 e dígitos verificadores corretos. Para testes de cadastros, integração ERP, NF-e em homologação e seed de banco. Grátis, sem cadastro. API REST com 100 chamadas/dia.",
   keywords: "gerador de cnpj, gerador cnpj, gerar cnpj, gerar um cnpj, gerar cnpj válido, gerador de cnpj válido, gerador de cnpj para testes, cnpj válido, cnpj fictício, cnpj fake, cnpj aleatorio, generate cnpj, gerador cnpj online, gerar cnpj online",
   openGraph: {

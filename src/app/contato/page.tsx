@@ -4,7 +4,7 @@ import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import ContactReveal from "./ContactReveal";
 
 export const metadata: Metadata = {
-  title: "Contato — FakeForge BR",
+  title: "Contato e Suporte FakeForge BR: Dúvidas e LGPD",
   description: "Fale com o FakeForge BR. Suporte para usuários da API, dúvidas sobre LGPD, sugestões de novos geradores, parcerias e exercício de direitos da LGPD.",
   alternates: { canonical: "/contato" },
 };

@@ -9,11 +9,11 @@ import GeneratorSchema from "@/components/GeneratorSchema";
 import RelatedGenerators from "@/components/RelatedGenerators";
 
 export const metadata: Metadata = {
-  title: "Gerador de CNH Válida — Carteira Nacional de Habilitação para Testes",
+  title: "Gerador de CNH Válida com Algoritmo DENATRAN",
   description: "Gere número de CNH válido para testes de software. Implementa o algoritmo oficial do DENATRAN (mod-11 com pesos invertidos). 11 dígitos, formatado ou puro. Grátis.",
   keywords: "gerador cnh, gerador cnh válida, número cnh teste, denatran algoritmo, cnh fictícia, validador cnh",
   openGraph: {
-    title: "Gerador de CNH Válida — FakeForge BR",
+    title: "Gerador de CNH Válida: FakeForge BR",
     description: "Números de CNH com algoritmo DENATRAN para testes de software.",
     type: "website",
   },

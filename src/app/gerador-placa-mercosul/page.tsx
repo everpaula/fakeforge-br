@@ -9,11 +9,11 @@ import GeneratorSchema from "@/components/GeneratorSchema";
 import RelatedGenerators from "@/components/RelatedGenerators";
 
 export const metadata: Metadata = {
-  title: "Gerador de Placa Mercosul e Placa Antiga — Para Testes de Software",
+  title: "Gerador de Placa Mercosul e Antiga para Testes",
   description: "Gere placas brasileiras nos formatos Mercosul (LLLNLNN) e antigo (LLL-NNNN) válidos pela Resolução CONTRAN 729/2018. Letras sem I/O/Q. Para testes de OCR, sistemas de tráfego e seguradoras.",
   keywords: "gerador placa mercosul, gerador placa antiga, placa fictícia teste, placa lllnlnn, contran 729, placa válida software",
   openGraph: {
-    title: "Gerador de Placa Mercosul — FakeForge BR",
+    title: "Gerador de Placa Mercosul: FakeForge BR",
     description: "Placas brasileiras válidas (Mercosul + antiga) para testes de software.",
     type: "website",
   },

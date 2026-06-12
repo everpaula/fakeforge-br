@@ -9,11 +9,11 @@ import GeneratorSchema from "@/components/GeneratorSchema";
 import RelatedGenerators from "@/components/RelatedGenerators";
 
 export const metadata: Metadata = {
-  title: "Gerador de CIN — Carteira de Identidade Nacional (Novo RG) para Testes",
+  title: "Gerador de CIN: Carteira de Identidade Nacional (Testes)",
   description: "Gere dados de CIN fictícios para testes: número (CPF), UF emissora, data de emissão e validade. CIN substitui o RG e usa o CPF como identificador único. Conforme Decreto 10.977/2022.",
   keywords: "gerador cin, carteira identidade nacional, novo rg, cin substitui rg, gerador rg cin, cin teste software",
   openGraph: {
-    title: "Gerador de CIN — Carteira de Identidade Nacional",
+    title: "Gerador de CIN: Carteira de Identidade Nacional",
     description: "Dados de CIN fictícios para testes: número CPF, UF, data emissão, validade.",
     type: "website",
   },

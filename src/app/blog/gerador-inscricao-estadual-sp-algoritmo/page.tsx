@@ -4,10 +4,10 @@ import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
 
 export const metadata: Metadata = {
-  title: "Inscrição Estadual SP: algoritmo passo a passo e gerador em TypeScript",
+  title: "Inscrição Estadual SP: Algoritmo e Gerador TypeScript",
   description: "Entenda o formato e o algoritmo de dígito verificador da IE-SP, implemente gerador e validador em TypeScript com exemplos rodáveis.",
   openGraph: {
-    title: "Inscrição Estadual SP: algoritmo passo a passo e gerador em TypeScript",
+    title: "Inscrição Estadual SP: Algoritmo e Gerador TypeScript",
     description: "Entenda o formato e o algoritmo de dígito verificador da IE-SP, implemente gerador e validador em TypeScript com exemplos rodáveis.",
     type: "article",
     images: ["/api/og?title=Inscri%C3%A7%C3%A3o%20Estadual%20SP%3A%20algoritmo%20passo%20a%20passo%20e%20gerador%20em%20TypeScript&subtitle=Entenda%20o%20formato%20e%20o%20algoritmo%20de%20d%C3%ADgito%20verificador%20da%20IE-SP%2C%20implemente%20gerador%20e%20validador%20em%20TypeScript%20com%20exemplos%20rod%C3%A1veis.&category=TUTORIAIS"],

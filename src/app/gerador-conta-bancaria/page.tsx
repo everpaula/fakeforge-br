@@ -7,7 +7,7 @@ import GeneratorSchema from "@/components/GeneratorSchema";
 import RelatedGenerators from "@/components/RelatedGenerators";
 
 export const metadata: Metadata = {
-  title: "Gerador de Conta Bancária e Conta Corrente Válida (Banco, Agência, Dígito)",
+  title: "Gerador de Conta Bancária e Corrente (Banco, Agência)",
   description: "Gere conta bancária e conta corrente fictícia com banco, agência e número com dígito verificador válido. 17 bancos: Bradesco, Itaú, Nubank, BB, Santander, Inter, C6 e mais. Para testes de pagamento e cadastros. Grátis.",
   keywords: "gerador de conta bancária, gerador de conta corrente, geradores de contas, gerador conta bancaria, dados bancários teste, conta bancária válida, conta corrente fake, banco agência conta, dados bancários desenvolvimento, gerador banco brasil, compe código banco",
   openGraph: {

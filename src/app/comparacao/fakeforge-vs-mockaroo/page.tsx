@@ -4,14 +4,14 @@ import PageShell from "@/components/PageShell";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "FakeForge vs Mockaroo — Qual usar para gerar dados brasileiros em 2026?",
+  title: "FakeForge vs Mockaroo: Qual Usar para Dados Brasileiros",
   description:
     "Comparativo técnico entre FakeForge BR e Mockaroo para gerar dados brasileiros de teste. CPF mod-11 nativo, CNPJ alfanumérico, PIX BACEN, preço, API REST. Quando usar cada um.",
   keywords:
     "fakeforge vs mockaroo, alternativa mockaroo brasil, mockaroo cpf cnpj, mockaroo brasileiro, gerador dados brasil sem mockaroo, mockaroo grátis brasileiro",
   alternates: { canonical: "/comparacao/fakeforge-vs-mockaroo" },
   openGraph: {
-    title: "FakeForge vs Mockaroo — Comparação para dados brasileiros",
+    title: "FakeForge vs Mockaroo: Comparação para dados brasileiros",
     description:
       "Mockaroo é internacional, FakeForge é especialista BR. Comparativo de validações, API, preço e quando usar cada um.",
     type: "article",

@@ -4,7 +4,7 @@ import PageShell from "@/components/PageShell";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "Termos de Uso — FakeForge BR",
+  title: "Termos de Uso da API FakeForge BR e Geradores Web",
   description: "Termos de uso do FakeForge BR. Regras para uso da ferramenta web e da API REST. Limites, restrições e responsabilidade do usuário.",
   alternates: { canonical: "/termos" },
 };
