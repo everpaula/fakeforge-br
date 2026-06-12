@@ -23,7 +23,7 @@ const POSTS = [
   },
   {
     slug: "gerador-cep-brasileiro-testes-formato-estados",
-    title: "Gerador de CEP para Testes: Formato, Algoritmo e Estados Cobertos",
+    title: "Gerador de CEP Brasileiro para Testes: Formato e Estados",
     excerpt: "Como gerar CEP brasileiro fictício para testes: formato XXXXX-XXX, prefixos por estado, 10 estados cobertos pelo FakeForge, diferença entre gerar e consultar CEP (ViaCEP) e integração API REST.",
     date: "2026-06-04",
     readTime: "11 min",

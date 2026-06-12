@@ -4,11 +4,11 @@ import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
 
 export const metadata: Metadata = {
-  title: "Gerador de CEP para testes: formato, algoritmo e estados cobertos",
-  description: "Entenda o formato do CEP brasileiro, como gerar CEPs válidos por estado para testes e quais regiões o FakeForge cobre com dados correlacionados.",
+  title: "Gerador de CEP Brasileiro para Testes: Formato e Estados",
+  description: "Gerador de CEP brasileiro: entenda o formato XXXXX-XXX, como gerar CEPs válidos por estado para testes, prefixos regionais e quais regiões o FakeForge cobre com dados correlacionados.",
   openGraph: {
-    title: "Gerador de CEP para testes: formato, algoritmo e estados cobertos",
-    description: "Entenda o formato do CEP brasileiro, como gerar CEPs válidos por estado para testes e quais regiões o FakeForge cobre com dados correlacionados.",
+    title: "Gerador de CEP Brasileiro para Testes: Formato e Estados",
+    description: "Gerador de CEP brasileiro: formato XXXXX-XXX, gerar CEPs válidos por estado para testes, prefixos regionais e dados correlacionados.",
     type: "article",
     images: ["/api/og?title=Gerador%20de%20CEP%20para%20testes%3A%20formato%2C%20algoritmo%20e%20estados%20cobertos&subtitle=Entenda%20o%20formato%20do%20CEP%20brasileiro%2C%20como%20gerar%20CEPs%20v%C3%A1lidos%20por%20estado%20para%20testes%20e%20quais%20regi%C3%B5es%20o%20FakeForge%20cobre%20com%20dados%20correlaciona&category=TUTORIAIS"],
   },
