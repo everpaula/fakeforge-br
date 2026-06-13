@@ -53,6 +53,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/validar-cnpj`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/docs`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/blog`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.7 },
+    { url: `${baseUrl}/blog/algoritmo-luhn-cartao-credito-validacao-testes`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.95 },
     { url: `${baseUrl}/blog/cartao-credito-falso-testes-fake-teste-sandbox`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.95 },
     { url: `${baseUrl}/blog/gerador-conta-bancaria-17-bancos-brasileiros`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.95 },
     { url: `${baseUrl}/blog/gerador-cpf-valido-online-como-funciona`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.95 },

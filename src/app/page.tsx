@@ -390,7 +390,7 @@ export default function Home() {
             <div className="p-5 sm:p-6">
               <h3 className="text-base font-semibold text-foreground">Use via API no seu código</h3>
               <p className="text-xs text-muted-foreground mt-1 mb-4">
-                Essa mesma geração está disponível via API REST. 100 chamadas grátis por dia.
+                Essa mesma geração está disponível via API REST. 50 chamadas grátis por dia.
               </p>
               <div className="rounded-lg bg-background border border-border p-4 font-mono text-xs leading-6">
                 <div className="text-muted"># Gerar {quantity} {selectedInfo?.label} via API</div>
@@ -463,7 +463,7 @@ export default function Home() {
               {
                 icon: "⚙️",
                 title: "API REST para automação",
-                desc: "100 chamadas grátis por dia. Integre no seed do banco, no CI/CD, ou gere em massa. Export direto em JSON, CSV ou SQL.",
+                desc: "50 chamadas grátis por dia. Integre no seed do banco, no CI/CD, ou gere em massa. Export direto em JSON, CSV ou SQL.",
               },
               {
                 icon: "🛡️",
@@ -542,7 +542,7 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             {[
-              { name: "Free", price: "R$0", tagline: "Para uso pessoal", quota: "100 chamadas/dia na API", highlight: false },
+              { name: "Free", price: "R$0", tagline: "Para uso pessoal", quota: "50 chamadas/dia na API", highlight: false },
               { name: "Dev", price: "R$29", tagline: "Para devs que integram no CI/CD", quota: "10.000 chamadas/dia", highlight: true },
               { name: "Team", price: "R$79", tagline: "Para times e empresas", quota: "100.000 chamadas/dia", highlight: false },
             ].map((p) => (

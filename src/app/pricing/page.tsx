@@ -60,7 +60,7 @@ export default function Pricing() {
                 name: "Free",
                 price: "0",
                 priceCurrency: "BRL",
-                description: "100 chamadas/dia, todos os tipos de dados, export JSON/CSV/SQL",
+                description: "50 chamadas/dia, todos os tipos de dados, export JSON/CSV/SQL",
                 availability: "https://schema.org/InStock",
                 url: "https://fakeforge.com.br/pricing",
               },

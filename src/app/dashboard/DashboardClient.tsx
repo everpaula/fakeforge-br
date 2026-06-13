@@ -29,10 +29,16 @@ interface ReferralStats {
 }
 
 const PLAN_LIMITS: Record<string, { requests: number; label: string; color: string }> = {
-  free: { requests: 100, label: "Free", color: "text-muted-foreground" },
+  free: { requests: 50, label: "Free", color: "text-muted-foreground" },
   dev: { requests: 10000, label: "Dev", color: "text-primary" },
   team: { requests: 100000, label: "Team", color: "text-accent" },
 };
+
+interface KeyTestResult {
+  ok: boolean;
+  data?: string[];
+  error?: string;
+}
 
 export default function DashboardClient({ userId, userEmail }: { userId: string; userEmail: string }) {
   const [apiKeys, setApiKeys] = useState<ApiKey[]>([]);
@@ -40,6 +46,8 @@ export default function DashboardClient({ userId, userEmail }: { userId: string;
   const [usageToday, setUsageToday] = useState(0);
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
   const [copiedRef, setCopiedRef] = useState(false);
+  const [testingKey, setTestingKey] = useState<string | null>(null);
+  const [testResults, setTestResults] = useState<Record<string, KeyTestResult>>({});
   const [loading, setLoading] = useState(true);
   const [refStats, setRefStats] = useState<ReferralStats>({ total: 0, pending: 0, converted: 0, monthly_recurring: 0, total_earned: 0 });
 
@@ -103,6 +111,35 @@ export default function DashboardClient({ userId, userEmail }: { userId: string;
   async function deleteApiKey(id: string) {
     await supabase.from("api_keys").update({ is_active: false }).eq("id", id);
     loadData();
+  }
+
+  async function testApiKey(key: string) {
+    setTestingKey(key);
+    setTestResults((prev) => ({ ...prev, [key]: { ok: false, data: undefined, error: undefined } }));
+    try {
+      const res = await fetch("/api/generate?type=cpf&quantity=3", {
+        headers: { "X-API-Key": key },
+      });
+      const body = await res.json().catch(() => null);
+      if (!res.ok) {
+        setTestResults((prev) => ({
+          ...prev,
+          [key]: { ok: false, error: body?.error || `HTTP ${res.status}` },
+        }));
+      } else {
+        const data = Array.isArray(body?.data) ? body.data.map(String) : [];
+        setTestResults((prev) => ({ ...prev, [key]: { ok: true, data } }));
+        // Refresh usage counter to reflect the new call
+        loadData();
+      }
+    } catch (e) {
+      setTestResults((prev) => ({
+        ...prev,
+        [key]: { ok: false, error: e instanceof Error ? e.message : "Erro de rede" },
+      }));
+    } finally {
+      setTestingKey(null);
+    }
   }
 
   async function handleCopyKey(key: string) {
@@ -343,42 +380,124 @@ export default function DashboardClient({ userId, userEmail }: { userId: string;
         </div>
 
         {apiKeys.filter(k => k.is_active).length === 0 ? (
-          <div className="px-5 py-8 text-center">
-            <p className="text-sm text-muted-foreground">Nenhuma API key criada.</p>
-            <p className="text-xs text-muted mt-1">Crie uma key para usar a API com autenticação.</p>
+          <div className="px-5 py-6">
+            <p className="text-sm font-semibold text-foreground">Bem-vindo. Crie sua primeira API key.</p>
+            <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">
+              Com uma key você roda esses 3 fluxos em segundos. Tudo dentro do limite grátis de 50 chamadas/dia.
+            </p>
+
+            <div className="mt-4 space-y-2 text-xs">
+              <div className="rounded-lg border border-border bg-background px-3 py-2">
+                <p className="font-medium text-foreground">1. Seed de banco de staging em 1 chamada</p>
+                <p className="text-muted mt-0.5">
+                  Gere 100 clientes brasileiros correlacionados (nome + CPF + email + endereço + telefone)
+                  prontos pra <span className="font-mono text-primary">INSERT INTO customers</span>.
+                </p>
+              </div>
+              <div className="rounded-lg border border-border bg-background px-3 py-2">
+                <p className="font-medium text-foreground">2. Fixtures pra suite de testes</p>
+                <p className="text-muted mt-0.5">
+                  Use o preset <span className="font-mono text-primary">customer</span> em pytest/jest factories.
+                  Cada chamada devolve dados que passam mod-11, Luhn e validação BACEN.
+                </p>
+              </div>
+              <div className="rounded-lg border border-border bg-background px-3 py-2">
+                <p className="font-medium text-foreground">3. Mock de checkout de pagamento</p>
+                <p className="text-muted mt-0.5">
+                  CPF + cartão Luhn + chave PIX BACEN no mesmo objeto. Ideal pra rodar testes E2E
+                  do seu fluxo de checkout sem dado real.
+                </p>
+              </div>
+            </div>
+
+            <button
+              onClick={createApiKey}
+              className="mt-4 w-full sm:w-auto text-xs px-4 py-2 rounded-lg bg-primary text-white hover:bg-primary-hover transition-all font-semibold"
+            >
+              Criar minha primeira API key
+            </button>
           </div>
         ) : (
           <div className="divide-y divide-border">
-            {apiKeys.filter(k => k.is_active).map((key) => (
-              <div key={key.id} className="flex items-center justify-between px-5 py-3">
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm font-mono text-foreground truncate">{key.key.slice(0, 12)}...{key.key.slice(-4)}</span>
-                    <span className="text-[10px] text-muted">{key.name}</span>
+            {apiKeys.filter(k => k.is_active).map((key) => {
+              const test = testResults[key.key];
+              const isTesting = testingKey === key.key;
+              return (
+                <div key={key.id} className="px-5 py-3">
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm font-mono text-foreground truncate">{key.key.slice(0, 12)}...{key.key.slice(-4)}</span>
+                        <span className="text-[10px] text-muted">{key.name}</span>
+                      </div>
+                      <p className="text-[11px] text-muted mt-0.5">
+                        Criada em {new Date(key.created_at).toLocaleDateString("pt-BR")}
+                        {key.last_used_at && ` · Último uso: ${new Date(key.last_used_at).toLocaleDateString("pt-BR")}`}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-2 shrink-0">
+                      <button
+                        onClick={() => testApiKey(key.key)}
+                        disabled={isTesting}
+                        className={`text-[11px] px-2.5 py-1 rounded-md transition-all font-medium ${
+                          isTesting
+                            ? "bg-primary/40 text-white"
+                            : "bg-primary text-white hover:bg-primary-hover"
+                        }`}
+                      >
+                        {isTesting ? "Testando..." : "Testar agora"}
+                      </button>
+                      <button
+                        onClick={() => handleCopyKey(key.key)}
+                        className={`text-[11px] px-2.5 py-1 rounded-md transition-all ${
+                          copiedKey === key.key ? "bg-success text-white" : "text-muted-foreground hover:text-foreground hover:bg-background"
+                        }`}
+                      >
+                        {copiedKey === key.key ? "Copiada!" : "Copiar"}
+                      </button>
+                      <button
+                        onClick={() => deleteApiKey(key.id)}
+                        className="text-[11px] px-2.5 py-1 rounded-md text-danger/70 hover:text-danger hover:bg-danger/10 transition-all"
+                      >
+                        Revogar
+                      </button>
+                    </div>
                   </div>
-                  <p className="text-[11px] text-muted mt-0.5">
-                    Criada em {new Date(key.created_at).toLocaleDateString("pt-BR")}
-                    {key.last_used_at && ` · Último uso: ${new Date(key.last_used_at).toLocaleDateString("pt-BR")}`}
-                  </p>
+
+                  {test && (
+                    <div className={`mt-3 rounded-lg border p-3 text-xs ${
+                      test.ok ? "border-success/30 bg-success/5" : "border-danger/30 bg-danger/5"
+                    }`}>
+                      {test.ok ? (
+                        <>
+                          <div className="flex items-center gap-2 mb-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-success" />
+                            <span className="text-success font-medium">Funcionou. 3 CPFs gerados via sua key:</span>
+                          </div>
+                          <pre className="font-mono text-foreground bg-background border border-border rounded p-2 overflow-x-auto">
+{`GET /api/generate?type=cpf&quantity=3
+X-API-Key: ${key.key.slice(0, 12)}...
+
+${(test.data || []).map((cpf, i) => `${i + 1}. ${cpf}`).join("\n")}`}
+                          </pre>
+                          <p className="text-muted mt-2 text-[10px]">
+                            A chamada conta no seu limite diário. Use {"`curl -H 'X-API-Key: ...' '...'`"} ou o SDK no seu projeto.
+                          </p>
+                        </>
+                      ) : (
+                        <>
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className="w-1.5 h-1.5 rounded-full bg-danger" />
+                            <span className="text-danger font-medium">Falhou:</span>
+                          </div>
+                          <p className="text-foreground font-mono">{test.error}</p>
+                        </>
+                      )}
+                    </div>
+                  )}
                 </div>
-                <div className="flex items-center gap-2 shrink-0">
-                  <button
-                    onClick={() => handleCopyKey(key.key)}
-                    className={`text-[11px] px-2.5 py-1 rounded-md transition-all ${
-                      copiedKey === key.key ? "bg-success text-white" : "text-muted-foreground hover:text-foreground hover:bg-background"
-                    }`}
-                  >
-                    {copiedKey === key.key ? "Copiada!" : "Copiar"}
-                  </button>
-                  <button
-                    onClick={() => deleteApiKey(key.id)}
-                    className="text-[11px] px-2.5 py-1 rounded-md text-danger/70 hover:text-danger hover:bg-danger/10 transition-all"
-                  >
-                    Revogar
-                  </button>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </div>

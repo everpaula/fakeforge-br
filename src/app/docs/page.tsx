@@ -6,7 +6,7 @@ import { DATA_TYPES } from "@/lib/generators";
 
 export const metadata: Metadata = {
   title: "API REST FakeForge: Gerar CPF, CNPJ, PIX, Cartão via Código",
-  description: "Documentação completa da API REST do FakeForge BR. Gere CPF, CNPJ, PIX, cartão e mais via curl, Node.js, Python, PHP. Endpoints GET/POST, export JSON/CSV/SQL. 100 chamadas grátis por dia.",
+  description: "Documentação completa da API REST do FakeForge BR. Gere CPF, CNPJ, PIX, cartão e mais via curl, Node.js, Python, PHP. Endpoints GET/POST, export JSON/CSV/SQL. 50 chamadas grátis por dia.",
   keywords: "api dados brasileiros, api rest cpf cnpj, gerador api brasil, fakeforge api docs, api dados teste, api cpf cnpj curl, api gerar cpf brasil",
   alternates: { canonical: "/docs" },
 };
@@ -298,7 +298,7 @@ print(data[0])  # {'nome': '...', 'cpf': '...', ...}`}</pre>
             <tbody className="divide-y divide-border">
               <tr>
                 <td className="px-4 py-2 font-medium text-foreground">Free</td>
-                <td className="px-4 py-2 text-muted-foreground">100</td>
+                <td className="px-4 py-2 text-muted-foreground">50</td>
                 <td className="px-4 py-2 text-muted-foreground">10.000</td>
                 <td className="px-4 py-2 text-success">Grátis</td>
               </tr>

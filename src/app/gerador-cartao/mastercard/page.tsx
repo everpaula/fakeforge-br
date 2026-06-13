@@ -4,7 +4,7 @@ import BrandCardLanding from "@/components/BrandCardLanding";
 export const metadata: Metadata = {
   title: "Gerador de Cartão Mastercard Válido (Mastercard Card Generator)",
   description: "Gere cartões Mastercard fictícios válidos com prefixos 51-55 e algoritmo Luhn. 16 dígitos, CVV 3 dígitos. Para testes de checkout e gateways. Free Mastercard card generator for testing. Grátis e sem cadastro.",
-  keywords: "gerador cartao mastercard, mastercard valido, numero mastercard teste, cartao master fictício, master luhn, mastercard card generator, fake mastercard generator, mastercard credit card generator, free credit card generator, credit card generator for testing, fake card generator",
+  keywords: "gerador cartao mastercard, gerador de cartão mastercard, gerador cartão mastercard, mastercard gerador, gerador de mastercard, mastercard valido, cartão mastercard valido, numero mastercard teste, cartao master fictício, master luhn, gerar cartão mastercard, mastercard card generator, fake mastercard generator, mastercard credit card generator, free credit card generator, credit card generator for testing, fake card generator",
   alternates: { canonical: "/gerador-cartao/mastercard" },
 };
 

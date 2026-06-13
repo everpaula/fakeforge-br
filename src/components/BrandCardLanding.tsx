@@ -129,7 +129,7 @@ export default function BrandCardLanding({ config }: { config: BrandLandingConfi
           `Prefixo BIN específico da bandeira ${brandName}`,
           "Geração em lote até 10.000 por chamada",
           "Export JSON, CSV e SQL",
-          "API REST gratuita com 100 chamadas/dia",
+          "API REST gratuita com 50 chamadas/dia",
         ]}
       />
 

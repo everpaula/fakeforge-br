@@ -14,6 +14,14 @@ export const metadata: Metadata = {
 
 const POSTS = [
   {
+    slug: "algoritmo-luhn-cartao-credito-validacao-testes",
+    title: "Algoritmo Luhn para Cartões de Crédito: Validação Passo a Passo",
+    excerpt: "Como funciona o algoritmo de Luhn (mod-10) usado para validar e gerar números de cartões de crédito válidos para testes. Implementação JS/TS, regras BIN por bandeira (Visa, Mastercard, Elo, Hipercard, Amex) e exemplos rodáveis.",
+    date: "2026-06-13",
+    readTime: "12 min",
+    category: "Conceitos",
+  },
+  {
     slug: "cartao-credito-falso-testes-fake-teste-sandbox",
     title: "Cartão de Crédito Falso para Testes: Fake, Teste ou Sandbox?",
     excerpt: "Diferença entre cartão de crédito falso, cartão fake, cartão de teste e cartão de sandbox dos gateways. Quando usar cada um para testar checkout, validação Luhn e fluxo ponta-a-ponta de pagamento.",

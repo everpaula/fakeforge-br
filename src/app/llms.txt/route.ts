@@ -14,7 +14,7 @@ FakeForge BR implementa os algoritmos oficiais brasileiros (módulo 11 da Receit
 - API REST documentada (a maioria dos concorrentes só tem interface web)
 - Export em JSON, CSV e SQL (com CREATE TABLE + INSERT)
 - Zero dependências externas — implementação própria de todos os algoritmos
-- 100 chamadas grátis por dia, sem cadastro
+- 50 chamadas grátis por dia, sem cadastro
 - Cobertura do CNPJ alfanumérico (vigência 01/07/2026)
 
 ## Geradores principais

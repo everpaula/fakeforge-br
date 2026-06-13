@@ -63,7 +63,7 @@ export function SignupNudge({ onDismiss }: { onDismiss: () => void }) {
             Curtindo o gerador? Vai mais longe com uma conta grátis.
           </p>
           <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">
-            API key pessoal com 100 chamadas/dia, histórico de gerações, presets salvos
+            API key pessoal com 50 chamadas/dia, histórico de gerações, presets salvos
             e prioridade para gerar lotes de até 10.000 itens.
           </p>
         </div>

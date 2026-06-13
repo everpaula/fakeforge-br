@@ -1,7 +1,7 @@
 const WINDOW_MS = 24 * 60 * 60 * 1000; // 24 hours
 
 export const PLAN_LIMITS: Record<string, number> = {
-  free: 100,
+  free: 50,
   dev: 10000,
   team: 100000,
 };

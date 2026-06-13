@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import BrandCardLanding from "@/components/BrandCardLanding";
 
 export const metadata: Metadata = {
-  title: "Gerador de Cartão Elo Válido — Bandeira Brasileira para Testes",
+  title: "Gerador de Cartão Elo Válido: Bandeira Brasileira para Testes",
   description: "Gere cartões Elo fictícios válidos com prefixos brasileiros oficiais (636368, 438935, 504175...) e Luhn. 16 dígitos. Para testes de checkout em e-commerces brasileiros.",
-  keywords: "gerador cartao elo, elo valido, numero elo teste, cartao elo fictício, elo luhn brasil",
+  keywords: "gerador cartao elo, gerador de cartão elo, gerar cartão elo, elo valido, cartão elo gerador, numero elo teste, cartao elo fictício, elo luhn brasil, bandeira elo brasileira",
   alternates: { canonical: "/gerador-cartao/elo" },
 };
 

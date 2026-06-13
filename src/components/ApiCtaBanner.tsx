@@ -15,7 +15,7 @@ export default function ApiCtaBanner({ dataType = "dados" }: Props) {
           <h3 className="text-base font-semibold text-foreground">Automatize com a API</h3>
           <p className="text-sm text-muted-foreground mt-1">
             Gere {dataType} direto no seu código ou pipeline de CI/CD.
-            100 chamadas grátis por dia. Sem cartão de crédito.
+            50 chamadas grátis por dia. Sem cartão de crédito.
           </p>
         </div>
         <div className="flex gap-2 w-full sm:w-auto">

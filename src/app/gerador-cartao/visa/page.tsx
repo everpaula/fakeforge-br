@@ -4,7 +4,7 @@ import BrandCardLanding from "@/components/BrandCardLanding";
 export const metadata: Metadata = {
   title: "Gerador de Cartão Visa Válido (Visa Card Generator + Luhn)",
   description: "Gere cartões Visa fictícios válidos com prefixo 4 e algoritmo Luhn. 16 dígitos, CVV de 3 dígitos. Para testes de checkout, gateways e formulários. Free Visa card generator for testing. Grátis e sem cadastro.",
-  keywords: "gerador cartao visa, cartao visa valido, numero cartao visa teste, visa fictício, gerador visa luhn, visa card generator, fake visa card generator, visa credit card generator, free credit card generator, credit card generator for testing, fake card generator",
+  keywords: "gerador cartao visa, gerador de cartão visa, gerador cartão visa, cartao visa gerador, gerador visa, cartao visa valido, cartao visa teste, numero cartao visa teste, visa fictício, gerador visa luhn, gerar cartão visa, gerar visa, visa card generator, fake visa card generator, visa credit card generator, free credit card generator, credit card generator for testing, fake card generator",
   alternates: { canonical: "/gerador-cartao/visa" },
 };
 

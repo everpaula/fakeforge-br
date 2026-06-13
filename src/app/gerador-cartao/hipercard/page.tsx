@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import BrandCardLanding from "@/components/BrandCardLanding";
 
 export const metadata: Metadata = {
-  title: "Gerador de Cartão Hipercard Válido — Bandeira Itaú para Testes",
+  title: "Gerador de Cartão Hipercard Válido: Bandeira Itaú para Testes",
   description: "Gere cartões Hipercard fictícios válidos com prefixo 606282 e algoritmo Luhn. Bandeira do Itaú aceita em redes brasileiras. 16 dígitos. Para testes de checkout BR.",
-  keywords: "gerador cartao hipercard, hipercard valido, numero hipercard teste, cartao hipercard fictício, hipercard luhn",
+  keywords: "gerador cartao hipercard, gerador de cartão hipercard, gerar cartão hipercard, hipercard valido, cartão hipercard valido, numero hipercard teste, cartao hipercard fictício, hipercard luhn, bandeira hipercard itau",
   alternates: { canonical: "/gerador-cartao/hipercard" },
 };
 

@@ -12,7 +12,7 @@ const PLANS = [
     description: "Para uso pessoal e testes rápidos",
     features: [
       "Web ilimitado (gerar e copiar)",
-      "100 requests/dia na API",
+      "50 requests/dia na API",
       "Todos os 15 tipos de dados",
       "Export JSON, CSV, SQL",
     ],
@@ -231,7 +231,7 @@ export default function PricingClient() {
             <tbody className="divide-y divide-border">
               {[
                 ["Geração web (copiar/exportar)", "Ilimitado", "Ilimitado", "Ilimitado"],
-                ["Chamadas API por dia", "100", "10.000", "100.000"],
+                ["Chamadas API por dia", "50", "10.000", "100.000"],
                 ["Export JSON/CSV/SQL", "check", "check", "check"],
                 ["Schema builder (dados correlacionados)", "—", "check", "check"],
                 ["Presets prontos (customer, employee...)", "—", "check", "check"],
@@ -302,7 +302,7 @@ export default function PricingClient() {
       <div className="mt-10 rounded-xl bg-gradient-to-br from-primary/10 to-accent/5 border border-primary/20 p-8 text-center">
         <h2 className="text-lg font-semibold text-foreground">Ainda com dúvidas?</h2>
         <p className="text-sm text-muted-foreground mt-2 max-w-md mx-auto">
-          Comece grátis. A geração web é ilimitada e você pode testar 100 chamadas da API por dia sem pagar nada.
+          Comece grátis. A geração web é ilimitada e você pode testar 50 chamadas da API por dia sem pagar nada.
         </p>
         <div className="flex flex-col sm:flex-row gap-2 justify-center mt-4">
           <button

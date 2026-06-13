@@ -11,7 +11,7 @@ export default function ApiCtaTop({ dataType }: Props) {
         <span className="text-base">⚡</span>
         <p className="text-xs sm:text-sm text-foreground">
           Precisa gerar muitos {dataType} via código?{" "}
-          <span className="text-muted-foreground">API REST com 100 chamadas grátis/dia.</span>
+          <span className="text-muted-foreground">API REST com 50 chamadas grátis/dia.</span>
         </p>
       </div>
       <div className="flex items-center gap-2 shrink-0">
