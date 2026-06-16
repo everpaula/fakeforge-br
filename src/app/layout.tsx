@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import ReferralCapture from "@/components/ReferralCapture";
 import "./globals.css";
 
@@ -127,6 +128,7 @@ export default function RootLayout({
             data-ea-campaign-types="paid|community|house"
           />
         )}
+        <Analytics />
       </body>
     </html>
   );
