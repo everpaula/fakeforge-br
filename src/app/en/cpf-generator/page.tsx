@@ -6,9 +6,9 @@ import GeneratorSchema from "@/components/GeneratorSchema";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "Brazilian CPF Generator: Valid CPF Numbers for Software Testing",
+  title: "CPF Generator: Generate Valid Brazilian CPF Numbers (Free)",
   description: "Generate valid Brazilian CPF numbers for software testing, fintech KYC sandboxes, and customer onboarding QA. Uses official mod-11 algorithm from Receita Federal. Free REST API with 100 calls per day. No signup.",
-  keywords: "brazilian cpf generator, cpf generator, fake cpf, brazilian tax id generator, brazil personal id, cpf for testing, cpf api, brazilian kyc test data, fintech sandbox test data",
+  keywords: "cpf generator, generate cpf, cpf number generator, brazilian cpf generator, fake cpf, brazilian tax id generator, brazil personal id, cpf for testing, cpf api, brazilian kyc test data, fintech sandbox test data, cpf validator, valid cpf number, brazilian tax id",
   openGraph: {
     title: "Brazilian CPF Generator for Testing (Valid Mod-11)",
     description: "Valid Brazilian CPF numbers for fintech KYC sandboxes, customer onboarding QA and form validation tests. Free REST API.",
@@ -34,13 +34,13 @@ export default function EnCpfGenerator() {
           {" · "}EN
         </p>
         <h1 className="text-3xl font-bold tracking-tight">
-          Brazilian <span className="text-primary">CPF</span> Generator
+          <span className="text-primary">CPF</span> Generator
         </h1>
         <p className="text-muted mt-2 text-sm leading-relaxed max-w-2xl">
           Generate valid Brazilian CPF (Cadastro de Pessoas Físicas) numbers for software testing,
           fintech KYC sandboxes, customer onboarding QA, and form validation. Numbers are
           fictitious but pass the official mod-11 algorithm from Receita Federal, so they validate
-          successfully against any Brazilian CPF validator.
+          successfully against any Brazilian CPF validator. Free, no signup, REST API included.
         </p>
       </div>
 

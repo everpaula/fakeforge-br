@@ -9,9 +9,9 @@ import GeneratorSchema from "@/components/GeneratorSchema";
 import RelatedGenerators from "@/components/RelatedGenerators";
 
 export const metadata: Metadata = {
-  title: "Gerador de Placa Mercosul e Antiga para Testes",
-  description: "Gere placas brasileiras nos formatos Mercosul (LLLNLNN) e antigo (LLL-NNNN) válidos pela Resolução CONTRAN 729/2018. Letras sem I/O/Q. Para testes de OCR, sistemas de tráfego e seguradoras.",
-  keywords: "gerador placa mercosul, gerador placa antiga, placa fictícia teste, placa lllnlnn, contran 729, placa válida software",
+  title: "Gerador de Placa de Carro: Mercosul e Antiga para Testes",
+  description: "Gere placa de carro brasileira nos formatos Mercosul (LLLNLNN) e antigo (LLL-NNNN) válidos pela Resolução CONTRAN 729/2018. Letras sem I/O/Q. Para testes de OCR, sistemas de tráfego e seguradoras.",
+  keywords: "gerador placa de carro, placa de carro, placa carro, gerador placa mercosul, gerador placa antiga, placa veicular, placa veiculo, gerador placa veicular, placa fictícia teste, placa lllnlnn, contran 729, placa válida software, gerar placa carro, placa de carro fake, placa carro para teste",
   openGraph: {
     title: "Gerador de Placa Mercosul: FakeForge BR",
     description: "Placas brasileiras válidas (Mercosul + antiga) para testes de software.",
@@ -25,10 +25,10 @@ export default function GeradorPlaca() {
     <PageShell>
       <div className="mb-8">
         <h1 className="text-3xl font-bold tracking-tight">
-          Gerador de <span className="text-primary">Placa Mercosul</span>
+          Gerador de <span className="text-primary">Placa de Carro</span>
         </h1>
         <p className="text-muted mt-3 text-sm leading-relaxed max-w-2xl">
-          Gere placas brasileiras nos dois formatos válidos: <strong className="text-foreground">Mercosul (LLLNLNN)</strong>,
+          Gere placa de carro brasileira fictícia nos dois formatos válidos: <strong className="text-foreground">Mercosul (LLLNLNN)</strong>,
           obrigatório para veículos novos desde novembro/2018, e <strong className="text-foreground">antigo (LLL-NNNN)</strong>
           ainda comum em frotas mais antigas. Letras seguem a tabela do DENATRAN (sem I, O e Q por confusão visual).
           Use para testar OCR, ALPR, sistemas de tráfego, seguradoras e backoffice de locadoras.
@@ -53,6 +53,21 @@ export default function GeradorPlaca() {
       <ApiCtaBanner dataType="placas" />
 
       <div className="mt-12 space-y-8 text-sm text-muted-foreground leading-relaxed">
+        <section>
+          <h2 className="text-lg font-semibold text-foreground mb-2">O que é uma placa de carro brasileira</h2>
+          <p>
+            A placa de carro no Brasil identifica unicamente cada veículo registrado no DETRAN. O padrão atual,
+            chamado Mercosul, foi adotado em 2018 e segue o formato de 3 letras + 1 dígito + 1 letra + 2 dígitos
+            (LLL1L23). A placa antiga, ainda em circulação na frota nacional, usa 3 letras + 4 dígitos (LLL-1234).
+            Os dois formatos coexistem legalmente.
+          </p>
+          <p className="mt-2">
+            Quem desenvolve software para locadoras, seguradoras, sistemas de pedágio, estacionamento, ALPR e
+            apps de mobilidade precisa de placa de carro fictícia para popular base de testes, validar regex,
+            testar OCR e simular fluxos sem expor placas reais. Esse gerador resolve.
+          </p>
+        </section>
+
         <section>
           <h2 className="text-lg font-semibold text-foreground mb-2">A diferença entre Mercosul e antiga</h2>
           <p>

@@ -11,6 +11,7 @@ import { generatePerson, generateFullName, generateFirstName, generateLastName }
 import { generateEmail, generatePhone, generateLandline } from "./contact";
 import { generateBankAccount, generatePIXKey, generateCreditCard } from "./financial";
 import { generateCompany } from "./company";
+import { generateRandomDigits, generateRandom4Digit, generateRandom6Digit, generateRandom8Digit } from "./random";
 
 export {
   generateCPF,
@@ -35,6 +36,10 @@ export {
   generatePIXKey,
   generateCreditCard,
   generateCompany,
+  generateRandomDigits,
+  generateRandom4Digit,
+  generateRandom6Digit,
+  generateRandom8Digit,
 };
 
 export type DataType =
@@ -53,6 +58,9 @@ export type DataType =
   | "creditCardElo"
   | "creditCardHipercard"
   | "creditCardAmex"
+  | "random4"
+  | "random6"
+  | "random8"
   | "cep"
   | "address"
   | "person"
@@ -107,6 +115,9 @@ export function generate(config: GeneratorConfig): unknown[] {
       case "creditCardHipercard": results.push(generateCreditCard("hipercard")); break;
       case "creditCardAmex": results.push(generateCreditCard("amex")); break;
       case "company": results.push(generateCompany()); break;
+      case "random4": results.push(generateRandom4Digit()); break;
+      case "random6": results.push(generateRandom6Digit()); break;
+      case "random8": results.push(generateRandom8Digit()); break;
     }
   }
 
@@ -142,4 +153,7 @@ export const DATA_TYPES: { value: DataType; label: string; description: string; 
   { value: "creditCardHipercard", label: "Cartão Hipercard", description: "Cartão Hipercard válido (prefixo 606282 + Luhn)", category: "Financeiro" },
   { value: "creditCardAmex", label: "Cartão Amex", description: "American Express (15 dígitos, prefixo 34/37 + Luhn)", category: "Financeiro" },
   { value: "company", label: "Empresa", description: "CNPJ, razão social, endereço e contato", category: "Empresa" },
+  { value: "random4", label: "Random 4-digit code", description: "OTP / verification code (4 digits)", category: "Random" },
+  { value: "random6", label: "Random 6-digit code", description: "OTP / verification code (6 digits)", category: "Random" },
+  { value: "random8", label: "Random 8-digit code", description: "OTP / verification code (8 digits)", category: "Random" },
 ];
