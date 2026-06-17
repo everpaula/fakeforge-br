@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
+import TimeSeriesChart from "@/components/admin/TimeSeriesChart";
 
 interface Metrics {
   total_users: number;
@@ -264,35 +265,11 @@ export default function AdminDashboard() {
 
         {/* Anonymous timeline + types side-by-side */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-          <div className="rounded-xl bg-card border border-border overflow-hidden">
-            <div className="px-5 py-3 border-b border-border">
-              <h2 className="text-sm font-semibold">Gerações anônimas por dia (14 dias)</h2>
-            </div>
-            <div className="p-4">
-              {anonDaily.length === 0 ? (
-                <p className="text-xs text-muted text-center py-8">Sem dados ainda</p>
-              ) : (
-                <div className="space-y-1.5">
-                  {anonDaily.map((d) => (
-                    <div key={d.day} className="flex items-center gap-3">
-                      <span className="text-xs text-muted w-20 shrink-0 font-mono">
-                        {new Date(d.day + "T12:00:00").toLocaleDateString("pt-BR", { day: "2-digit", month: "short" })}
-                      </span>
-                      <div className="flex-1 h-5 bg-background rounded-full overflow-hidden">
-                        <div
-                          className="h-full bg-primary/60 rounded-full transition-all"
-                          style={{
-                            width: `${Math.max(4, ((d.total_calls || 0) / Math.max(...anonDaily.map(x => x.total_calls || 1))) * 100)}%`,
-                          }}
-                        />
-                      </div>
-                      <span className="text-xs font-medium text-foreground w-12 text-right">{d.total_calls?.toLocaleString()}</span>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
+          <TimeSeriesChart
+            title="Gerações anônimas ao longo do tempo"
+            color="primary"
+            data={anonDaily.map(d => ({ day: d.day, value: d.total_calls || 0 }))}
+          />
 
           <div className="rounded-xl bg-card border border-border overflow-hidden">
             <div className="px-5 py-3 border-b border-border">
@@ -324,67 +301,17 @@ export default function AdminDashboard() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-          {/* Users daily */}
-          <div className="rounded-xl bg-card border border-border overflow-hidden">
-            <div className="px-5 py-3 border-b border-border">
-              <h2 className="text-sm font-semibold">Novos usuários por dia</h2>
-            </div>
-            <div className="p-4">
-              {data.usersDaily.length === 0 ? (
-                <p className="text-xs text-muted text-center py-8">Sem dados ainda</p>
-              ) : (
-                <div className="space-y-1.5">
-                  {data.usersDaily.slice(0, 14).map((d) => (
-                    <div key={d.day} className="flex items-center gap-3">
-                      <span className="text-xs text-muted w-20 shrink-0 font-mono">
-                        {new Date(d.day + "T12:00:00").toLocaleDateString("pt-BR", { day: "2-digit", month: "short" })}
-                      </span>
-                      <div className="flex-1 h-5 bg-background rounded-full overflow-hidden">
-                        <div
-                          className="h-full bg-primary/60 rounded-full transition-all"
-                          style={{
-                            width: `${Math.max(4, ((d.new_users || 0) / Math.max(...data.usersDaily.map(x => x.new_users || 1))) * 100)}%`
-                          }}
-                        />
-                      </div>
-                      <span className="text-xs font-medium text-foreground w-8 text-right">{d.new_users}</span>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
+          <TimeSeriesChart
+            title="Novos usuários ao longo do tempo"
+            color="success"
+            data={data.usersDaily.map(d => ({ day: d.day, value: d.new_users || 0 }))}
+          />
 
-          {/* API daily */}
-          <div className="rounded-xl bg-card border border-border overflow-hidden">
-            <div className="px-5 py-3 border-b border-border">
-              <h2 className="text-sm font-semibold">Chamadas API por dia</h2>
-            </div>
-            <div className="p-4">
-              {data.apiDaily.length === 0 ? (
-                <p className="text-xs text-muted text-center py-8">Sem dados ainda</p>
-              ) : (
-                <div className="space-y-1.5">
-                  {data.apiDaily.slice(0, 14).map((d) => (
-                    <div key={d.day} className="flex items-center gap-3">
-                      <span className="text-xs text-muted w-20 shrink-0 font-mono">
-                        {new Date(d.day + "T12:00:00").toLocaleDateString("pt-BR", { day: "2-digit", month: "short" })}
-                      </span>
-                      <div className="flex-1 h-5 bg-background rounded-full overflow-hidden">
-                        <div
-                          className="h-full bg-accent/60 rounded-full transition-all"
-                          style={{
-                            width: `${Math.max(4, ((d.total_calls || 0) / Math.max(...data.apiDaily.map(x => x.total_calls || 1))) * 100)}%`
-                          }}
-                        />
-                      </div>
-                      <span className="text-xs font-medium text-foreground w-12 text-right">{d.total_calls?.toLocaleString()}</span>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
+          <TimeSeriesChart
+            title="Chamadas API ao longo do tempo"
+            color="accent"
+            data={data.apiDaily.map(d => ({ day: d.day, value: d.total_calls || 0 }))}
+          />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
