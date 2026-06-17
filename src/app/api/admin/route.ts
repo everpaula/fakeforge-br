@@ -97,6 +97,7 @@ export async function GET(request: NextRequest) {
     usageByType,
     usersDaily,
     apiDaily,
+    anonDailyRaw,
     subscribers,
     anon1d,
     anon7d,
@@ -105,8 +106,9 @@ export async function GET(request: NextRequest) {
   ] = await Promise.all([
     admin.from("admin_metrics").select("*").single(),
     admin.from("admin_usage_by_type").select("*"),
-    admin.from("admin_users_daily").select("*"),
-    admin.from("admin_api_daily").select("*"),
+    admin.from("admin_users_daily_90d").select("*"),
+    admin.from("admin_api_daily_90d").select("*"),
+    admin.from("admin_anon_daily_90d").select("*"),
     admin.from("admin_subscribers").select("*"),
     fetchAllAnon<{ client_type: string; ip_hash: string; quantity: number }>(
       admin, "client_type, ip_hash, quantity", since1d,
@@ -119,9 +121,6 @@ export async function GET(request: NextRequest) {
     ),
     admin.auth.admin.listUsers({ page: 1, perPage: 30 }),
   ]);
-  // anonRecent was a separate query that overlapped with anon30d (same window).
-  // Use anon30d directly for the recent feed to avoid a second paginated fetch.
-  const anonRecent = { data: anon30d.slice(0, 2000) };
 
   // Recent users — list of last 30 sign-ups with email + created_at + last_sign_in
   const recentUsers = (recentUsersData.data?.users || []).map(u => ({
@@ -172,19 +171,14 @@ export async function GET(request: NextRequest) {
     .sort((a, b) => b.total_calls - a.total_calls)
     .slice(0, 20);
 
-  // Daily timeline (14 days)
-  const recent = (anonRecent.data || []) as Array<{ client_type: string; data_type: string; quantity: number; created_at: string }>;
-  const dailyMap: Record<string, { calls: number; items: number }> = {};
-  for (const r of recent) {
-    const day = r.created_at.slice(0, 10);
-    if (!dailyMap[day]) dailyMap[day] = { calls: 0, items: 0 };
-    dailyMap[day].calls++;
-    dailyMap[day].items += r.quantity;
-  }
-  const anonDaily = Object.entries(dailyMap)
-    .map(([day, v]) => ({ day, total_calls: v.calls, total_items: v.items }))
-    .sort((a, b) => b.day.localeCompare(a.day))
-    .slice(0, 14);
+  // Daily timeline comes directly from admin_anon_daily_90d view (preaggregated).
+  // Normalize: the view's day comes as Date|string, we stringify; total_calls
+  // and total_items come as bigint string from Postgres COUNT/SUM, cast to number.
+  const anonDaily = (anonDailyRaw.data || []).map((r: { day: string | Date; total_calls: number | string; total_items: number | string }) => ({
+    day: typeof r.day === "string" ? r.day : new Date(r.day).toISOString().slice(0, 10),
+    total_calls: Number(r.total_calls) || 0,
+    total_items: Number(r.total_items) || 0,
+  }));
 
   return NextResponse.json({
     metrics: metrics.data,
