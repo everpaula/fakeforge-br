@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
+import ShareBar from "@/components/ShareBar";
 
 export const metadata: Metadata = {
   title: "CNPJ válido para testes: algoritmo mod-11 e API REST",
@@ -159,6 +160,7 @@ export default function Post() {
             </details>
           </div>
         </section>
+        <ShareBar title={"CNPJ válido para testes: algoritmo mod-11 e API REST"} path="/blog/gerar-cnpj-valido-testes-algoritmo-mod11-api" />
       </article>
 
       <script

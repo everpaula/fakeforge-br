@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
+import ShareBar from "@/components/ShareBar";
 
 export const metadata: Metadata = {
   title: "FakeForge vs Faker.js vs 4devs: qual usar para dados brasileiros?",
@@ -177,6 +178,7 @@ export default function Post() {
             <Link href="/docs" className="text-primary hover:underline">documentação da API</Link>.
           </p>
         </div>
+        <ShareBar title={"FakeForge vs Faker.js vs 4devs: qual usar para dados brasileiros?"} path="/blog/fakeforge-vs-fakerjs-vs-4devs" />
       </article>
     </PageShell>
   );

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
+import ShareBar from "@/components/ShareBar";
 
 export const metadata: Metadata = {
   title: "Algoritmo Luhn para cartões de crédito: validação passo a passo",
@@ -178,6 +179,7 @@ export default function Post() {
             </details>
           </div>
         </section>
+        <ShareBar title={"Algoritmo Luhn para cartões de crédito: validação passo a passo"} path="/blog/algoritmo-luhn-cartao-credito-validacao-testes" />
       </article>
 
       <script

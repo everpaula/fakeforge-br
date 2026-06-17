@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
+import ShareBar from "@/components/ShareBar";
 
 export const metadata: Metadata = {
   title: "Conta bancária fake para testes: Bradesco, Itaú e Nubank",
@@ -158,6 +159,7 @@ export default function Post() {
             </details>
           </div>
         </section>
+        <ShareBar title={"Conta bancária fake para testes: Bradesco, Itaú e Nubank"} path="/blog/conta-bancaria-fake-bradesco-itau-nubank-testes" />
       </article>
 
       <script

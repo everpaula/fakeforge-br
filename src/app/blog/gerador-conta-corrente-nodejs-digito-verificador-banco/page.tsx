@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
+import ShareBar from "@/components/ShareBar";
 
 export const metadata: Metadata = {
   title: "Conta Corrente em Node.js: Dígito Verificador por Banco",
@@ -172,6 +173,7 @@ export default function Post() {
             </details>
           </div>
         </section>
+        <ShareBar title={"Conta Corrente em Node.js: Dígito Verificador por Banco"} path="/blog/gerador-conta-corrente-nodejs-digito-verificador-banco" />
       </article>
 
       <script

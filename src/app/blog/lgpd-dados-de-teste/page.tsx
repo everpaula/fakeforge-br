@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
+import ShareBar from "@/components/ShareBar";
 
 export const metadata: Metadata = {
   title: "LGPD e dados de teste: o que todo dev precisa saber",
@@ -135,6 +136,7 @@ export default function Post() {
             </ul>
           </div>
         </div>
+        <ShareBar title={"LGPD e dados de teste: o que todo dev precisa saber"} path="/blog/lgpd-dados-de-teste" />
       </article>
     </PageShell>
   );

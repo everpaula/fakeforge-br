@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
+import ShareBar from "@/components/ShareBar";
 
 export const metadata: Metadata = {
   title: "QR Code PIX Dinâmico (EMV BR Code) em Node.js",
@@ -144,6 +145,7 @@ export default function Post() {
             </details>
           </div>
         </section>
+        <ShareBar title={"QR Code PIX Dinâmico (EMV BR Code) em Node.js"} path="/blog/qr-code-pix-dinamico-emv-br-code-nodejs" />
       </article>
 
       <script

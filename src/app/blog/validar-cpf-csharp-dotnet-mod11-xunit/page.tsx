@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
+import ShareBar from "@/components/ShareBar";
 
 export const metadata: Metadata = {
   title: "Validar CPF em C# .NET: algoritmo mod-11 e xUnit",
@@ -144,6 +145,7 @@ export default function Post() {
             </details>
           </div>
         </section>
+        <ShareBar title={"Validar CPF em C# .NET: algoritmo mod-11 e xUnit"} path="/blog/validar-cpf-csharp-dotnet-mod11-xunit" />
       </article>
 
       <script

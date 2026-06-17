@@ -3,6 +3,7 @@ import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
 import AffiliateBanner from "@/components/AffiliateBanner";
+import ShareBar from "@/components/ShareBar";
 
 export const metadata: Metadata = {
   title: "Como automatizar dados de teste no CI/CD com API",
@@ -171,6 +172,7 @@ jobs:
         </div>
 
         <AffiliateBanner variant="digitalocean" />
+        <ShareBar title={"Como automatizar dados de teste no CI/CD com API"} path="/blog/automatizar-dados-teste-ci-cd" />
       </article>
     </PageShell>
   );

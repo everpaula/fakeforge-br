@@ -3,6 +3,7 @@ import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import SingleGenerator from "@/components/SingleGenerator";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
+import ShareBar from "@/components/ShareBar";
 
 export const metadata: Metadata = {
   title: "Como testar CPF em ambiente de staging sem usar dados reais",
@@ -117,6 +118,7 @@ export default function Post() {
             <li>Use a <Link href="/docs" className="text-primary hover:underline">API</Link> para automação</li>
           </ul>
         </div>
+        <ShareBar title={"Como testar CPF em ambiente de staging sem usar dados reais"} path="/blog/como-testar-cpf-em-staging" />
       </article>
     </PageShell>
   );

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
+import ShareBar from "@/components/ShareBar";
 
 export const metadata: Metadata = {
   title: "Cartão de Crédito Falso para Testes: Fake, Teste ou Sandbox?",
@@ -156,6 +157,7 @@ export default function Post() {
             </details>
           </div>
         </section>
+        <ShareBar title={"Cartão de Crédito Falso para Testes: Fake, Teste ou Sandbox?"} path="/blog/cartao-credito-falso-testes-fake-teste-sandbox" />
       </article>
 
       <script

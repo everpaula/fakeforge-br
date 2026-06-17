@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
+import ShareBar from "@/components/ShareBar";
 
 export const metadata: Metadata = {
   title: "CNPJ fake vs CNPJ válido: diferença e uso em testes",
@@ -173,6 +174,7 @@ export default function Post() {
             </details>
           </div>
         </section>
+        <ShareBar title={"CNPJ fake vs CNPJ válido: diferença e uso em testes"} path="/blog/cnpj-fake-vs-cnpj-valido-testes" />
       </article>
 
       <script

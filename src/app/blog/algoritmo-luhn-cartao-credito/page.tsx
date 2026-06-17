@@ -3,6 +3,7 @@ import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import SingleGenerator from "@/components/SingleGenerator";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
+import ShareBar from "@/components/ShareBar";
 
 export const metadata: Metadata = {
   title: "Como funciona o algoritmo de Luhn: validação de cartão de crédito explicada",
@@ -137,6 +138,7 @@ export default function Post() {
             <li>Use a <Link href="/docs" className="text-primary hover:underline">API</Link> para gerar em massa no CI/CD</li>
           </ul>
         </div>
+        <ShareBar title={"Como funciona o algoritmo de Luhn: validação de cartão de crédito explicada"} path="/blog/algoritmo-luhn-cartao-credito" />
       </article>
     </PageShell>
   );

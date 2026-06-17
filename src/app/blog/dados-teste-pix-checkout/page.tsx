@@ -3,6 +3,7 @@ import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import SingleGenerator from "@/components/SingleGenerator";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
+import ShareBar from "@/components/ShareBar";
 
 export const metadata: Metadata = {
   title: "Dados de teste para PIX e checkout: como testar pagamentos sem dados reais",
@@ -133,6 +134,7 @@ export default function Post() {
             <li>Veja o <Link href="/gerador-pix" className="text-primary hover:underline">gerador de PIX</Link> e o <Link href="/gerador-cartao" className="text-primary hover:underline">gerador de cartão</Link> para uso manual</li>
           </ul>
         </div>
+        <ShareBar title={"Dados de teste para PIX e checkout: como testar pagamentos sem dados reais"} path="/blog/dados-teste-pix-checkout" />
       </article>
     </PageShell>
   );

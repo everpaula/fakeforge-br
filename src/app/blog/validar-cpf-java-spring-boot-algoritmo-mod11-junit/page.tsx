@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
+import ShareBar from "@/components/ShareBar";
 
 export const metadata: Metadata = {
   title: "Validar CPF em Java Spring Boot: algoritmo mod-11 e JUnit",
@@ -160,6 +161,7 @@ export default function Post() {
             </details>
           </div>
         </section>
+        <ShareBar title={"Validar CPF em Java Spring Boot: algoritmo mod-11 e JUnit"} path="/blog/validar-cpf-java-spring-boot-algoritmo-mod11-junit" />
       </article>
 
       <script

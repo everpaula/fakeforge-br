@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
+import ShareBar from "@/components/ShareBar";
 
 export const metadata: Metadata = {
   title: "Popular MySQL com dados brasileiros falsos no staging",
@@ -152,6 +153,7 @@ export default function Post() {
             </details>
           </div>
         </section>
+        <ShareBar title={"Popular MySQL com dados brasileiros falsos no staging"} path="/blog/popular-mysql-dados-brasileiros-fake-staging" />
       </article>
 
       <script

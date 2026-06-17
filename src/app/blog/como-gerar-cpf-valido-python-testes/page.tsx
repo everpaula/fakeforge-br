@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
+import ShareBar from "@/components/ShareBar";
 
 export const metadata: Metadata = {
   title: "Como Gerar CPF Válido em Python para Testes",
@@ -157,6 +158,7 @@ export default function Post() {
             </details>
           </div>
         </section>
+        <ShareBar title={"Como Gerar CPF Válido em Python para Testes"} path="/blog/como-gerar-cpf-valido-python-testes" />
       </article>
 
       <script

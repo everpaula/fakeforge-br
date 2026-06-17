@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
+import ShareBar from "@/components/ShareBar";
 
 export const metadata: Metadata = {
   title: "Validar CPF em JavaScript: algoritmo passo a passo",
@@ -144,6 +145,7 @@ export default function Post() {
             </details>
           </div>
         </section>
+        <ShareBar title={"Validar CPF em JavaScript: algoritmo passo a passo"} path="/blog/validar-cpf-javascript-algoritmo-passo-a-passo" />
       </article>
 
       <script

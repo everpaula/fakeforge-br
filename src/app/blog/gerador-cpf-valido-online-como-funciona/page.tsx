@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
+import ShareBar from "@/components/ShareBar";
 
 export const metadata: Metadata = {
   title: "Gerador de CPF válido online: como funciona e quando usar",
@@ -158,6 +159,7 @@ export default function Post() {
             </details>
           </div>
         </section>
+        <ShareBar title={"Gerador de CPF válido online: como funciona e quando usar"} path="/blog/gerador-cpf-valido-online-como-funciona" />
       </article>
 
       <script

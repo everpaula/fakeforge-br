@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
+import ShareBar from "@/components/ShareBar";
 
 export const metadata: Metadata = {
   title: "Validar CNH em JavaScript: algoritmo DENATRAN passo a passo",
@@ -158,6 +159,7 @@ export default function Post() {
             </details>
           </div>
         </section>
+        <ShareBar title={"Validar CNH em JavaScript: algoritmo DENATRAN passo a passo"} path="/blog/validar-cnh-javascript-algoritmo-denatran" />
       </article>
 
       <script

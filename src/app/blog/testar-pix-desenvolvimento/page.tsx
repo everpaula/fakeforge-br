@@ -3,6 +3,7 @@ import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import SingleGenerator from "@/components/SingleGenerator";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
+import ShareBar from "@/components/ShareBar";
 
 export const metadata: Metadata = {
   title: "Como testar pagamento PIX em ambiente de desenvolvimento",
@@ -136,6 +137,7 @@ export default function Post() {
             Não misture — cada camada tem seu propósito. E nunca use dados reais em desenvolvimento.
           </p>
         </div>
+        <ShareBar title={"Como testar pagamento PIX em ambiente de desenvolvimento"} path="/blog/testar-pix-desenvolvimento" />
       </article>
     </PageShell>
   );

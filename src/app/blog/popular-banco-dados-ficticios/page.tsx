@@ -4,6 +4,7 @@ import PageShell from "@/components/PageShell";
 import SingleGenerator from "@/components/SingleGenerator";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
 import AffiliateBanner from "@/components/AffiliateBanner";
+import ShareBar from "@/components/ShareBar";
 
 export const metadata: Metadata = {
   title: "Como popular banco de dados com dados fictícios brasileiros",
@@ -174,6 +175,7 @@ export default function Post() {
         </div>
 
         <AffiliateBanner variant="digitalocean" />
+        <ShareBar title={"Como popular banco de dados com dados fictícios brasileiros"} path="/blog/popular-banco-dados-ficticios" />
       </article>
     </PageShell>
   );

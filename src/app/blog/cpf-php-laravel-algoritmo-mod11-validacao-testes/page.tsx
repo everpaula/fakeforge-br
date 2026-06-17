@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
+import ShareBar from "@/components/ShareBar";
 
 export const metadata: Metadata = {
   title: "CPF em PHP e Laravel: algoritmo mod-11 com testes",
@@ -159,6 +160,7 @@ export default function Post() {
             </details>
           </div>
         </section>
+        <ShareBar title={"CPF em PHP e Laravel: algoritmo mod-11 com testes"} path="/blog/cpf-php-laravel-algoritmo-mod11-validacao-testes" />
       </article>
 
       <script

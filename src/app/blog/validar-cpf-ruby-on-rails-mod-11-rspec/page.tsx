@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
+import ShareBar from "@/components/ShareBar";
 
 export const metadata: Metadata = {
   title: "Validar CPF em Ruby on Rails: mod-11 e RSpec do zero",
@@ -159,6 +160,7 @@ export default function Post() {
             </details>
           </div>
         </section>
+        <ShareBar title={"Validar CPF em Ruby on Rails: mod-11 e RSpec do zero"} path="/blog/validar-cpf-ruby-on-rails-mod-11-rspec" />
       </article>
 
       <script

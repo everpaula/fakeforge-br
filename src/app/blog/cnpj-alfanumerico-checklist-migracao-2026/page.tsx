@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
+import ShareBar from "@/components/ShareBar";
 
 export const metadata: Metadata = {
   title: "CNPJ Alfanumérico 2026: Checklist de Migração",
@@ -156,6 +157,7 @@ export default function Post() {
             </details>
           </div>
         </section>
+        <ShareBar title={"CNPJ Alfanumérico 2026: Checklist de Migração"} path="/blog/cnpj-alfanumerico-checklist-migracao-2026" />
       </article>
 
       <script

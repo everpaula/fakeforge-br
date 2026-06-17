@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
+import ShareBar from "@/components/ShareBar";
 
 export const metadata: Metadata = {
   title: "Gerador de CEP Brasileiro para Testes: Formato e Estados",
@@ -146,6 +147,7 @@ export default function Post() {
             </details>
           </div>
         </section>
+        <ShareBar title={"Gerador de CEP Brasileiro para Testes: Formato e Estados"} path="/blog/gerador-cep-brasileiro-testes-formato-estados" />
       </article>
 
       <script

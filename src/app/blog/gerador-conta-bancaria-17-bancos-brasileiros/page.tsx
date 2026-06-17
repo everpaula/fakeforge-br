@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
+import ShareBar from "@/components/ShareBar";
 
 export const metadata: Metadata = {
   title: "Gerador de Conta Bancária: 17 Bancos BR para Testes",
@@ -162,6 +163,7 @@ export default function Post() {
             </details>
           </div>
         </section>
+        <ShareBar title={"Gerador de Conta Bancária: 17 Bancos BR para Testes"} path="/blog/gerador-conta-bancaria-17-bancos-brasileiros" />
       </article>
 
       <script
