@@ -299,7 +299,7 @@ export default function PricingClient() {
       </div>
 
       {/* Final CTA */}
-      <div className="mt-10 rounded-xl bg-gradient-to-br from-primary/10 to-accent/5 border border-primary/20 p-8 text-center">
+      <div className="mt-10 rounded-xl bg-card border border-border p-8 text-center">
         <h2 className="text-lg font-semibold text-foreground">Ainda com dúvidas?</h2>
         <p className="text-sm text-muted-foreground mt-2 max-w-md mx-auto">
           Comece grátis. A geração web é ilimitada e você pode testar 50 chamadas da API por dia sem pagar nada.

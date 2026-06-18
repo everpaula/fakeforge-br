@@ -56,7 +56,7 @@ export function useGenerationNudge() {
 
 export function SignupNudge({ onDismiss }: { onDismiss: () => void }) {
   return (
-    <div className="mt-4 rounded-xl bg-gradient-to-br from-primary/10 via-accent/5 to-transparent border border-primary/25 p-5 animate-fade-in">
+    <div className="mt-4 rounded-xl bg-card border border-border p-5 animate-fade-in">
       <div className="flex flex-col sm:flex-row sm:items-center gap-4">
         <div className="flex-1">
           <p className="text-sm font-semibold text-foreground">

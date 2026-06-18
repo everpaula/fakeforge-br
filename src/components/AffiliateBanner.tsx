@@ -38,7 +38,7 @@ export default function AffiliateBanner({ variant = "hostinger" }: Props) {
 
   return (
     <aside
-      className={`my-10 rounded-xl border bg-gradient-to-br ${v.accent} p-5 sm:p-6`}
+      className={`my-10 rounded-xl border border-border bg-card p-5 sm:p-6`}
       role="complementary"
       aria-label="Recomendação de parceiro"
     >

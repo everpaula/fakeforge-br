@@ -200,7 +200,7 @@ export default function Comparacao() {
           </Link>
         </div>
 
-        <div className="mt-12 rounded-xl bg-gradient-to-br from-primary/10 to-accent/5 border border-primary/20 p-6 text-center">
+        <div className="mt-12 rounded-xl bg-card border border-border p-6 text-center">
           <h2 className="text-lg font-semibold text-foreground">Quer começar agora?</h2>
           <p className="text-sm text-muted-foreground mt-2 max-w-md mx-auto">
             Use os geradores grátis no navegador, sem cadastro. Para automação, a API REST tem 100 chamadas grátis por dia.

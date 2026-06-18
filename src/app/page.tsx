@@ -5,16 +5,18 @@ import { DATA_TYPES, type DataType } from "@/lib/generators";
 import Link from "next/link";
 import UserMenu from "@/components/UserMenu";
 import Logo from "@/components/Logo";
+import Icon from "@/components/Icon";
 
 type ExportFormat = "json" | "csv" | "sql";
 
-const CATEGORY_ICONS: Record<string, string> = {
-  Documentos: "\u{1F4C4}",
-  Pessoa: "\u{1F464}",
-  Contato: "\u{1F4F1}",
-  "Endere\u00e7o": "\u{1F4CD}",
-  Financeiro: "\u{1F4B3}",
-  Empresa: "\u{1F3E2}",
+const CATEGORY_ICONS: Record<string, "document" | "user" | "phone" | "map-pin" | "credit-card" | "building" | "sparkle"> = {
+  Documentos: "document",
+  Pessoa: "user",
+  Contato: "phone",
+  "Endere\u00e7o": "map-pin",
+  Financeiro: "credit-card",
+  Empresa: "building",
+  Random: "sparkle",
 };
 
 export default function Home() {
@@ -198,33 +200,29 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Social proof bar */}
-        <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 mb-10 sm:mb-12 py-4 border-y border-border">
-          <div className="flex items-center gap-2">
-            <span className="text-lg">🇧🇷</span>
-            <span className="text-xs text-muted-foreground">100% focado no Brasil</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="text-lg">⚡</span>
-            <span className="text-xs text-muted-foreground">10.000 itens por request</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="text-lg">🔒</span>
-            <span className="text-xs text-muted-foreground">Nada é armazenado</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="text-lg">📦</span>
-            <span className="text-xs text-muted-foreground">Export JSON, CSV, SQL</span>
-          </div>
+        {/* Stats bar — pure type, no decoration */}
+        <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-2 mb-10 sm:mb-12 py-4 border-y border-border text-xs">
+          <span className="text-muted-foreground">
+            <span className="text-foreground font-medium">100%</span> dados brasileiros
+          </span>
+          <span className="text-muted-foreground">
+            <span className="text-foreground font-medium">10.000</span> itens por request
+          </span>
+          <span className="text-muted-foreground">
+            <span className="text-foreground font-medium">Nada</span> é armazenado
+          </span>
+          <span className="text-muted-foreground">
+            Export <span className="text-foreground font-medium font-mono">.json .csv .sql</span>
+          </span>
         </div>
 
         {/* Type selection */}
         <div className="mb-5 sm:mb-6">
           {categories.map((category) => (
             <div key={category} className="mb-3">
-              <div className="flex items-center gap-1.5 mb-2 px-1">
-                <span className="text-sm">{CATEGORY_ICONS[category]}</span>
-                <span className="text-[11px] font-medium text-muted uppercase tracking-wider">{category}</span>
+              <div className="flex items-center gap-1.5 mb-2 px-1 text-muted">
+                <Icon name={CATEGORY_ICONS[category]} size={12} strokeWidth={1.75} />
+                <span className="text-[11px] font-medium uppercase tracking-wider">{category}</span>
               </div>
               <div className="flex flex-wrap gap-1.5">
                 {DATA_TYPES.filter((t) => t.category === category).map((type) => (
@@ -440,40 +438,42 @@ export default function Home() {
 
         {/* Diferenciais */}
         <section className="mt-16 sm:mt-20">
-          <div className="text-center mb-10">
+          <div className="mb-8 max-w-2xl">
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
-              Feito para quem <span className="text-primary">constrói software no Brasil</span>
+              O Faker.js não conhece o Brasil.{" "}
+              <span className="text-primary">Esses geradores conhecem.</span>
             </h2>
-            <p className="text-muted mt-3 max-w-xl mx-auto text-sm">
-              Não é um Faker.js genérico. Cada gerador implementa as regras reais brasileiras — mod-11, Luhn, DDDs, CEPs por estado.
+            <p className="text-muted mt-3 text-sm">
+              Cada algoritmo é o oficial — mod-11 da Receita Federal, Luhn em Visa/Master/Elo/Amex/Hipercard,
+              DDDs ANATEL, prefixos CEP por estado. Sem atalho.
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {[
               {
-                icon: "✅",
+                icon: "check" as const,
                 title: "Validação real, não só formato",
                 desc: "CPF e CNPJ passam no mod-11. Cartões passam no Luhn. CEPs batem com o estado. Dados que passam em qualquer validador.",
               },
               {
-                icon: "🔗",
+                icon: "link" as const,
                 title: "Dados correlacionados",
                 desc: "Via API, gere uma pessoa completa onde o email usa o nome, o DDD bate com o estado e o cartão tem o nome do titular. Algo que o Faker.js não faz.",
               },
               {
-                icon: "⚙️",
+                icon: "settings" as const,
                 title: "API REST para automação",
                 desc: "50 chamadas grátis por dia. Integre no seed do banco, no CI/CD, ou gere em massa. Export direto em JSON, CSV ou SQL.",
               },
               {
-                icon: "🛡️",
+                icon: "shield" as const,
                 title: "LGPD-safe por design",
                 desc: "Nenhum dado real é usado ou armazenado. Seguro para dev, staging, homologação. Pare de expor CPFs reais em ambiente de teste.",
               },
             ].map((item) => (
               <div key={item.title} className="rounded-xl bg-card border border-border p-5 sm:p-6">
                 <div className="flex items-start gap-3">
-                  <span className="text-2xl">{item.icon}</span>
+                  <span className="text-primary mt-0.5"><Icon name={item.icon} size={18} strokeWidth={1.75} /></span>
                   <div>
                     <h3 className="text-sm font-semibold text-foreground">{item.title}</h3>
                     <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">{item.desc}</p>
@@ -577,7 +577,7 @@ export default function Home() {
         </section>
 
         {/* CTA final */}
-        <section className="mt-16 sm:mt-20 mb-10 rounded-2xl bg-gradient-to-br from-primary/10 to-accent/5 border border-primary/20 p-8 sm:p-12 text-center">
+        <section className="mt-16 sm:mt-20 mb-10 rounded-2xl bg-card border border-border p-8 sm:p-12 text-center">
           <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
             Pronto para parar de improvisar dados de teste?
           </h2>

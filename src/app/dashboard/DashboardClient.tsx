@@ -198,7 +198,7 @@ export default function DashboardClient({ userId, userEmail }: { userId: string;
       </div>
 
       {/* Quick access to generators */}
-      <div className="rounded-xl bg-gradient-to-br from-primary/10 to-accent/5 border border-primary/20 p-5 mb-8">
+      <div className="rounded-xl bg-card border border-border p-5 mb-8">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <div>
             <h2 className="text-sm font-semibold text-foreground">Acesso rápido aos geradores</h2>
