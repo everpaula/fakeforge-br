@@ -3,6 +3,7 @@ import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
 import ShareBar from "@/components/ShareBar";
+import BlogPostingSchema from "@/components/BlogPostingSchema";
 
 export const metadata: Metadata = {
   title: "LGPD e dados de teste: o que todo dev precisa saber",
@@ -137,6 +138,13 @@ export default function Post() {
           </div>
         </div>
         <ShareBar title={"LGPD e dados de teste: o que todo dev precisa saber"} path="/blog/lgpd-dados-de-teste" />
+        <BlogPostingSchema
+          title={"LGPD e dados de teste: o que todo dev precisa saber"}
+          slug="lgpd-dados-de-teste"
+          description={"A LGPD proíbe o uso de dados pessoais reais em ambientes de desenvolvimento. Entenda os riscos e como usar dados fictícios para se adequar à lei."}
+          datePublished="2026-04-15"
+          image="https://fakeforge.com.br/api/og?title=LGPD%20e%20dados%20de%20teste%3A%20o%20que%20todo%20dev%20precisa%20saber&subtitle=Guia%20sobre%20como%20a%20LGPD%20afeta%20o%20uso%20de%20dados%20em%20ambientes%20de%20desenvolvimento%20e%20teste.&category=LGPD"
+        />
       </article>
     </PageShell>
   );

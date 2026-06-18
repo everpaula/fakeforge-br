@@ -3,6 +3,7 @@ import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
 import ShareBar from "@/components/ShareBar";
+import BlogPostingSchema from "@/components/BlogPostingSchema";
 
 export const metadata: Metadata = {
   title: "Gerador de Conta Bancária: 17 Bancos BR para Testes",
@@ -164,6 +165,13 @@ export default function Post() {
           </div>
         </section>
         <ShareBar title={"Gerador de Conta Bancária: 17 Bancos BR para Testes"} path="/blog/gerador-conta-bancaria-17-bancos-brasileiros" />
+        <BlogPostingSchema
+          title={"Gerador de Conta Bancária: 17 Bancos BR para Testes"}
+          slug="gerador-conta-bancaria-17-bancos-brasileiros"
+          description={"Veja os formatos de conta dos 17 principais bancos brasileiros, gere dados fictícios válidos via API e integre em pipelines de teste sem violar a LGPD."}
+          datePublished="2026-05-26"
+          image="https://fakeforge.com.br/api/og?title=Gerador%20de%20Conta%20Banc%C3%A1ria%3A%2017%20Bancos%20BR%20para%20Testes&subtitle=Veja%20os%20formatos%20de%20conta%20dos%2017%20principais%20bancos%20brasileiros%2C%20gere%20dados%20fict%C3%ADcios%20v%C3%A1lidos%20via%20API%20e%20integre%20em%20pipelines%20de%20teste%20sem%20vio&category=COMPARATIVOS"
+        />
       </article>
 
       <script

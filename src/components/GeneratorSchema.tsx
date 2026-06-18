@@ -4,6 +4,7 @@ type Props = {
   description: string;
   features: string[];
   category?: string;
+  inLanguage?: string;
 };
 
 /**
@@ -16,6 +17,7 @@ export default function GeneratorSchema({
   description,
   features,
   category = "DeveloperApplication",
+  inLanguage = "pt-BR",
 }: Props) {
   const schema = {
     "@context": "https://schema.org",
@@ -26,7 +28,7 @@ export default function GeneratorSchema({
     applicationCategory: category,
     browserRequirements: "Requires JavaScript",
     operatingSystem: "Web",
-    inLanguage: "pt-BR",
+    inLanguage,
     isPartOf: {
       "@type": "WebSite",
       name: "FakeForge BR",

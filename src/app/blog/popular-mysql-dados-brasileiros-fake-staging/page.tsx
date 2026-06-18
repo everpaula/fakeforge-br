@@ -3,6 +3,7 @@ import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
 import ShareBar from "@/components/ShareBar";
+import BlogPostingSchema from "@/components/BlogPostingSchema";
 
 export const metadata: Metadata = {
   title: "Popular MySQL com dados brasileiros falsos no staging",
@@ -154,6 +155,13 @@ export default function Post() {
           </div>
         </section>
         <ShareBar title={"Popular MySQL com dados brasileiros falsos no staging"} path="/blog/popular-mysql-dados-brasileiros-fake-staging" />
+        <BlogPostingSchema
+          title={"Popular MySQL com dados brasileiros falsos no staging"}
+          slug="popular-mysql-dados-brasileiros-fake-staging"
+          description={"Aprenda a popular um banco MySQL de staging com CPF, CNPJ, endereços e PIX falsos e válidos usando FakeForge API — sem violar a LGPD."}
+          datePublished="2026-05-26"
+          image="https://fakeforge.com.br/api/og?title=Popular%20MySQL%20com%20dados%20brasileiros%20falsos%20no%20staging&subtitle=Aprenda%20a%20popular%20um%20banco%20MySQL%20de%20staging%20com%20CPF%2C%20CNPJ%2C%20endere%C3%A7os%20e%20PIX%20falsos%20e%20v%C3%A1lidos%20usando%20FakeForge%20API%20%E2%80%94%20sem%20violar%20a%20LGPD.&category=TUTORIAIS"
+        />
       </article>
 
       <script

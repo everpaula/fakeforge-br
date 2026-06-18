@@ -3,6 +3,7 @@ import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
 import ShareBar from "@/components/ShareBar";
+import BlogPostingSchema from "@/components/BlogPostingSchema";
 
 export const metadata: Metadata = {
   title: "Validar CNH em JavaScript: algoritmo DENATRAN passo a passo",
@@ -160,6 +161,13 @@ export default function Post() {
           </div>
         </section>
         <ShareBar title={"Validar CNH em JavaScript: algoritmo DENATRAN passo a passo"} path="/blog/validar-cnh-javascript-algoritmo-denatran" />
+        <BlogPostingSchema
+          title={"Validar CNH em JavaScript: algoritmo DENATRAN passo a passo"}
+          slug="validar-cnh-javascript-algoritmo-denatran"
+          description={"Implemente do zero o algoritmo oficial de validação de CNH em JavaScript e TypeScript, com cálculo dos dois dígitos verificadores e casos de borda cobertos."}
+          datePublished="2026-05-26"
+          image="https://fakeforge.com.br/api/og?title=Validar%20CNH%20em%20JavaScript%3A%20algoritmo%20DENATRAN%20passo%20a%20passo&subtitle=Implemente%20do%20zero%20o%20algoritmo%20oficial%20de%20valida%C3%A7%C3%A3o%20de%20CNH%20em%20JavaScript%20e%20TypeScript%2C%20com%20c%C3%A1lculo%20dos%20dois%20d%C3%ADgitos%20verificadores%20e%20casos%20de&category=TUTORIAIS"
+        />
       </article>
 
       <script

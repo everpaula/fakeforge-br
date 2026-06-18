@@ -128,6 +128,7 @@ curl -X POST "https://fakeforge.com.br/api/generate" \\
       ]} />
 
       <GeneratorSchema
+        inLanguage="en"
         name="Brazilian CNPJ Generator"
         url="https://fakeforge.com.br/en/cnpj-generator"
         description="Generate valid Brazilian CNPJ numbers for B2B software testing, ERP integration QA and supplier verification sandboxes. Supports new alphanumeric format starting July 2026."

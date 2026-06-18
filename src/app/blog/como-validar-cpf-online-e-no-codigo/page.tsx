@@ -3,6 +3,7 @@ import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
 import ShareBar from "@/components/ShareBar";
+import BlogPostingSchema from "@/components/BlogPostingSchema";
 
 export const metadata: Metadata = {
   title: "Validar CPF: como checar se um CPF é válido online e no código",
@@ -159,6 +160,13 @@ export default function Post() {
           </div>
         </section>
         <ShareBar title={"Validar CPF: como checar se um CPF é válido online e no código"} path="/blog/como-validar-cpf-online-e-no-codigo" />
+        <BlogPostingSchema
+          title={"Validar CPF: como checar se um CPF é válido online e no código"}
+          slug="como-validar-cpf-online-e-no-codigo"
+          description={"Entenda o algoritmo mod-11 do CPF, implemente a validação em JavaScript e Python, e saiba quando consultar a Receita Federal sem violar a LGPD."}
+          datePublished="2026-05-26"
+          image="https://fakeforge.com.br/api/og?title=Validar%20CPF%3A%20como%20checar%20se%20um%20CPF%20%C3%A9%20v%C3%A1lido%20online%20e%20no%20c%C3%B3digo&subtitle=Entenda%20o%20algoritmo%20mod-11%20do%20CPF%2C%20implemente%20a%20valida%C3%A7%C3%A3o%20em%20JavaScript%20e%20Python%2C%20e%20saiba%20quando%20consultar%20a%20Receita%20Federal%20sem%20violar%20a%20LG&category=TUTORIAIS"
+        />
       </article>
 
       <script

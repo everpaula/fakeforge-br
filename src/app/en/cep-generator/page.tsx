@@ -124,6 +124,7 @@ curl -X POST "https://fakeforge.com.br/api/generate" \\
       ]} />
 
       <GeneratorSchema
+        inLanguage="en"
         name="Brazilian CEP Generator"
         url="https://fakeforge.com.br/en/cep-generator"
         description="Generate valid Brazilian CEP postal codes with coherent city, state and neighborhood, for address validation tests, shipping integration QA and e-commerce sandboxes."

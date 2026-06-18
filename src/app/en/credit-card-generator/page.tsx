@@ -140,6 +140,7 @@ curl -X POST "https://fakeforge.com.br/api/generate" \\
       ]} />
 
       <GeneratorSchema
+        inLanguage="en"
         name="Fake Credit Card Generator"
         url="https://fakeforge.com.br/en/credit-card-generator"
         description="Generate fake credit card numbers (Visa, Mastercard, Amex, Elo, Hipercard) with valid Luhn checksum for sandbox testing and QA. Free REST API."

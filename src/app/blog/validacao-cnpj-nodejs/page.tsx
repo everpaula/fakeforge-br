@@ -5,6 +5,7 @@ import SingleGenerator from "@/components/SingleGenerator";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
 import AffiliateBanner from "@/components/AffiliateBanner";
 import ShareBar from "@/components/ShareBar";
+import BlogPostingSchema from "@/components/BlogPostingSchema";
 
 export const metadata: Metadata = {
   title: "Validação de CNPJ em Node.js: implementação completa sem dependências",
@@ -145,6 +146,13 @@ export default function Post() {
 
         <AffiliateBanner variant="digitalocean" />
         <ShareBar title={"Validação de CNPJ em Node.js: implementação completa sem dependências"} path="/blog/validacao-cnpj-nodejs" />
+        <BlogPostingSchema
+          title={"Validação de CNPJ em Node.js: implementação completa sem dependências"}
+          slug="validacao-cnpj-nodejs"
+          description={"Implemente validação de CNPJ em Node.js do zero com o algoritmo mod-11. Código pronto para copiar, explicação passo a passo, e como testar com CNPJs fictícios."}
+          datePublished="2026-04-15"
+          image="https://fakeforge.com.br/api/og?title=Valida%C3%A7%C3%A3o%20de%20CNPJ%20em%20Node.js%3A%20implementa%C3%A7%C3%A3o%20completa&subtitle=Implemente%20valida%C3%A7%C3%A3o%20de%20CNPJ%20em%20Node.js%20do%20zero%20com%20o%20algoritmo%20mod-11.&category=TUTORIAIS"
+        />
       </article>
     </PageShell>
   );

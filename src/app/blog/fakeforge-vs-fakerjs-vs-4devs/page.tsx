@@ -3,6 +3,7 @@ import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
 import ShareBar from "@/components/ShareBar";
+import BlogPostingSchema from "@/components/BlogPostingSchema";
 
 export const metadata: Metadata = {
   title: "FakeForge vs Faker.js vs 4devs: qual usar para dados brasileiros?",
@@ -179,6 +180,13 @@ export default function Post() {
           </p>
         </div>
         <ShareBar title={"FakeForge vs Faker.js vs 4devs: qual usar para dados brasileiros?"} path="/blog/fakeforge-vs-fakerjs-vs-4devs" />
+        <BlogPostingSchema
+          title={"FakeForge vs Faker.js vs 4devs: qual usar para dados brasileiros?"}
+          slug="fakeforge-vs-fakerjs-vs-4devs"
+          description={"Comparativo honesto entre FakeForge BR, Faker.js (pt_BR), fakerbr e 4devs.com.br. Descubra qual gerador de dados brasileiros é melhor para o seu caso."}
+          datePublished="2026-05-26"
+          image="https://fakeforge.com.br/api/og?title=FakeForge%20vs%20Faker.js%20vs%204devs%3A%20qual%20usar%20para%20dados%20brasileiros%3F&subtitle=Comparativo%20honesto%20entre%20os%20principais%20geradores%20de%20dados%20fake%20brasileiros.&category=COMPARATIVOS"
+        />
       </article>
     </PageShell>
   );

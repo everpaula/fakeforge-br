@@ -3,6 +3,7 @@ import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
 import ShareBar from "@/components/ShareBar";
+import BlogPostingSchema from "@/components/BlogPostingSchema";
 
 export const metadata: Metadata = {
   title: "Conta Corrente em Node.js: Dígito Verificador por Banco",
@@ -174,6 +175,13 @@ export default function Post() {
           </div>
         </section>
         <ShareBar title={"Conta Corrente em Node.js: Dígito Verificador por Banco"} path="/blog/gerador-conta-corrente-nodejs-digito-verificador-banco" />
+        <BlogPostingSchema
+          title={"Conta Corrente em Node.js: Dígito Verificador por Banco"}
+          slug="gerador-conta-corrente-nodejs-digito-verificador-banco"
+          description={"Implemente validação e geração de contas correntes brasileiras em Node.js com os algoritmos mod-10 e mod-11 dos principais bancos: Bradesco, Itaú, BB, Caixa e Santander."}
+          datePublished="2026-05-26"
+          image="https://fakeforge.com.br/api/og?title=Conta%20corrente%20em%20Node.js%3A%20calculando%20o%20d%C3%ADgito%20verificador%20por%20banco&subtitle=Implemente%20valida%C3%A7%C3%A3o%20e%20gera%C3%A7%C3%A3o%20de%20contas%20correntes%20brasileiras%20em%20Node.js%20com%20os%20algoritmos%20mod-10%20e%20mod-11%20dos%20principais%20bancos%20%E2%80%94%20Bradesco&category=TUTORIAIS"
+        />
       </article>
 
       <script

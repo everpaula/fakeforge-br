@@ -3,6 +3,7 @@ import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
 import ShareBar from "@/components/ShareBar";
+import BlogPostingSchema from "@/components/BlogPostingSchema";
 
 export const metadata: Metadata = {
   title: "Inscrição Estadual SP: Algoritmo e Gerador TypeScript",
@@ -177,6 +178,13 @@ export default function Post() {
           </div>
         </section>
         <ShareBar title={"Inscrição Estadual SP: Algoritmo e Gerador TypeScript"} path="/blog/gerador-inscricao-estadual-sp-algoritmo" />
+        <BlogPostingSchema
+          title={"Inscrição Estadual SP: Algoritmo e Gerador TypeScript"}
+          slug="gerador-inscricao-estadual-sp-algoritmo"
+          description={"Entenda o formato e o algoritmo de dígito verificador da IE-SP, implemente gerador e validador em TypeScript com exemplos rodáveis."}
+          datePublished="2026-05-26"
+          image="https://fakeforge.com.br/api/og?title=Inscri%C3%A7%C3%A3o%20Estadual%20SP%3A%20algoritmo%20passo%20a%20passo%20e%20gerador%20em%20TypeScript&subtitle=Entenda%20o%20formato%20e%20o%20algoritmo%20de%20d%C3%ADgito%20verificador%20da%20IE-SP%2C%20implemente%20gerador%20e%20validador%20em%20TypeScript%20com%20exemplos%20rod%C3%A1veis.&category=TUTORIAIS"
+        />
       </article>
 
       <script

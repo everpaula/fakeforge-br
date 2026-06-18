@@ -5,6 +5,7 @@ import SingleGenerator from "@/components/SingleGenerator";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
 import AffiliateBanner from "@/components/AffiliateBanner";
 import ShareBar from "@/components/ShareBar";
+import BlogPostingSchema from "@/components/BlogPostingSchema";
 
 export const metadata: Metadata = {
   title: "Como popular banco de dados com dados fictícios brasileiros",
@@ -176,6 +177,13 @@ export default function Post() {
 
         <AffiliateBanner variant="digitalocean" />
         <ShareBar title={"Como popular banco de dados com dados fictícios brasileiros"} path="/blog/popular-banco-dados-ficticios" />
+        <BlogPostingSchema
+          title={"Como popular banco de dados com dados fictícios brasileiros"}
+          slug="popular-banco-dados-ficticios"
+          description={"Aprenda a popular seu banco com CPF, CNPJ, nomes e endereços brasileiros válidos. Exemplos com SQL direto, Laravel Seeder, Prisma seed e Django fixtures."}
+          datePublished="2026-04-15"
+          image="https://fakeforge.com.br/api/og?title=Como%20popular%20banco%20de%20dados%20com%20dados%20fict%C3%ADcios%20brasileiros&subtitle=Guia%20pr%C3%A1tico%20para%20seed%20de%20bancos%20de%20dados%20com%20dados%20brasileiros%20realistas%20via%20API.&category=TUTORIAIS"
+        />
       </article>
     </PageShell>
   );

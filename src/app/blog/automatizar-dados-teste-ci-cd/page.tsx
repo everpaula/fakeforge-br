@@ -4,6 +4,7 @@ import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
 import AffiliateBanner from "@/components/AffiliateBanner";
 import ShareBar from "@/components/ShareBar";
+import BlogPostingSchema from "@/components/BlogPostingSchema";
 
 export const metadata: Metadata = {
   title: "Como automatizar dados de teste no CI/CD com API",
@@ -173,6 +174,13 @@ jobs:
 
         <AffiliateBanner variant="digitalocean" />
         <ShareBar title={"Como automatizar dados de teste no CI/CD com API"} path="/blog/automatizar-dados-teste-ci-cd" />
+        <BlogPostingSchema
+          title={"Como automatizar dados de teste no CI/CD com API"}
+          slug="automatizar-dados-teste-ci-cd"
+          description={"Integre geração de dados brasileiros fictícios no seu pipeline de testes. Exemplos práticos com GitHub Actions, Node.js e Python."}
+          datePublished="2026-04-15"
+          image="https://fakeforge.com.br/api/og?title=Como%20automatizar%20dados%20de%20teste%20no%20CI%2FCD%20com%20API&subtitle=Exemplos%20pr%C3%A1ticos%20para%20integrar%20gera%C3%A7%C3%A3o%20de%20dados%20brasileiros%20no%20seu%20pipeline.&category=TUTORIAIS"
+        />
       </article>
     </PageShell>
   );

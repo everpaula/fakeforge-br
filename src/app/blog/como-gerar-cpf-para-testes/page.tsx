@@ -4,6 +4,7 @@ import PageShell from "@/components/PageShell";
 import SingleGenerator from "@/components/SingleGenerator";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
 import ShareBar from "@/components/ShareBar";
+import BlogPostingSchema from "@/components/BlogPostingSchema";
 
 export const metadata: Metadata = {
   title: "Como gerar CPF válido para testes sem violar a LGPD",
@@ -114,6 +115,13 @@ export default function Post() {
           </ul>
         </div>
         <ShareBar title={"Como gerar CPF válido para testes sem violar a LGPD"} path="/blog/como-gerar-cpf-para-testes" />
+        <BlogPostingSchema
+          title={"Como gerar CPF válido para testes sem violar a LGPD"}
+          slug="como-gerar-cpf-para-testes"
+          description={"Aprenda por que usar CPFs reais em testes é ilegal, como funcionam os dígitos verificadores mod-11, e como gerar CPFs fictícios válidos para desenvolvimento."}
+          datePublished="2026-04-15"
+          image="https://fakeforge.com.br/api/og?title=Como%20gerar%20CPF%20v%C3%A1lido%20para%20testes%20sem%20violar%20a%20LGPD&subtitle=Guia%20completo%20sobre%20gera%C3%A7%C3%A3o%20de%20CPFs%20fict%C3%ADcios%20para%20desenvolvimento%20e%20testes.&category=LGPD"
+        />
       </article>
     </PageShell>
   );

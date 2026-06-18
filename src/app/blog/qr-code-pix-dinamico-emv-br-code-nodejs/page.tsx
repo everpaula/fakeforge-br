@@ -3,6 +3,7 @@ import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
 import ShareBar from "@/components/ShareBar";
+import BlogPostingSchema from "@/components/BlogPostingSchema";
 
 export const metadata: Metadata = {
   title: "QR Code PIX Dinâmico (EMV BR Code) em Node.js",
@@ -146,6 +147,13 @@ export default function Post() {
           </div>
         </section>
         <ShareBar title={"QR Code PIX Dinâmico (EMV BR Code) em Node.js"} path="/blog/qr-code-pix-dinamico-emv-br-code-nodejs" />
+        <BlogPostingSchema
+          title={"QR Code PIX Dinâmico (EMV BR Code) em Node.js"}
+          slug="qr-code-pix-dinamico-emv-br-code-nodejs"
+          description={"Aprenda a gerar QR Code PIX dinâmico no padrão EMV BR Code em Node.js — payload, cálculo CRC16-CCITT, bibliotecas e testes com dados fictícios."}
+          datePublished="2026-05-26"
+          image="https://fakeforge.com.br/api/og?title=QR%20Code%20PIX%20Din%C3%A2mico%20(EMV%20BR%20Code)%20em%20Node.js&subtitle=Aprenda%20a%20gerar%20QR%20Code%20PIX%20din%C3%A2mico%20no%20padr%C3%A3o%20EMV%20BR%20Code%20em%20Node.js%20%E2%80%94%20payload%2C%20c%C3%A1lculo%20CRC16-CCITT%2C%20bibliotecas%20e%20testes%20com%20dados%20fict%C3%ADci&category=TUTORIAIS"
+        />
       </article>
 
       <script

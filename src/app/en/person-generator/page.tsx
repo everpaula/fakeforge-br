@@ -144,6 +144,7 @@ curl -X POST "https://fakeforge.com.br/api/generate" \\
       ]} />
 
       <GeneratorSchema
+        inLanguage="en"
         name="Brazilian Person Generator"
         url="https://fakeforge.com.br/en/person-generator"
         description="Generate complete Brazilian person profiles with name, CPF, email, phone and address, all correlated. For KYC sandbox, customer onboarding QA and identity verification testing."

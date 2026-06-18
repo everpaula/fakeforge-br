@@ -3,6 +3,7 @@ import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
 import ShareBar from "@/components/ShareBar";
+import BlogPostingSchema from "@/components/BlogPostingSchema";
 
 export const metadata: Metadata = {
   title: "Validar CPF em JavaScript: algoritmo passo a passo",
@@ -146,6 +147,13 @@ export default function Post() {
           </div>
         </section>
         <ShareBar title={"Validar CPF em JavaScript: algoritmo passo a passo"} path="/blog/validar-cpf-javascript-algoritmo-passo-a-passo" />
+        <BlogPostingSchema
+          title={"Validar CPF em JavaScript: algoritmo passo a passo"}
+          slug="validar-cpf-javascript-algoritmo-passo-a-passo"
+          description={"Implemente a validação de CPF em JavaScript do zero: cálculo dos dígitos verificadores, casos extremos e integração com formulários reais."}
+          datePublished="2026-06-01"
+          image="https://fakeforge.com.br/api/og?title=Validar%20CPF%20em%20JavaScript%3A%20algoritmo%20passo%20a%20passo&subtitle=Implemente%20a%20valida%C3%A7%C3%A3o%20de%20CPF%20em%20JavaScript%20do%20zero%3A%20c%C3%A1lculo%20dos%20d%C3%ADgitos%20verificadores%2C%20casos%20extremos%20e%20integra%C3%A7%C3%A3o%20com%20formul%C3%A1rios%20reais.&category=TUTORIAIS"
+        />
       </article>
 
       <script

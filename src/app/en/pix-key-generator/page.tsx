@@ -148,6 +148,7 @@ curl -X POST "https://fakeforge.com.br/api/generate" \\
       ]} />
 
       <GeneratorSchema
+        inLanguage="en"
         name="Brazilian PIX Key Generator"
         url="https://fakeforge.com.br/en/pix-key-generator"
         description="Generate Brazilian PIX keys in all 4 BACEN formats (CPF, email, phone, EVP UUID) for testing payment integrations with Mercado Pago, PagBank, Stripe Brazil and other PSPs."

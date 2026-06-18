@@ -3,6 +3,7 @@ import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
 import ShareBar from "@/components/ShareBar";
+import BlogPostingSchema from "@/components/BlogPostingSchema";
 
 export const metadata: Metadata = {
   title: "Como Gerar CPF Válido em Python para Testes",
@@ -159,6 +160,13 @@ export default function Post() {
           </div>
         </section>
         <ShareBar title={"Como Gerar CPF Válido em Python para Testes"} path="/blog/como-gerar-cpf-valido-python-testes" />
+        <BlogPostingSchema
+          title={"Como Gerar CPF Válido em Python para Testes"}
+          slug="como-gerar-cpf-valido-python-testes"
+          description={"Implemente um gerador de CPF válido em Python do zero: algoritmo mod-11, fixtures para pytest, integração com Faker e alternativa via API REST sem código."}
+          datePublished="2026-05-26"
+          image="https://fakeforge.com.br/api/og?title=Como%20Gerar%20CPF%20V%C3%A1lido%20em%20Python%20para%20Testes&subtitle=Implemente%20um%20gerador%20de%20CPF%20v%C3%A1lido%20em%20Python%20do%20zero%3A%20algoritmo%20mod-11%2C%20fixtures%20para%20pytest%2C%20integra%C3%A7%C3%A3o%20com%20Faker%20e%20alternativa%20via%20API%20RE&category=TUTORIAIS"
+        />
       </article>
 
       <script

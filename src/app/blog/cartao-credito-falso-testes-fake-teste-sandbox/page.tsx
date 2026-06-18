@@ -3,6 +3,7 @@ import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
 import ShareBar from "@/components/ShareBar";
+import BlogPostingSchema from "@/components/BlogPostingSchema";
 
 export const metadata: Metadata = {
   title: "Cartão de Crédito Falso para Testes: Fake, Teste ou Sandbox?",
@@ -158,6 +159,13 @@ export default function Post() {
           </div>
         </section>
         <ShareBar title={"Cartão de Crédito Falso para Testes: Fake, Teste ou Sandbox?"} path="/blog/cartao-credito-falso-testes-fake-teste-sandbox" />
+        <BlogPostingSchema
+          title={"Cartão de Crédito Falso para Testes: Fake, Teste ou Sandbox?"}
+          slug="cartao-credito-falso-testes-fake-teste-sandbox"
+          description={"Entenda a diferença entre número fake com Luhn válido, cartões de teste de gateway e sandbox de pagamento — com exemplos rodáveis em TypeScript."}
+          datePublished="2026-05-26"
+          image="https://fakeforge.com.br/api/og?title=Cart%C3%A3o%20de%20Cr%C3%A9dito%20Falso%20para%20Testes%3A%20Fake%2C%20Teste%20ou%20Sandbox%3F&subtitle=Entenda%20a%20diferen%C3%A7a%20entre%20n%C3%BAmero%20fake%20com%20Luhn%20v%C3%A1lido%2C%20cart%C3%B5es%20de%20teste%20de%20gateway%20e%20sandbox%20de%20pagamento%20%E2%80%94%20com%20exemplos%20rod%C3%A1veis%20em%20TypeScr&category=CONCEITOS"
+        />
       </article>
 
       <script

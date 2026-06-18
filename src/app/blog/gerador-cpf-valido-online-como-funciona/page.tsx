@@ -3,6 +3,7 @@ import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
 import ShareBar from "@/components/ShareBar";
+import BlogPostingSchema from "@/components/BlogPostingSchema";
 
 export const metadata: Metadata = {
   title: "Gerador de CPF válido online: como funciona e quando usar",
@@ -160,6 +161,13 @@ export default function Post() {
           </div>
         </section>
         <ShareBar title={"Gerador de CPF válido online: como funciona e quando usar"} path="/blog/gerador-cpf-valido-online-como-funciona" />
+        <BlogPostingSchema
+          title={"Gerador de CPF válido online: como funciona e quando usar"}
+          slug="gerador-cpf-valido-online-como-funciona"
+          description={"Entenda o algoritmo mod-11 do CPF, quando usar dados fictícios em testes e como gerar CPFs válidos sem violar a LGPD."}
+          datePublished="2026-05-26"
+          image="https://fakeforge.com.br/api/og?title=Gerador%20de%20CPF%20v%C3%A1lido%20online%3A%20como%20funciona%20e%20quando%20usar&subtitle=Entenda%20o%20algoritmo%20mod-11%20do%20CPF%2C%20quando%20usar%20dados%20fict%C3%ADcios%20em%20testes%20e%20como%20gerar%20CPFs%20v%C3%A1lidos%20sem%20violar%20a%20LGPD.&category=CONCEITOS"
+        />
       </article>
 
       <script

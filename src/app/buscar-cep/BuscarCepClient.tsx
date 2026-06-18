@@ -145,39 +145,54 @@ export default function BuscarCepClient() {
               Copiar endereço
             </button>
           </div>
-          <dl className="divide-y divide-border">
-            {[
-              ["Logradouro", result.logradouro || "—"],
-              ["Complemento", result.complemento || "—"],
-              ["Bairro", result.bairro || "—"],
-              ["Cidade", result.localidade],
-              ["UF", result.uf],
-              ["DDD", result.ddd],
-              ["Código IBGE", result.ibge],
-              ["Código SIAFI", result.siafi],
-            ].map(([label, value]) => (
-              <div key={label} className="px-5 py-3 grid grid-cols-3 gap-4">
-                <dt className="text-xs text-muted-foreground col-span-1">{label}</dt>
-                <dd className="text-sm text-foreground col-span-2 font-medium">
-                  {value}
-                </dd>
-              </div>
-            ))}
-          </dl>
+
+          {/* Resultado principal — formato readable, não JSON */}
+          <div className="px-5 py-5 space-y-1.5">
+            {result.logradouro && (
+              <p className="text-lg font-semibold text-foreground">{result.logradouro}</p>
+            )}
+            {result.bairro && (
+              <p className="text-sm text-muted-foreground">{result.bairro}</p>
+            )}
+            <p className="text-sm text-foreground">
+              {result.localidade} <span className="text-muted-foreground">·</span> {result.uf}
+            </p>
+            {result.complemento && (
+              <p className="text-xs text-muted-foreground italic mt-2">{result.complemento}</p>
+            )}
+          </div>
+
+          <div className="px-5 py-2.5 border-t border-border bg-background/50">
+            <p className="text-[11px] text-muted-foreground">
+              Dados reais via{" "}
+              <a href="https://viacep.com.br/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                ViaCEP
+              </a>
+              {" "}— base oficial dos Correios. Este é um resultado real, não dado fictício.
+            </p>
+          </div>
+
+          {/* Detalhes técnicos colapsados — só pra devs */}
+          <details className="group border-t border-border">
+            <summary className="px-5 py-2.5 cursor-pointer text-xs text-muted-foreground hover:text-foreground transition-colors flex items-center justify-between">
+              <span>Mais detalhes (DDD, IBGE, SIAFI)</span>
+              <span className="text-muted group-open:rotate-45 transition-transform text-base leading-none">+</span>
+            </summary>
+            <dl className="divide-y divide-border border-t border-border">
+              {[
+                ["DDD", result.ddd],
+                ["Código IBGE", result.ibge],
+                ["Código SIAFI", result.siafi],
+              ].map(([label, value]) => (
+                <div key={label} className="px-5 py-2 grid grid-cols-3 gap-4">
+                  <dt className="text-xs text-muted-foreground col-span-1">{label}</dt>
+                  <dd className="text-sm text-foreground col-span-2 font-mono">{value}</dd>
+                </div>
+              ))}
+            </dl>
+          </details>
         </div>
       )}
-
-      <div className="rounded-xl bg-background border border-border p-5">
-        <h3 className="text-sm font-semibold text-foreground mb-2">Outras coisas que você pode fazer</h3>
-        <p className="text-xs text-muted-foreground leading-relaxed">
-          Precisa de CEP fictício para testes (não busca real)? Use o{" "}
-          <a href="/gerador-cep" className="text-primary hover:underline font-medium">
-            gerador de CEP brasileiro
-          </a>{" "}
-          que produz códigos no formato correto por estado, sem corresponder a endereços reais — útil pra
-          popular bancos de staging sem violar LGPD.
-        </p>
-      </div>
     </div>
   );
 }

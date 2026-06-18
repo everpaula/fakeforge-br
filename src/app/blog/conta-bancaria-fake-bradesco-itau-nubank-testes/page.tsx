@@ -3,6 +3,7 @@ import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
 import ShareBar from "@/components/ShareBar";
+import BlogPostingSchema from "@/components/BlogPostingSchema";
 
 export const metadata: Metadata = {
   title: "Conta bancária fake para testes: Bradesco, Itaú e Nubank",
@@ -160,6 +161,13 @@ export default function Post() {
           </div>
         </section>
         <ShareBar title={"Conta bancária fake para testes: Bradesco, Itaú e Nubank"} path="/blog/conta-bancaria-fake-bradesco-itau-nubank-testes" />
+        <BlogPostingSchema
+          title={"Conta bancária fake para testes: Bradesco, Itaú e Nubank"}
+          slug="conta-bancaria-fake-bradesco-itau-nubank-testes"
+          description={"Gere contas bancárias fictícias com agência, número e dígito verificador válidos para Bradesco, Itaú, Nubank e mais 14 bancos. Grátis, LGPD-safe."}
+          datePublished="2026-05-26"
+          image="https://fakeforge.com.br/api/og?title=Conta%20banc%C3%A1ria%20fake%20para%20testes%3A%20Bradesco%2C%20Ita%C3%BA%20e%20Nubank&subtitle=Gere%20contas%20banc%C3%A1rias%20fict%C3%ADcias%20com%20ag%C3%AAncia%2C%20n%C3%BAmero%20e%20d%C3%ADgito%20verificador%20v%C3%A1lidos%20para%20Bradesco%2C%20Ita%C3%BA%2C%20Nubank%20e%20mais%2014%20bancos.%20Gr%C3%A1tis%2C%20LGPD-&category=TUTORIAIS"
+        />
       </article>
 
       <script

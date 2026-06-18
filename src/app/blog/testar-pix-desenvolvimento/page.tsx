@@ -4,6 +4,7 @@ import PageShell from "@/components/PageShell";
 import SingleGenerator from "@/components/SingleGenerator";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
 import ShareBar from "@/components/ShareBar";
+import BlogPostingSchema from "@/components/BlogPostingSchema";
 
 export const metadata: Metadata = {
   title: "Como testar pagamento PIX em ambiente de desenvolvimento",
@@ -138,6 +139,13 @@ export default function Post() {
           </p>
         </div>
         <ShareBar title={"Como testar pagamento PIX em ambiente de desenvolvimento"} path="/blog/testar-pix-desenvolvimento" />
+        <BlogPostingSchema
+          title={"Como testar pagamento PIX em ambiente de desenvolvimento"}
+          slug="testar-pix-desenvolvimento"
+          description={"Guia completo para testar PIX em dev: diferença entre dados fictícios e sandbox de gateway, como gerar chaves PIX de teste, e integração com Mercado Pago, OpenPix e Pagar.me."}
+          datePublished="2026-04-15"
+          image="https://fakeforge.com.br/api/og?title=Como%20testar%20pagamento%20PIX%20em%20ambiente%20de%20desenvolvimento&subtitle=Guia%20para%20testar%20PIX%20em%20dev%3A%20dados%20fict%C3%ADcios%20vs%20sandbox%20de%20gateway.&category=TUTORIAIS"
+        />
       </article>
     </PageShell>
   );

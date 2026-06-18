@@ -3,6 +3,7 @@ import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
 import ShareBar from "@/components/ShareBar";
+import BlogPostingSchema from "@/components/BlogPostingSchema";
 
 export const metadata: Metadata = {
   title: "Algoritmo Luhn para cartões de crédito: validação passo a passo",
@@ -180,6 +181,13 @@ export default function Post() {
           </div>
         </section>
         <ShareBar title={"Algoritmo Luhn para cartões de crédito: validação passo a passo"} path="/blog/algoritmo-luhn-cartao-credito-validacao-testes" />
+        <BlogPostingSchema
+          title={"Algoritmo Luhn para cartões de crédito: validação passo a passo"}
+          slug="algoritmo-luhn-cartao-credito-validacao-testes"
+          description={"Entenda como o algoritmo de Luhn valida cartões de crédito, implemente em TypeScript e gere números de teste válidos sem dados reais."}
+          datePublished="2026-06-13"
+          image="https://fakeforge.com.br/api/og?title=Algoritmo%20Luhn%20para%20cart%C3%B5es%20de%20cr%C3%A9dito%3A%20valida%C3%A7%C3%A3o%20passo%20a%20passo&subtitle=Entenda%20como%20o%20algoritmo%20de%20Luhn%20valida%20cart%C3%B5es%20de%20cr%C3%A9dito%2C%20implemente%20em%20TypeScript%20e%20gere%20n%C3%BAmeros%20de%20teste%20v%C3%A1lidos%20sem%20dados%20reais.&category=TUTORIAIS"
+        />
       </article>
 
       <script

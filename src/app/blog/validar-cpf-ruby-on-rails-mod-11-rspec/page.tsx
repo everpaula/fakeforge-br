@@ -3,6 +3,7 @@ import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
 import ShareBar from "@/components/ShareBar";
+import BlogPostingSchema from "@/components/BlogPostingSchema";
 
 export const metadata: Metadata = {
   title: "Validar CPF em Ruby on Rails: mod-11 e RSpec do zero",
@@ -161,6 +162,13 @@ export default function Post() {
           </div>
         </section>
         <ShareBar title={"Validar CPF em Ruby on Rails: mod-11 e RSpec do zero"} path="/blog/validar-cpf-ruby-on-rails-mod-11-rspec" />
+        <BlogPostingSchema
+          title={"Validar CPF em Ruby on Rails: mod-11 e RSpec do zero"}
+          slug="validar-cpf-ruby-on-rails-mod-11-rspec"
+          description={"Implemente validação de CPF em Ruby on Rails com o algoritmo mod-11 completo, testes RSpec cobrindo edge cases e integração com ActiveRecord."}
+          datePublished="2026-05-26"
+          image="https://fakeforge.com.br/api/og?title=Validar%20CPF%20em%20Ruby%20on%20Rails%3A%20mod-11%20e%20RSpec%20do%20zero&subtitle=Implemente%20valida%C3%A7%C3%A3o%20de%20CPF%20em%20Ruby%20on%20Rails%20com%20o%20algoritmo%20mod-11%20completo%2C%20testes%20RSpec%20cobrindo%20edge%20cases%20e%20integra%C3%A7%C3%A3o%20com%20ActiveRecord&category=TUTORIAIS"
+        />
       </article>
 
       <script

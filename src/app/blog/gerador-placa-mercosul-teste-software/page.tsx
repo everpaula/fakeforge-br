@@ -3,6 +3,7 @@ import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
 import ShareBar from "@/components/ShareBar";
+import BlogPostingSchema from "@/components/BlogPostingSchema";
 
 export const metadata: Metadata = {
   title: "Gerador de Placa Mercosul para Testes: Algoritmo e Validação",
@@ -158,6 +159,13 @@ export default function Post() {
           </div>
         </section>
         <ShareBar title={"Gerador de Placa Mercosul para Testes: Algoritmo e Validação"} path="/blog/gerador-placa-mercosul-teste-software" />
+        <BlogPostingSchema
+          title={"Gerador de Placa Mercosul para Testes: Algoritmo e Validação"}
+          slug="gerador-placa-mercosul-teste-software"
+          description={"Aprenda a gerar e validar placas no formato Mercosul (LLLNLNN) para testes de software — código TypeScript, regex, integração com Jest e export SQL prontos para uso."}
+          datePublished="2026-05-26"
+          image="https://fakeforge.com.br/api/og?title=Gerador%20de%20Placa%20Mercosul%20para%20Testes%3A%20Algoritmo%20e%20Valida%C3%A7%C3%A3o&subtitle=Aprenda%20a%20gerar%20e%20validar%20placas%20no%20formato%20Mercosul%20(LLLNLNN)%20para%20testes%20de%20software%20%E2%80%94%20c%C3%B3digo%20TypeScript%2C%20regex%2C%20integra%C3%A7%C3%A3o%20com%20Jest%20e%20exp&category=TUTORIAIS"
+        />
       </article>
 
       <script

@@ -3,6 +3,7 @@ import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
 import ShareBar from "@/components/ShareBar";
+import BlogPostingSchema from "@/components/BlogPostingSchema";
 
 export const metadata: Metadata = {
   title: "Validar CPF em C# .NET: algoritmo mod-11 e xUnit",
@@ -146,6 +147,13 @@ export default function Post() {
           </div>
         </section>
         <ShareBar title={"Validar CPF em C# .NET: algoritmo mod-11 e xUnit"} path="/blog/validar-cpf-csharp-dotnet-mod11-xunit" />
+        <BlogPostingSchema
+          title={"Validar CPF em C# .NET: algoritmo mod-11 e xUnit"}
+          slug="validar-cpf-csharp-dotnet-mod11-xunit"
+          description={"Implemente a validação de CPF em C# do zero com o algoritmo mod-11, trate casos-limite e cubra tudo com xUnit. Código pronto para produção."}
+          datePublished="2026-05-26"
+          image="https://fakeforge.com.br/api/og?title=Validar%20CPF%20em%20C%23%20.NET%3A%20algoritmo%20mod-11%20e%20xUnit&subtitle=Implemente%20a%20valida%C3%A7%C3%A3o%20de%20CPF%20em%20C%23%20do%20zero%20com%20o%20algoritmo%20mod-11%2C%20trate%20casos-limite%20e%20cubra%20tudo%20com%20xUnit.%20C%C3%B3digo%20pronto%20para%20produ%C3%A7%C3%A3o.&category=TUTORIAIS"
+        />
       </article>
 
       <script

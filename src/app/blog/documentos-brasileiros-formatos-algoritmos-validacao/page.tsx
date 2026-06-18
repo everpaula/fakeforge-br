@@ -3,6 +3,7 @@ import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
 import ShareBar from "@/components/ShareBar";
+import BlogPostingSchema from "@/components/BlogPostingSchema";
 
 export const metadata: Metadata = {
   title: "Documentos Brasileiros: Formatos e Algoritmos de Validação",
@@ -189,6 +190,13 @@ export default function Post() {
           </div>
         </section>
         <ShareBar title={"Documentos Brasileiros: Formatos e Algoritmos de Validação"} path="/blog/documentos-brasileiros-formatos-algoritmos-validacao" />
+        <BlogPostingSchema
+          title={"Documentos Brasileiros: Formatos e Algoritmos de Validação"}
+          slug="documentos-brasileiros-formatos-algoritmos-validacao"
+          description={"CPF, CNPJ, RG, CIN e CNH: estrutura de dígitos, cálculo de verificação e exemplos de código para validar cada documento em TypeScript."}
+          datePublished="2026-05-26"
+          image="https://fakeforge.com.br/api/og?title=Documentos%20brasileiros%20para%20devs%3A%20formatos%20e%20algoritmos%20de%20valida%C3%A7%C3%A3o&subtitle=CPF%2C%20CNPJ%2C%20RG%2C%20CIN%20e%20CNH%3A%20estrutura%20de%20d%C3%ADgitos%2C%20c%C3%A1lculo%20de%20verifica%C3%A7%C3%A3o%20e%20exemplos%20de%20c%C3%B3digo%20para%20validar%20cada%20documento%20em%20TypeScript.&category=TUTORIAIS"
+        />
       </article>
 
       <script

@@ -3,6 +3,7 @@ import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
 import ShareBar from "@/components/ShareBar";
+import BlogPostingSchema from "@/components/BlogPostingSchema";
 
 export const metadata: Metadata = {
   title: "Validar CPF em Java Spring Boot: algoritmo mod-11 e JUnit",
@@ -162,6 +163,13 @@ export default function Post() {
           </div>
         </section>
         <ShareBar title={"Validar CPF em Java Spring Boot: algoritmo mod-11 e JUnit"} path="/blog/validar-cpf-java-spring-boot-algoritmo-mod11-junit" />
+        <BlogPostingSchema
+          title={"Validar CPF em Java Spring Boot: algoritmo mod-11 e JUnit"}
+          slug="validar-cpf-java-spring-boot-algoritmo-mod11-junit"
+          description={"Implemente validação de CPF em Java com algoritmo mod-11 do zero, integre ao Spring Boot via Bean Validation e cubra edge cases com JUnit 5."}
+          datePublished="2026-05-26"
+          image="https://fakeforge.com.br/api/og?title=Validar%20CPF%20em%20Java%20Spring%20Boot%3A%20algoritmo%20mod-11%20e%20JUnit&subtitle=Implemente%20valida%C3%A7%C3%A3o%20de%20CPF%20em%20Java%20com%20algoritmo%20mod-11%20do%20zero%2C%20integre%20ao%20Spring%20Boot%20via%20Bean%20Validation%20e%20cubra%20edge%20cases%20com%20JUnit%205.&category=TUTORIAIS"
+        />
       </article>
 
       <script

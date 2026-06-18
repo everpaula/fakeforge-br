@@ -144,6 +144,7 @@ curl "https://fakeforge.com.br/api/generate?type=random8&quantity=500" \\
       ]} />
 
       <GeneratorSchema
+        inLanguage="en"
         name="Random 4-Digit Code Generator"
         url="https://fakeforge.com.br/en/random-number-generator"
         description="Generate random 4-digit, 6-digit, or 8-digit numeric codes for OTP testing, 2FA verification flows, SMS mocks, and PIN seeders. Free REST API."

@@ -3,6 +3,7 @@ import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
 import ShareBar from "@/components/ShareBar";
+import BlogPostingSchema from "@/components/BlogPostingSchema";
 
 export const metadata: Metadata = {
   title: "LGPD em testes de software: guia prático para devs",
@@ -164,6 +165,13 @@ export default function Post() {
           </div>
         </section>
         <ShareBar title={"LGPD em testes de software: guia prático para devs"} path="/blog/lgpd-testes-software-guia-pratico-devs" />
+        <BlogPostingSchema
+          title={"LGPD em testes de software: guia prático para devs"}
+          slug="lgpd-testes-software-guia-pratico-devs"
+          description={"Como estruturar ambientes de teste conformes com a LGPD: anonimização, dados sintéticos e boas práticas para equipes de desenvolvimento."}
+          datePublished="2026-05-26"
+          image="https://fakeforge.com.br/api/og?title=LGPD%20em%20testes%20de%20software%3A%20guia%20pr%C3%A1tico%20para%20devs&subtitle=Como%20estruturar%20ambientes%20de%20teste%20conformes%20com%20a%20LGPD%3A%20anonimiza%C3%A7%C3%A3o%2C%20dados%20sint%C3%A9ticos%20e%20boas%20pr%C3%A1ticas%20para%20equipes%20de%20desenvolvimento.&category=LGPD"
+        />
       </article>
 
       <script

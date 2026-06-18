@@ -124,6 +124,7 @@ curl -X POST "https://fakeforge.com.br/api/generate" \\
       ]} />
 
       <GeneratorSchema
+        inLanguage="en"
         name="Brazilian CPF Generator"
         url="https://fakeforge.com.br/en/cpf-generator"
         description="Generate valid Brazilian CPF numbers for software testing, KYC sandboxes and customer onboarding QA. Uses official mod-11 algorithm. Free REST API."

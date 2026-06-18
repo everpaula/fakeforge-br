@@ -3,6 +3,7 @@ import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
 import ShareBar from "@/components/ShareBar";
+import BlogPostingSchema from "@/components/BlogPostingSchema";
 
 export const metadata: Metadata = {
   title: "Boleto FEBRABAN em Node.js: gerar linha digitável para testes",
@@ -169,6 +170,13 @@ export default function Post() {
           </div>
         </section>
         <ShareBar title={"Boleto FEBRABAN em Node.js: gerar linha digitável para testes"} path="/blog/gerar-boleto-febraban-linha-digitavel-nodejs-testes" />
+        <BlogPostingSchema
+          title={"Boleto FEBRABAN em Node.js: gerar linha digitável para testes"}
+          slug="gerar-boleto-febraban-linha-digitavel-nodejs-testes"
+          description={"Aprenda a gerar boletos bancários FEBRABAN válidos para testes em Node.js, com cálculo de dígito verificador, linha digitável e código de barras, sem tocar em dados reais."}
+          datePublished="2026-05-26"
+          image="https://fakeforge.com.br/api/og?title=Boleto%20FEBRABAN%20em%20Node.js%3A%20gerar%20linha%20digit%C3%A1vel%20para%20testes&subtitle=Aprenda%20a%20gerar%20boletos%20banc%C3%A1rios%20FEBRABAN%20v%C3%A1lidos%20para%20testes%20em%20Node.js%2C%20com%20c%C3%A1lculo%20de%20d%C3%ADgito%20verificador%2C%20linha%20digit%C3%A1vel%20e%20c%C3%B3digo%20de%20ba&category=TUTORIAIS"
+        />
       </article>
 
       <script

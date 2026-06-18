@@ -3,6 +3,7 @@ import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
 import ShareBar from "@/components/ShareBar";
+import BlogPostingSchema from "@/components/BlogPostingSchema";
 
 export const metadata: Metadata = {
   title: "CNPJ Alfanumérico 2026: Checklist de Migração",
@@ -158,6 +159,13 @@ export default function Post() {
           </div>
         </section>
         <ShareBar title={"CNPJ Alfanumérico 2026: Checklist de Migração"} path="/blog/cnpj-alfanumerico-checklist-migracao-2026" />
+        <BlogPostingSchema
+          title={"CNPJ Alfanumérico 2026: Checklist de Migração"}
+          slug="cnpj-alfanumerico-checklist-migracao-2026"
+          description={"O CNPJ passa a aceitar letras em 01/07/2026. Veja o checklist técnico completo: banco de dados, APIs, validações e bibliotecas que precisam mudar."}
+          datePublished="2026-06-13"
+          image="https://fakeforge.com.br/api/og?title=CNPJ%20Alfanum%C3%A9rico%3A%20checklist%20completo%20para%20migrar%20antes%20de%2001%2F07%2F2026&subtitle=O%20CNPJ%20passa%20a%20aceitar%20letras%20em%2001%2F07%2F2026.%20Veja%20o%20checklist%20t%C3%A9cnico%20completo%3A%20banco%20de%20dados%2C%20APIs%2C%20valida%C3%A7%C3%B5es%20e%20bibliotecas%20que%20precisam%20&category=NEWS"
+        />
       </article>
 
       <script

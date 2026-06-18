@@ -3,6 +3,7 @@ import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
 import ShareBar from "@/components/ShareBar";
+import BlogPostingSchema from "@/components/BlogPostingSchema";
 
 export const metadata: Metadata = {
   title: "CPF em PHP e Laravel: algoritmo mod-11 com testes",
@@ -161,6 +162,13 @@ export default function Post() {
           </div>
         </section>
         <ShareBar title={"CPF em PHP e Laravel: algoritmo mod-11 com testes"} path="/blog/cpf-php-laravel-algoritmo-mod11-validacao-testes" />
+        <BlogPostingSchema
+          title={"CPF em PHP e Laravel: algoritmo mod-11 com testes"}
+          slug="cpf-php-laravel-algoritmo-mod11-validacao-testes"
+          description={"Implemente geração e validação de CPF em PHP e Laravel usando mod-11. Código rodável, Laravel Rule personalizada e testes PHPUnit inclusos."}
+          datePublished="2026-05-26"
+          image="https://fakeforge.com.br/api/og?title=CPF%20em%20PHP%20e%20Laravel%3A%20algoritmo%20mod-11%20com%20testes&subtitle=Implemente%20gera%C3%A7%C3%A3o%20e%20valida%C3%A7%C3%A3o%20de%20CPF%20em%20PHP%20e%20Laravel%20usando%20mod-11.%20C%C3%B3digo%20rod%C3%A1vel%2C%20Laravel%20Rule%20personalizada%20e%20testes%20PHPUnit%20inclusos.&category=TUTORIAIS"
+        />
       </article>
 
       <script

@@ -35,75 +35,14 @@ export default function BuscarCEP() {
 
       <div className="mt-12 space-y-8 text-sm text-muted-foreground leading-relaxed">
         <section>
-          <h2 className="text-lg font-semibold text-foreground mb-2">O que é CEP e como funciona</h2>
-          <p>
-            CEP (Código de Endereçamento Postal) é o sistema dos Correios para identificar endereços no
-            Brasil. São 8 dígitos no formato <code className="text-xs bg-background border border-border px-1.5 py-0.5 rounded">XXXXX-XXX</code>,
-            divididos em região (1º dígito), sub-região (2º), setor (3º), subsetor (4º), divisor (5º) e
-            distribuidor (últimos 3, separados por hífen).
-          </p>
-          <p className="mt-2">
-            Cada faixa de CEP cobre uma área geográfica delimitada — pode ser um logradouro inteiro
-            (CEP de rua), um trecho de logradouro (em grandes avenidas), um bairro inteiro (CEP geral),
-            ou um destinatário específico (caixa postal, grandes empresas, órgãos públicos).
-          </p>
-        </section>
-
-        <section>
-          <h2 className="text-lg font-semibold text-foreground mb-2">Como funciona a busca aqui</h2>
-          <p>
-            Quando você digita um CEP válido, o navegador consulta diretamente o serviço{" "}
-            <a href="https://viacep.com.br/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-              ViaCEP
-            </a>
-            , uma API pública gratuita que serve dados oficializados pelos Correios. A resposta vem em
-            JSON e renderizamos os campos. Nenhum dado seu fica armazenado: a consulta é direta entre
-            seu navegador e a ViaCEP.
-          </p>
-        </section>
-
-        <section>
-          <h2 className="text-lg font-semibold text-foreground mb-2">Buscar CEP em código (cURL e JS)</h2>
-          <p className="mb-3">
-            A ViaCEP tem endpoint REST aberto. Para integrar busca de CEP no seu app:
-          </p>
-          <pre className="bg-card border border-border rounded-lg p-3 text-xs overflow-x-auto">
-            <code>{`# cURL
-curl https://viacep.com.br/ws/01310100/json/
-
-# JavaScript
-const res = await fetch("https://viacep.com.br/ws/01310100/json/");
-const endereco = await res.json();
-// { cep, logradouro, bairro, localidade, uf, ddd, ibge, ... }
-
-# Erro de CEP inexistente vem como { erro: true }
-if (endereco.erro) console.log("CEP nao encontrado");`}</code>
-          </pre>
-        </section>
-
-        <section>
-          <h2 className="text-lg font-semibold text-foreground mb-2">CEP real vs CEP fictício</h2>
-          <p>
-            Esta página busca CEPs reais. Se você precisa de <strong className="text-foreground">CEPs fictícios para testar</strong>{" "}
-            (popular banco de staging, fixtures de teste, mockar formulários sem expor endereços reais),
-            use o nosso{" "}
-            <Link href="/gerador-cep" className="text-primary hover:underline font-medium">
-              gerador de CEP
-            </Link>
-            . Ele produz códigos no formato sintaticamente correto por estado, sem corresponder a
-            endereços reais — útil pra QA sem violar LGPD.
-          </p>
-        </section>
-
-        <section>
           <h2 className="text-lg font-semibold text-foreground mb-4">Perguntas Frequentes</h2>
           <div className="space-y-3">
             {[
               { q: "Posso usar essa busca sem limite?", a: "Sim, a ViaCEP é pública e gratuita. Para volume alto (>1 chamada/segundo por IP), considere cachear localmente — a base muda raramente." },
               { q: "Por que alguns CEPs não trazem logradouro?", a: "CEPs gerais cobrem um bairro inteiro ou uma cidade pequena, não um logradouro específico. Nesses casos, vêm só bairro, cidade e UF." },
-              { q: "O que é o código IBGE retornado?", a: "É o código numérico que o IBGE atribui a cada município brasileiro. Útil pra integrar com bases de cadastro nacionais, estatísticas, ou serviços do gov.br." },
               { q: "Posso descobrir o CEP a partir do endereço?", a: "A ViaCEP suporta busca reversa (UF + cidade + parte do logradouro), mas essa rota aqui só faz busca direta por CEP. Pra reversa, consulte busca avançada no site da ViaCEP ou Correios." },
               { q: "Meus dados ficam armazenados?", a: "Não. A consulta vai direto do seu navegador pra ViaCEP, sem passar pelos nossos servidores." },
+              { q: "O que é o código IBGE retornado?", a: "É o código numérico que o IBGE atribui a cada município brasileiro. Útil pra integrar com bases de cadastro nacionais, estatísticas, ou serviços do gov.br." },
             ].map(({ q, a }) => (
               <details key={q} className="group border border-border rounded-lg">
                 <summary className="flex items-center justify-between px-4 py-3 cursor-pointer hover:bg-card-hover transition-colors">
@@ -115,6 +54,62 @@ if (endereco.erro) console.log("CEP nao encontrado");`}</code>
             ))}
           </div>
         </section>
+
+        <section>
+          <h2 className="text-lg font-semibold text-foreground mb-2">O que é CEP e como funciona</h2>
+          <p>
+            CEP (Código de Endereçamento Postal) é o sistema dos Correios para identificar endereços no
+            Brasil. São 8 dígitos no formato <code className="text-xs bg-background border border-border px-1.5 py-0.5 rounded">XXXXX-XXX</code>,
+            divididos em região (1º dígito), sub-região (2º), setor (3º), subsetor (4º), divisor (5º) e
+            distribuidor (últimos 3, separados por hífen). Cada faixa cobre uma área geográfica delimitada —
+            um logradouro, um trecho dele, um bairro inteiro, ou um destinatário específico (caixa postal,
+            grandes empresas, órgãos públicos).
+          </p>
+        </section>
+
+        <hr className="border-border" />
+
+        <details className="group">
+          <summary className="cursor-pointer text-sm font-semibold text-foreground hover:text-primary transition-colors flex items-center gap-2">
+            <span className="text-muted group-open:rotate-45 transition-transform text-lg leading-none">+</span>
+            Para desenvolvedores: integrar busca de CEP em código
+          </summary>
+          <div className="mt-4 space-y-3">
+            <p>
+              A ViaCEP tem endpoint REST aberto. Para integrar busca de CEP no seu app:
+            </p>
+            <pre className="bg-card border border-border rounded-lg p-3 text-xs overflow-x-auto">
+              <code>{`# cURL
+curl https://viacep.com.br/ws/01310100/json/
+
+# JavaScript
+const res = await fetch("https://viacep.com.br/ws/01310100/json/");
+const endereco = await res.json();
+// { cep, logradouro, bairro, localidade, uf, ddd, ibge, ... }
+
+# Erro de CEP inexistente vem como { erro: true }
+if (endereco.erro) console.log("CEP nao encontrado");`}</code>
+            </pre>
+          </div>
+        </details>
+
+        <details className="group">
+          <summary className="cursor-pointer text-sm font-semibold text-foreground hover:text-primary transition-colors flex items-center gap-2">
+            <span className="text-muted group-open:rotate-45 transition-transform text-lg leading-none">+</span>
+            Precisa de CEP fictício para testes? Use o gerador
+          </summary>
+          <div className="mt-4">
+            <p>
+              Esta página busca CEPs reais. Se você precisa de <strong className="text-foreground">CEPs fictícios</strong> para
+              popular banco de staging, fixtures de teste, ou mockar formulários sem expor endereços reais, use o{" "}
+              <Link href="/gerador-cep" className="text-primary hover:underline font-medium">
+                gerador de CEP
+              </Link>
+              . Ele produz códigos no formato sintaticamente correto por estado, sem corresponder a endereços reais —
+              útil pra QA sem violar LGPD.
+            </p>
+          </div>
+        </details>
       </div>
 
       <BreadcrumbSchema items={[

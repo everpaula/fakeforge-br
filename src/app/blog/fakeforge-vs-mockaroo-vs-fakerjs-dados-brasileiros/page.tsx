@@ -3,6 +3,7 @@ import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
 import ShareBar from "@/components/ShareBar";
+import BlogPostingSchema from "@/components/BlogPostingSchema";
 
 export const metadata: Metadata = {
   title: "FakeForge vs Mockaroo vs Faker.js para Dados Brasileiros",
@@ -173,6 +174,13 @@ export default function Post() {
           </div>
         </section>
         <ShareBar title={"FakeForge vs Mockaroo vs Faker.js para Dados Brasileiros"} path="/blog/fakeforge-vs-mockaroo-vs-fakerjs-dados-brasileiros" />
+        <BlogPostingSchema
+          title={"FakeForge vs Mockaroo vs Faker.js para Dados Brasileiros"}
+          slug="fakeforge-vs-mockaroo-vs-fakerjs-dados-brasileiros"
+          description={"Compare FakeForge, Mockaroo e Faker.js para CPF, CNPJ, PIX e endereços BR. Veja qual valida checksums, exporta SQL e respeita a LGPD."}
+          datePublished="2026-05-26"
+          image="https://fakeforge.com.br/api/og?title=FakeForge%20vs%20Mockaroo%20vs%20Faker.js%3A%20qual%20gera%20dados%20brasileiros%20de%20verdade%3F&subtitle=Compare%20FakeForge%2C%20Mockaroo%20e%20Faker.js%20para%20CPF%2C%20CNPJ%2C%20PIX%20e%20endere%C3%A7os%20BR.%20Veja%20qual%20valida%20checksums%2C%20exporta%20SQL%20e%20respeita%20a%20LGPD.&category=COMPARATIVOS"
+        />
       </article>
 
       <script

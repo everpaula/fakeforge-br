@@ -4,6 +4,7 @@ import PageShell from "@/components/PageShell";
 import SingleGenerator from "@/components/SingleGenerator";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
 import ShareBar from "@/components/ShareBar";
+import BlogPostingSchema from "@/components/BlogPostingSchema";
 
 export const metadata: Metadata = {
   title: "Como testar CPF em ambiente de staging sem usar dados reais",
@@ -119,6 +120,13 @@ export default function Post() {
           </ul>
         </div>
         <ShareBar title={"Como testar CPF em ambiente de staging sem usar dados reais"} path="/blog/como-testar-cpf-em-staging" />
+        <BlogPostingSchema
+          title={"Como testar CPF em ambiente de staging sem usar dados reais"}
+          slug="como-testar-cpf-em-staging"
+          description={"Guia prático para testar validação de CPF em staging: por que evitar dados reais, como gerar CPFs fictícios, e como integrar geração automática no seu workflow."}
+          datePublished="2026-04-15"
+          image="https://fakeforge.com.br/api/og?title=Como%20testar%20CPF%20em%20ambiente%20de%20staging%20sem%20usar%20dados%20reais&subtitle=Guia%20pr%C3%A1tico%20para%20testar%20valida%C3%A7%C3%A3o%20de%20CPF%20em%20staging%20sem%20violar%20a%20LGPD.&category=LGPD"
+        />
       </article>
     </PageShell>
   );

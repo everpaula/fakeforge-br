@@ -3,6 +3,7 @@ import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
 import ShareBar from "@/components/ShareBar";
+import BlogPostingSchema from "@/components/BlogPostingSchema";
 
 export const metadata: Metadata = {
   title: "Como mockar CEP no Cypress com dados brasileiros falsos",
@@ -166,6 +167,13 @@ export default function Post() {
           </div>
         </section>
         <ShareBar title={"Como mockar CEP no Cypress com dados brasileiros falsos"} path="/blog/mockar-cep-cypress-dados-brasileiros-falsos" />
+        <BlogPostingSchema
+          title={"Como mockar CEP no Cypress com dados brasileiros falsos"}
+          slug="mockar-cep-cypress-dados-brasileiros-falsos"
+          description={"Aprenda a interceptar chamadas de CEP no Cypress e retornar endereços brasileiros falsos e coerentes — sem depender de APIs externas nos seus testes."}
+          datePublished="2026-05-26"
+          image="https://fakeforge.com.br/api/og?title=Como%20mockar%20CEP%20no%20Cypress%20com%20dados%20brasileiros%20falsos&subtitle=Aprenda%20a%20interceptar%20chamadas%20de%20CEP%20no%20Cypress%20e%20retornar%20endere%C3%A7os%20brasileiros%20falsos%20e%20coerentes%20%E2%80%94%20sem%20depender%20de%20APIs%20externas%20nos%20seu&category=TUTORIAIS"
+        />
       </article>
 
       <script

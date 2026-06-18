@@ -4,6 +4,7 @@ import PageShell from "@/components/PageShell";
 import SingleGenerator from "@/components/SingleGenerator";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
 import ShareBar from "@/components/ShareBar";
+import BlogPostingSchema from "@/components/BlogPostingSchema";
 
 export const metadata: Metadata = {
   title: "Dados de teste para PIX e checkout: como testar pagamentos sem dados reais",
@@ -135,6 +136,13 @@ export default function Post() {
           </ul>
         </div>
         <ShareBar title={"Dados de teste para PIX e checkout: como testar pagamentos sem dados reais"} path="/blog/dados-teste-pix-checkout" />
+        <BlogPostingSchema
+          title={"Dados de teste para PIX e checkout: como testar pagamentos sem dados reais"}
+          slug="dados-teste-pix-checkout"
+          description={"Como gerar dados fictícios (PIX, cartão, CPF) para testar fluxos de pagamento e checkout em ambiente de desenvolvimento. Guia prático com exemplos."}
+          datePublished="2026-04-15"
+          image="https://fakeforge.com.br/api/og?title=Dados%20de%20teste%20para%20PIX%20e%20checkout&subtitle=Como%20gerar%20dados%20fict%C3%ADcios%20para%20testar%20fluxos%20de%20pagamento%20sem%20usar%20dados%20reais.&category=TUTORIAIS"
+        />
       </article>
     </PageShell>
   );

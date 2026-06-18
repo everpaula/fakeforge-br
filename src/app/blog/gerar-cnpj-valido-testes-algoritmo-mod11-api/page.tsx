@@ -3,6 +3,7 @@ import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
 import ShareBar from "@/components/ShareBar";
+import BlogPostingSchema from "@/components/BlogPostingSchema";
 
 export const metadata: Metadata = {
   title: "CNPJ válido para testes: algoritmo mod-11 e API REST",
@@ -161,6 +162,13 @@ export default function Post() {
           </div>
         </section>
         <ShareBar title={"CNPJ válido para testes: algoritmo mod-11 e API REST"} path="/blog/gerar-cnpj-valido-testes-algoritmo-mod11-api" />
+        <BlogPostingSchema
+          title={"CNPJ válido para testes: algoritmo mod-11 e API REST"}
+          slug="gerar-cnpj-valido-testes-algoritmo-mod11-api"
+          description={"Entenda o cálculo mod-11 do CNPJ, implemente o validador em TypeScript e consuma uma API REST pronta para gerar CNPJs válidos em pipelines de teste."}
+          datePublished="2026-05-26"
+          image="https://fakeforge.com.br/api/og?title=CNPJ%20v%C3%A1lido%20para%20testes%3A%20algoritmo%20mod-11%20e%20API%20REST&subtitle=Entenda%20o%20c%C3%A1lculo%20mod-11%20do%20CNPJ%2C%20implemente%20o%20validador%20em%20TypeScript%20e%20consuma%20uma%20API%20REST%20pronta%20para%20gerar%20CNPJs%20v%C3%A1lidos%20em%20pipelines%20d&category=TUTORIAIS"
+        />
       </article>
 
       <script
