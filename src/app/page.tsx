@@ -19,6 +19,18 @@ const CATEGORY_ICONS: Record<string, "document" | "user" | "phone" | "map-pin" |
   Random: "sparkle",
 };
 
+interface QuotaError {
+  plan: "anon" | "free" | "dev" | "team";
+  requested: number;
+  max_quantity: number;
+  message: string;
+  upgrade: {
+    free: { max_quantity: number; action: string; url: string };
+    dev: { max_quantity: number; price: string; url: string };
+    team: { max_quantity: number; price: string; url: string };
+  };
+}
+
 export default function Home() {
   const [selectedType, setSelectedType] = useState<DataType>("cpf");
   const [quantity, setQuantity] = useState(10);
@@ -30,6 +42,7 @@ export default function Home() {
   const [genTime, setGenTime] = useState<number | null>(null);
   const [showApiHint, setShowApiHint] = useState(false);
   const [hasGenerated, setHasGenerated] = useState(false);
+  const [quotaError, setQuotaError] = useState<QuotaError | null>(null);
 
   const categories = [...new Set(DATA_TYPES.map((t) => t.category))];
   const selectedInfo = DATA_TYPES.find((t) => t.value === selectedType);
@@ -38,6 +51,7 @@ export default function Home() {
     setLoading(true);
     setCopied(false);
     setCopiedIndex(null);
+    setQuotaError(null);
     const start = performance.now();
     try {
       const res = await fetch("/api/generate", {
@@ -46,6 +60,11 @@ export default function Home() {
         body: JSON.stringify({ type: selectedType, quantity, formatted }),
       });
       const data = await res.json();
+      if (!res.ok && data.error === "quantity_limit_exceeded") {
+        setQuotaError(data as QuotaError);
+        setResults(null);
+        return;
+      }
       setResults(data.data);
       setGenTime(Math.round(performance.now() - start));
       setShowApiHint(true);
@@ -278,6 +297,56 @@ export default function Home() {
             {loading ? "Gerando..." : `Gerar ${selectedInfo?.label}`}
           </button>
         </div>
+
+        {/* Quota error banner */}
+        {quotaError && (
+          <div className="mb-5 rounded-xl border border-primary/30 bg-primary/5 p-5 sm:p-6">
+            <div className="flex items-start justify-between gap-3">
+              <div className="flex-1">
+                <h3 className="text-sm font-semibold text-foreground">
+                  Limite por chamada atingido
+                </h3>
+                <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">
+                  Você pediu <span className="font-medium text-foreground">{quotaError.requested.toLocaleString()}</span> mas o plano{" "}
+                  <span className="font-medium text-foreground">{quotaError.plan === "anon" ? "anônimo" : quotaError.plan}</span>{" "}
+                  libera <span className="font-medium text-foreground">{quotaError.max_quantity}</span> itens por chamada.
+                </p>
+              </div>
+              <button
+                onClick={() => { setQuotaError(null); setQuantity(quotaError.max_quantity); }}
+                className="text-[11px] text-muted-foreground hover:text-foreground"
+                aria-label="Fechar"
+              >
+                ✕
+              </button>
+            </div>
+            <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-2">
+              {quotaError.plan === "anon" && (
+                <Link
+                  href="/login"
+                  className="rounded-lg border border-primary bg-primary px-4 py-2.5 text-xs font-semibold text-white text-center hover:bg-primary-hover transition-colors"
+                >
+                  Login grátis · {quotaError.upgrade.free.max_quantity}/chamada
+                </Link>
+              )}
+              <Link
+                href={quotaError.upgrade.dev.url}
+                className="rounded-lg border border-border bg-card px-4 py-2.5 text-xs font-medium text-foreground text-center hover:border-border-hover transition-colors"
+              >
+                Dev {quotaError.upgrade.dev.price} · {quotaError.upgrade.dev.max_quantity.toLocaleString()}/chamada
+              </Link>
+              <Link
+                href={quotaError.upgrade.team.url}
+                className="rounded-lg border border-border bg-card px-4 py-2.5 text-xs font-medium text-foreground text-center hover:border-border-hover transition-colors"
+              >
+                Team {quotaError.upgrade.team.price} · {quotaError.upgrade.team.max_quantity.toLocaleString()}/chamada
+              </Link>
+            </div>
+            <p className="text-[11px] text-muted-foreground mt-3">
+              Pra automação em escala, recomendamos usar a <Link href="/docs" className="text-primary hover:underline">API REST</Link> com chave do seu plano.
+            </p>
+          </div>
+        )}
 
         {/* Results */}
         <div className="rounded-xl bg-card border border-border overflow-hidden">

@@ -6,6 +6,20 @@ export const PLAN_LIMITS: Record<string, number> = {
   team: 100000,
 };
 
+// Cap de quantidade POR CHAMADA. Independe das calls/dia.
+// Calls/dia limita frequência, max_quantity limita volume por call.
+// Sem isso, anônimo bypassava o funil gerando 10.000 itens em 1 call.
+export const PLAN_MAX_QUANTITY: Record<string, number> = {
+  anon: 50,
+  free: 100,
+  dev: 1000,
+  team: 10000,
+};
+
+export function getMaxQuantity(plan: string): number {
+  return PLAN_MAX_QUANTITY[plan] ?? PLAN_MAX_QUANTITY.anon;
+}
+
 interface RateLimitEntry {
   count: number;
   resetAt: number;

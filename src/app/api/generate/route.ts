@@ -1,9 +1,36 @@
 import { NextRequest, NextResponse } from "next/server";
 import { after } from "next/server";
+import { createServerClient } from "@supabase/ssr";
+import { cookies } from "next/headers";
 import { generate, DATA_TYPES, type DataType } from "@/lib/generators";
 import { generateSchema, SCHEMA_PRESETS, type SchemaField } from "@/lib/generators/schema";
-import { checkRateLimit, getRateLimitHeaders } from "@/lib/rate-limit";
+import { checkRateLimit, getRateLimitHeaders, getMaxQuantity, PLAN_MAX_QUANTITY } from "@/lib/rate-limit";
 import { resolveApiKey, logApiUsage, logAnonymousUsage } from "@/lib/api-auth";
+
+type EffectivePlan = "anon" | "free" | "dev" | "team";
+
+async function detectWebSessionPlan(): Promise<EffectivePlan> {
+  // Detects if the request has a Supabase session cookie. We don't query the
+  // subscriptions table here for latency reasons: web users with paid plans
+  // typically use API keys for bulk work. Web logged-in users default to "free".
+  try {
+    const cookieStore = await cookies();
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          getAll() { return cookieStore.getAll(); },
+          setAll() { /* read-only */ },
+        },
+      }
+    );
+    const { data: { user } } = await supabase.auth.getUser();
+    return user ? "free" : "anon";
+  } catch {
+    return "anon";
+  }
+}
 
 function getClientIP(request: NextRequest): string {
   return (
@@ -19,14 +46,20 @@ async function withRateLimit(request: NextRequest): Promise<{
   userId: string | null;
   keyId: string | null;
   clientType: "web" | "api_anon" | "api_authed";
+  plan: EffectivePlan;
   ip: string;
 }> {
   const ip = getClientIP(request);
 
-  // Browser UI requests are not rate-limited (they use same-origin fetch with cookies)
-  // We check for the custom header set by our frontend fetch calls
+  // Browser UI requests: skip call-rate limit, but DO detect session plan so
+  // per-call quantity cap is enforced. Anonymous web users see 50/call max,
+  // logged-in see 100/call. This was the loophole that let anon generate
+  // 10,000 items in a single click.
   const isInternalUI = request.headers.get("x-fakeforge-client") === "web";
-  if (isInternalUI) return { allowed: true, headers: {}, userId: null, keyId: null, clientType: "web", ip };
+  if (isInternalUI) {
+    const plan = await detectWebSessionPlan();
+    return { allowed: true, headers: {}, userId: null, keyId: null, clientType: "web", plan, ip };
+  }
 
   // Check for API key auth
   const apiKeyInfo = await resolveApiKey(request);
@@ -39,11 +72,12 @@ async function withRateLimit(request: NextRequest): Promise<{
       userId: apiKeyInfo.userId,
       keyId: apiKeyInfo.keyId,
       clientType: "api_authed",
+      plan: apiKeyInfo.plan as EffectivePlan,
       ip,
     };
   }
 
-  // Fall back to IP-based rate limiting (free tier)
+  // Fall back to IP-based rate limiting (anonymous API)
   const result = checkRateLimit(ip, "free");
   return {
     allowed: result.allowed,
@@ -51,8 +85,32 @@ async function withRateLimit(request: NextRequest): Promise<{
     userId: null,
     keyId: null,
     clientType: "api_anon",
+    plan: "anon",
     ip,
   };
+}
+
+function quantityExceededResponse(plan: EffectivePlan, requested: number, cap: number, headers: Record<string, string>) {
+  return NextResponse.json(
+    {
+      error: "quantity_limit_exceeded",
+      plan,
+      requested,
+      max_quantity: cap,
+      message:
+        plan === "anon"
+          ? `Plano anônimo limita ${cap} itens por chamada. Faça login (grátis) pra gerar até ${PLAN_MAX_QUANTITY.free}/chamada.`
+          : plan === "free"
+          ? `Plano Free limita ${cap} itens por chamada. Plano Dev (R$29/mês) libera ${PLAN_MAX_QUANTITY.dev}/chamada.`
+          : `Seu plano (${plan}) limita ${cap} itens por chamada.`,
+      upgrade: {
+        free: { max_quantity: PLAN_MAX_QUANTITY.free, action: "Criar conta grátis", url: "https://fakeforge.com.br/login" },
+        dev: { max_quantity: PLAN_MAX_QUANTITY.dev, price: "R$29/mês", url: "https://fakeforge.com.br/pricing?plan=dev" },
+        team: { max_quantity: PLAN_MAX_QUANTITY.team, price: "R$79/mês", url: "https://fakeforge.com.br/pricing?plan=team" },
+      },
+    },
+    { status: 400, headers }
+  );
 }
 
 function logUsage(
@@ -95,10 +153,14 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
 
+    const cap = getMaxQuantity(rateLimit.plan);
+
     // Schema mode
     if (body.schema) {
       const fields = body.schema as SchemaField[];
-      const qty = Math.min(Math.max(1, Number(body.quantity || 10)), 10000);
+      const requested = Math.max(1, Number(body.quantity || 10));
+      if (requested > cap) return quantityExceededResponse(rateLimit.plan, requested, cap, rateLimit.headers);
+      const qty = Math.min(requested, cap);
       const format = body.format || "json";
       const data = generateSchema(fields, qty);
       return formatResponse(data, "schema", qty, format, rateLimit.headers);
@@ -113,7 +175,9 @@ export async function POST(request: NextRequest) {
           { status: 400, headers: rateLimit.headers }
         );
       }
-      const qty = Math.min(Math.max(1, Number(body.quantity || 10)), 10000);
+      const requested = Math.max(1, Number(body.quantity || 10));
+      if (requested > cap) return quantityExceededResponse(rateLimit.plan, requested, cap, rateLimit.headers);
+      const qty = Math.min(requested, cap);
       const format = body.format || "json";
       const data = generateSchema(preset, qty);
       return formatResponse(data, body.preset, qty, format, rateLimit.headers);
@@ -129,7 +193,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const qty = Math.min(Math.max(1, Number(quantity)), 10000);
+    const requested = Math.max(1, Number(quantity));
+    if (requested > cap) return quantityExceededResponse(rateLimit.plan, requested, cap, rateLimit.headers);
+    const qty = Math.min(requested, cap);
     const data = generate({ type: type as DataType, quantity: qty, formatted });
     logUsage(rateLimit, type, qty);
     return formatResponse(data, type, qty, format, rateLimit.headers);
@@ -159,6 +225,8 @@ export async function GET(request: NextRequest) {
   const quantity = Number(params.get("quantity") || "10");
   const formatted = params.get("formatted") !== "false";
 
+  const cap = getMaxQuantity(rateLimit.plan);
+
   // Preset mode via GET
   if (preset) {
     const schema = SCHEMA_PRESETS[preset as keyof typeof SCHEMA_PRESETS];
@@ -168,7 +236,9 @@ export async function GET(request: NextRequest) {
         { status: 400, headers: rateLimit.headers }
       );
     }
-    const qty = Math.min(Math.max(1, quantity), 10000);
+    const requested = Math.max(1, quantity);
+    if (requested > cap) return quantityExceededResponse(rateLimit.plan, requested, cap, rateLimit.headers);
+    const qty = Math.min(requested, cap);
     const data = generateSchema(schema, qty);
     logUsage(rateLimit, `preset:${preset}`, qty);
     return NextResponse.json({ preset, quantity: qty, data }, { headers: rateLimit.headers });
@@ -177,7 +247,7 @@ export async function GET(request: NextRequest) {
   if (!type || !DATA_TYPES.find((t) => t.value === type)) {
     return NextResponse.json({
       message: "FakeForge BR API - Brazilian Test Data Generator",
-      version: "0.2.0",
+      version: "0.3.0",
       usage: {
         single: "GET /api/generate?type=cpf&quantity=10",
         preset: "GET /api/generate?preset=customer&quantity=5",
@@ -185,11 +255,16 @@ export async function GET(request: NextRequest) {
       },
       types: DATA_TYPES.map((t) => ({ value: t.value, label: t.label, description: t.description })),
       presets: Object.keys(SCHEMA_PRESETS),
-      limits: { maxQuantity: 10000, freeApiCalls: "100/day" },
+      limits: {
+        maxQuantityPerCall: PLAN_MAX_QUANTITY,
+        callsPerDay: { anon: 50, free: 50, dev: 10000, team: 100000 },
+      },
     }, { headers: rateLimit.headers });
   }
 
-  const qty = Math.min(Math.max(1, quantity), 10000);
+  const requested = Math.max(1, quantity);
+  if (requested > cap) return quantityExceededResponse(rateLimit.plan, requested, cap, rateLimit.headers);
+  const qty = Math.min(requested, cap);
   const data = generate({ type: type as DataType, quantity: qty, formatted });
   logUsage(rateLimit, type, qty);
   return NextResponse.json({ type, quantity: qty, data }, { headers: rateLimit.headers });
