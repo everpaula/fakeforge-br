@@ -77,6 +77,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // Validadores
     { url: `${baseUrl}/validar-cpf`, lastModified: D.may15, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/validar-cnpj`, lastModified: D.may15, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${baseUrl}/algoritmo-luhn`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
 
     // Docs + blog index
     { url: `${baseUrl}/docs`, lastModified: D.jun01, changeFrequency: "monthly", priority: 0.7 },
@@ -113,15 +114,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/blog/como-gerar-cpf-valido-python-testes`, lastModified: D.may26, changeFrequency: "monthly", priority: 0.85 },
     { url: `${baseUrl}/blog/gerador-placa-mercosul-teste-software`, lastModified: D.may26, changeFrequency: "monthly", priority: 0.85 },
     { url: `${baseUrl}/blog/fakeforge-vs-fakerjs-vs-4devs`, lastModified: D.may26, changeFrequency: "monthly", priority: 0.8 },
-    { url: `${baseUrl}/blog/popular-banco-dados-ficticios`, lastModified: D.apr15, changeFrequency: "monthly", priority: 0.8 },
-    { url: `${baseUrl}/blog/testar-pix-desenvolvimento`, lastModified: D.apr15, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/blog/algoritmo-luhn-cartao-credito`, lastModified: D.apr15, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/blog/validacao-cnpj-nodejs`, lastModified: D.apr15, changeFrequency: "monthly", priority: 0.8 },
-    { url: `${baseUrl}/blog/dados-teste-pix-checkout`, lastModified: D.apr15, changeFrequency: "monthly", priority: 0.8 },
-    { url: `${baseUrl}/blog/como-testar-cpf-em-staging`, lastModified: D.apr15, changeFrequency: "monthly", priority: 0.8 },
-    { url: `${baseUrl}/blog/como-gerar-cpf-para-testes`, lastModified: D.apr15, changeFrequency: "monthly", priority: 0.8 },
-    { url: `${baseUrl}/blog/lgpd-dados-de-teste`, lastModified: D.apr15, changeFrequency: "monthly", priority: 0.8 },
-    { url: `${baseUrl}/blog/automatizar-dados-teste-ci-cd`, lastModified: D.apr15, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${baseUrl}/blog/automatizar-dados-teste-ci-cd`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/blog/popular-banco-dados-brasileiros-staging-completo`, lastModified: D.home, changeFrequency: "monthly", priority: 0.95 },
 
     // Páginas institucionais
     { url: `${baseUrl}/pricing`, lastModified: D.jun01, changeFrequency: "monthly", priority: 0.6 },

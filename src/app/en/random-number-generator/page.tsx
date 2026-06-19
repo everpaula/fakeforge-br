@@ -4,6 +4,7 @@ import PageShell from "@/components/PageShell";
 import SingleGenerator from "@/components/SingleGenerator";
 import GeneratorSchema from "@/components/GeneratorSchema";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
+import RelatedEnGenerators from "@/components/RelatedEnGenerators";
 
 export const metadata: Metadata = {
   title: "Random 4-Digit Code Generator: Free OTP & Verification Numbers",
@@ -125,16 +126,7 @@ curl "https://fakeforge.com.br/api/generate?type=random8&quantity=500" \\
           </p>
         </section>
 
-        <section>
-          <h2 className="text-lg font-semibold text-foreground mb-2">Other developer tools</h2>
-          <div className="flex flex-wrap gap-2 mt-2">
-            <Link href="/en/cpf-generator" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">CPF Generator</Link>
-            <Link href="/en/cnpj-generator" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">CNPJ Generator</Link>
-            <Link href="/en/credit-card-generator" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Credit Card Generator</Link>
-            <Link href="/en/person-generator" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Person Generator</Link>
-            <Link href="/docs" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">REST API Docs</Link>
-          </div>
-        </section>
+        <RelatedEnGenerators currentSlug="random-number-generator" />
       </div>
 
       <BreadcrumbSchema items={[

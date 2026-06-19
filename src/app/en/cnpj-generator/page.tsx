@@ -4,6 +4,7 @@ import PageShell from "@/components/PageShell";
 import SingleGenerator from "@/components/SingleGenerator";
 import GeneratorSchema from "@/components/GeneratorSchema";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
+import RelatedEnGenerators from "@/components/RelatedEnGenerators";
 
 export const metadata: Metadata = {
   title: "Brazilian CNPJ Generator: Valid Tax IDs for B2B Software Testing",
@@ -110,15 +111,7 @@ curl -X POST "https://fakeforge.com.br/api/generate" \\
           </p>
         </section>
 
-        <section>
-          <h2 className="text-lg font-semibold text-foreground mb-2">Other Brazilian generators</h2>
-          <div className="flex flex-wrap gap-2 mt-2">
-            <Link href="/en/cpf-generator" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">CPF Generator</Link>
-            <Link href="/en/cep-generator" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">CEP (Postal Code) Generator</Link>
-            <Link href="/gerador-empresa" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Full Company Generator</Link>
-            <Link href="/docs" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">REST API Docs</Link>
-          </div>
-        </section>
+        <RelatedEnGenerators currentSlug="cnpj-generator" />
       </div>
 
       <BreadcrumbSchema items={[
