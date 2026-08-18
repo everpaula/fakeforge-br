@@ -122,8 +122,8 @@ export default function PricingClient() {
       <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mb-8 text-xs text-muted">
         <span className="flex items-center gap-1.5"><span className="text-success">✓</span> Cancele quando quiser</span>
         <span className="flex items-center gap-1.5"><span className="text-success">✓</span> Sem fidelidade</span>
-        <span className="flex items-center gap-1.5"><span className="text-success">✓</span> Pix, cartão ou boleto</span>
-        <span className="flex items-center gap-1.5"><span className="text-success">✓</span> Nota fiscal</span>
+        <span className="flex items-center gap-1.5"><span className="text-success">✓</span> Cartão de crédito</span>
+        <span className="flex items-center gap-1.5"><span className="text-success">✓</span> Cobrança em BRL</span>
       </div>
 
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -180,8 +180,8 @@ export default function PricingClient() {
 
       <div className="md:col-span-3 mt-4 text-center">
         <p className="text-xs text-muted">
-          Pagamento via Mercado Pago. Pix, cartão de crédito ou boleto.
-          Cancele a qualquer momento.
+          Pagamento seguro via Stripe. Cartão de crédito internacional (Visa, Mastercard, Amex, Elo).
+          Cobrança em BRL. Cancele a qualquer momento.
         </p>
       </div>
     </div>
@@ -208,7 +208,7 @@ export default function PricingClient() {
               <span className="text-success">🔒</span>
             </div>
             <p className="text-xs font-medium text-foreground">Dados seguros</p>
-            <p className="text-[11px] text-muted-foreground mt-1">Pagamento via Mercado Pago. Nenhum cartão armazenado no FakeForge.</p>
+            <p className="text-[11px] text-muted-foreground mt-1">Pagamento via Stripe (PCI-DSS Level 1). Nenhum cartão armazenado no FakeForge.</p>
           </div>
         </div>
       </div>
@@ -279,7 +279,7 @@ export default function PricingClient() {
             },
             {
               q: "Aceita quais formas de pagamento?",
-              a: "Cartão de crédito, Pix e boleto via Mercado Pago.",
+              a: "Cartão de crédito internacional (Visa, Mastercard, Amex, Elo) via Stripe. Cobrança em BRL. Cartões nacionais que aceitam compra internacional funcionam (Nubank, Inter, C6, Itaú Personnalité e a maioria dos bancos digitais). Boleto e PIX ainda não disponíveis nesse gateway.",
             },
             {
               q: "A geração pelo site continua grátis?",

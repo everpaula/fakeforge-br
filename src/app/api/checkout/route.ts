@@ -1,20 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
-import { MercadoPagoConfig, Preference } from "mercadopago";
 import { createServerClient } from "@supabase/ssr";
+import { createClient } from "@supabase/supabase-js";
 import { cookies } from "next/headers";
+import { getStripe, STRIPE_PRICE_IDS, type StripePlan } from "@/lib/stripe";
 
-const PLANS = {
-  dev: {
-    title: "FakeForge BR - Plano Dev",
-    price: 29,
-    description: "10.000 requests/dia, API keys, Schema builder",
-  },
-  team: {
-    title: "FakeForge BR - Plano Team",
-    price: 79,
-    description: "100.000 requests/dia, Multiplas API keys, Schemas salvos",
-  },
-};
+function getAdminSupabase() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+}
 
 export async function POST(request: NextRequest) {
   const cookieStore = await cookies();
@@ -38,84 +33,70 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const planId = body.plan as keyof typeof PLANS;
-    const plan = PLANS[planId];
+    const plan = body.plan as StripePlan;
 
-    if (!plan) {
+    if (plan !== "dev" && plan !== "team") {
       return NextResponse.json({ error: "Invalid plan" }, { status: 400 });
     }
 
-    const accessToken = process.env.MP_ACCESS_TOKEN?.trim();
-    if (!accessToken) {
-      return NextResponse.json({ error: "Payment not configured" }, { status: 500 });
+    const priceId = STRIPE_PRICE_IDS[plan];
+    if (!priceId) {
+      return NextResponse.json({ error: "Price not configured" }, { status: 500 });
     }
 
-    const client = new MercadoPagoConfig({ accessToken });
-    const preference = new Preference(client);
+    const rawBaseUrl = process.env.NEXT_PUBLIC_BASE_URL?.trim() || "https://fakeforge.com.br";
+    const baseUrl = rawBaseUrl.replace(/\/$/, "");
 
-    const rawBaseUrl = process.env.NEXT_PUBLIC_BASE_URL?.trim() || "http://localhost:3000";
-    // Normalize: strip trailing slash, force https for non-localhost
-    let baseUrl = rawBaseUrl.replace(/\/$/, "");
-    const isLocalhost = baseUrl.includes("localhost") || baseUrl.includes("127.0.0.1");
-    if (!isLocalhost && baseUrl.startsWith("http://")) {
-      baseUrl = baseUrl.replace("http://", "https://");
+    // Reusa Stripe customer se já existir pro user (evita duplicar customers)
+    let stripeCustomerId: string | undefined;
+    const admin = getAdminSupabase();
+    const { data: existing } = await admin
+      .from("subscriptions")
+      .select("stripe_customer_id")
+      .eq("user_id", user.id)
+      .not("stripe_customer_id", "is", null)
+      .single();
+    if (existing?.stripe_customer_id) {
+      stripeCustomerId = existing.stripe_customer_id;
     }
 
-    // Build preference body. MP rejects back_urls with query strings when
-    // auto_return is set, so we use clean paths and let dashboard detect state.
-    const preferenceBody: Parameters<typeof preference.create>[0]["body"] = {
-      items: [
-        {
-          id: `fakeforge_${planId}`,
-          title: plan.title,
-          description: plan.description,
-          quantity: 1,
-          unit_price: plan.price,
-          currency_id: "BRL",
+    const stripe = getStripe();
+    const session = await stripe.checkout.sessions.create({
+      mode: "subscription",
+      payment_method_types: ["card"],
+      line_items: [{ price: priceId, quantity: 1 }],
+      ...(stripeCustomerId
+        ? { customer: stripeCustomerId }
+        : { customer_email: user.email || undefined }),
+      client_reference_id: user.id,
+      subscription_data: {
+        metadata: {
+          user_id: user.id,
+          plan,
+          user_email: user.email || "",
         },
-      ],
-      payer: {
-        email: user.email || "",
       },
-      ...(isLocalhost ? {} : {
-        back_urls: {
-          success: `${baseUrl}/dashboard`,
-          failure: `${baseUrl}/pricing`,
-          pending: `${baseUrl}/dashboard`,
-        },
-        auto_return: "approved" as const,
-      }),
       metadata: {
         user_id: user.id,
-        plan: planId,
-        user_email: user.email,
+        plan,
+        user_email: user.email || "",
       },
-      statement_descriptor: "FAKEFORGE BR",
-    };
+      success_url: `${baseUrl}/subscription/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${baseUrl}/pricing?canceled=1`,
+      allow_promotion_codes: true,
+      billing_address_collection: "auto",
+      locale: "pt-BR",
+    });
 
-    // MP rejects localhost notification URLs
-    if (!isLocalhost) {
-      preferenceBody.notification_url = `${baseUrl}/api/webhooks/mercadopago`;
+    if (!session.url) {
+      console.error("Stripe session missing URL:", session.id);
+      return NextResponse.json({ error: "Checkout URL não gerada pelo Stripe" }, { status: 500 });
     }
 
-    const result = await preference.create({ body: preferenceBody });
-
-    if (!result.init_point) {
-      console.error("MP response missing init_point:", JSON.stringify(result).slice(0, 500));
-      return NextResponse.json({ error: "Checkout URL não gerada pelo Mercado Pago" }, { status: 500 });
-    }
-
-    return NextResponse.json({ checkout_url: result.init_point });
+    return NextResponse.json({ checkout_url: session.url });
   } catch (error: unknown) {
-    let errMsg = "Erro desconhecido";
-    if (error instanceof Error) {
-      errMsg = error.message;
-    } else if (typeof error === "object" && error !== null) {
-      errMsg = JSON.stringify(error);
-    } else {
-      errMsg = String(error);
-    }
-    console.error("Checkout error:", errMsg);
-    return NextResponse.json({ error: errMsg }, { status: 500 });
+    const msg = error instanceof Error ? error.message : String(error);
+    console.error("Stripe checkout error:", msg);
+    return NextResponse.json({ error: msg }, { status: 500 });
   }
 }
