@@ -32,7 +32,7 @@ export default function QuotaOfferCard({ requested, delivered, plan, generatorTy
   const nextLabel = isAnon ? "conta grátis" : plan === "free" ? "plano Dev (R$29/mês)" : "plano Team (R$79/mês)";
 
   return (
-    <div className="mt-3 rounded-xl bg-primary/5 border border-primary/25 p-4 animate-fade-in">
+    <div className="mt-3 rounded-xl bg-accent/5 border border-accent/30 p-4 animate-fade-in">
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
         <div className="flex-1">
           <p className="text-sm font-semibold text-foreground">
@@ -41,7 +41,7 @@ export default function QuotaOfferCard({ requested, delivered, plan, generatorTy
           <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">
             Plano <span className="font-medium text-foreground">{isAnon ? "anônimo" : plan}</span> limita{" "}
             {delivered} itens por chamada. Com {nextLabel} você libera{" "}
-            <span className="font-medium text-foreground">{nextCap.toLocaleString()}/chamada</span>.
+            <span className="font-medium text-accent">{nextCap.toLocaleString()}/chamada</span>.
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2 shrink-0">
@@ -49,7 +49,7 @@ export default function QuotaOfferCard({ requested, delivered, plan, generatorTy
             <Link
               href="/login"
               onClick={() => handleClick("signup")}
-              className="px-4 py-2 rounded-lg text-xs font-semibold bg-primary text-white hover:bg-primary-hover transition-colors whitespace-nowrap"
+              className="group px-5 py-2.5 rounded-lg text-xs font-bold bg-accent text-white shadow-lg shadow-accent/30 hover:shadow-accent/60 hover:bg-accent/90 hover:-translate-y-0.5 active:translate-y-0 transition-all whitespace-nowrap inline-flex items-center gap-1.5"
             >
               Criar conta grátis (100/call)
             </Link>
@@ -58,7 +58,7 @@ export default function QuotaOfferCard({ requested, delivered, plan, generatorTy
             <Link
               href="/pricing?plan=dev&ref=quota"
               onClick={() => handleClick("dev")}
-              className="px-4 py-2 rounded-lg text-xs font-semibold bg-primary text-white hover:bg-primary-hover transition-colors whitespace-nowrap"
+              className="group px-5 py-2.5 rounded-lg text-xs font-bold bg-accent text-white shadow-lg shadow-accent/30 hover:shadow-accent/60 hover:bg-accent/90 hover:-translate-y-0.5 active:translate-y-0 transition-all whitespace-nowrap inline-flex items-center gap-1.5"
             >
               Assinar Dev · R$29/mês
             </Link>
@@ -67,7 +67,7 @@ export default function QuotaOfferCard({ requested, delivered, plan, generatorTy
             <Link
               href="/pricing?plan=team&ref=quota"
               onClick={() => handleClick("team")}
-              className="px-4 py-2 rounded-lg text-xs font-semibold bg-primary text-white hover:bg-primary-hover transition-colors whitespace-nowrap"
+              className="group px-5 py-2.5 rounded-lg text-xs font-bold bg-accent text-white shadow-lg shadow-accent/30 hover:shadow-accent/60 hover:bg-accent/90 hover:-translate-y-0.5 active:translate-y-0 transition-all whitespace-nowrap inline-flex items-center gap-1.5"
             >
               Upgrade Team · R$79/mês
             </Link>

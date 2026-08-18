@@ -60,7 +60,7 @@ export default function PostCopyCard({ generatorType, quantity, onDismiss }: Pro
 
   return (
     <div
-      className="mt-3 rounded-lg bg-primary/5 border border-primary/25 p-3 sm:p-4 animate-fade-in flex flex-col sm:flex-row sm:items-center gap-3"
+      className="mt-3 rounded-lg bg-accent/5 border border-accent/30 p-3 sm:p-4 animate-fade-in flex flex-col sm:flex-row sm:items-center gap-3"
       role="status"
     >
       <div className="flex-1 min-w-0">
@@ -75,9 +75,12 @@ export default function PostCopyCard({ generatorType, quantity, onDismiss }: Pro
         <Link
           href="/login"
           onClick={() => handleClick("signup")}
-          className="px-4 py-2 rounded-lg text-xs font-semibold bg-primary text-white hover:bg-primary-hover transition-colors whitespace-nowrap"
+          className="px-5 py-2.5 rounded-lg text-xs font-bold bg-accent text-white shadow-lg shadow-accent/30 hover:shadow-accent/60 hover:bg-accent/90 hover:-translate-y-0.5 active:translate-y-0 transition-all whitespace-nowrap inline-flex items-center gap-1.5"
         >
           Criar conta grátis
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M5 12h14M13 5l7 7-7 7" />
+          </svg>
         </Link>
         <button
           onClick={handleDismiss}
