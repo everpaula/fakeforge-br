@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import QuotaMeter from "@/components/QuotaMeter";
 
 interface ApiKey {
   id: string;
@@ -195,6 +196,11 @@ export default function DashboardClient({ userId, userEmail }: { userId: string;
             Sair
           </button>
         </div>
+      </div>
+
+      {/* Quota meter — loss aversion pra upgrade */}
+      <div className="mb-6">
+        <QuotaMeter variant="full" />
       </div>
 
       {/* Quick access to generators */}

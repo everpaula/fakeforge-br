@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
 import Logo from "@/components/Logo";
+import { track } from "@/lib/analytics";
 
 function LoginInner() {
   const searchParams = useSearchParams();
@@ -49,6 +50,8 @@ function LoginInner() {
     setLoading(true);
     setError("");
 
+    track("signup_click", { method: "magic_link", has_intent_plan: !!intentPlan, has_redirect: !!redirect });
+
     const { error } = await supabase!.auth.signInWithOtp({
       email,
       options: { emailRedirectTo: `${window.location.origin}/auth/callback` },
@@ -63,6 +66,7 @@ function LoginInner() {
   }
 
   async function handleGitHub() {
+    track("signup_click", { method: "github", has_intent_plan: !!intentPlan, has_redirect: !!redirect });
     await supabase!.auth.signInWithOAuth({
       provider: "github",
       options: { redirectTo: `${window.location.origin}/auth/callback` },

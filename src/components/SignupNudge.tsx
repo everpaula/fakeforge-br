@@ -6,8 +6,32 @@ import { track } from "@/lib/analytics";
 
 const STORAGE_KEY = "ff_gen_count";
 const DISMISS_KEY = "ff_nudge_dismissed_until";
+const TYPES_KEY = "ff_types_touched";
 const TRIGGER_AT = 5;
 const DISMISS_DAYS = 7;
+
+function readTypesTouched(): string[] {
+  if (typeof window === "undefined") return [];
+  try {
+    return JSON.parse(window.sessionStorage.getItem(TYPES_KEY) || "[]");
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * Marca que a sessão atual tocou um novo generator type. Retorna
+ * o total de types distintos tocados até agora. Persiste em sessionStorage
+ * (limpa quando aba fecha). Chamado do SingleGenerator após generate.
+ */
+export function markGeneratorTypeTouched(type: string): number {
+  if (typeof window === "undefined") return 0;
+  const existing = readTypesTouched();
+  if (existing.includes(type)) return existing.length;
+  const next = [...existing, type];
+  window.sessionStorage.setItem(TYPES_KEY, JSON.stringify(next));
+  return next.length;
+}
 
 function readCount(): number {
   if (typeof window === "undefined") return 0;
@@ -36,7 +60,8 @@ export function useGenerationNudge() {
     const now = Date.now();
     if (count >= TRIGGER_AT && now > dismissedUntil) {
       setShow(true);
-      track("nudge_shown", { source: "generation_count", count });
+      const variant = readTypesTouched().length >= 2 ? "evaluating_dev" : "default";
+      track("nudge_shown", { source: "generation_count", count, variant });
     }
   }, []);
 
@@ -47,7 +72,8 @@ export function useGenerationNudge() {
     const dismissedUntil = readDismissedUntil();
     if (next >= TRIGGER_AT && Date.now() > dismissedUntil && !show) {
       setShow(true);
-      track("nudge_shown", { source: "generation_count", count: next });
+      const variant = readTypesTouched().length >= 2 ? "evaluating_dev" : "default";
+      track("nudge_shown", { source: "generation_count", count: next, variant });
     }
   }
 
@@ -56,24 +82,45 @@ export function useGenerationNudge() {
     const until = Date.now() + DISMISS_DAYS * 24 * 60 * 60 * 1000;
     window.localStorage.setItem(DISMISS_KEY, String(until));
     setShow(false);
-    track("nudge_dismissed", { source: "generation_count" });
+    const variant = readTypesTouched().length >= 2 ? "evaluating_dev" : "default";
+    track("nudge_dismissed", { source: "generation_count", variant });
   }
 
   return { show, bump, dismiss };
 }
 
 export function SignupNudge({ onDismiss }: { onDismiss: () => void }) {
+  const [isEvaluatingDev, setIsEvaluatingDev] = useState(false);
+
+  useEffect(() => {
+    // Se tocou 2+ generator types nesta sessão, é um "evaluating dev" — muda o pitch
+    setIsEvaluatingDev(readTypesTouched().length >= 2);
+  }, []);
+
   return (
     <div className="mt-4 rounded-xl bg-card border border-border p-5 animate-fade-in">
       <div className="flex flex-col sm:flex-row sm:items-center gap-4">
         <div className="flex-1">
-          <p className="text-sm font-semibold text-foreground">
-            Curtindo o gerador? Vai mais longe com uma conta grátis.
-          </p>
-          <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">
-            API key pessoal com 50 chamadas/dia, histórico de gerações, presets salvos
-            e prioridade para gerar lotes de até 10.000 itens.
-          </p>
+          {isEvaluatingDev ? (
+            <>
+              <p className="text-sm font-semibold text-foreground">
+                Testando tipos diferentes? Vai com preset correlacionado.
+              </p>
+              <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">
+                Conta grátis libera <strong className="text-foreground">preset customer</strong> — pessoa completa com CPF + email + endereço + telefone correlacionados em 1 chamada. Plus API key com 50 requests/dia pra automação.
+              </p>
+            </>
+          ) : (
+            <>
+              <p className="text-sm font-semibold text-foreground">
+                Curtindo o gerador? Vai mais longe com uma conta grátis.
+              </p>
+              <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">
+                API key pessoal com 50 chamadas/dia, histórico de gerações, presets salvos
+                e prioridade para gerar lotes de até 10.000 itens.
+              </p>
+            </>
+          )}
         </div>
         <div className="flex items-center gap-2 shrink-0">
           <Link

@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from "react";
 import type { DataType } from "@/lib/generators";
-import { useGenerationNudge, SignupNudge } from "@/components/SignupNudge";
+import { useGenerationNudge, SignupNudge, markGeneratorTypeTouched } from "@/components/SignupNudge";
 import CopyAsDropdown from "@/components/CopyAsDropdown";
 import PostCopyCard from "@/components/PostCopyCard";
 import QuotaOfferCard from "@/components/QuotaOfferCard";
@@ -59,12 +59,14 @@ export default function SingleGenerator({ type, label, description, maxQuantity 
         });
         const cappedData = await cappedRes.json();
         setResults(cappedData.data || null);
+        const totalRateLimit = markGeneratorTypeTouched(type);
         track("rate_limit_hit", { generator_type: type, requested: data.requested, delivered: data.max_quantity, plan: data.plan });
-        track("generator_type_touched", { generator_type: type, delivered: data.max_quantity });
+        track("generator_type_touched", { generator_type: type, total_types: totalRateLimit });
       } else {
         setResults(data.data);
+        const totalTypes = markGeneratorTypeTouched(type);
         track("generation_success", { generator_type: type, quantity: data.quantity ?? quantity });
-        track("generator_type_touched", { generator_type: type });
+        track("generator_type_touched", { generator_type: type, total_types: totalTypes });
       }
       nudge.bump();
     } catch {
