@@ -3,12 +3,22 @@
 import { useState, useCallback } from "react";
 import type { DataType } from "@/lib/generators";
 import { useGenerationNudge, SignupNudge } from "@/components/SignupNudge";
+import CopyAsDropdown from "@/components/CopyAsDropdown";
+import PostCopyCard from "@/components/PostCopyCard";
+import QuotaOfferCard from "@/components/QuotaOfferCard";
+import { track } from "@/lib/analytics";
 
 interface Props {
   type: DataType;
   label: string;
   description: string;
   maxQuantity?: number;
+}
+
+interface QuotaOffer {
+  requested: number;
+  delivered: number;
+  plan: string;
 }
 
 export default function SingleGenerator({ type, label, description, maxQuantity = 100 }: Props) {
@@ -18,11 +28,14 @@ export default function SingleGenerator({ type, label, description, maxQuantity 
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
+  const [showPostCopy, setShowPostCopy] = useState(false);
+  const [quotaOffer, setQuotaOffer] = useState<QuotaOffer | null>(null);
   const nudge = useGenerationNudge();
 
   const handleGenerate = useCallback(async () => {
     setLoading(true);
     setCopied(false);
+    setQuotaOffer(null);
     try {
       const res = await fetch("/api/generate", {
         method: "POST",
@@ -30,7 +43,29 @@ export default function SingleGenerator({ type, label, description, maxQuantity 
         body: JSON.stringify({ type, quantity, formatted }),
       });
       const data = await res.json();
-      setResults(data.data);
+
+      // Quantity cap virou oferta contextual (não erro)
+      if (!res.ok && data.error === "quantity_limit_exceeded") {
+        setQuotaOffer({
+          requested: data.requested,
+          delivered: data.max_quantity,
+          plan: data.plan,
+        });
+        // Ainda entrega o que couber no cap pra manter UX útil
+        const cappedRes = await fetch("/api/generate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "x-fakeforge-client": "web" },
+          body: JSON.stringify({ type, quantity: data.max_quantity, formatted }),
+        });
+        const cappedData = await cappedRes.json();
+        setResults(cappedData.data || null);
+        track("rate_limit_hit", { generator_type: type, requested: data.requested, delivered: data.max_quantity, plan: data.plan });
+        track("generator_type_touched", { generator_type: type, delivered: data.max_quantity });
+      } else {
+        setResults(data.data);
+        track("generation_success", { generator_type: type, quantity: data.quantity ?? quantity });
+        track("generator_type_touched", { generator_type: type });
+      }
       nudge.bump();
     } catch {
       setResults(null);
@@ -44,6 +79,7 @@ export default function SingleGenerator({ type, label, description, maxQuantity 
     await navigator.clipboard.writeText(text);
     setCopiedIndex(index);
     setTimeout(() => setCopiedIndex(null), 1500);
+    track("copy_button_clicked", { generator_type: type, mode: "item", index });
   }
 
   async function handleCopyAll() {
@@ -52,6 +88,8 @@ export default function SingleGenerator({ type, label, description, maxQuantity 
     await navigator.clipboard.writeText(text);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+    track("copy_button_clicked", { generator_type: type, mode: "all", count: results.length });
+    setShowPostCopy(true);
   }
 
   return (
@@ -94,19 +132,28 @@ export default function SingleGenerator({ type, label, description, maxQuantity 
 
       {/* Results */}
       <div className="rounded-xl bg-card border border-border overflow-hidden">
-        <div className="flex items-center justify-between px-4 py-2.5 border-b border-border">
-          <span className="text-xs text-muted-foreground">
+        <div className="flex items-center justify-between gap-2 px-4 py-2.5 border-b border-border">
+          <span className="text-xs text-muted-foreground truncate">
             {results ? `${results.length} resultados` : description}
           </span>
           {results && (
-            <button
-              onClick={handleCopyAll}
-              className={`text-[11px] px-2.5 py-1 rounded-md font-medium transition-all ${
-                copied ? "bg-success text-white" : "text-muted-foreground hover:text-foreground hover:bg-background"
-              }`}
-            >
-              {copied ? "Copiado!" : "Copiar tudo"}
-            </button>
+            <div className="flex items-center gap-2 shrink-0">
+              <CopyAsDropdown
+                generatorType={type}
+                quantity={quantity}
+                formatted={formatted}
+                results={results}
+                compact
+              />
+              <button
+                onClick={handleCopyAll}
+                className={`text-[11px] px-2.5 py-1 rounded-md font-medium transition-all ${
+                  copied ? "bg-success text-white" : "text-muted-foreground hover:text-foreground hover:bg-background"
+                }`}
+              >
+                {copied ? "Copiado!" : "Copiar tudo"}
+              </button>
+            </div>
           )}
         </div>
 
@@ -142,7 +189,7 @@ export default function SingleGenerator({ type, label, description, maxQuantity 
                       <span className="text-[11px] font-mono text-muted w-7 text-right shrink-0">{String(i + 1).padStart(2, "0")}</span>
                       <span className="text-sm text-foreground truncate flex-1 font-mono">
                         {typeof item === "object" && item !== null
-                          ? Object.values(item as Record<string, unknown>).filter((v) => typeof v === "string").slice(0, 3).join("  \u00b7  ")
+                          ? Object.values(item as Record<string, unknown>).filter((v) => typeof v === "string").slice(0, 3).join("  ·  ")
                           : String(item)}
                       </span>
                       <button
@@ -166,6 +213,26 @@ export default function SingleGenerator({ type, label, description, maxQuantity 
           )}
         </div>
       </div>
+
+      {/* Rate limit vira oferta contextual */}
+      {quotaOffer && (
+        <QuotaOfferCard
+          requested={quotaOffer.requested}
+          delivered={quotaOffer.delivered}
+          plan={quotaOffer.plan}
+          generatorType={type}
+          onDismiss={() => setQuotaOffer(null)}
+        />
+      )}
+
+      {/* Post-copy conversion card (peak intent) */}
+      {showPostCopy && (
+        <PostCopyCard
+          generatorType={type}
+          quantity={results?.length || quantity}
+          onDismiss={() => setShowPostCopy(false)}
+        />
+      )}
 
       {nudge.show && <SignupNudge onDismiss={nudge.dismiss} />}
     </div>

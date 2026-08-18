@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { track } from "@/lib/analytics";
 
 const STORAGE_KEY = "ff_gen_count";
 const DISMISS_KEY = "ff_nudge_dismissed_until";
@@ -33,7 +34,10 @@ export function useGenerationNudge() {
     const count = readCount();
     const dismissedUntil = readDismissedUntil();
     const now = Date.now();
-    if (count >= TRIGGER_AT && now > dismissedUntil) setShow(true);
+    if (count >= TRIGGER_AT && now > dismissedUntil) {
+      setShow(true);
+      track("nudge_shown", { source: "generation_count", count });
+    }
   }, []);
 
   function bump() {
@@ -41,7 +45,10 @@ export function useGenerationNudge() {
     const next = readCount() + 1;
     window.localStorage.setItem(STORAGE_KEY, String(next));
     const dismissedUntil = readDismissedUntil();
-    if (next >= TRIGGER_AT && Date.now() > dismissedUntil) setShow(true);
+    if (next >= TRIGGER_AT && Date.now() > dismissedUntil && !show) {
+      setShow(true);
+      track("nudge_shown", { source: "generation_count", count: next });
+    }
   }
 
   function dismiss() {
@@ -49,6 +56,7 @@ export function useGenerationNudge() {
     const until = Date.now() + DISMISS_DAYS * 24 * 60 * 60 * 1000;
     window.localStorage.setItem(DISMISS_KEY, String(until));
     setShow(false);
+    track("nudge_dismissed", { source: "generation_count" });
   }
 
   return { show, bump, dismiss };
@@ -70,6 +78,7 @@ export function SignupNudge({ onDismiss }: { onDismiss: () => void }) {
         <div className="flex items-center gap-2 shrink-0">
           <Link
             href="/login"
+            onClick={() => track("nudge_clicked", { source: "generation_count" })}
             className="px-4 py-2 rounded-lg text-sm font-semibold bg-primary text-white hover:bg-primary-hover transition-colors whitespace-nowrap"
           >
             Criar conta grátis
