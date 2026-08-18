@@ -80,6 +80,7 @@ export default function SingleGenerator({ type, label, description, maxQuantity 
     setCopiedIndex(index);
     setTimeout(() => setCopiedIndex(null), 1500);
     track("copy_button_clicked", { generator_type: type, mode: "item", index });
+    setShowPostCopy(true);
   }
 
   async function handleCopyAll() {
@@ -144,6 +145,7 @@ export default function SingleGenerator({ type, label, description, maxQuantity 
                 formatted={formatted}
                 results={results}
                 compact
+                onCopy={() => setShowPostCopy(true)}
               />
               <button
                 onClick={handleCopyAll}

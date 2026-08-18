@@ -11,24 +11,36 @@ interface Props {
   onDismiss?: () => void;
 }
 
+const DISMISS_KEY = "ff_post_copy_dismissed_until";
+const DISMISS_HOURS = 6;
+
+function readDismissedUntil(): number {
+  if (typeof window === "undefined") return 0;
+  return Number(window.localStorage.getItem(DISMISS_KEY) || "0");
+}
+
 /**
- * Card inline que aparece no momento de pico de intenção — logo após o
- * usuário clicar "copiar tudo" ou "copiar como…". Não é modal (não
- * bloqueia a tela). Auto-dismiss em 12s se ignorado.
+ * Card inline no momento de pico de intenção — logo após o usuário
+ * copiar (item, tudo, ou via CopyAsDropdown). Não bloqueia tela.
+ * Auto-dismiss em 20s. Se user clica "Depois", cooldown de 6h.
  */
 export default function PostCopyCard({ generatorType, quantity, onDismiss }: Props) {
-  const [dismissed, setDismissed] = useState(false);
+  const [dismissed, setDismissed] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return Date.now() < readDismissedUntil();
+  });
 
   useEffect(() => {
+    if (dismissed) return;
     track("post_copy_card_shown", { generator_type: generatorType, quantity });
     const t = setTimeout(() => {
-      if (!dismissed) {
-        setDismissed(true);
-        onDismiss?.();
-      }
-    }, 12000);
+      setDismissed(true);
+      onDismiss?.();
+    }, 20000);
     return () => clearTimeout(t);
-  }, [generatorType, quantity, dismissed, onDismiss]);
+    // Intencional: só dispara evento na primeira render, não em cada mudança
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (dismissed) return null;
 
@@ -38,6 +50,10 @@ export default function PostCopyCard({ generatorType, quantity, onDismiss }: Pro
 
   function handleDismiss() {
     track("post_copy_card_dismissed", { generator_type: generatorType });
+    if (typeof window !== "undefined") {
+      const until = Date.now() + DISMISS_HOURS * 60 * 60 * 1000;
+      window.localStorage.setItem(DISMISS_KEY, String(until));
+    }
     setDismissed(true);
     onDismiss?.();
   }

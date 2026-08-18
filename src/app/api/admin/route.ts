@@ -103,6 +103,8 @@ export async function GET(request: NextRequest) {
     anon7d,
     anon30d,
     recentUsersData,
+    funnelEvents7d,
+    funnelEvents30d,
   ] = await Promise.all([
     admin.from("admin_metrics").select("*").single(),
     admin.from("admin_usage_by_type").select("*"),
@@ -120,6 +122,20 @@ export async function GET(request: NextRequest) {
       admin, "client_type, ip_hash, data_type, quantity, created_at", since30d,
     ),
     admin.auth.admin.listUsers({ page: 1, perPage: 30 }),
+    // Funnel events (Weekend 1 growth push). Se a tabela não existir ainda,
+    // trata como vazio silenciosamente.
+    admin.from("funnel_events")
+      .select("event_type, source_page, ip_hash, event_data, created_at")
+      .gte("created_at", since7d)
+      .order("created_at", { ascending: false })
+      .limit(10000)
+      .then((r) => ({ data: r.data || [], error: r.error })),
+    admin.from("funnel_events")
+      .select("event_type, source_page, ip_hash, event_data, created_at")
+      .gte("created_at", since30d)
+      .order("created_at", { ascending: false })
+      .limit(20000)
+      .then((r) => ({ data: r.data || [], error: r.error })),
   ]);
 
   // Recent users — list of last 30 sign-ups with email + created_at + last_sign_in
@@ -180,6 +196,85 @@ export async function GET(request: NextRequest) {
     total_items: Number(r.total_items) || 0,
   }));
 
+  // === FUNNEL EVENTS ANALYSIS ===
+  interface FunnelEvent {
+    event_type: string;
+    source_page: string | null;
+    ip_hash: string | null;
+    event_data: Record<string, unknown> | null;
+    created_at: string;
+  }
+  const events7d = (funnelEvents7d.data || []) as FunnelEvent[];
+  const events30d = (funnelEvents30d.data || []) as FunnelEvent[];
+
+  // Contagem por tipo (7d + 30d)
+  function countByType(list: FunnelEvent[]) {
+    const counts: Record<string, { total: number; uniqueVisitors: Set<string> }> = {};
+    for (const e of list) {
+      if (!counts[e.event_type]) counts[e.event_type] = { total: 0, uniqueVisitors: new Set() };
+      counts[e.event_type].total++;
+      if (e.ip_hash) counts[e.event_type].uniqueVisitors.add(e.ip_hash);
+    }
+    return Object.entries(counts)
+      .map(([event_type, v]) => ({ event_type, total: v.total, unique: v.uniqueVisitors.size }))
+      .sort((a, b) => b.total - a.total);
+  }
+
+  // Copy As format breakdown (últimos 30d)
+  const copyAsFormats: Record<string, number> = {};
+  for (const e of events30d) {
+    if (e.event_type === "copy_as_clicked") {
+      const format = (e.event_data?.format as string) || "unknown";
+      copyAsFormats[format] = (copyAsFormats[format] || 0) + 1;
+    }
+  }
+  const copyAsBreakdown = Object.entries(copyAsFormats)
+    .map(([format, count]) => ({ format, count }))
+    .sort((a, b) => b.count - a.count);
+
+  // Nudge & offer rates (30d)
+  function rate(numerator: number, denominator: number) {
+    if (denominator === 0) return 0;
+    return Math.round((numerator / denominator) * 1000) / 10; // 1 decimal
+  }
+  const countByTypeMap = (list: FunnelEvent[]): Record<string, number> => {
+    const m: Record<string, number> = {};
+    for (const e of list) m[e.event_type] = (m[e.event_type] || 0) + 1;
+    return m;
+  };
+  const map30d = countByTypeMap(events30d);
+  const conversion = {
+    nudge: {
+      shown: map30d.nudge_shown || 0,
+      clicked: map30d.nudge_clicked || 0,
+      dismissed: map30d.nudge_dismissed || 0,
+      clickRate: rate(map30d.nudge_clicked || 0, map30d.nudge_shown || 0),
+    },
+    postCopy: {
+      shown: map30d.post_copy_card_shown || 0,
+      clicked: map30d.post_copy_card_clicked || 0,
+      dismissed: map30d.post_copy_card_dismissed || 0,
+      clickRate: rate(map30d.post_copy_card_clicked || 0, map30d.post_copy_card_shown || 0),
+    },
+    quotaOffer: {
+      shown: map30d.quota_offer_shown || 0,
+      clicked: map30d.quota_offer_clicked || 0,
+      clickRate: rate(map30d.quota_offer_clicked || 0, map30d.quota_offer_shown || 0),
+    },
+    copyAs: {
+      total: map30d.copy_as_clicked || 0,
+      breakdown: copyAsBreakdown,
+    },
+    generations: map30d.generation_success || 0,
+    copyClicks: map30d.copy_button_clicked || 0,
+  };
+
+  const funnel = {
+    events7d: countByType(events7d),
+    events30d: countByType(events30d),
+    conversion,
+  };
+
   return NextResponse.json({
     metrics: metrics.data,
     usageByType: usageByType.data || [],
@@ -190,5 +285,6 @@ export async function GET(request: NextRequest) {
     anonByType,
     anonDaily,
     recentUsers,
+    funnel,
   });
 }

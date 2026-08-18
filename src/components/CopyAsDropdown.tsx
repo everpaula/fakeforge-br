@@ -12,6 +12,7 @@ interface Props {
   formatted: boolean;
   results: unknown[];
   compact?: boolean;
+  onCopy?: (format: Format) => void;
 }
 
 const LABELS: Record<Format, string> = {
@@ -133,7 +134,7 @@ function buildSql(type: DataType, results: unknown[]) {
   return "";
 }
 
-export default function CopyAsDropdown({ generatorType, quantity, formatted, results, compact }: Props) {
+export default function CopyAsDropdown({ generatorType, quantity, formatted, results, compact, onCopy }: Props) {
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState<Format | null>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -177,13 +178,15 @@ export default function CopyAsDropdown({ generatorType, quantity, formatted, res
       await navigator.clipboard.writeText(text);
       setCopied(format);
       track("copy_as_clicked", { generator_type: generatorType, format, quantity, has_results: results.length > 0 });
-      setTimeout(() => setCopied(null), 1800);
+      onCopy?.(format);
+      setTimeout(() => {
+        setCopied(null);
+        setOpen(false);
+      }, 1500);
     } catch {
       // ignore
     }
   }
-
-  const isApiFormat = (f: Format) => f === "curl" || f === "js" || f === "python" || f === "postman";
 
   return (
     <div ref={wrapperRef} className="relative">
@@ -237,13 +240,6 @@ export default function CopyAsDropdown({ generatorType, quantity, formatted, res
               )}
             </button>
           ))}
-
-          {/* Nudge sutil: quem clicou nos 4 primeiros formatos precisa de API key */}
-          {isApiFormat(copied || "curl") && copied && (
-            <div className="px-3 py-2 border-t border-border bg-primary/5 text-[11px] text-muted-foreground leading-snug">
-              Precisa da API key pra rodar. <a href="/login" className="text-primary hover:underline font-medium">Criar conta grátis</a> (50 chamadas/dia inclusas).
-            </div>
-          )}
         </div>
       )}
     </div>

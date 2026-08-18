@@ -66,6 +66,25 @@ interface AnonByType {
   api: number;
 }
 
+interface FunnelEventCount {
+  event_type: string;
+  total: number;
+  unique: number;
+}
+
+interface FunnelData {
+  events7d: FunnelEventCount[];
+  events30d: FunnelEventCount[];
+  conversion: {
+    nudge: { shown: number; clicked: number; dismissed: number; clickRate: number };
+    postCopy: { shown: number; clicked: number; dismissed: number; clickRate: number };
+    quotaOffer: { shown: number; clicked: number; clickRate: number };
+    copyAs: { total: number; breakdown: Array<{ format: string; count: number }> };
+    generations: number;
+    copyClicks: number;
+  };
+}
+
 interface AdminData {
   metrics: Metrics;
   usageByType: UsageByType[];
@@ -76,6 +95,7 @@ interface AdminData {
   anonByType: AnonByType[];
   anonDaily: DailyData[];
   recentUsers?: RecentUser[];
+  funnel?: FunnelData;
 }
 
 export default function AdminDashboard() {
@@ -427,6 +447,137 @@ export default function AdminDashboard() {
           </div>
         )}
 
+        {/* Funnel conversion metrics (Weekend 1 growth push) */}
+        {data.funnel && (
+          <section className="mt-10">
+            <div className="mb-4">
+              <h2 className="text-lg font-bold tracking-tight">Funil de conversão (últimos 30 dias)</h2>
+              <p className="text-xs text-muted-foreground mt-1">
+                Rastreamento de eventos comportamentais desde a instrumentação (18/ago). Base amostral cresce ao longo do tempo.
+              </p>
+            </div>
+
+            {/* Conversion cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
+              <FunnelCard
+                title="Gerações"
+                total={data.funnel.conversion.generations}
+                subtitle="Web geração bem-sucedida"
+              />
+              <FunnelCard
+                title="Cópias de resultado"
+                total={data.funnel.conversion.copyClicks}
+                subtitle="Copy button clicado"
+              />
+              <FunnelCard
+                title='"Copy as..." usado'
+                total={data.funnel.conversion.copyAs.total}
+                subtitle="Dropdown de formato aberto"
+              />
+              <FunnelCard
+                title="Rate limit ofertas"
+                total={data.funnel.conversion.quotaOffer.shown}
+                clicks={data.funnel.conversion.quotaOffer.clicked}
+                rate={data.funnel.conversion.quotaOffer.clickRate}
+                subtitle="Anon pediu > cap"
+              />
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+              {/* Nudge conversion */}
+              <div className="rounded-xl bg-card border border-border p-5">
+                <h3 className="text-sm font-semibold text-foreground mb-3">Signup nudge (5 gerações)</h3>
+                <div className="grid grid-cols-3 gap-3">
+                  <div>
+                    <p className="text-xl font-bold text-foreground">{data.funnel.conversion.nudge.shown}</p>
+                    <p className="text-[10px] text-muted uppercase tracking-wider mt-0.5">Exibições</p>
+                  </div>
+                  <div>
+                    <p className="text-xl font-bold text-primary">{data.funnel.conversion.nudge.clicked}</p>
+                    <p className="text-[10px] text-muted uppercase tracking-wider mt-0.5">Cliques</p>
+                  </div>
+                  <div>
+                    <p className="text-xl font-bold text-success">{data.funnel.conversion.nudge.clickRate}%</p>
+                    <p className="text-[10px] text-muted uppercase tracking-wider mt-0.5">CTR</p>
+                  </div>
+                </div>
+                <p className="text-[11px] text-muted-foreground mt-3">
+                  Dispensados: {data.funnel.conversion.nudge.dismissed}
+                </p>
+              </div>
+
+              {/* Post-copy card conversion */}
+              <div className="rounded-xl bg-card border border-border p-5">
+                <h3 className="text-sm font-semibold text-foreground mb-3">Post-copy card (peak intent)</h3>
+                <div className="grid grid-cols-3 gap-3">
+                  <div>
+                    <p className="text-xl font-bold text-foreground">{data.funnel.conversion.postCopy.shown}</p>
+                    <p className="text-[10px] text-muted uppercase tracking-wider mt-0.5">Exibições</p>
+                  </div>
+                  <div>
+                    <p className="text-xl font-bold text-primary">{data.funnel.conversion.postCopy.clicked}</p>
+                    <p className="text-[10px] text-muted uppercase tracking-wider mt-0.5">Cliques</p>
+                  </div>
+                  <div>
+                    <p className="text-xl font-bold text-success">{data.funnel.conversion.postCopy.clickRate}%</p>
+                    <p className="text-[10px] text-muted uppercase tracking-wider mt-0.5">CTR</p>
+                  </div>
+                </div>
+                <p className="text-[11px] text-muted-foreground mt-3">
+                  Dispensados: {data.funnel.conversion.postCopy.dismissed}
+                </p>
+              </div>
+            </div>
+
+            {/* Copy As format breakdown + all events by type */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="rounded-xl bg-card border border-border overflow-hidden">
+                <div className="px-5 py-3 border-b border-border">
+                  <h3 className="text-sm font-semibold">Formatos "Copy as..." mais usados</h3>
+                </div>
+                {data.funnel.conversion.copyAs.breakdown.length === 0 ? (
+                  <p className="text-xs text-muted text-center py-8">Sem dados ainda</p>
+                ) : (
+                  <div className="divide-y divide-border">
+                    {data.funnel.conversion.copyAs.breakdown.map((f) => (
+                      <div key={f.format} className="flex items-center justify-between px-5 py-2.5">
+                        <span className="text-sm font-mono text-primary">{f.format}</span>
+                        <span className="text-xs font-medium text-foreground">
+                          {f.count.toLocaleString()}
+                          <span className="text-muted ml-1 text-[10px]">cliques</span>
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <div className="rounded-xl bg-card border border-border overflow-hidden">
+                <div className="px-5 py-3 border-b border-border">
+                  <h3 className="text-sm font-semibold">Todos os eventos (30d)</h3>
+                </div>
+                {data.funnel.events30d.length === 0 ? (
+                  <p className="text-xs text-muted text-center py-8">
+                    Nenhum evento ainda. Rode a migration 010 no Supabase se ainda não fez.
+                  </p>
+                ) : (
+                  <div className="divide-y divide-border max-h-[380px] overflow-y-auto">
+                    {data.funnel.events30d.map((e) => (
+                      <div key={e.event_type} className="px-5 py-2 flex items-center justify-between">
+                        <span className="text-xs font-mono text-muted-foreground">{e.event_type}</span>
+                        <div className="text-right">
+                          <span className="text-xs font-medium text-foreground">{e.total.toLocaleString()}</span>
+                          <span className="text-[10px] text-muted ml-2">{e.unique} únicos</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          </section>
+        )}
+
         {/* Success metrics targets */}
         <div className="mt-8 rounded-xl bg-card border border-border p-6">
           <h2 className="text-sm font-semibold mb-4">Metas de sucesso</h2>
@@ -449,6 +600,21 @@ function MetricCard({ label, value, highlight = false }: { label: string; value:
         {value.toLocaleString()}
       </p>
       <p className="text-[11px] text-muted mt-0.5">{label}</p>
+    </div>
+  );
+}
+
+function FunnelCard({ title, total, subtitle, clicks, rate }: { title: string; total: number; subtitle?: string; clicks?: number; rate?: number }) {
+  return (
+    <div className="rounded-xl bg-card border border-border p-4">
+      <p className="text-[10px] text-muted uppercase tracking-wider">{title}</p>
+      <p className="text-2xl font-bold text-foreground mt-1">{total.toLocaleString()}</p>
+      {typeof rate === "number" && typeof clicks === "number" && (
+        <p className="text-[11px] text-primary mt-1">
+          <span className="font-medium">{clicks}</span> cliques · <span className="font-medium">{rate}%</span> CTR
+        </p>
+      )}
+      {subtitle && <p className="text-[11px] text-muted-foreground mt-1">{subtitle}</p>}
     </div>
   );
 }
