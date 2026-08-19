@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import QuotaMeter from "@/components/QuotaMeter";
+import FirstCallActivation from "@/components/FirstCallActivation";
 import { track } from "@/lib/analytics";
 
 interface ApiKey {
@@ -207,8 +208,16 @@ export default function DashboardClient({ userId, userEmail }: { userId: string;
         </div>
       </div>
 
+      {/* First call activation - Sprint Ago P0: passar 5.7% -> 25%+ ativação */}
+      {!loading && usageToday === 0 && apiKeys.filter(k => k.is_active).length > 0 && (
+        <FirstCallActivation
+          apiKey={apiKeys.filter(k => k.is_active)[0].key}
+          onActivated={loadData}
+        />
+      )}
+
       {/* Upsell hero — persistente pra Free, empurra Dev na primeira coisa que vê */}
-      {subscription.plan === "free" && (
+      {subscription.plan === "free" && usageToday > 0 && (
         <div className="mb-6 rounded-xl border border-accent/30 bg-gradient-to-br from-accent/10 via-accent/5 to-transparent p-5 sm:p-6">
           <div className="flex flex-col sm:flex-row sm:items-center gap-4">
             <div className="flex-1 min-w-0">
