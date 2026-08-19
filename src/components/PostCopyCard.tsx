@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { track } from "@/lib/analytics";
+import { useCurrentPlan } from "@/lib/useCurrentPlan";
 import type { DataType } from "@/lib/generators";
 
 interface Props {
@@ -25,31 +26,34 @@ function readDismissedUntil(): number {
  * Auto-dismiss em 20s. Se user clica "Depois", cooldown de 6h.
  */
 export default function PostCopyCard({ generatorType, quantity, onDismiss }: Props) {
+  const { plan, loading } = useCurrentPlan();
   const [dismissed, setDismissed] = useState(() => {
     if (typeof window === "undefined") return false;
     return Date.now() < readDismissedUntil();
   });
 
+  const shouldRender = !loading && !dismissed && plan !== "dev" && plan !== "team";
+
   useEffect(() => {
-    if (dismissed) return;
-    track("post_copy_card_shown", { generator_type: generatorType, quantity });
+    if (!shouldRender) return;
+    track("post_copy_card_shown", { generator_type: generatorType, quantity, plan });
     const t = setTimeout(() => {
       setDismissed(true);
       onDismiss?.();
     }, 20000);
     return () => clearTimeout(t);
-    // Intencional: só dispara evento na primeira render, não em cada mudança
+    // Intencional: só dispara evento na primeira render viável, não em cada mudança
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [shouldRender]);
 
-  if (dismissed) return null;
+  if (!shouldRender) return null;
 
-  function handleClick(target: "signup" | "docs") {
-    track("post_copy_card_clicked", { generator_type: generatorType, target });
+  function handleClick(target: "signup" | "upgrade" | "docs") {
+    track("post_copy_card_clicked", { generator_type: generatorType, target, plan });
   }
 
   function handleDismiss() {
-    track("post_copy_card_dismissed", { generator_type: generatorType });
+    track("post_copy_card_dismissed", { generator_type: generatorType, plan });
     if (typeof window !== "undefined") {
       const until = Date.now() + DISMISS_HOURS * 60 * 60 * 1000;
       window.localStorage.setItem(DISMISS_KEY, String(until));
@@ -58,30 +62,58 @@ export default function PostCopyCard({ generatorType, quantity, onDismiss }: Pro
     onDismiss?.();
   }
 
+  const isFree = plan === "free";
+
   return (
     <div
       className="mt-3 rounded-lg bg-accent/5 border border-accent/30 p-3 sm:p-4 animate-fade-in flex flex-col sm:flex-row sm:items-center gap-3"
       role="status"
     >
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-semibold text-foreground leading-tight">
-          Copiado ✓ Precisa de mais de {quantity} ou acesso via API?
-        </p>
-        <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
-          Conta grátis libera 100 itens por chamada e API key com 50 requests/dia. Signup em 20 segundos.
-        </p>
+        {isFree ? (
+          <>
+            <p className="text-sm font-semibold text-foreground leading-tight">
+              Copiado ✓ Precisa de mais de {quantity} por chamada?
+            </p>
+            <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
+              Plano Dev libera 10.000 itens/chamada e 10.000 requests/dia por R$29/mês. Cancela quando quiser.
+            </p>
+          </>
+        ) : (
+          <>
+            <p className="text-sm font-semibold text-foreground leading-tight">
+              Copiado ✓ Precisa de mais de {quantity} ou acesso via API?
+            </p>
+            <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
+              Conta grátis libera 100 itens por chamada e API key com 50 requests/dia. Signup em 20 segundos.
+            </p>
+          </>
+        )}
       </div>
       <div className="flex items-center gap-2 shrink-0">
-        <Link
-          href="/login"
-          onClick={() => handleClick("signup")}
-          className="px-5 py-2.5 rounded-lg text-xs font-bold bg-accent text-white shadow-lg shadow-accent/30 hover:shadow-accent/60 hover:bg-accent/90 hover:-translate-y-0.5 active:translate-y-0 transition-all whitespace-nowrap inline-flex items-center gap-1.5"
-        >
-          Criar conta grátis
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <path d="M5 12h14M13 5l7 7-7 7" />
-          </svg>
-        </Link>
+        {isFree ? (
+          <Link
+            href="/pricing?plan=dev&ref=post_copy"
+            onClick={() => handleClick("upgrade")}
+            className="px-5 py-2.5 rounded-lg text-xs font-bold bg-accent text-white shadow-lg shadow-accent/30 hover:shadow-accent/60 hover:bg-accent/90 hover:-translate-y-0.5 active:translate-y-0 transition-all whitespace-nowrap inline-flex items-center gap-1.5"
+          >
+            Assinar Dev · R$29/mês
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M5 12h14M13 5l7 7-7 7" />
+            </svg>
+          </Link>
+        ) : (
+          <Link
+            href="/login"
+            onClick={() => handleClick("signup")}
+            className="px-5 py-2.5 rounded-lg text-xs font-bold bg-accent text-white shadow-lg shadow-accent/30 hover:shadow-accent/60 hover:bg-accent/90 hover:-translate-y-0.5 active:translate-y-0 transition-all whitespace-nowrap inline-flex items-center gap-1.5"
+          >
+            Criar conta grátis
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M5 12h14M13 5l7 7-7 7" />
+            </svg>
+          </Link>
+        )}
         <button
           onClick={handleDismiss}
           className="px-3 py-2 rounded-lg text-[11px] text-muted-foreground hover:text-foreground transition-colors"

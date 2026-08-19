@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { track } from "@/lib/analytics";
+import { useCurrentPlan } from "@/lib/useCurrentPlan";
 
 const STORAGE_KEY = "ff_gen_count";
 const DISMISS_KEY = "ff_nudge_dismissed_until";
@@ -90,6 +91,7 @@ export function useGenerationNudge() {
 }
 
 export function SignupNudge({ onDismiss }: { onDismiss: () => void }) {
+  const { plan, loading } = useCurrentPlan();
   const [isEvaluatingDev, setIsEvaluatingDev] = useState(false);
 
   useEffect(() => {
@@ -97,11 +99,28 @@ export function SignupNudge({ onDismiss }: { onDismiss: () => void }) {
     setIsEvaluatingDev(readTypesTouched().length >= 2);
   }, []);
 
+  if (loading || plan === "dev" || plan === "team") return null;
+
+  const isFree = plan === "free";
+  const href = isFree ? "/pricing?plan=dev&ref=nudge" : "/login";
+  const ctaLabel = isFree ? "Assinar Dev · R$29/mês" : "Criar conta grátis";
+  const ctaTarget = isFree ? "upgrade" : "signup";
+
   return (
     <div className="mt-4 rounded-xl bg-card border border-border p-5 animate-fade-in">
       <div className="flex flex-col sm:flex-row sm:items-center gap-4">
         <div className="flex-1">
-          {isEvaluatingDev ? (
+          {isFree ? (
+            <>
+              <p className="text-sm font-semibold text-foreground">
+                Passando dos 100 itens/chamada com frequência? Plano Dev libera 10.000.
+              </p>
+              <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">
+                R$29/mês por 10.000 requests/dia e 10.000 itens por chamada.
+                Cancela quando quiser.
+              </p>
+            </>
+          ) : isEvaluatingDev ? (
             <>
               <p className="text-sm font-semibold text-foreground">
                 Testando tipos diferentes? Vai com preset correlacionado.
@@ -124,11 +143,11 @@ export function SignupNudge({ onDismiss }: { onDismiss: () => void }) {
         </div>
         <div className="flex items-center gap-2 shrink-0">
           <Link
-            href="/login"
-            onClick={() => track("nudge_clicked", { source: "generation_count" })}
+            href={href}
+            onClick={() => track("nudge_clicked", { source: "generation_count", target: ctaTarget, plan })}
             className="group px-5 py-2.5 rounded-lg text-sm font-bold bg-accent text-white shadow-lg shadow-accent/30 hover:shadow-accent/60 hover:bg-accent/90 hover:-translate-y-0.5 active:translate-y-0 transition-all whitespace-nowrap inline-flex items-center gap-1.5"
           >
-            Criar conta grátis
+            {ctaLabel}
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M5 12h14M13 5l7 7-7 7" />
             </svg>
