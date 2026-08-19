@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import QuotaMeter from "@/components/QuotaMeter";
+import { track } from "@/lib/analytics";
 
 interface ApiKey {
   id: string;
@@ -98,6 +99,14 @@ export default function DashboardClient({ userId, userEmail }: { userId: string;
   }, [supabase, userId]);
 
   useEffect(() => { loadData(); }, [loadData]);
+
+  useEffect(() => {
+    if (!loading && subscription.plan === "free") {
+      track("dashboard_upsell_shown", { plan: subscription.plan, usage_percent: Math.round(usagePercent) });
+    }
+    // Intencional: dispara uma vez por carga, nao a cada mudanca de state
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loading, subscription.plan]);
 
   async function createApiKey() {
     const key = `ff_${generateRandomKey(32)}`;
@@ -197,6 +206,42 @@ export default function DashboardClient({ userId, userEmail }: { userId: string;
           </button>
         </div>
       </div>
+
+      {/* Upsell hero — persistente pra Free, empurra Dev na primeira coisa que vê */}
+      {subscription.plan === "free" && (
+        <div className="mb-6 rounded-xl border border-accent/30 bg-gradient-to-br from-accent/10 via-accent/5 to-transparent p-5 sm:p-6">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-accent">
+                  Você tá no Free
+                </span>
+                <span className="text-[10px] text-muted-foreground">100 chamadas/dia · 100 itens/call</span>
+              </div>
+              <p className="text-base sm:text-lg font-bold text-foreground leading-tight">
+                Passa disso com frequência? Dev libera 100x mais chamadas e 100x mais itens por call.
+              </p>
+              <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
+                <strong className="text-foreground">10.000 chamadas/dia</strong>,{" "}
+                <strong className="text-foreground">10.000 itens por chamada</strong>, presets prontos (customer, order, invoice)
+                e suporte por email direto comigo. Cancela quando quiser.
+              </p>
+            </div>
+            <div className="shrink-0">
+              <Link
+                href="/pricing?plan=dev&ref=dashboard_hero"
+                onClick={() => track("dashboard_upsell_clicked", { plan: subscription.plan, target: "dev" })}
+                className="group inline-flex items-center gap-2 px-5 py-3 rounded-lg text-sm font-bold bg-accent text-white shadow-lg shadow-accent/30 hover:shadow-accent/60 hover:bg-accent/90 hover:-translate-y-0.5 active:translate-y-0 transition-all whitespace-nowrap"
+              >
+                Assinar Dev · R$29/mês
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M5 12h14M13 5l7 7-7 7" />
+                </svg>
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Quota meter — loss aversion pra upgrade */}
       <div className="mb-6">

@@ -3,6 +3,10 @@
     {
       "path": "/api/cron/send-activation-emails",
       "schedule": "*/5 * * * *"
+    },
+    {
+      "path": "/api/cron/send-reactivation-emails",
+      "schedule": "0 * * * *"
     }
   ]
 }
