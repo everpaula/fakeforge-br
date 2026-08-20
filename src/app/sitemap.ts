@@ -82,6 +82,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // AEO / FAQ (Ubersuggest gap 0% AI visibility -> respostas curadas com Schema)
     { url: `${baseUrl}/faq`, lastModified: D.home, changeFrequency: "weekly", priority: 0.9 },
 
+    // Cluster cartão de crédito (Sprint Ago P1, 30K vol addressable)
+    { url: `${baseUrl}/cartao-credito-fake`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/gerar-cartao-credito`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/cartao-credito-valido`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/gerar-cartao-com-cpf`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/cartao-credito-teste-stripe`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+
     // Docs + blog index
     { url: `${baseUrl}/docs`, lastModified: D.jun01, changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/blog`, lastModified: D.home, changeFrequency: "weekly", priority: 0.7 },

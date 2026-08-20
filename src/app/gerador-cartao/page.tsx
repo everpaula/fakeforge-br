@@ -51,6 +51,15 @@ export default function GeradorCartao() {
         <Link href="/gerador-cartao/amex" className="px-3 py-1.5 rounded-lg text-xs bg-primary/10 border border-primary/30 text-primary hover:bg-primary/20 transition-colors">Amex</Link>
       </div>
 
+      <div className="mt-3 flex flex-wrap gap-2">
+        <span className="text-xs text-muted self-center mr-2">Guias específicos:</span>
+        <Link href="/cartao-credito-fake" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Cartão fake</Link>
+        <Link href="/cartao-credito-valido" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Cartão válido (Luhn)</Link>
+        <Link href="/gerar-cartao-credito" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Snippets Node/Python/PHP</Link>
+        <Link href="/gerar-cartao-com-cpf" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Cartão + CPF correlacionado</Link>
+        <Link href="/cartao-credito-teste-stripe" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Fake vs Stripe test</Link>
+      </div>
+
       <ApiCtaBanner dataType="cartões de crédito" />
 
       <BreadcrumbSchema items={[
