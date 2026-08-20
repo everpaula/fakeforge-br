@@ -74,6 +74,13 @@ export default function QuotaMeter({ variant = "full" }: Props) {
     );
   }
 
+  // Comparativo Free vs Dev: mostra visualmente o quao pequeno Free é vs Dev.
+  // 100 vs 10.000 = ratio 1% na barra do Dev. Loss aversion escancarada.
+  const isFree = usage.plan === "free";
+  const devLimit = 10000;
+  const usedInDevScale = usage.used_today || 0;
+  const devPercent = Math.min(100, (usedInDevScale / devLimit) * 100);
+
   return (
     <div className="rounded-xl bg-card border border-border p-4">
       <div className="flex items-baseline justify-between mb-2">
@@ -98,7 +105,41 @@ export default function QuotaMeter({ variant = "full" }: Props) {
         />
       </div>
 
-      {isHigh && usage.plan === "free" && (
+      {/* Comparativo Free vs Dev - escancara o gap 100x visualmente */}
+      {isFree && (
+        <div className="mt-4 pt-4 border-t border-border">
+          <div className="flex items-baseline justify-between mb-2">
+            <p className="text-[11px] text-muted uppercase tracking-wider">
+              Mesma chamada no plano Dev
+            </p>
+            <span className="text-[10px] px-2 py-0.5 rounded-full bg-accent/10 text-accent border border-accent/30 uppercase font-bold">
+              100x mais
+            </span>
+          </div>
+          <div className="flex items-baseline gap-2 mb-2">
+            <p className="text-sm font-bold text-foreground">
+              {usedInDevScale.toLocaleString()}
+              <span className="text-xs text-muted-foreground font-normal ml-1">
+                / {devLimit.toLocaleString()}
+              </span>
+            </p>
+            <p className="text-[10px] text-muted">
+              ({devPercent.toFixed(2)}% do Dev)
+            </p>
+          </div>
+          <div className="h-2 rounded-full bg-border overflow-hidden">
+            <div
+              className="h-full bg-accent transition-all"
+              style={{ width: `${Math.max(devPercent, 0.5)}%` }}
+            />
+          </div>
+          <p className="text-[10px] text-muted-foreground mt-2 leading-relaxed">
+            No Dev, esse mesmo uso é <strong className="text-foreground">insignificante</strong>. R$29/mês libera 10.000 chamadas/dia.
+          </p>
+        </div>
+      )}
+
+      {isHigh && isFree && (
         <div className="mt-3 pt-3 border-t border-border">
           <p className="text-xs text-foreground font-medium mb-2">
             Você usou {percent}% do limite grátis hoje.
@@ -107,13 +148,13 @@ export default function QuotaMeter({ variant = "full" }: Props) {
             href="/pricing?plan=dev&ref=quota_meter"
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-accent text-white shadow-md shadow-accent/30 hover:bg-accent/90 hover:shadow-accent/50 transition-all"
           >
-            Assinar Dev · 200x mais →
+            Assinar Dev · 100x mais →
           </Link>
         </div>
       )}
 
-      {isMedium && usage.plan === "free" && (
-        <p className="text-[11px] text-muted-foreground mt-2 leading-relaxed">
+      {isMedium && isFree && !isHigh && (
+        <p className="text-[11px] text-muted-foreground mt-3 leading-relaxed">
           Faltam <strong className="text-foreground">{usage.remaining}</strong> chamadas. Reset em 00:00.
         </p>
       )}

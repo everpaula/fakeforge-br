@@ -4,7 +4,7 @@ import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { generate, DATA_TYPES, type DataType } from "@/lib/generators";
 import { generateSchema, SCHEMA_PRESETS, type SchemaField } from "@/lib/generators/schema";
-import { checkRateLimit, getRateLimitHeaders, getMaxQuantity, PLAN_MAX_QUANTITY } from "@/lib/rate-limit";
+import { checkRateLimit, getRateLimitHeaders, getMaxQuantity, PLAN_MAX_QUANTITY, PLAN_LIMITS } from "@/lib/rate-limit";
 import { resolveApiKey, logApiUsage, logAnonymousUsage } from "@/lib/api-auth";
 
 type EffectivePlan = "anon" | "free" | "dev" | "team";
@@ -90,6 +90,51 @@ async function withRateLimit(request: NextRequest): Promise<{
   };
 }
 
+// Enriquece o 429 com contexto suficiente pra dev cliente saber:
+// (1) onde ele tá no funil hoje (usado / limite / percent),
+// (2) quanto o proximo tier libera (Dev = 200x mais),
+// (3) link direto com ref pra rastrear atribuicao no dashboard.
+// Sprint Ago P1 - alinha com dashboard hero + QuotaMeter pra virar "pull" e nao CTA vazio.
+function buildRateLimitResponse(rateLimit: {
+  headers: Record<string, string>;
+  plan: EffectivePlan;
+}) {
+  const limit = Number(rateLimit.headers["X-RateLimit-Limit"]);
+  const remaining = Number(rateLimit.headers["X-RateLimit-Remaining"]);
+  const used = limit - remaining;
+  const percent = limit > 0 ? Math.round((used / limit) * 100) : 100;
+  const plan = rateLimit.plan;
+
+  const message =
+    plan === "anon" || plan === "free"
+      ? `Você usou as ${limit} chamadas do dia no plano ${plan === "anon" ? "anônimo" : "Free"}. Plano Dev libera ${PLAN_LIMITS.dev.toLocaleString("pt-BR")} chamadas/dia por R$29/mês.`
+      : plan === "dev"
+      ? `Você usou as ${limit.toLocaleString("pt-BR")} chamadas do dia no plano Dev. Plano Team libera ${PLAN_LIMITS.team.toLocaleString("pt-BR")}/dia por R$79/mês.`
+      : `Limite de ${limit.toLocaleString("pt-BR")} requisições/dia atingido no plano ${plan}.`;
+
+  return {
+    error: "rate_limit_exceeded",
+    message,
+    your_usage_today: used,
+    daily_limit: limit,
+    used_percent: percent,
+    plan,
+    reset_at: rateLimit.headers["X-RateLimit-Reset"],
+    upgrade: {
+      next_tier: plan === "dev" ? "team" : "dev",
+      next_tier_daily_limit: plan === "dev" ? PLAN_LIMITS.team : PLAN_LIMITS.dev,
+      multiplier: plan === "dev" ? Math.round(PLAN_LIMITS.team / PLAN_LIMITS.dev) : Math.round(PLAN_LIMITS.dev / limit),
+      url: plan === "dev"
+        ? "https://fakeforge.com.br/pricing?plan=team&ref=api_429"
+        : "https://fakeforge.com.br/pricing?plan=dev&ref=api_429",
+    },
+    plans: {
+      dev: { daily_limit: PLAN_LIMITS.dev, price: "R$29/mês", url: "https://fakeforge.com.br/pricing?plan=dev&ref=api_429" },
+      team: { daily_limit: PLAN_LIMITS.team, price: "R$79/mês", url: "https://fakeforge.com.br/pricing?plan=team&ref=api_429" },
+    },
+  };
+}
+
 function quantityExceededResponse(plan: EffectivePlan, requested: number, cap: number, headers: Record<string, string>) {
   return NextResponse.json(
     {
@@ -135,17 +180,7 @@ export async function POST(request: NextRequest) {
   const rateLimit = await withRateLimit(request);
   if (!rateLimit.allowed) {
     return NextResponse.json(
-      {
-        error: "rate_limit_exceeded",
-        message: `Limite de ${rateLimit.headers["X-RateLimit-Limit"]} requisições/dia atingido no plano ${rateLimit.headers["X-RateLimit-Plan"] || "Free"}.`,
-        daily_limit: Number(rateLimit.headers["X-RateLimit-Limit"]),
-        reset: rateLimit.headers["X-RateLimit-Reset"],
-        upgrade_url: "https://fakeforge.com.br/pricing?ref=api-429",
-        plans: {
-          dev: { daily_limit: 10000, price: "R$29/mês", url: "https://fakeforge.com.br/pricing?plan=dev" },
-          team: { daily_limit: 100000, price: "R$79/mês", url: "https://fakeforge.com.br/pricing?plan=team" },
-        },
-      },
+      buildRateLimitResponse(rateLimit),
       { status: 429, headers: { ...rateLimit.headers, "X-RateLimit-Upgrade": "https://fakeforge.com.br/pricing" } }
     );
   }
@@ -208,13 +243,7 @@ export async function GET(request: NextRequest) {
   const rateLimit = await withRateLimit(request);
   if (!rateLimit.allowed) {
     return NextResponse.json(
-      {
-        error: "rate_limit_exceeded",
-        message: `Limite de ${rateLimit.headers["X-RateLimit-Limit"]} requisições/dia atingido no plano ${rateLimit.headers["X-RateLimit-Plan"] || "Free"}.`,
-        daily_limit: Number(rateLimit.headers["X-RateLimit-Limit"]),
-        reset: rateLimit.headers["X-RateLimit-Reset"],
-        upgrade_url: "https://fakeforge.com.br/pricing?ref=api-429",
-      },
+      buildRateLimitResponse(rateLimit),
       { status: 429, headers: { ...rateLimit.headers, "X-RateLimit-Upgrade": "https://fakeforge.com.br/pricing" } }
     );
   }
