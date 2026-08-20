@@ -79,6 +79,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/validar-cnpj`, lastModified: D.may15, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/algoritmo-luhn`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
 
+    // AEO / FAQ (Ubersuggest gap 0% AI visibility -> respostas curadas com Schema)
+    { url: `${baseUrl}/faq`, lastModified: D.home, changeFrequency: "weekly", priority: 0.9 },
+
     // Docs + blog index
     { url: `${baseUrl}/docs`, lastModified: D.jun01, changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/blog`, lastModified: D.home, changeFrequency: "weekly", priority: 0.7 },

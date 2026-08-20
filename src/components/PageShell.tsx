@@ -54,6 +54,7 @@ export default function PageShell({ children }: Props) {
             <Link href="/validar-cpf" className="hover:text-foreground transition-colors">Validar CPF</Link>
             <Link href="/validar-cnpj" className="hover:text-foreground transition-colors">Validar CNPJ</Link>
             <Link href="/blog" className="hover:text-foreground transition-colors">Blog</Link>
+            <Link href="/faq" className="hover:text-foreground transition-colors">FAQ</Link>
             <Link href="/docs" className="hover:text-foreground transition-colors">API</Link>
             <Link href="/pricing" className="hover:text-foreground transition-colors">Preços</Link>
           </div>
