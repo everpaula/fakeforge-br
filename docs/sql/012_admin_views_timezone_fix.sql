@@ -18,6 +18,9 @@
 -- ============================================================
 
 -- 1. admin_metrics: users_today, api_calls_today usam calendar day BR
+-- IMPORTANTE: preservar TODAS as colunas existentes (paying_dev, paying_team, mrr)
+-- que foram adicionadas em migrations posteriores. Se dropar sem elas, o card MRR
+-- do dashboard quebra silenciosamente.
 CREATE OR REPLACE VIEW public.admin_metrics AS
 SELECT
   (SELECT COUNT(*) FROM auth.users) AS total_users,
@@ -41,7 +44,18 @@ SELECT
   ) AS api_calls_7d,
   (SELECT COUNT(*) FROM public.api_usage
     WHERE created_at > NOW() - INTERVAL '30 days'
-  ) AS api_calls_30d;
+  ) AS api_calls_30d,
+  (SELECT COUNT(*) FROM public.subscriptions
+    WHERE plan = 'dev' AND status = 'active') AS paying_dev,
+  (SELECT COUNT(*) FROM public.subscriptions
+    WHERE plan = 'team' AND status = 'active') AS paying_team,
+  (SELECT COALESCE(SUM(
+    CASE
+      WHEN plan = 'dev' THEN 29
+      WHEN plan = 'team' THEN 79
+      ELSE 0
+    END), 0)
+    FROM public.subscriptions WHERE status = 'active') AS mrr;
 
 -- 2. admin_users_daily_90d: usa DATE em fuso BR
 CREATE OR REPLACE VIEW public.admin_users_daily_90d AS
