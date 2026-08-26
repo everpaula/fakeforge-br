@@ -1,6 +1,7 @@
 import Link from "next/link";
 import UserMenu from "./UserMenu";
 import Logo from "./Logo";
+import ActivationCallout from "./ActivationCallout";
 
 interface Props {
   children: React.ReactNode;
@@ -28,6 +29,7 @@ export default function PageShell({ children }: Props) {
       </nav>
 
       <main className="max-w-4xl mx-auto px-5 py-10">
+        <ActivationCallout />
         {children}
       </main>
 

@@ -216,8 +216,12 @@ export default function DashboardClient({ userId, userEmail }: { userId: string;
         />
       )}
 
-      {/* Upsell hero — persistente pra Free, empurra Dev na primeira coisa que vê */}
-      {subscription.plan === "free" && usageToday > 0 && (
+      {/* Upsell hero - persistente pra Free, empurra Dev na primeira coisa que ve.
+          NOTE (audit 26/08): removido gate 'usageToday > 0' que impedia o hero
+          de renderizar pra quem nunca ativou. Zero eventos de dashboard_upsell_*
+          em 5 dias porque ninguem ativa antes de ver o hero. Agora hero aparece
+          sempre pra Free, independente de ativacao. */}
+      {subscription.plan === "free" && (
         <div className="mb-6 rounded-xl border border-accent/30 bg-gradient-to-br from-accent/10 via-accent/5 to-transparent p-5 sm:p-6">
           <div className="flex flex-col sm:flex-row sm:items-center gap-4">
             <div className="flex-1 min-w-0">

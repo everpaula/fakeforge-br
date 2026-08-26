@@ -8,8 +8,12 @@ export default function PostLogin() {
 
   useEffect(() => {
     const intentPlan = sessionStorage.getItem("fakeforge_checkout_intent");
-    const redirect = sessionStorage.getItem("fakeforge_post_login_redirect");
-
+    // NOTE (audit 26/08): removido o respeito ao fakeforge_post_login_redirect
+    // porque users vindos de /gerador-X (que era o path mais comum de login)
+    // voltavam pra la sem nunca ver o /dashboard, entao ninguem via o
+    // FirstCallActivation nem o hero upsell. Metrica activation caiu de
+    // 5.7% pra 2.33% em 30d. Sempre pro dashboard agora (excecao: checkout
+    // intent onde user quer comprar direto).
     sessionStorage.removeItem("fakeforge_checkout_intent");
     sessionStorage.removeItem("fakeforge_post_login_redirect");
 
@@ -40,15 +44,12 @@ export default function PostLogin() {
             return;
           }
         } catch {
-          // fall through to redirect
+          // fall through to dashboard
         }
       }
 
-      if (redirect && redirect.startsWith("/")) {
-        router.replace(redirect);
-      } else {
-        router.replace("/dashboard");
-      }
+      // Sempre pro dashboard - onde vive o FirstCallActivation + hero upsell.
+      router.replace("/dashboard");
     }
 
     proceed();

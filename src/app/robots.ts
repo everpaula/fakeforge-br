@@ -13,7 +13,6 @@ export default function robots(): MetadataRoute.Robots {
         "/admin/",
         "/login/",
         "/auth/",
-        "/*?*",
         "/*/icon*",
         "/*/apple-icon*",
         "/*/opengraph-image*",
