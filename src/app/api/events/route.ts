@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { after } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { createServerClient } from "@supabase/ssr";
+import { cookies } from "next/headers";
 import { hashIp } from "@/lib/api-auth";
 
 // Aceita batch de até 20 eventos por request. Fire-and-forget do lado
@@ -15,6 +17,8 @@ interface EventInput {
   event_data?: Record<string, unknown>;
 }
 
+// IMPORTANTE: se adicionar novo track() no frontend, adicionar aqui tambem
+// ou o event e' descartado silenciosamente (bug do Weekend 3 audit 01/09).
 const ALLOWED_TYPES = new Set([
   "page_view",
   "session_start",
@@ -33,6 +37,12 @@ const ALLOWED_TYPES = new Set([
   "post_copy_card_dismissed",
   "quota_offer_shown",
   "quota_offer_clicked",
+  // Weekend 3 (audit 26/08 fixes) - dashboard hero upsell + first call card
+  "dashboard_upsell_shown",
+  "dashboard_upsell_clicked",
+  "first_call_button_clicked",
+  "first_call_success",
+  "first_call_failed",
 ]);
 
 function getClientIP(request: NextRequest): string {
@@ -66,13 +76,35 @@ export async function POST(request: NextRequest) {
   const ip = getClientIP(request);
   const ipHash = hashIp(ip);
 
+  // Enriquece user_id via cookie do Supabase - frontend nao sabe user_id
+  // (auth e' via cookie httpOnly), backend sabe. Sem isso, todos os events
+  // logados apareciam com user_id=null e nao dava pra correlacionar por user.
+  let authedUserId: string | null = null;
+  try {
+    const cookieStore = await cookies();
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          getAll() { return cookieStore.getAll(); },
+          setAll() { /* read-only */ },
+        },
+      }
+    );
+    const { data: { user } } = await supabase.auth.getUser();
+    authedUserId = user?.id ?? null;
+  } catch {
+    // anon - segue com user_id null
+  }
+
   // Filtra + normaliza
   const rows = events
     .filter((e) => e && typeof e.event_type === "string" && ALLOWED_TYPES.has(e.event_type))
     .map((e) => ({
       event_type: e.event_type,
       session_id: typeof e.session_id === "string" ? e.session_id.slice(0, 64) : null,
-      user_id: typeof e.user_id === "string" ? e.user_id : null,
+      user_id: authedUserId ?? (typeof e.user_id === "string" ? e.user_id : null),
       source_page: typeof e.source_page === "string" ? e.source_page.slice(0, 200) : null,
       ip_hash: ipHash,
       event_data: (typeof e.event_data === "object" && e.event_data !== null) ? e.event_data : {},
