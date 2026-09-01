@@ -44,7 +44,7 @@ export async function GET() {
     .select("plan, status")
     .eq("user_id", user.id)
     .in("status", ["active", "trialing"])
-    .single();
+    .maybeSingle();
 
   const plan = (sub?.plan as string) || "free";
   const dailyLimit = PLAN_LIMITS[plan] || PLAN_LIMITS.free;

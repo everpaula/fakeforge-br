@@ -68,13 +68,15 @@ export default function DashboardClient({ userId, userEmail }: { userId: string;
       .order("created_at", { ascending: false });
     if (keys) setApiKeys(keys);
 
-    // Load subscription
+    // Load subscription. maybeSingle porque a maioria dos users é Free (sem
+    // row em subscriptions) - .single() retornava 406 Not Acceptable pra
+    // Free users e poluia o console + criava ambiguidade se travava algo.
     const { data: sub } = await supabase
       .from("subscriptions")
       .select("plan, status, current_period_end")
       .eq("user_id", userId)
       .eq("status", "active")
-      .single();
+      .maybeSingle();
     if (sub) setSubscription(sub);
 
     // Load usage today

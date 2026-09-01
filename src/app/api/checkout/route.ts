@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
       .select("stripe_customer_id")
       .eq("user_id", user.id)
       .not("stripe_customer_id", "is", null)
-      .single();
+      .maybeSingle();
     if (existing?.stripe_customer_id) {
       stripeCustomerId = existing.stripe_customer_id;
     }
