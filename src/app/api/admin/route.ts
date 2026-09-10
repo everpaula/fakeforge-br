@@ -3,6 +3,12 @@ import { createServerClient } from "@supabase/ssr";
 import { createClient } from "@supabase/supabase-js";
 import { cookies } from "next/headers";
 
+// Force-dynamic: Next 16 estava cacheando a resposta no CDN e servindo dado
+// velho no /admin (audit 10/09: events dashboard_upsell_shown existiam no DB
+// mas nao apareciam no snapshot que tinha 6h de idade).
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 function getAdminSupabase() {
   return createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -36,6 +42,35 @@ async function fetchAllAnon<T = Record<string, unknown>>(
       .range(offset, offset + PAGE - 1);
     if (error) {
       console.error("[fetchAllAnon] page", i, "error:", error.message);
+      break;
+    }
+    const batch = (data || []) as T[];
+    out.push(...batch);
+    if (batch.length < PAGE) break;
+    offset += PAGE;
+  }
+  return out;
+}
+
+// Mesma logica do fetchAllAnon pra funnel_events - .limit(20000) direto
+// nao funciona porque PostgREST corta em 1000 rows por response. Sem
+// paginacao, events antigos sao truncados e aggregate fica incorreto.
+async function fetchAllFunnelEvents<T = Record<string, unknown>>(
+  adminClient: ReturnType<typeof getAdminSupabase>,
+  sinceIso: string,
+): Promise<T[]> {
+  const PAGE = 1000;
+  const out: T[] = [];
+  let offset = 0;
+  for (let i = 0; i < 50; i++) {
+    const { data, error } = await adminClient
+      .from("funnel_events")
+      .select("event_type, source_page, ip_hash, event_data, created_at")
+      .gte("created_at", sinceIso)
+      .order("created_at", { ascending: false })
+      .range(offset, offset + PAGE - 1);
+    if (error) {
+      console.error("[fetchAllFunnelEvents] page", i, "error:", error.message);
       break;
     }
     const batch = (data || []) as T[];
@@ -122,20 +157,14 @@ export async function GET(request: NextRequest) {
       admin, "client_type, ip_hash, data_type, quantity, created_at", since30d,
     ),
     admin.auth.admin.listUsers({ page: 1, perPage: 30 }),
-    // Funnel events (Weekend 1 growth push). Se a tabela não existir ainda,
-    // trata como vazio silenciosamente.
-    admin.from("funnel_events")
-      .select("event_type, source_page, ip_hash, event_data, created_at")
-      .gte("created_at", since7d)
-      .order("created_at", { ascending: false })
-      .limit(10000)
-      .then((r) => ({ data: r.data || [], error: r.error })),
-    admin.from("funnel_events")
-      .select("event_type, source_page, ip_hash, event_data, created_at")
-      .gte("created_at", since30d)
-      .order("created_at", { ascending: false })
-      .limit(20000)
-      .then((r) => ({ data: r.data || [], error: r.error })),
+    // Funnel events (Weekend 1 growth push). Paginado pra ultrapassar
+    // o cap de 1000 rows do PostgREST - bug audit 10/09.
+    fetchAllFunnelEvents<{ event_type: string; source_page: string | null; ip_hash: string | null; event_data: Record<string, unknown> | null; created_at: string }>(
+      admin, since7d,
+    ).then((data) => ({ data, error: null })),
+    fetchAllFunnelEvents<{ event_type: string; source_page: string | null; ip_hash: string | null; event_data: Record<string, unknown> | null; created_at: string }>(
+      admin, since30d,
+    ).then((data) => ({ data, error: null })),
   ]);
 
   // Recent users — list of last 30 sign-ups with email + created_at + last_sign_in
