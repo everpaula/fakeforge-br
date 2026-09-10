@@ -76,6 +76,19 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <head>
+        {/* Google Analytics (gtag.js) - G-RP4KV5SD88 */}
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-RP4KV5SD88"
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-RP4KV5SD88');`,
+          }}
+        />
         {process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID && (
           <script
             defer
