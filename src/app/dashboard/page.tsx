@@ -4,7 +4,7 @@ import PageShell from "@/components/PageShell";
 import DashboardClient from "./DashboardClient";
 
 export const metadata = {
-  title: "Dashboard - FakeForge BR",
+  title: "Dashboard - FakeForge",
 };
 
 export default async function Dashboard() {

@@ -7,7 +7,7 @@ import ApiCtaBanner from "@/components/ApiCtaBanner";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "Validar CNPJ - Verifique se um CNPJ é Válido | FakeForge BR",
+  title: "Validar CNPJ - Verifique se um CNPJ é Válido | FakeForge",
   description: "Valide um CNPJ online gratuitamente. Verifica se os dígitos verificadores estão corretos usando o algoritmo mod-11 da Receita Federal.",
   keywords: "validar cnpj, verificar cnpj, cnpj válido, validação cnpj online, checar cnpj",
 };

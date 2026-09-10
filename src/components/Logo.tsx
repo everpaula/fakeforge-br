@@ -34,7 +34,7 @@ export default function Logo({
 }: Props) {
   const { w, h } = DIMENSIONS[variant][size];
   const src = `/logo-${variant}.png`;
-  const alt = "FakeForge BR - Gerador de dados brasileiros";
+  const alt = "FakeForge - Gerador de dados brasileiros";
 
   const img = (
     <Image

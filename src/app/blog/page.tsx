@@ -6,7 +6,7 @@ import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import BlogFeaturedImage from "@/components/BlogFeaturedImage";
 
 export const metadata: Metadata = {
-  title: "Blog FakeForge BR: Tutoriais de Dados de Teste, LGPD e API",
+  title: "Blog FakeForge: Tutoriais de Dados de Teste, LGPD e API",
   description: "Artigos práticos sobre geração de dados brasileiros para testes: CPF/CNPJ válido, LGPD em ambiente de desenvolvimento, seed de banco de dados, automação no CI/CD e comparativos de ferramentas.",
   keywords: "blog dados teste, lgpd desenvolvimento, gerar cpf testes, cnpj validacao node, faker brasileiro, seed banco dados",
   alternates: { canonical: "/blog" },
@@ -294,7 +294,7 @@ export default function Blog() {
     <PageShell>
       <div className="mb-10">
         <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">
-          Blog do <span className="text-primary">FakeForge BR</span>
+          Blog do <span className="text-primary">FakeForge</span>
         </h1>
         <p className="text-muted-foreground mt-3 text-sm sm:text-base leading-relaxed max-w-2xl">
           Artigos práticos para desenvolvedores que trabalham com dados brasileiros em testes,
@@ -408,12 +408,12 @@ export default function Blog() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Blog",
-            name: "Blog do FakeForge BR",
+            name: "Blog do FakeForge",
             description: "Artigos sobre dados de teste, LGPD, automação e validação de documentos brasileiros para desenvolvedores.",
             url: "https://fakeforge.com.br/blog",
             publisher: {
               "@type": "Organization",
-              name: "FakeForge BR",
+              name: "FakeForge",
               url: "https://fakeforge.com.br",
             },
             blogPost: POSTS.map(p => ({
@@ -422,7 +422,7 @@ export default function Blog() {
               description: p.excerpt,
               url: `https://fakeforge.com.br/blog/${p.slug}`,
               datePublished: p.date,
-              author: { "@type": "Organization", name: "FakeForge BR" },
+              author: { "@type": "Organization", name: "FakeForge" },
             })),
           }),
         }}

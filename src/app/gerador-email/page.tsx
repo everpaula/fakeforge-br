@@ -7,11 +7,11 @@ import GeneratorSchema from "@/components/GeneratorSchema";
 import RelatedGenerators from "@/components/RelatedGenerators";
 
 export const metadata: Metadata = {
-  title: "Gerador de Email Fictício - Emails para Testes | FakeForge BR",
+  title: "Gerador de Email Fictício - Emails para Testes | FakeForge",
   description: "Gere endereços de email fictícios com domínios brasileiros e internacionais. Ideal para testes de cadastro, formulários e integração com APIs. Grátis e sem cadastro.",
   keywords: "gerador de email, email fictício, email para testes, email falso, gerador de email brasileiro, email temporário testes",
   openGraph: {
-    title: "Gerador de Email Fictício - FakeForge BR",
+    title: "Gerador de Email Fictício - FakeForge",
     description: "Gere emails fictícios com domínios BR e internacionais para testes. Grátis e sem cadastro.",
     type: "website",
   },

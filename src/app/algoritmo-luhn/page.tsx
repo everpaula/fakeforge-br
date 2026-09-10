@@ -5,7 +5,7 @@ import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import LuhnCalculator from "./LuhnCalculator";
 
 export const metadata: Metadata = {
-  title: "Algoritmo de Luhn: como funciona e implementação (TypeScript, Python)",
+  title: "Algoritmo de Luhn: Como Funciona (JS + Python)",
   description: "Tutorial completo do algoritmo de Luhn (mod-10): origem, passo a passo com exemplo numérico, implementação em TypeScript e Python, e calculadora interativa pra validar qualquer número de cartão.",
   keywords: "algoritmo luhn, algoritmo de luhn, mod 10, validacao cartao credito, luhn javascript, luhn typescript, luhn python, como funciona luhn, hans peter luhn, validar cartao algoritmo, checksum cartao credito",
   openGraph: {
@@ -341,10 +341,10 @@ luhn_check("4532-0151-1283-0367")   # False`}</pre>
             datePublished: "2026-06-18",
             dateModified: "2026-06-18",
             inLanguage: "pt-BR",
-            author: { "@type": "Organization", name: "FakeForge BR", url: "https://fakeforge.com.br" },
+            author: { "@type": "Organization", name: "FakeForge", url: "https://fakeforge.com.br" },
             publisher: {
               "@type": "Organization",
-              name: "FakeForge BR",
+              name: "FakeForge",
               url: "https://fakeforge.com.br",
               logo: { "@type": "ImageObject", url: "https://fakeforge.com.br/logo-icon.png" },
             },

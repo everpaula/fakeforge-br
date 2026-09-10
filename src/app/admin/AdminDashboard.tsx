@@ -199,7 +199,7 @@ export default function AdminDashboard() {
       </nav>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-        <h1 className="text-2xl font-bold tracking-tight mb-8">Métricas do FakeForge BR</h1>
+        <h1 className="text-2xl font-bold tracking-tight mb-8">Métricas do FakeForge</h1>
 
         {/* Revenue card — highlighted */}
         <div className="rounded-xl bg-primary/5 border border-primary/20 p-6 mb-6">

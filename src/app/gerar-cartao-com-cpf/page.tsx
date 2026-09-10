@@ -6,7 +6,7 @@ import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import GeneratorSchema from "@/components/GeneratorSchema";
 
 export const metadata: Metadata = {
-  title: "Gerar Cartão de Crédito Válido com CPF Correlacionado (Preset Customer)",
+  title: "Gerar Cartão de Crédito com CPF Correlacionado (Preset)",
   description: "Cartão de crédito + CPF + email + endereço no mesmo objeto para testes de checkout brasileiro. Preset customer da API do FakeForge devolve tudo correlacionado em 1 chamada. Ideal para mock de fluxo antifraude.",
   keywords: "gerar cartão de credito valido com cpf, gerar cartão de credito com cpf, cartao com cpf, cartao credito cpf teste, gerador de credito com nome, gerador cartao credito nome cpf, cartão com nome fake, customer preset brasileiro, mock antifraude checkout",
   alternates: { canonical: "/gerar-cartao-com-cpf" },

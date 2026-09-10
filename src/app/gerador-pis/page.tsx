@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   description: "Gere números de PIS, PASEP, NIT ou NIS fictícios válidos. 11 dígitos com dígito verificador calculado pelo algoritmo oficial mod-11 (pesos 3-2). Para testes de RH, eSocial e cadastros. Grátis.",
   keywords: "gerador pis, gerador pasep, gerador nit, gerador nis, pis válido, pasep válido, número pis teste",
   openGraph: {
-    title: "Gerador de PIS/PASEP/NIT/NIS Válido — FakeForge BR",
+    title: "Gerador de PIS/PASEP/NIT/NIS Válido — FakeForge",
     description: "Números válidos pelo mod-11 oficial para testes de RH, eSocial e cadastros.",
     type: "website",
   },

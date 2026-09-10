@@ -4,7 +4,7 @@ import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import PricingClient from "./PricingClient";
 
 export const metadata: Metadata = {
-  title: "Preços FakeForge BR: API de Dados Brasileiros a partir de R$0",
+  title: "Preços FakeForge: API de Dados Brasileiros a partir de R$0",
   description: "Use os geradores grátis no navegador para sempre. Para integrar a API REST no código ou CI/CD, escolha Dev (R$29/mês, 10 mil chamadas/dia) ou Team (R$79/mês, 100 mil chamadas/dia).",
   keywords: "preço gerador dados brasileiros, api cpf cnpj preço, fakeforge planos, api dados teste mensal, preço api dados brasil",
   alternates: { canonical: "/pricing" },
@@ -51,9 +51,9 @@ export default function Pricing() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Product",
-            name: "FakeForge BR API",
+            name: "FakeForge API",
             description: "API REST para gerar dados brasileiros fictícios (CPF, CNPJ, CEP, PIX, cartão, pessoa) com formatação válida e dígitos verificadores corretos.",
-            brand: { "@type": "Brand", name: "FakeForge BR" },
+            brand: { "@type": "Brand", name: "FakeForge" },
             offers: [
               {
                 "@type": "Offer",

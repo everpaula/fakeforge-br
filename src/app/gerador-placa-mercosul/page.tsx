@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   description: "Gere placa de carro brasileira nos formatos Mercosul (LLLNLNN) e antigo (LLL-NNNN) válidos pela Resolução CONTRAN 729/2018. Letras sem I/O/Q. Para testes de OCR, sistemas de tráfego e seguradoras.",
   keywords: "gerador placa de carro, placa de carro, placa carro, gerador placa mercosul, gerador placa antiga, placa veicular, placa veiculo, gerador placa veicular, placa fictícia teste, placa lllnlnn, contran 729, placa válida software, gerar placa carro, placa de carro fake, placa carro para teste",
   openGraph: {
-    title: "Gerador de Placa Mercosul: FakeForge BR",
+    title: "Gerador de Placa Mercosul: FakeForge",
     description: "Placas brasileiras válidas (Mercosul + antiga) para testes de software.",
     type: "website",
   },

@@ -7,7 +7,7 @@ import ApiCtaBanner from "@/components/ApiCtaBanner";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "Validar CPF - Verifique se um CPF é Válido | FakeForge BR",
+  title: "Validar CPF - Verifique se um CPF é Válido | FakeForge",
   description: "Valide um CPF online gratuitamente. Verifica se os dígitos verificadores estão corretos usando o algoritmo mod-11 da Receita Federal.",
   keywords: "validar cpf, verificar cpf, cpf válido, validação cpf online, checar cpf",
 };

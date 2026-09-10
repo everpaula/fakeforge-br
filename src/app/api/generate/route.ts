@@ -275,7 +275,7 @@ export async function GET(request: NextRequest) {
 
   if (!type || !DATA_TYPES.find((t) => t.value === type)) {
     return NextResponse.json({
-      message: "FakeForge BR API - Brazilian Test Data Generator",
+      message: "FakeForge API - Brazilian Test Data Generator",
       version: "0.3.0",
       usage: {
         single: "GET /api/generate?type=cpf&quantity=10",

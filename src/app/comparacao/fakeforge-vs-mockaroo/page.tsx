@@ -6,7 +6,7 @@ import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 export const metadata: Metadata = {
   title: "FakeForge vs Mockaroo: Qual Usar para Dados Brasileiros",
   description:
-    "Comparativo técnico entre FakeForge BR e Mockaroo para gerar dados brasileiros de teste. CPF mod-11 nativo, CNPJ alfanumérico, PIX BACEN, preço, API REST. Quando usar cada um.",
+    "Comparativo técnico entre FakeForge e Mockaroo para gerar dados brasileiros de teste. CPF mod-11 nativo, CNPJ alfanumérico, PIX BACEN, preço, API REST. Quando usar cada um.",
   keywords:
     "fakeforge vs mockaroo, alternativa mockaroo brasil, mockaroo cpf cnpj, mockaroo brasileiro, gerador dados brasil sem mockaroo, mockaroo grátis brasileiro",
   alternates: { canonical: "/comparacao/fakeforge-vs-mockaroo" },
@@ -87,7 +87,7 @@ export default function ComparacaoMockaroo() {
               <thead>
                 <tr className="border-b border-border bg-card-hover">
                   <th className="text-left px-4 py-3 text-muted-foreground font-medium">Recurso</th>
-                  <th className="text-center px-4 py-3 text-primary font-semibold">FakeForge BR</th>
+                  <th className="text-center px-4 py-3 text-primary font-semibold">FakeForge</th>
                   <th className="text-center px-4 py-3 text-muted-foreground font-medium">Mockaroo</th>
                 </tr>
               </thead>
@@ -270,15 +270,15 @@ export default function ComparacaoMockaroo() {
             "@type": "Article",
             headline: "FakeForge vs Mockaroo — Qual usar para gerar dados brasileiros em 2026?",
             description:
-              "Comparativo técnico entre FakeForge BR e Mockaroo para gerar dados brasileiros de teste.",
+              "Comparativo técnico entre FakeForge e Mockaroo para gerar dados brasileiros de teste.",
             author: {
               "@type": "Organization",
-              name: "FakeForge BR",
+              name: "FakeForge",
               url: "https://fakeforge.com.br",
             },
             publisher: {
               "@type": "Organization",
-              name: "FakeForge BR",
+              name: "FakeForge",
               url: "https://fakeforge.com.br",
             },
             datePublished: "2026-05-23",

@@ -6,7 +6,7 @@ import { DATA_TYPES } from "@/lib/generators";
 
 export const metadata: Metadata = {
   title: "API REST FakeForge: Gerar CPF, CNPJ, PIX, Cartão via Código",
-  description: "Documentação completa da API REST do FakeForge BR. Gere CPF, CNPJ, PIX, cartão e mais via curl, Node.js, Python, PHP. Endpoints GET/POST, export JSON/CSV/SQL. 50 chamadas grátis por dia.",
+  description: "Documentação completa da API REST do FakeForge. Gere CPF, CNPJ, PIX, cartão e mais via curl, Node.js, Python, PHP. Endpoints GET/POST, export JSON/CSV/SQL. 50 chamadas grátis por dia.",
   keywords: "api dados brasileiros, api rest cpf cnpj, gerador api brasil, fakeforge api docs, api dados teste, api cpf cnpj curl, api gerar cpf brasil",
   alternates: { canonical: "/docs" },
 };
@@ -339,13 +339,13 @@ print(data[0])  # {'nome': '...', 'cpf': '...', ...}`}</pre>
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "TechArticle",
-            headline: "Documentação da API REST — FakeForge BR",
+            headline: "Documentação da API REST — FakeForge",
             description: "API REST para gerar dados brasileiros fictícios. Endpoints GET/POST, suporte a presets e schemas customizados, export em JSON, CSV e SQL.",
             url: "https://fakeforge.com.br/docs",
             inLanguage: "pt-BR",
             isPartOf: {
               "@type": "WebSite",
-              name: "FakeForge BR",
+              name: "FakeForge",
               url: "https://fakeforge.com.br",
             },
             proficiencyLevel: "Beginner",

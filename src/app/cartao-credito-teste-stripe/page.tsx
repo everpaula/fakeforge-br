@@ -6,7 +6,7 @@ import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import GeneratorSchema from "@/components/GeneratorSchema";
 
 export const metadata: Metadata = {
-  title: "Cartão de Crédito Teste Stripe: Quando Usar Fake vs Cartão Oficial",
+  title: "Cartão Teste Stripe: Fake vs Cartão Oficial do Gateway",
   description: "Diferença entre cartões de teste oficiais do Stripe (fixos, cenários específicos) e cartões fake gerados (Luhn válido, quantidade infinita). Quando usar cada, snippet Node.js, exemplos para 3D Secure e antifraude.",
   keywords: "cartão de credito teste stripe, cartao teste stripe, stripe test card brasil, stripe sandbox cartão, cartão para testar checkout stripe, cartão teste mercado pago, cartão sandbox pagseguro, cartão teste cielo, dados teste stripe brasil",
   alternates: { canonical: "/cartao-credito-teste-stripe" },

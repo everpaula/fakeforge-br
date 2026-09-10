@@ -4,8 +4,8 @@ import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import ContactReveal from "./ContactReveal";
 
 export const metadata: Metadata = {
-  title: "Contato e Suporte FakeForge BR: Dúvidas e LGPD",
-  description: "Fale com o FakeForge BR. Suporte para usuários da API, dúvidas sobre LGPD, sugestões de novos geradores, parcerias e exercício de direitos da LGPD.",
+  title: "Contato e Suporte FakeForge: Dúvidas e LGPD",
+  description: "Fale com o FakeForge. Suporte para usuários da API, dúvidas sobre LGPD, sugestões de novos geradores, parcerias e exercício de direitos da LGPD.",
   alternates: { canonical: "/contato" },
 };
 
@@ -20,7 +20,7 @@ export default function Contato() {
           Suporte, sugestões, parcerias ou exercício de direitos LGPD. Tudo passa por aqui.
         </p>
         <p className="text-sm text-muted-foreground leading-relaxed mb-3">
-          O FakeForge BR é um projeto independente mantido por um desenvolvedor brasileiro radicado
+          O FakeForge é um projeto independente mantido por um desenvolvedor brasileiro radicado
           nos Estados Unidos. Todo email é lido pessoalmente, sem tickets automáticos nem chatbot.
           Se você tem uma dúvida específica sobre um gerador, encontrou um bug, quer sugerir um
           gerador novo (DARF, GTIN, INSS, SUS, dados específicos de tributação estadual) ou
@@ -108,7 +108,7 @@ export default function Contato() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "ContactPage",
-            name: "Contato FakeForge BR",
+            name: "Contato FakeForge",
             url: "https://fakeforge.com.br/contato",
             inLanguage: "pt-BR",
           }),

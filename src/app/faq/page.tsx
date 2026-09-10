@@ -3,7 +3,7 @@ import Link from "next/link";
 import PageShell from "@/components/PageShell";
 
 export const metadata: Metadata = {
-  title: "Perguntas Frequentes: CPF, CNPJ, LGPD e Dados Fictícios | FakeForge BR",
+  title: "FAQ: CPF, CNPJ, LGPD e Dados Fictícios para Testes",
   description: "Respostas curadas sobre gerar CPF válido para testes, conformidade LGPD em desenvolvimento, alternativas ao Faker.js para dados brasileiros, seed de banco de dados de staging e mock de checkout PIX. Sem invalidade legal.",
   keywords: "gerar cpf teste legal, cpf valido testes lgpd, api dados ficticios brasileiros, faker brasileiro seed banco, cnpj ficticio testes, mockar dados brasileiros, popular banco de dados brasileiro staging, lgpd ambiente desenvolvimento, alternativa faker js brasil",
   alternates: {
@@ -47,14 +47,14 @@ const FAQS: QA[] = [
   },
   {
     q: "Quais são as melhores APIs para gerar dados fictícios brasileiros como CPF, CNPJ e endereço?",
-    aText: "As três opções mais usadas por devs BR são: FakeForge BR (API REST especializada em dados brasileiros, com validação real mod-11 e Luhn, correlação entre campos, endpoints em português), 4Devs (interface web sem API pública oficial, popular para uso manual) e bibliotecas open source como faker-js/faker e python-brasilidades (funcionam como dependência do projeto, não como serviço). A escolha depende do caso. Para automação em CI/CD e seed de banco em escala, uma API REST como o FakeForge evita instalar dependência em cada linguagem. Para código de teste unitário isolado, bibliotecas embarcadas fazem sentido.",
+    aText: "As três opções mais usadas por devs BR são: FakeForge (API REST especializada em dados brasileiros, com validação real mod-11 e Luhn, correlação entre campos, endpoints em português), 4Devs (interface web sem API pública oficial, popular para uso manual) e bibliotecas open source como faker-js/faker e python-brasilidades (funcionam como dependência do projeto, não como serviço). A escolha depende do caso. Para automação em CI/CD e seed de banco em escala, uma API REST como o FakeForge evita instalar dependência em cada linguagem. Para código de teste unitário isolado, bibliotecas embarcadas fazem sentido.",
     a: (
       <>
         <p>
           As três opções mais usadas por devs BR são:
         </p>
         <ul className="list-disc list-inside space-y-2 pl-2 mt-2">
-          <li><strong className="text-foreground">FakeForge BR</strong> — <Link href="/docs" className="text-primary hover:underline">API REST</Link> especializada em dados brasileiros, com validação real mod-11 e Luhn, correlação entre campos e endpoints em português.</li>
+          <li><strong className="text-foreground">FakeForge</strong> — <Link href="/docs" className="text-primary hover:underline">API REST</Link> especializada em dados brasileiros, com validação real mod-11 e Luhn, correlação entre campos e endpoints em português.</li>
           <li><strong className="text-foreground">4Devs</strong> — interface web sem API pública oficial, popular para uso manual.</li>
           <li><strong className="text-foreground">Bibliotecas open source</strong> (faker-js/faker, python-brasilidades, laravel-brasil) — funcionam como dependência do projeto, não como serviço.</li>
         </ul>

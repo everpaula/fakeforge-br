@@ -33,12 +33,12 @@ export default function BlogPostingSchema({
     inLanguage: "pt-BR",
     author: {
       "@type": "Organization",
-      name: "FakeForge BR",
+      name: "FakeForge",
       url: "https://fakeforge.com.br",
     },
     publisher: {
       "@type": "Organization",
-      name: "FakeForge BR",
+      name: "FakeForge",
       url: "https://fakeforge.com.br",
       logo: {
         "@type": "ImageObject",

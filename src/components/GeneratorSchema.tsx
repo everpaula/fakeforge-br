@@ -31,7 +31,7 @@ export default function GeneratorSchema({
     inLanguage,
     isPartOf: {
       "@type": "WebSite",
-      name: "FakeForge BR",
+      name: "FakeForge",
       url: "https://fakeforge.com.br",
     },
     audience: {

@@ -4,7 +4,7 @@ import { createClient } from "@supabase/supabase-js";
 import AdminDashboard from "./AdminDashboard";
 
 export const metadata = {
-  title: "Admin - FakeForge BR",
+  title: "Admin - FakeForge",
   robots: { index: false, follow: false },
 };
 

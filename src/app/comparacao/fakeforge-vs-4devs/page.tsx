@@ -6,7 +6,7 @@ import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 export const metadata: Metadata = {
   title: "FakeForge vs 4devs: Qual Usar em 2026 (Dados Brasileiros)",
   description:
-    "Comparativo técnico entre FakeForge BR e 4devs.com.br. CPF mod-11, CNPJ alfanumérico, PIX BACEN, API REST, export SQL, dados correlacionados. Quando usar cada um.",
+    "Comparativo técnico entre FakeForge e 4devs.com.br. CPF mod-11, CNPJ alfanumérico, PIX BACEN, API REST, export SQL, dados correlacionados. Quando usar cada um.",
   keywords:
     "fakeforge vs 4devs, alternativa 4devs, 4devs com api, 4devs cpf cnpj, gerador dados brasil 2026, 4devs sql export",
   alternates: { canonical: "/comparacao/fakeforge-vs-4devs" },
@@ -91,7 +91,7 @@ export default function ComparacaoFourDevs() {
               <thead>
                 <tr className="border-b border-border bg-card-hover">
                   <th className="text-left px-4 py-3 text-muted-foreground font-medium">Recurso</th>
-                  <th className="text-center px-4 py-3 text-primary font-semibold">FakeForge BR</th>
+                  <th className="text-center px-4 py-3 text-primary font-semibold">FakeForge</th>
                   <th className="text-center px-4 py-3 text-muted-foreground font-medium">4devs</th>
                 </tr>
               </thead>
@@ -283,15 +283,15 @@ for (let i = 0; i < 500; i++) {
             "@type": "Article",
             headline: "FakeForge vs 4devs: qual gerador de dados brasileiros usar em 2026?",
             description:
-              "Comparativo técnico entre FakeForge BR e 4devs.com.br para gerar dados brasileiros de teste.",
+              "Comparativo técnico entre FakeForge e 4devs.com.br para gerar dados brasileiros de teste.",
             author: {
               "@type": "Organization",
-              name: "FakeForge BR",
+              name: "FakeForge",
               url: "https://fakeforge.com.br",
             },
             publisher: {
               "@type": "Organization",
-              name: "FakeForge BR",
+              name: "FakeForge",
               url: "https://fakeforge.com.br",
             },
             datePublished: "2026-05-25",

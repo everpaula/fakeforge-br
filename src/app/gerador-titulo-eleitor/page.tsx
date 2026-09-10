@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   description: "Gere números de título de eleitor fictícios com 12 dígitos válidos pelo algoritmo oficial do TSE. UF + dígitos verificadores corretos. Para testes de cadastro e sistemas eleitorais. Grátis.",
   keywords: "gerador título eleitor, título eleitor válido, número título tse, título eleitoral teste, validador título eleitor",
   openGraph: {
-    title: "Gerador de Título de Eleitor Válido — FakeForge BR",
+    title: "Gerador de Título de Eleitor Válido — FakeForge",
     description: "12 dígitos válidos pelo algoritmo oficial do TSE para testes.",
     type: "website",
   },

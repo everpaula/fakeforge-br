@@ -37,7 +37,7 @@ Alguns pontos rápidos:
   - Dashboard: https://fakeforge.com.br/dashboard
 
 Everton
-FakeForge BR
+FakeForge
 `;
 }
 
@@ -96,14 +96,14 @@ export function htmlActivationT10({ firstName, apiKey }: ActivationEmailProps): 
 
               <p style="font-size:14px; line-height:1.5; margin:24px 0 0 0; color:#374151;">
                 Everton<br>
-                <span style="color:#9ca3af; font-size:12px;">FakeForge BR</span>
+                <span style="color:#9ca3af; font-size:12px;">FakeForge</span>
               </p>
             </td>
           </tr>
           <tr>
             <td style="background:#f9fafb; padding:16px 32px; border-top:1px solid #e5e7eb;">
               <p style="font-size:11px; line-height:1.5; margin:0; color:#9ca3af;">
-                Recebeu esse email porque criou uma conta no FakeForge BR. Se não foi você, ignora — a conta expira sem confirmação.
+                Recebeu esse email porque criou uma conta no FakeForge. Se não foi você, ignora — a conta expira sem confirmação.
               </p>
             </td>
           </tr>
@@ -147,7 +147,7 @@ Vi que você criou conta ontem no FakeForge, gerou a API key e ainda não rodou 
 Se travar em qualquer coisa — responde aqui direto. Sou eu quem lê. Se tiver ideia de preset novo, também manda.
 
 Everton
-FakeForge BR
+FakeForge
 `;
 }
 
@@ -219,14 +219,14 @@ export function htmlReactivationT24h({ firstName, apiKey }: ActivationEmailProps
 
               <p style="font-size:14px; line-height:1.5; margin:24px 0 0 0; color:#374151;">
                 Everton<br>
-                <span style="color:#9ca3af; font-size:12px;">FakeForge BR</span>
+                <span style="color:#9ca3af; font-size:12px;">FakeForge</span>
               </p>
             </td>
           </tr>
           <tr>
             <td style="background:#f9fafb; padding:16px 32px; border-top:1px solid #e5e7eb;">
               <p style="font-size:11px; line-height:1.5; margin:0; color:#9ca3af;">
-                Recebeu esse email porque criou uma conta no FakeForge BR. Se não quiser mais lembretes, ignora — não mando outro.
+                Recebeu esse email porque criou uma conta no FakeForge. Se não quiser mais lembretes, ignora — não mando outro.
               </p>
             </td>
           </tr>

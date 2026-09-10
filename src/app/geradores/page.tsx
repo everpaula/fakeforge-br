@@ -11,7 +11,7 @@ type GeneratorIcon =
 
 export const metadata: Metadata = {
   title: "Geradores de Dados Brasileiros — Ferramentas para Desenvolvedores",
-  description: "Todas as ferramentas do FakeForge BR: gerador de CPF, CNPJ, CEP, telefone, email, PIX, cartão de crédito, pessoa, empresa e endereço. Grátis para uso web.",
+  description: "Todas as ferramentas do FakeForge: gerador de CPF, CNPJ, CEP, telefone, email, PIX, cartão de crédito, pessoa, empresa e endereço. Grátis para uso web.",
   keywords: "geradores dados brasileiros, ferramentas desenvolvedor BR, gerador cpf cnpj cep telefone email pix cartão",
   alternates: { canonical: "/geradores" },
 };
@@ -52,7 +52,7 @@ export default function Geradores() {
           Geradores de <span className="text-primary">Dados Brasileiros</span>
         </h1>
         <p className="text-muted mt-3 text-sm leading-relaxed max-w-3xl">
-          Todas as ferramentas do FakeForge BR em um só lugar. Geração grátis e ilimitada pelo
+          Todas as ferramentas do FakeForge em um só lugar. Geração grátis e ilimitada pelo
           navegador. Para uso programático, <Link href="/docs" className="text-primary hover:underline">confira a API REST</Link>{" "}com 100 chamadas grátis por dia.
         </p>
         <p className="text-muted mt-3 text-sm leading-relaxed max-w-3xl">

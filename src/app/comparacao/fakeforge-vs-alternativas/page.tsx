@@ -5,7 +5,7 @@ import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
   title: "FakeForge vs 4devs vs Faker.js vs fakerbr — Comparação Completa",
-  description: "Comparativo técnico entre FakeForge BR e as principais alternativas para gerar dados brasileiros de teste: 4devs.com.br, Faker.js (locale pt_BR), fakerbr (npm). Recursos, API, validação e quando usar cada um.",
+  description: "Comparativo técnico entre FakeForge e as principais alternativas para gerar dados brasileiros de teste: 4devs.com.br, Faker.js (locale pt_BR), fakerbr (npm). Recursos, API, validação e quando usar cada um.",
   keywords: "fakeforge vs 4devs, alternativa faker.js brasil, comparação geradores dados brasileiros, fakerbr alternativa, melhor gerador cpf cnpj brasil",
   alternates: { canonical: "/comparacao/fakeforge-vs-alternativas" },
   openGraph: {
@@ -87,7 +87,7 @@ export default function Comparacao() {
         <h2 className="text-xl font-semibold text-foreground mb-4">Análise detalhada</h2>
 
         <section className="prose-custom space-y-6 text-sm text-muted-foreground leading-relaxed">
-          <h3 className="text-lg font-semibold text-foreground mt-6 mb-2">FakeForge BR</h3>
+          <h3 className="text-lg font-semibold text-foreground mt-6 mb-2">FakeForge</h3>
           <p>
             Plataforma 100% focada no Brasil. Implementa todos os algoritmos oficiais (mod-11 da Receita
             para CPF/CNPJ, Luhn para cartão, ASCII -48 para CNPJ alfanumérico, mod-11 invertido do DENATRAN

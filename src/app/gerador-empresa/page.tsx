@@ -7,11 +7,11 @@ import GeneratorSchema from "@/components/GeneratorSchema";
 import RelatedGenerators from "@/components/RelatedGenerators";
 
 export const metadata: Metadata = {
-  title: "Gerador de Empresa Fictícia - CNPJ, Razão Social e Endereço | FakeForge BR",
+  title: "Gerador de Empresa Fictícia - CNPJ, Razão Social e Endereço | FakeForge",
   description: "Gere empresas fictícias completas com CNPJ válido, razão social, nome fantasia, endereço e telefone. Ideal para testes de sistemas B2B e marketplace. Grátis.",
   keywords: "gerador de empresa fictícia, gerador de dados empresariais, empresa fake, cnpj razão social, dados empresa teste, gerador empresa brasileira",
   openGraph: {
-    title: "Gerador de Empresa Fictícia - FakeForge BR",
+    title: "Gerador de Empresa Fictícia - FakeForge",
     description: "Gere empresas fictícias com CNPJ válido, razão social e endereço para testes. Grátis e sem cadastro.",
     type: "website",
     images: ["/api/og?title=Gerador+de+Empresa+Fict%C3%ADcia&subtitle=CNPJ+v%C3%A1lido%2C+raz%C3%A3o+social%2C+endere%C3%A7o+e+contato+correlacionados&category=GERADOR"],

@@ -9,7 +9,7 @@ import GeneratorSchema from "@/components/GeneratorSchema";
 import RelatedGenerators from "@/components/RelatedGenerators";
 
 export const metadata: Metadata = {
-  title: "Gerador de CNPJ Alfanumérico — Novo Formato 2026 | FakeForge BR",
+  title: "Gerador de CNPJ Alfanumérico — Novo Formato 2026 | FakeForge",
   description: "Gere CNPJ alfanumérico válido para testes. Novo formato com letras (A-Z) entra em vigor em 01/07/2026 conforme IN RFB 2229/2024. Algoritmo módulo 11 com ASCII -48 implementado corretamente. Grátis.",
   keywords: "gerador cnpj alfanumérico, novo cnpj 2026, cnpj com letras, cnpj alfanumerico válido, instrução normativa 2229, validador cnpj alfanumérico, novo formato cnpj receita federal",
   openGraph: {

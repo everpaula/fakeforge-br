@@ -7,7 +7,7 @@ import BlogPostingSchema from "@/components/BlogPostingSchema";
 
 export const metadata: Metadata = {
   title: "FakeForge vs Faker.js vs 4devs: qual usar para dados brasileiros?",
-  description: "Comparativo honesto entre FakeForge BR, Faker.js (pt_BR), fakerbr e 4devs.com.br. Descubra qual gerador de dados brasileiros é melhor para o seu caso.",
+  description: "Comparativo honesto entre FakeForge, Faker.js (pt_BR), fakerbr e 4devs.com.br. Descubra qual gerador de dados brasileiros é melhor para o seu caso.",
   keywords: "faker brasileiro, alternativa faker.js, 4devs alternativa, gerador dados brasileiros comparação, fakerbr, dados fake brasil",
   openGraph: {
     title: "FakeForge vs Faker.js vs 4devs: qual usar para dados brasileiros?",
@@ -68,7 +68,7 @@ export default function Post() {
             e vários outros dados com um clique. Sem API pública — uso exclusivamente manual.
           </p>
 
-          <h3 className="text-base font-semibold text-foreground mt-6 mb-2">FakeForge BR</h3>
+          <h3 className="text-base font-semibold text-foreground mt-6 mb-2">FakeForge</h3>
           <p>
             Gerador com API REST, export em SQL/CSV/JSON, dados correlacionados (pessoa com CPF +
             endereço + telefone que fazem sentido juntos) e zero dependências externas.
@@ -125,7 +125,7 @@ export default function Post() {
             o fakerbr é leve e direto. Porém não gera pessoa completa com dados correlacionados.
           </p>
 
-          <h3 className="text-base font-semibold text-foreground mt-6 mb-2">FakeForge BR — dados completos via API</h3>
+          <h3 className="text-base font-semibold text-foreground mt-6 mb-2">FakeForge — dados completos via API</h3>
           <p>
             Quando você precisa de perfis brasileiros completos (pessoa + CPF + endereço + telefone
             coerentes), API para CI/CD, e export direto em SQL/CSV — é para isso que o FakeForge
@@ -167,7 +167,7 @@ export default function Post() {
             <li><strong>Projeto internacional?</strong> Faker.js. Sem pensar.</li>
             <li><strong>CPF rápido sem setup?</strong> 4devs. Abriu e copiou.</li>
             <li><strong>Documentos BR no código Node?</strong> fakerbr. Leve e funciona.</li>
-            <li><strong>Dados BR completos, correlacionados, via API?</strong> FakeForge BR.</li>
+            <li><strong>Dados BR completos, correlacionados, via API?</strong> FakeForge.</li>
           </ul>
           <p>
             Inclusive, você pode combinar: Faker.js para dados internacionais e FakeForge para
@@ -183,7 +183,7 @@ export default function Post() {
         <BlogPostingSchema
           title={"FakeForge vs Faker.js vs 4devs: qual usar para dados brasileiros?"}
           slug="fakeforge-vs-fakerjs-vs-4devs"
-          description={"Comparativo honesto entre FakeForge BR, Faker.js (pt_BR), fakerbr e 4devs.com.br. Descubra qual gerador de dados brasileiros é melhor para o seu caso."}
+          description={"Comparativo honesto entre FakeForge, Faker.js (pt_BR), fakerbr e 4devs.com.br. Descubra qual gerador de dados brasileiros é melhor para o seu caso."}
           datePublished="2026-05-26"
           image="https://fakeforge.com.br/api/og?title=FakeForge%20vs%20Faker.js%20vs%204devs%3A%20qual%20usar%20para%20dados%20brasileiros%3F&subtitle=Comparativo%20honesto%20entre%20os%20principais%20geradores%20de%20dados%20fake%20brasileiros.&category=COMPARATIVOS"
         />

@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   description: "Gere números de RG fictícios válidos no formato de São Paulo (mod-11). 9 dígitos com dígito verificador correto, podendo terminar em X. Para testes de cadastro e validação. Grátis.",
   keywords: "gerador rg, gerador rg válido, número rg teste, rg fictício, rg formato sp, gerador identidade",
   openGraph: {
-    title: "Gerador de RG Válido — FakeForge BR",
+    title: "Gerador de RG Válido — FakeForge",
     description: "Gere RGs fictícios válidos no formato SP (mod-11) para testes.",
     type: "website",
   },

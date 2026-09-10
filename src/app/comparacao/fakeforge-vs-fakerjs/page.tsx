@@ -6,7 +6,7 @@ import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 export const metadata: Metadata = {
   title: "FakeForge vs Faker.js: qual usar para dados brasileiros em 2026?",
   description:
-    "Comparativo técnico entre FakeForge BR e Faker.js (@faker-js/faker) para gerar dados brasileiros válidos. CPF mod-11, CNPJ alfanumérico, PIX BACEN, locale pt_BR, API REST. Quando usar cada um.",
+    "Comparativo técnico entre FakeForge e Faker.js (@faker-js/faker) para gerar dados brasileiros válidos. CPF mod-11, CNPJ alfanumérico, PIX BACEN, locale pt_BR, API REST. Quando usar cada um.",
   keywords:
     "fakeforge vs faker.js, faker.js brasileiro, faker pt_BR cpf válido, alternativa faker.js brasil, faker js cnpj válido, gerador dados brasil sem instalar lib",
   alternates: { canonical: "/comparacao/fakeforge-vs-fakerjs" },
@@ -93,7 +93,7 @@ export default function ComparacaoFakerjs() {
               <thead>
                 <tr className="border-b border-border bg-card-hover">
                   <th className="text-left px-4 py-3 text-muted-foreground font-medium">Recurso</th>
-                  <th className="text-center px-4 py-3 text-primary font-semibold">FakeForge BR</th>
+                  <th className="text-center px-4 py-3 text-primary font-semibold">FakeForge</th>
                   <th className="text-center px-4 py-3 text-muted-foreground font-medium">Faker.js</th>
                 </tr>
               </thead>
@@ -290,15 +290,15 @@ const customers = Array.from({ length: 100 }, () => {
             "@type": "Article",
             headline: "FakeForge vs Faker.js: qual usar para dados brasileiros em 2026?",
             description:
-              "Comparativo técnico entre FakeForge BR e Faker.js para gerar dados brasileiros de teste.",
+              "Comparativo técnico entre FakeForge e Faker.js para gerar dados brasileiros de teste.",
             author: {
               "@type": "Organization",
-              name: "FakeForge BR",
+              name: "FakeForge",
               url: "https://fakeforge.com.br",
             },
             publisher: {
               "@type": "Organization",
-              name: "FakeForge BR",
+              name: "FakeForge",
               url: "https://fakeforge.com.br",
             },
             datePublished: "2026-05-25",

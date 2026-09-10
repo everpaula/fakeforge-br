@@ -6,10 +6,10 @@ import ShareBar from "@/components/ShareBar";
 import BlogPostingSchema from "@/components/BlogPostingSchema";
 
 export const metadata: Metadata = {
-  title: "Dados de teste no CI/CD: GitHub Actions, pytest, Jest e seed automatizado",
+  title: "Dados de Teste no CI/CD: GitHub Actions, pytest, Jest",
   description: "Pipeline completo de geração de dados BR via API no CI/CD: GitHub Actions com cache + secrets, pytest fixtures, Jest beforeAll, seed pre-deploy, e estratégia de invalidação entre runs.",
   openGraph: {
-    title: "Dados de teste no CI/CD: GitHub Actions, pytest, Jest e seed automatizado",
+    title: "Dados de Teste no CI/CD: GitHub Actions, pytest, Jest",
     description: "Pipeline completo de geração de dados BR via API no CI/CD: GitHub Actions com cache + secrets, pytest fixtures, Jest beforeAll, seed pre-deploy, e estratégia de invalidação entre runs.",
     type: "article",
     images: ["/api/og?title=Dados%20de%20teste%20no%20CI%2FCD&subtitle=GitHub%20Actions%2C%20pytest%2C%20Jest%20e%20seed%20automatizado&category=TUTORIAIS"],

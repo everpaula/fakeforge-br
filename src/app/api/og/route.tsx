@@ -9,7 +9,7 @@ const ORANGE = "#f97316";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
-  const title = (searchParams.get("title") || "FakeForge BR").slice(0, 120);
+  const title = (searchParams.get("title") || "FakeForge").slice(0, 120);
   const subtitle = (searchParams.get("subtitle") || "Dados brasileiros válidos para testes").slice(0, 160);
   const category = (searchParams.get("category") || "").slice(0, 40);
 

@@ -6,10 +6,10 @@ import ShareBar from "@/components/ShareBar";
 import BlogPostingSchema from "@/components/BlogPostingSchema";
 
 export const metadata: Metadata = {
-  title: "Popular banco com dados brasileiros: guia completo (PostgreSQL, MySQL, SQLite, MongoDB)",
+  title: "Popular Banco com Dados Brasileiros: Postgres, MySQL, SQLite",
   description: "Pillar guide pra popular banco de staging com dados BR fictícios válidos. Cobre PostgreSQL, MySQL, SQLite, MongoDB. Compara seed estático vs dinâmico, mostra padrões de migração + seed e estratégias de reset entre testes.",
   openGraph: {
-    title: "Popular banco com dados brasileiros: guia completo (PostgreSQL, MySQL, SQLite, MongoDB)",
+    title: "Popular Banco com Dados Brasileiros: Postgres, MySQL, SQLite",
     description: "Pillar guide pra popular banco de staging com dados BR fictícios válidos. Cobre PostgreSQL, MySQL, SQLite, MongoDB. Compara seed estático vs dinâmico, mostra padrões de migração + seed e estratégias de reset entre testes.",
     type: "article",
     images: ["/api/og?title=Popular%20banco%20com%20dados%20BR&subtitle=Guia%20completo%20PostgreSQL%2C%20MySQL%2C%20SQLite%2C%20MongoDB&category=TUTORIAIS"],
@@ -80,7 +80,7 @@ export default function Post() {
             </ul>
             <p className="mb-4">
               A solução cara é manter uma biblioteca interna que implementa os algoritmos. A solução barata é chamar uma API que já implementa. Este guia assume a segunda opção e usa o{" "}
-              <Link href="/" className="text-primary hover:underline">FakeForge BR</Link> como provedor (free tier: 50 chamadas/dia, sem cadastro), mas os padrões valem pra qualquer fonte que gere dado BR válido.
+              <Link href="/" className="text-primary hover:underline">FakeForge</Link> como provedor (free tier: 50 chamadas/dia, sem cadastro), mas os padrões valem pra qualquer fonte que gere dado BR válido.
             </p>
           </section>
 

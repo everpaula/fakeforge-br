@@ -6,7 +6,7 @@ import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import GeneratorSchema from "@/components/GeneratorSchema";
 
 export const metadata: Metadata = {
-  title: "Cartão de Crédito Fake para Testes: Visa, Mastercard, Elo (Luhn Válido)",
+  title: "Cartão de Crédito Fake: Visa, Mastercard, Elo (Luhn)",
   description: "Gere cartão de crédito fake com número que passa validação Luhn (mod-10). Visa, Mastercard, Elo, Hipercard e Amex. Para testes de checkout, sandbox de pagamento e QA sem risco de fraude. Grátis e sem cadastro.",
   keywords: "cartao de credito fake, cartão de crédito fake, cartão fake, cartão falso, cartão fictício, cartão de crédito falso, cartão fake teste, cartão fake para netflix teste, cartão fake grátis, gerar cartão fake, cartão de crédito fake válido, cartao fake luhn",
   alternates: { canonical: "/cartao-credito-fake" },

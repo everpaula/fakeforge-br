@@ -3,8 +3,8 @@ import PageShell from "@/components/PageShell";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "Parceiros e Programas de Afiliados — FakeForge BR",
-  description: "Lista transparente de todos os parceiros e programas de afiliados que o FakeForge BR participa. Política de divulgação, comissões e como funciona.",
+  title: "Parceiros e Programas de Afiliados — FakeForge",
+  description: "Lista transparente de todos os parceiros e programas de afiliados que o FakeForge participa. Política de divulgação, comissões e como funciona.",
   alternates: { canonical: "/parceiros" },
 };
 
@@ -43,7 +43,7 @@ export default function Parceiros() {
           Parceiros e <span className="text-primary">Afiliados</span>
         </h1>
         <p className="text-base text-muted-foreground leading-relaxed mb-8">
-          Transparência sobre quem o FakeForge BR recomenda e por quê.
+          Transparência sobre quem o FakeForge recomenda e por quê.
         </p>
 
         <section className="rounded-xl bg-card border border-border p-6 mb-10">

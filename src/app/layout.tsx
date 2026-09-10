@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "FakeForge BR: Gerador de Dados Brasileiros Válidos para Testes",
+    default: "FakeForge: Gerador de Dados Brasileiros Válidos para Testes",
     // No suffix. Each page sets its own complete title so we can keep them
     // under the 60-char SERP truncation limit per page.
     template: "%s",
@@ -45,21 +45,21 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "pt_BR",
-    siteName: "FakeForge BR",
-    title: "FakeForge BR - Gerador de Dados Brasileiros para Testes",
+    siteName: "FakeForge",
+    title: "FakeForge - Gerador de Dados Brasileiros para Testes",
     description: "Gere CPF, CNPJ, CEP, nomes, emails, telefones e mais dados brasileiros fictícios para desenvolvimento e testes. Grátis e sem cadastro.",
     images: [
       {
         url: "/api/og?title=FakeForge+BR&subtitle=Gerador+de+dados+brasileiros+v%C3%A1lidos+para+testes",
         width: 1200,
         height: 630,
-        alt: "FakeForge BR: gerador de dados brasileiros para testes",
+        alt: "FakeForge: gerador de dados brasileiros para testes",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "FakeForge BR - Gerador de Dados Brasileiros",
+    title: "FakeForge - Gerador de Dados Brasileiros",
     description: "Gere CPF, CNPJ, endereços e mais dados brasileiros fictícios para testes. API REST gratuita.",
     images: ["/api/og?title=FakeForge+BR&subtitle=Gerador+de+dados+brasileiros+v%C3%A1lidos+para+testes"],
   },
@@ -112,7 +112,7 @@ gtag('config', 'G-RP4KV5SD88');`,
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "SoftwareApplication",
-              name: "FakeForge BR",
+              name: "FakeForge",
               description: "Gerador de dados brasileiros fictícios para testes — CPF, CNPJ, CEP, nomes, emails, telefones, cartões e mais. API REST gratuita.",
               url: "https://fakeforge.com.br",
               applicationCategory: "DeveloperApplication",
