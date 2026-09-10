@@ -47,6 +47,15 @@ export default function GeradorTelefone() {
         />
       </div>
 
+      <div className="mt-6 flex flex-wrap gap-2">
+        <span className="text-xs text-muted self-center mr-2">Guias específicos:</span>
+        <Link href="/numero-de-celular-aleatorio" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Celular aleatório</Link>
+        <Link href="/telefone-aleatorio" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Telefone aleatório</Link>
+        <Link href="/gerador-de-numero-fake" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Número fake</Link>
+        <Link href="/gerador-telefone-fixo" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Fixo residencial</Link>
+        <Link href="/gerador-numero-para-cadastro" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Para cadastro</Link>
+      </div>
+
       <ApiCtaBanner dataType="telefones" />
 
       {/* SEO content */}

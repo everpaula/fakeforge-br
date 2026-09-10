@@ -46,6 +46,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/gerador-cep`, lastModified: D.may15, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/buscar-cep`, lastModified: D.newest, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/gerador-telefone`, lastModified: D.may26, changeFrequency: "monthly", priority: 0.8 },
+    // Cluster telefone expansion (audit 10/09) - reduzir concentracao 54% do pilar
+    { url: `${baseUrl}/numero-de-celular-aleatorio`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/telefone-aleatorio`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/gerador-de-numero-fake`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/gerador-telefone-fixo`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/gerador-numero-para-cadastro`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/gerador-email`, lastModified: D.may15, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/gerador-pix`, lastModified: D.may15, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/gerador-cartao`, lastModified: D.may15, changeFrequency: "monthly", priority: 0.8 },
