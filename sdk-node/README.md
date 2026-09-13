@@ -13,7 +13,7 @@ SDK oficial do [FakeForge](https://fakeforge.com.br) para Node.js e TypeScript �
 ## Instalação
 
 ```bash
-npm install fakeforge
+npm install fakeforge-br
 ```
 
 ```bash
@@ -27,7 +27,7 @@ yarn add fakeforge
 ## Uso rápido
 
 ```typescript
-import { FakeForge } from "fakeforge";
+import { FakeForge } from "fakeforge-br";
 
 const ff = new FakeForge();
 
@@ -100,7 +100,7 @@ Se você usa Faker.js hoje só pra nome/endereço, funciona bem. Se precisa de C
 
 ```typescript
 // setup.ts
-import { FakeForge } from "fakeforge";
+import { FakeForge } from "fakeforge-br";
 import { beforeAll } from "vitest";
 
 const ff = new FakeForge();
@@ -131,7 +131,7 @@ test("checkout aceita cartão válido do customer", async () => {
 
 ```typescript
 import { test } from "@playwright/test";
-import { FakeForge } from "fakeforge";
+import { FakeForge } from "fakeforge-br";
 
 const ff = new FakeForge();
 
@@ -155,7 +155,7 @@ test("signup fluxo completo", async ({ page }) => {
 ```typescript
 // prisma/seed.ts
 import { PrismaClient } from "@prisma/client";
-import { FakeForge } from "fakeforge";
+import { FakeForge } from "fakeforge-br";
 
 const prisma = new PrismaClient();
 const ff = new FakeForge({ apiKey: process.env.FAKEFORGE_API_KEY });
@@ -194,7 +194,7 @@ Pegue sua API key em [fakeforge.com.br/dashboard](https://fakeforge.com.br/dashb
 ## Tratamento de erros
 
 ```typescript
-import { FakeForge, FakeForgeError } from "fakeforge";
+import { FakeForge, FakeForgeError } from "fakeforge-br";
 
 const ff = new FakeForge();
 
@@ -271,7 +271,7 @@ Cache dos dados gerados na primeira chamada evita esgotar quota:
 // tests/fixtures/customers.ts
 import fs from "node:fs/promises";
 import path from "node:path";
-import { FakeForge } from "fakeforge";
+import { FakeForge } from "fakeforge-br";
 
 const CACHE = path.join(__dirname, "customers.json");
 

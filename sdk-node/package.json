@@ -1,5 +1,5 @@
 {
-  "name": "fakeforge",
+  "name": "fakeforge-br",
   "version": "0.1.0",
   "description": "SDK oficial do FakeForge para gerar dados brasileiros válidos (CPF, CNPJ, CEP, PIX, cartão de crédito) em testes de software. Zero dependências, TypeScript nativo.",
   "keywords": [

@@ -63,7 +63,7 @@ app.post("/signup", (req, res) => {
 });
 
 // Nos teus testes E2E ou seed de staging:
-import { FakeForge } from "fakeforge";
+import { FakeForge } from "fakeforge-br";
 
 const ff = new FakeForge();
 const cpfs = await ff.cpf(1000);  // 1000 CPFs válidos
@@ -164,7 +164,7 @@ npm install @fnando/validate-docbr fakeforge
 # fakeforge nos testes e seeds
 
 # tests/setup.ts
-import { FakeForge } from "fakeforge";
+import { FakeForge } from "fakeforge-br";
 export const ff = new FakeForge();
 
 # tests/checkout.test.ts

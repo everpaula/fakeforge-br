@@ -229,7 +229,7 @@ jobs:
         env:
           FAKEFORGE_KEY: \${{ secrets.FAKEFORGE_KEY }}
         run: |
-          npm install fakeforge
+          npm install fakeforge-br
           node scripts/seed-staging.js`}</code></pre>
 
         <p className="text-xs text-muted-foreground mt-3 leading-relaxed">

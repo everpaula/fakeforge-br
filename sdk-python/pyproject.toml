@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "fakeforge"
+name = "fakeforge-br"
 version = "0.1.0"
 description = "SDK oficial do FakeForge para gerar dados brasileiros válidos (CPF, CNPJ, CEP, PIX, cartão de crédito) em testes de software. Zero dependências runtime."
 readme = "README.md"

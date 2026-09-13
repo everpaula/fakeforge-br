@@ -139,16 +139,16 @@ export default function MelhorGeradorCpf() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div>
             <p className="text-[10px] uppercase tracking-wider text-muted font-bold mb-2">Node</p>
-            <pre className="bg-card border border-border rounded-lg p-3 text-xs overflow-x-auto"><code>{`npm install fakeforge
+            <pre className="bg-card border border-border rounded-lg p-3 text-xs overflow-x-auto"><code>{`npm install fakeforge-br
 
-import { FakeForge } from "fakeforge";
+import { FakeForge } from "fakeforge-br";
 const ff = new FakeForge();
 const cpfs = await ff.cpf(10);`}</code></pre>
           </div>
 
           <div>
             <p className="text-[10px] uppercase tracking-wider text-muted font-bold mb-2">Python</p>
-            <pre className="bg-card border border-border rounded-lg p-3 text-xs overflow-x-auto"><code>{`pip install fakeforge
+            <pre className="bg-card border border-border rounded-lg p-3 text-xs overflow-x-auto"><code>{`pip install fakeforge-br
 
 from fakeforge import FakeForge
 ff = FakeForge()

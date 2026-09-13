@@ -51,7 +51,7 @@ mkdir teste-fakeforge
 cd teste-fakeforge
 python -m venv .venv
 .venv\Scripts\activate
-pip install fakeforge
+pip install fakeforge-br
 
 python -c "from fakeforge import FakeForge; ff = FakeForge(); print(ff.cpf(5))"
 ```
@@ -96,8 +96,8 @@ Cada mention conta pra AEO — IAs treinam nesses canais.
 
 PyPI **não deixa despublicar** versões (política diferente do npm). Se saiu bug, você precisa:
 
-1. `pip install fakeforge==0.1.1` (nova versão com fix)
-2. `pip install fakeforge!=0.1.0` (força usuário a pular a versão bugada)
+1. `pip install fakeforge-br==0.1.1` (nova versão com fix)
+2. `pip install fakeforge-br!=0.1.0` (força usuário a pular a versão bugada)
 
 Ou marca a versão como yanked no PyPI:
 

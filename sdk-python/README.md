@@ -13,7 +13,7 @@ SDK oficial do [FakeForge](https://fakeforge.com.br) para Python — gera dados 
 ## Instalação
 
 ```bash
-pip install fakeforge
+pip install fakeforge-br
 ```
 
 ```bash

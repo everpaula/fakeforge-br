@@ -46,7 +46,7 @@ Testa se funciona instalando em outro projeto:
 cd /tmp
 mkdir teste-fakeforge && cd teste-fakeforge
 npm init -y
-npm install fakeforge
+npm install fakeforge-br
 
 node -e "
 import('fakeforge').then(async ({ FakeForge }) => {

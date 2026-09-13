@@ -38,7 +38,7 @@ export default function FakeForgeVsPythonBrasilidades() {
             CNPJ, RG, CNH válidos. Cobre básico e funciona offline (sem chamar API). Zero deps runtime.
           </li>
           <li>
-            <strong className="text-foreground">FakeForge:</strong> tem SDK Python (`pip install fakeforge`)
+            <strong className="text-foreground">FakeForge:</strong> tem SDK Python (`pip install fakeforge-br`)
             + presets correlacionados + CNPJ alfanumérico 2026 + API HTTP pra polyglot.
           </li>
           <li>
@@ -78,7 +78,7 @@ export default function FakeForgeVsPythonBrasilidades() {
                 ["Presets bundle (customer, employee)", "✅", "❌"],
                 ["17 bancos com DV", "✅", "❌"],
                 ["Offline (sem chamar API)", "❌ (chama api.fakeforge.com.br)", "✅"],
-                ["SDK Python oficial", "✅ (pip install fakeforge)", "✅ (pip install brasilidades)"],
+                ["SDK Python oficial", "✅ (pip install fakeforge-br)", "✅ (pip install brasilidades)"],
                 ["Zero deps runtime", "✅", "✅"],
                 ["Uso via API HTTP (polyglot)", "✅", "❌"],
               ].map(([recurso, ff, brasilidades], i) => (

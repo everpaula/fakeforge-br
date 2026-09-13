@@ -159,7 +159,7 @@ export default function ComoGerarCpfValidoLegal() {
           Popular banco de staging Postgres com 1000 usuários pra rodar teste de load em endpoint de signup:
         </p>
         <pre className="bg-card border border-border rounded-lg p-4 text-xs overflow-x-auto"><code>{`// ✅ LEGAL - Node/TypeScript
-import { FakeForge } from "fakeforge";
+import { FakeForge } from "fakeforge-br";
 import { pool } from "./db/staging";  // apenas staging
 
 const ff = new FakeForge();
