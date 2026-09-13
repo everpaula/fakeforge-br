@@ -52,11 +52,17 @@ export default function QuotaMeter({ variant = "full" }: Props) {
   if (loading || !usage || !usage.authenticated) return null;
 
   const percent = usage.percent || 0;
-  const isHigh = percent >= 80;
+  // 4 thresholds escalonados (Sprint 1 audit 13/09):
+  //   0-49%   = silencioso  (azul)
+  //   50-79%  = warning     (accent/laranja) + "faltam X chamadas"
+  //   80-94%  = high        (danger) + CTA upgrade
+  //   95-100% = critical    (danger + urgencia) + CTA agressivo
+  const isCritical = percent >= 95;
+  const isHigh = percent >= 80 && percent < 95;
   const isMedium = percent >= 50 && percent < 80;
 
-  const barColor = isHigh ? "bg-danger" : isMedium ? "bg-accent" : "bg-primary";
-  const textColor = isHigh ? "text-danger" : isMedium ? "text-accent" : "text-muted-foreground";
+  const barColor = isCritical || isHigh ? "bg-danger" : isMedium ? "bg-accent" : "bg-primary";
+  const textColor = isCritical || isHigh ? "text-danger" : isMedium ? "text-accent" : "text-muted-foreground";
 
   if (variant === "compact") {
     return (
@@ -139,13 +145,36 @@ export default function QuotaMeter({ variant = "full" }: Props) {
         </div>
       )}
 
+      {/* Threshold CRITICAL (95%+) - urgencia maxima, borda animada, CTA forte */}
+      {isCritical && isFree && (
+        <div className="mt-3 pt-3 border-t border-danger/30 bg-danger/5 -mx-4 -mb-4 px-4 pb-4 rounded-b-xl">
+          <div className="flex items-center gap-2 mb-2">
+            <span className="w-2 h-2 rounded-full bg-danger animate-pulse" />
+            <p className="text-xs text-danger font-bold uppercase tracking-wider">
+              Você está a {usage.remaining} chamadas de bloquear
+            </p>
+          </div>
+          <p className="text-xs text-foreground leading-relaxed mb-3">
+            Cronômetro pra reset: <strong>00:00 BR</strong>. Se você ainda precisa hoje,
+            plano Dev libera <strong>10.000 chamadas/dia</strong> imediatamente.
+          </p>
+          <Link
+            href="/pricing?plan=dev&ref=quota_meter_critical"
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-bold bg-danger text-white shadow-lg shadow-danger/30 hover:bg-danger/90 hover:shadow-danger/50 transition-all"
+          >
+            Assinar Dev agora · R$29/mês →
+          </Link>
+        </div>
+      )}
+
+      {/* Threshold HIGH (80-94%) - CTA firme mas nao emergencial */}
       {isHigh && isFree && (
         <div className="mt-3 pt-3 border-t border-border">
           <p className="text-xs text-foreground font-medium mb-2">
             Você usou {percent}% do limite grátis hoje.
           </p>
           <Link
-            href="/pricing?plan=dev&ref=quota_meter"
+            href="/pricing?plan=dev&ref=quota_meter_high"
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-accent text-white shadow-md shadow-accent/30 hover:bg-accent/90 hover:shadow-accent/50 transition-all"
           >
             Assinar Dev · 100x mais →
@@ -153,7 +182,8 @@ export default function QuotaMeter({ variant = "full" }: Props) {
         </div>
       )}
 
-      {isMedium && isFree && !isHigh && (
+      {/* Threshold MEDIUM (50-79%) - informativo */}
+      {isMedium && isFree && !isHigh && !isCritical && (
         <p className="text-[11px] text-muted-foreground mt-3 leading-relaxed">
           Faltam <strong className="text-foreground">{usage.remaining}</strong> chamadas. Reset em 00:00.
         </p>
