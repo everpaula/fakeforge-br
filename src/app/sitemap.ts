@@ -37,6 +37,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/gerador-cnpj`, lastModified: D.jun01, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/gerador-cnpj-alfanumerico`, lastModified: D.jun13, changeFrequency: "weekly", priority: 0.95 },
     { url: `${baseUrl}/gerador-cnpj-valido`, lastModified: D.home, changeFrequency: "monthly", priority: 0.95 },
+    { url: `${baseUrl}/gerador-renavam`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/gerador-cnh`, lastModified: D.may15, changeFrequency: "monthly", priority: 0.85 },
     { url: `${baseUrl}/gerador-cin`, lastModified: D.may15, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/gerador-rg`, lastModified: D.may15, changeFrequency: "monthly", priority: 0.85 },

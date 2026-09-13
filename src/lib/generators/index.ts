@@ -2,6 +2,7 @@ import { generateCPF } from "./cpf";
 import { generateCNPJ, generateCnpjAlfa } from "./cnpj";
 import { generateRG } from "./rg";
 import { generatePIS } from "./pis";
+import { generateRenavam } from "./renavam";
 import { generateTituloEleitor } from "./titulo-eleitor";
 import { generatePlaca } from "./placa";
 import { generateCNH } from "./cnh";
@@ -21,6 +22,7 @@ export {
   generateCIN,
   generateRG,
   generatePIS,
+  generateRenavam,
   generateTituloEleitor,
   generatePlaca,
   generateCEP,
@@ -50,6 +52,7 @@ export type DataType =
   | "cin"
   | "rg"
   | "pis"
+  | "renavam"
   | "tituloEleitor"
   | "placa"
   | "placaAntiga"
@@ -94,6 +97,7 @@ export function generate(config: GeneratorConfig): unknown[] {
       case "cin": results.push(generateCIN()); break;
       case "rg": results.push(generateRG(formatted)); break;
       case "pis": results.push(generatePIS(formatted)); break;
+      case "renavam": results.push(generateRenavam(formatted)); break;
       case "tituloEleitor": results.push(generateTituloEleitor(formatted)); break;
       case "placa": results.push(generatePlaca("mercosul")); break;
       case "placaAntiga": results.push(generatePlaca("antiga")); break;
@@ -132,6 +136,7 @@ export const DATA_TYPES: { value: DataType; label: string; description: string; 
   { value: "cin", label: "CIN", description: "Carteira de Identidade Nacional (substitui o RG)", category: "Documentos" },
   { value: "rg", label: "RG", description: "Registro Geral formato SP (mod-11 com dígito X)", category: "Documentos" },
   { value: "pis", label: "PIS/PASEP", description: "PIS/PASEP/NIT/NIS válido (mod-11 com pesos 3-2)", category: "Documentos" },
+  { value: "renavam", label: "RENAVAM", description: "Registro Nacional de Veículos válido (mod-11 DENATRAN)", category: "Documentos" },
   { value: "tituloEleitor", label: "Título de Eleitor", description: "Título com UF e dígitos verificadores TSE", category: "Documentos" },
   { value: "placa", label: "Placa Mercosul", description: "Placa formato LLLNLNN (CONTRAN 729/2018)", category: "Documentos" },
   { value: "placaAntiga", label: "Placa Antiga", description: "Placa formato LLL-NNNN (legado pré-2018)", category: "Documentos" },
