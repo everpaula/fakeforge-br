@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import QuotaMeter from "@/components/QuotaMeter";
 import FirstCallActivation from "@/components/FirstCallActivation";
+import UsageProfileCard from "@/components/UsageProfileCard";
 import { track } from "@/lib/analytics";
 
 interface ApiKey {
@@ -262,6 +263,9 @@ export default function DashboardClient({ userId, userEmail }: { userId: string;
       <div className="mb-6">
         <QuotaMeter variant="full" />
       </div>
+
+      {/* Sprint 1 Task 3 (13/09) - Upsell contextual baseado no perfil de uso real do user */}
+      <UsageProfileCard />
 
       {/* Quick access to generators */}
       <div className="rounded-xl bg-card border border-border p-5 mb-8">

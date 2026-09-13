@@ -43,6 +43,9 @@ const ALLOWED_TYPES = new Set([
   "first_call_button_clicked",
   "first_call_success",
   "first_call_failed",
+  // Sprint 1 Task 3 (Chief of Staff 13/09) - contextual upsell per user profile
+  "usage_profile_card_shown",
+  "usage_profile_card_clicked",
 ]);
 
 function getClientIP(request: NextRequest): string {
