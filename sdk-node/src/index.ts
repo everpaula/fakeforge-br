@@ -16,5 +16,7 @@ export type {
   CreditCard,
   BankAccount,
   Company,
+  FintechPresetItem,
+  EcomPresetItem,
 } from "./types.js";
 export { FakeForgeError } from "./types.js";

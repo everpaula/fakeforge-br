@@ -49,6 +49,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/melhor-gerador-cpf-testes-software`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/como-gerar-cpf-valido-sem-infringir-lei`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/como-garantir-lgpd-ambiente-testes`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+
+    // Sprint 3 - Vertical presets (bundles ricos correlacionados)
+    { url: `${baseUrl}/preset-fintech`, lastModified: D.home, changeFrequency: "monthly", priority: 0.95 },
+    { url: `${baseUrl}/preset-ecom`, lastModified: D.home, changeFrequency: "monthly", priority: 0.95 },
     { url: `${baseUrl}/gerador-cnh`, lastModified: D.may15, changeFrequency: "monthly", priority: 0.85 },
     { url: `${baseUrl}/gerador-cin`, lastModified: D.may15, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/gerador-rg`, lastModified: D.may15, changeFrequency: "monthly", priority: 0.85 },

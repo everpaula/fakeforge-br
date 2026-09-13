@@ -51,7 +51,63 @@ export type Preset =
   | "employee"
   | "company"
   | "ecommerce_order"
-  | "contact_list";
+  | "contact_list"
+  | "fintech"
+  | "ecom";
+
+/**
+ * Preset fintech: cliente completo pra teste de checkout PIX, credit engine ou antifraude.
+ * CPF + PIX (3-4 chaves) + conta bancária + cartão + score Serasa + renda coerentes.
+ */
+export interface FintechPresetItem {
+  customer: {
+    nome: string;
+    cpf: string;
+    email: string;
+    telefone: string;
+    endereco: Address;
+    renda_mensal: number;
+    score_serasa: number;
+  };
+  pix_keys: Array<{ type: "cpf" | "email" | "phone" | "aleatoria"; value: string }>;
+  bank_account: BankAccount;
+  credit_card: CreditCard;
+}
+
+/**
+ * Preset ecom: pedido completo pra teste de checkout ecommerce.
+ * Cliente + endereços + carrinho (1-5 produtos) + payment (cartão/PIX/boleto) + totais.
+ */
+export interface EcomPresetItem {
+  customer: {
+    nome: string;
+    cpf: string;
+    email: string;
+    telefone: string;
+  };
+  shipping_address: Address;
+  billing_address: Address;
+  cart: Array<{
+    sku: string;
+    name: string;
+    category: string;
+    variation: string;
+    quantity: number;
+    unit_price: number;
+    total: number;
+  }>;
+  payment: {
+    method: "credit_card" | "pix" | "boleto";
+    credit_card?: CreditCard;
+    pix_code?: string;
+    boleto_linha_digitavel?: string;
+  };
+  totals: {
+    subtotal: number;
+    shipping: number;
+    total: number;
+  };
+}
 
 /**
  * Opções ao instanciar o cliente FakeForge.

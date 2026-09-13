@@ -4,6 +4,7 @@ import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { generate, DATA_TYPES, type DataType } from "@/lib/generators";
 import { generateSchema, SCHEMA_PRESETS, type SchemaField } from "@/lib/generators/schema";
+import { VERTICAL_PRESETS, isVerticalPreset } from "@/lib/generators/vertical-presets";
 import { checkRateLimit, getRateLimitHeaders, getMaxQuantity, PLAN_MAX_QUANTITY, PLAN_LIMITS } from "@/lib/rate-limit";
 import { resolveApiKey, logApiUsage, logAnonymousUsage } from "@/lib/api-auth";
 
@@ -203,19 +204,27 @@ export async function POST(request: NextRequest) {
 
     // Preset mode
     if (body.preset) {
-      const preset = SCHEMA_PRESETS[body.preset as keyof typeof SCHEMA_PRESETS];
-      if (!preset) {
-        return NextResponse.json(
-          { error: "Invalid preset", validPresets: Object.keys(SCHEMA_PRESETS) },
-          { status: 400, headers: rateLimit.headers }
-        );
-      }
+      const presetKey = body.preset as string;
       const requested = Math.max(1, Number(body.quantity || 10));
       if (requested > cap) return quantityExceededResponse(rateLimit.plan, requested, cap, rateLimit.headers);
       const qty = Math.min(requested, cap);
       const format = body.format || "json";
+
+      if (isVerticalPreset(presetKey)) {
+        const data = VERTICAL_PRESETS[presetKey].generator(qty);
+        logUsage(rateLimit, `preset:${presetKey}`, qty);
+        return formatResponse(data, presetKey, qty, format, rateLimit.headers);
+      }
+
+      const preset = SCHEMA_PRESETS[presetKey as keyof typeof SCHEMA_PRESETS];
+      if (!preset) {
+        return NextResponse.json(
+          { error: "Invalid preset", validPresets: [...Object.keys(SCHEMA_PRESETS), ...Object.keys(VERTICAL_PRESETS)] },
+          { status: 400, headers: rateLimit.headers }
+        );
+      }
       const data = generateSchema(preset, qty);
-      return formatResponse(data, body.preset, qty, format, rateLimit.headers);
+      return formatResponse(data, presetKey, qty, format, rateLimit.headers);
     }
 
     // Standard mode
@@ -258,16 +267,23 @@ export async function GET(request: NextRequest) {
 
   // Preset mode via GET
   if (preset) {
-    const schema = SCHEMA_PRESETS[preset as keyof typeof SCHEMA_PRESETS];
-    if (!schema) {
-      return NextResponse.json(
-        { error: "Invalid preset", validPresets: Object.keys(SCHEMA_PRESETS) },
-        { status: 400, headers: rateLimit.headers }
-      );
-    }
     const requested = Math.max(1, quantity);
     if (requested > cap) return quantityExceededResponse(rateLimit.plan, requested, cap, rateLimit.headers);
     const qty = Math.min(requested, cap);
+
+    if (isVerticalPreset(preset)) {
+      const data = VERTICAL_PRESETS[preset].generator(qty);
+      logUsage(rateLimit, `preset:${preset}`, qty);
+      return NextResponse.json({ preset, quantity: qty, data }, { headers: rateLimit.headers });
+    }
+
+    const schema = SCHEMA_PRESETS[preset as keyof typeof SCHEMA_PRESETS];
+    if (!schema) {
+      return NextResponse.json(
+        { error: "Invalid preset", validPresets: [...Object.keys(SCHEMA_PRESETS), ...Object.keys(VERTICAL_PRESETS)] },
+        { status: 400, headers: rateLimit.headers }
+      );
+    }
     const data = generateSchema(schema, qty);
     logUsage(rateLimit, `preset:${preset}`, qty);
     return NextResponse.json({ preset, quantity: qty, data }, { headers: rateLimit.headers });
@@ -283,7 +299,10 @@ export async function GET(request: NextRequest) {
         schema: "POST /api/generate with { schema: [...], quantity: 10 }",
       },
       types: DATA_TYPES.map((t) => ({ value: t.value, label: t.label, description: t.description })),
-      presets: Object.keys(SCHEMA_PRESETS),
+      presets: [...Object.keys(SCHEMA_PRESETS), ...Object.keys(VERTICAL_PRESETS)],
+      verticalPresets: Object.fromEntries(
+        Object.entries(VERTICAL_PRESETS).map(([k, v]) => [k, v.description])
+      ),
       limits: {
         maxQuantityPerCall: PLAN_MAX_QUANTITY,
         callsPerDay: { anon: 50, free: 50, dev: 10000, team: 100000 },
