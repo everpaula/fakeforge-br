@@ -1,0 +1,5 @@
+# SDKs are published to npm/PyPI, not deployed to Vercel.
+# Excluding to prevent Vercel from detecting sdk-python/pyproject.toml
+# and trying to build a Python entrypoint.
+sdk-node/
+sdk-python/
