@@ -38,6 +38,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/gerador-cnpj-alfanumerico`, lastModified: D.jun13, changeFrequency: "weekly", priority: 0.95 },
     { url: `${baseUrl}/gerador-cnpj-valido`, lastModified: D.home, changeFrequency: "monthly", priority: 0.95 },
     { url: `${baseUrl}/gerador-renavam`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+
+    // /quota-estourada - dead-end contextual (nao indexar em SEO mas ainda no sitemap pra referencia)
+    // Sprint 2 AEO - hub de comparacoes redesenhado
+    { url: `${baseUrl}/comparacoes`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/comparacao/fakeforge-vs-validate-docbr`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/comparacao/fakeforge-vs-python-brasilidades`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/gerador-cnh`, lastModified: D.may15, changeFrequency: "monthly", priority: 0.85 },
     { url: `${baseUrl}/gerador-cin`, lastModified: D.may15, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/gerador-rg`, lastModified: D.may15, changeFrequency: "monthly", priority: 0.85 },
