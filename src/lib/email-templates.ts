@@ -238,6 +238,124 @@ export function htmlReactivationT24h({ firstName, apiKey }: ActivationEmailProps
 </html>`;
 }
 
+// ============================================================================
+// QUOTA APPROACHING: transacional (nao marketing, sem opt-in). User Free
+// bateu >=80% do limite diario em algum dia da ultima semana. Aviso pessoal
+// + pull pra plano Dev.
+// ============================================================================
+
+interface QuotaEmailProps {
+  firstName: string;
+  peakUsageDay: string;     // Data em que bateu o pico, formatada
+  peakUsagePercent: number; // ex: 92
+  callsMade: number;        // total 7d
+  itemsGenerated: number;   // total 7d
+}
+
+export function subjectQuotaApproaching(): string {
+  return "Voce bateu 80%+ do limite gratis essa semana";
+}
+
+export function textQuotaApproaching({ firstName, peakUsageDay, peakUsagePercent, callsMade, itemsGenerated }: QuotaEmailProps): string {
+  return `Oi ${firstName},
+
+Rapida notificacao: na semana passada voce bateu ${peakUsagePercent}% do limite diario do plano gratis no dia ${peakUsageDay}.
+
+Numeros da sua semana:
+  - ${callsMade} chamadas na API
+  - ${itemsGenerated.toLocaleString('pt-BR')} items gerados
+  - Pico de uso: ${peakUsagePercent}% do limite diario
+
+Se voce continuar nesse ritmo, vai bater o cap de 100 chamadas/dia com frequencia (que trava a geracao ate 00:00 do dia seguinte).
+
+Se ja da pra assinar Dev, R$29/mes libera 10.000 chamadas/dia + 10.000 items por chamada. Sem CI/CD travado, sem chunk de request, sem ficar batendo teto:
+https://fakeforge.com.br/pricing?plan=dev&ref=quota_email
+
+Se ta apertado no orcamento e prefere continuar no gratis, tudo bem tambem - so quis avisar antes de voce ter surpresa quando bater o teto no meio de uma pipeline.
+
+Alguma duvida ou sugestao, me responde direto - leio tudo.
+
+Everton
+FakeForge
+`;
+}
+
+export function htmlQuotaApproaching({ firstName, peakUsageDay, peakUsagePercent, callsMade, itemsGenerated }: QuotaEmailProps): string {
+  const safeName = escapeHtml(firstName);
+  const safeDay = escapeHtml(peakUsageDay);
+
+  return `<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Voce bateu 80%+ do limite gratis</title>
+</head>
+<body style="margin:0; padding:0; background:#f5f5f5; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color:#1f2937;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f5f5f5;">
+    <tr>
+      <td align="center" style="padding: 24px 16px;">
+        <table role="presentation" width="560" cellpadding="0" cellspacing="0" style="background:#ffffff; border-radius:12px; overflow:hidden; max-width:560px; width:100%;">
+          <tr>
+            <td style="padding: 32px 32px 16px 32px;">
+              <p style="font-size:14px; line-height:1.5; margin:0 0 16px 0; color:#374151;">Oi ${safeName},</p>
+
+              <p style="font-size:15px; line-height:1.55; margin:0 0 20px 0; color:#111827;">
+                Rapida notificacao: na semana passada voce bateu <strong>${peakUsagePercent}% do limite diario</strong> do plano gratis no dia ${safeDay}.
+              </p>
+
+              <div style="background:#fef3f2; border-left:4px solid #f97316; padding:14px 16px; margin:0 0 20px 0; border-radius:6px;">
+                <p style="font-size:11px; margin:0 0 8px 0; color:#9a3412; text-transform:uppercase; letter-spacing:0.05em; font-weight:700;">Numeros da sua semana</p>
+                <p style="font-size:13px; margin:0 0 4px 0; color:#374151;">${callsMade} chamadas na API</p>
+                <p style="font-size:13px; margin:0 0 4px 0; color:#374151;">${itemsGenerated.toLocaleString('pt-BR')} items gerados</p>
+                <p style="font-size:13px; margin:0; color:#374151;">Pico de uso: <strong>${peakUsagePercent}%</strong> do limite diario</p>
+              </div>
+
+              <p style="font-size:14px; line-height:1.55; margin:0 0 16px 0; color:#374151;">
+                Se voce continuar nesse ritmo, vai bater o cap de 100 chamadas/dia com frequencia (que trava a geracao ate 00:00 do dia seguinte).
+              </p>
+
+              <p style="font-size:14px; line-height:1.55; margin:0 0 20px 0; color:#374151;">
+                Se ja da pra assinar Dev, <strong>R$29/mes libera 10.000 chamadas/dia + 10.000 items por chamada</strong>. Sem CI/CD travado, sem chunk de request, sem ficar batendo teto.
+              </p>
+
+              <table role="presentation" cellpadding="0" cellspacing="0" style="margin:8px 0 24px 0;">
+                <tr>
+                  <td style="background:#f97316; border-radius:8px;">
+                    <a href="https://fakeforge.com.br/pricing?plan=dev&ref=quota_email" style="display:inline-block; padding:12px 24px; font-size:14px; font-weight:700; color:#ffffff; text-decoration:none;">Assinar Dev - R$29/mes &rarr;</a>
+                  </td>
+                </tr>
+              </table>
+
+              <p style="font-size:13px; line-height:1.55; margin:0 0 16px 0; color:#6b7280;">
+                Se ta apertado no orcamento e prefere continuar no gratis, tudo bem tambem - so quis avisar antes de voce ter surpresa quando bater o teto no meio de uma pipeline.
+              </p>
+
+              <p style="font-size:14px; line-height:1.55; margin:0 0 16px 0; color:#374151;">
+                Alguma duvida ou sugestao, me responde direto - <strong>leio tudo</strong>.
+              </p>
+
+              <p style="font-size:14px; line-height:1.5; margin:24px 0 0 0; color:#374151;">
+                Everton<br>
+                <span style="color:#9ca3af; font-size:12px;">FakeForge</span>
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td style="background:#f9fafb; padding:16px 32px; border-top:1px solid #e5e7eb;">
+              <p style="font-size:11px; line-height:1.5; margin:0; color:#9ca3af;">
+                Voce recebeu esse email porque criou uma conta no FakeForge e teve uso proximo do limite diario. E' um aviso transacional sobre o seu uso da conta, nao marketing.
+              </p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`;
+}
+
 function escapeHtml(s: string): string {
   return s
     .replace(/&/g, "&amp;")
