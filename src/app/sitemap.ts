@@ -44,6 +44,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/comparacoes`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/comparacao/fakeforge-vs-validate-docbr`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/comparacao/fakeforge-vs-python-brasilidades`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+
+    // Sprint 2 AEO T4 - Q&A pages dedicadas por prompt Ubersuggest (HowTo/FAQ schema)
+    { url: `${baseUrl}/melhor-gerador-cpf-testes-software`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/como-gerar-cpf-valido-sem-infringir-lei`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/como-garantir-lgpd-ambiente-testes`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/gerador-cnh`, lastModified: D.may15, changeFrequency: "monthly", priority: 0.85 },
     { url: `${baseUrl}/gerador-cin`, lastModified: D.may15, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/gerador-rg`, lastModified: D.may15, changeFrequency: "monthly", priority: 0.85 },
