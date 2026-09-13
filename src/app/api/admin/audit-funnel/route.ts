@@ -48,10 +48,23 @@ export async function GET(request: NextRequest) {
     .single();
   if (!isAdmin) return NextResponse.json({ error: "forbidden" }, { status: 403 });
 
-  // --- 1. Total users (auth.users)
-  const { data: usersList } = await admin.auth.admin.listUsers({ page: 1, perPage: 1000 });
-  const totalUsers = usersList?.users?.length || 0;
-  const usersWithMeta = usersList?.users || [];
+  // --- 1. Total users (auth.users) - paginate pra pegar todos
+  //     Supabase listUsers max perPage = 1000 mas comportamento inconsistente
+  //     em versoes mais antigas do SDK. Paginamos manualmente ate esgotar.
+  const usersWithMeta: Array<{ id: string; created_at: string; email?: string }> = [];
+  for (let page = 1; page <= 20; page++) {
+    const { data: usersList, error } = await admin.auth.admin.listUsers({ page, perPage: 100 });
+    if (error) {
+      console.error("[audit-funnel] listUsers page", page, "error:", error.message);
+      break;
+    }
+    const batch = usersList?.users || [];
+    for (const u of batch) {
+      usersWithMeta.push({ id: u.id, created_at: u.created_at, email: u.email });
+    }
+    if (batch.length < 100) break;
+  }
+  const totalUsers = usersWithMeta.length;
 
   // --- 2. Users com API key (deveria ser 100% pos-migration 013)
   const { data: allKeys } = await admin
