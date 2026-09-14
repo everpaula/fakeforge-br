@@ -188,6 +188,9 @@ export default function AdminDashboard() {
             >
               Atualizar
             </button>
+            <Link href="/admin/vc" className="text-xs text-primary hover:text-primary-hover transition-colors font-medium">
+              VC Dashboard →
+            </Link>
             <Link href="/dashboard" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
               Dashboard
             </Link>
