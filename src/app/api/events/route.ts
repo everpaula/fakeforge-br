@@ -46,6 +46,14 @@ const ALLOWED_TYPES = new Set([
   // Sprint 1 Task 3 (Chief of Staff 13/09) - contextual upsell per user profile
   "usage_profile_card_shown",
   "usage_profile_card_clicked",
+  // Sprint 5 F1 (13/09) - FirstCallActivation redesenhado com 3 CTAs
+  "first_call_dismissed",
+  "first_call_result_copied",
+  "first_call_curl_copied",
+  "first_call_next_step",
+  // Sprint 5 F4 - Onboarding checklist
+  "onboarding_step_clicked",
+  "onboarding_dismissed",
 ]);
 
 function getClientIP(request: NextRequest): string {

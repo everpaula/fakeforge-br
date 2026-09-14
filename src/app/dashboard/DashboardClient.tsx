@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import QuotaMeter from "@/components/QuotaMeter";
 import FirstCallActivation from "@/components/FirstCallActivation";
+import OnboardingChecklist from "@/components/OnboardingChecklist";
 import UsageProfileCard from "@/components/UsageProfileCard";
 import { track } from "@/lib/analytics";
 
@@ -263,6 +264,12 @@ export default function DashboardClient({ userId, userEmail }: { userId: string;
       <div className="mb-6">
         <QuotaMeter variant="full" />
       </div>
+
+      {/* Sprint 5 F4 - Onboarding checklist pós-primeira chamada */}
+      <OnboardingChecklist
+        hasCalled={usageToday > 0}
+        isFreePlan={subscription.plan === "free"}
+      />
 
       {/* Sprint 1 Task 3 (13/09) - Upsell contextual baseado no perfil de uso real do user */}
       <UsageProfileCard />

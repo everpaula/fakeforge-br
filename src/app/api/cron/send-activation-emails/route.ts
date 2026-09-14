@@ -3,15 +3,19 @@ import { createClient } from "@supabase/supabase-js";
 import { getResend, EMAIL_FROM, EMAIL_REPLY_TO } from "@/lib/resend";
 import { subjectActivationT10, htmlActivationT10, textActivationT10 } from "@/lib/email-templates";
 
-// Cron: roda a cada 5 min. Busca users que confirmaram email entre
-// 10 min e 20 min atrás, e ainda não receberam o email de ativação.
-// Envia curl pré-preenchido com API key real do user.
+// Cron: roda a cada 5 min. Busca users que confirmaram email nos
+// últimos 15 min e ainda não receberam email de ativação. Envia
+// curl pré-preenchido com API key real do user.
+//
+// Sprint 5 F2 (audit 13/09): mudou janela de [10-20min] pra [0-15min].
+// Motivação: audit funil mostrou p50=6min do signup → 1a chamada API.
+// Email a 10-20min chegava tarde. Agora chega na primeira janela cron
+// APÓS signup (max 5min de latência).
 //
 // Trigger: Vercel Cron (vercel.json) ou manual via CRON_SECRET.
 //
-// Design decision: 10-20 min window (não 10-15) pra tolerar cron
-// atrasado sem duplicar OR pular users. Dedup garantido pelo
-// UNIQUE index em (user_id, template) na tabela sent_emails.
+// Dedup: UNIQUE (user_id, template) em sent_emails previne 2 emails
+// mesmo se user aparecer em runs consecutivos do cron.
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 60; // segundos
@@ -51,10 +55,11 @@ export async function GET(request: NextRequest) {
 
   const admin = getAdminSupabase();
   const now = Date.now();
-  const windowStart = new Date(now - 20 * 60 * 1000).toISOString();
-  const windowEnd = new Date(now - 10 * 60 * 1000).toISOString();
+  // Sprint 5 F2: janela T+0 - pega users confirmados nos últimos 15 min
+  const windowStart = new Date(now - 15 * 60 * 1000).toISOString();
+  const windowEnd = new Date(now).toISOString();
 
-  // Busca users que confirmaram email dentro da janela [10min, 20min] atrás
+  // Busca users que confirmaram email nos últimos 15 min (T+0 dispatch)
   const { data: usersData, error: usersError } = await admin.auth.admin.listUsers({
     page: 1,
     perPage: 200,
