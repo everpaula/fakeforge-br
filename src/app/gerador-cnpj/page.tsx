@@ -3,6 +3,7 @@ import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import SingleGenerator from "@/components/SingleGenerator";
 import ApiCtaBanner from "@/components/ApiCtaBanner";
+import AdBanner from "@/components/AdBanner";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import GeneratorSchema from "@/components/GeneratorSchema";
 import RelatedGenerators from "@/components/RelatedGenerators";
@@ -151,6 +152,8 @@ curl -X POST "https://fakeforge.com.br/api/generate" \\
           </div>
         </section>
       </div>
+
+      <AdBanner label="Publicidade" className="max-w-3xl mx-auto" />
 
       <RelatedGenerators currentSlug="gerador-cnpj" />
 

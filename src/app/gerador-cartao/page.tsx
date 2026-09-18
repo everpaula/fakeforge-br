@@ -4,6 +4,7 @@ import PageShell from "@/components/PageShell";
 import SingleGenerator from "@/components/SingleGenerator";
 import ApiCtaBanner from "@/components/ApiCtaBanner";
 import ApiCtaTop from "@/components/ApiCtaTop";
+import AdBanner from "@/components/AdBanner";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import GeneratorSchema from "@/components/GeneratorSchema";
 import RelatedGenerators from "@/components/RelatedGenerators";
@@ -143,6 +144,8 @@ export default function GeradorCartao() {
           </div>
         </section>
       </div>
+
+      <AdBanner label="Publicidade" className="max-w-3xl mx-auto" />
 
       <RelatedGenerators currentSlug="gerador-cartao" />
 

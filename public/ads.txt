@@ -1,0 +1,11 @@
+# FakeForge — ads.txt
+# https://iabtechlab.com/ads-txt/
+#
+# Adicionar linha do Google AdSense depois de aprovar a conta:
+#   google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0
+#
+# Trocar pub-XXXXXXXXXXXXXXXX pelo seu Publisher ID real
+# (encontra no AdSense em: Account → Settings → Account information → Publisher ID).
+#
+# Enquanto arquivo estiver vazio, Google reporta "ads.txt not found"
+# no dashboard mas nao bloqueia serving. Depois de aprovado, atualizar.
