@@ -7,6 +7,7 @@ import ApiCtaTop from "@/components/ApiCtaTop";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import GeneratorSchema from "@/components/GeneratorSchema";
 import RelatedGenerators from "@/components/RelatedGenerators";
+import { ESTADOS_BR } from "@/lib/data/estados-br";
 
 export const metadata: Metadata = {
   title: "Gerador de RG Válido — Registro Geral Formato SP para Testes",
@@ -96,6 +97,26 @@ export default function GeradorRG() {
           </div>
         </section>
       </div>
+
+      <section className="mt-10">
+        <h2 className="text-lg font-semibold text-foreground mb-3">Gerador de RG por estado</h2>
+        <p className="text-xs text-muted-foreground mb-4 leading-relaxed">
+          O RG é responsabilidade estadual — cada UF tem formato próprio, órgão emissor e regra de
+          dígito verificador. Escolha seu estado abaixo pra ver o formato específico e casos de uso locais.
+        </p>
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-2">
+          {ESTADOS_BR.map((e) => (
+            <Link
+              key={e.uf}
+              href={`/gerador-rg/${e.slug}`}
+              className="px-3 py-2 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors text-center"
+            >
+              <div className="font-bold text-foreground">{e.uf}</div>
+              <div className="text-[10px]">{e.nome}</div>
+            </Link>
+          ))}
+        </div>
+      </section>
 
       <RelatedGenerators currentSlug="gerador-rg" />
 

@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { CEP_CITIES } from "@/lib/cep-cities";
+import { ESTADOS_BR } from "@/lib/data/estados-br";
 
 // Datas reais de mudança significativa por página. Datas idênticas em todas
 // as URLs (build-time `new Date()`) sinalizam ao Googlebot que o lastmod é
@@ -27,8 +28,25 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.85,
   }));
 
+  // Alavanca 1 programmatic SEO (2026-09-22): CNH e RG por estado (27 UFs cada = 54 pages).
+  const cnhPorEstadoRoutes: MetadataRoute.Sitemap = ESTADOS_BR.map((e) => ({
+    url: `${baseUrl}/gerador-cnh/${e.slug}`,
+    lastModified: D.home,
+    changeFrequency: "monthly" as const,
+    priority: 0.88,
+  }));
+
+  const rgPorEstadoRoutes: MetadataRoute.Sitemap = ESTADOS_BR.map((e) => ({
+    url: `${baseUrl}/gerador-rg/${e.slug}`,
+    lastModified: D.home,
+    changeFrequency: "monthly" as const,
+    priority: 0.88,
+  }));
+
   return [
     ...cityRoutes,
+    ...cnhPorEstadoRoutes,
+    ...rgPorEstadoRoutes,
     { url: baseUrl, lastModified: D.home, changeFrequency: "weekly", priority: 1.0 },
     { url: `${baseUrl}/geradores`, lastModified: D.home, changeFrequency: "weekly", priority: 0.9 },
 
