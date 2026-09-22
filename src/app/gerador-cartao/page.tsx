@@ -5,17 +5,18 @@ import SingleGenerator from "@/components/SingleGenerator";
 import ApiCtaBanner from "@/components/ApiCtaBanner";
 import ApiCtaTop from "@/components/ApiCtaTop";
 import AdBanner from "@/components/AdBanner";
+import DevOnlyDisclaimer from "@/components/DevOnlyDisclaimer";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import GeneratorSchema from "@/components/GeneratorSchema";
 import RelatedGenerators from "@/components/RelatedGenerators";
 
 export const metadata: Metadata = {
-  title: "Gerador de Cartões de Crédito Válidos para Testes (Luhn)",
-  description: "Gere cartão de crédito falso, fake ou teste para checkout. Visa, Mastercard, Elo, Hipercard, Amex e débito com algoritmo Luhn válido. Cartão fictício para sandbox de pagamento. Grátis e sem cadastro.",
-  keywords: "gerador de cartao, gerador de cartão, gerador de cartões de crédito, gerador de cartoes de credito, gerador de cartoes de credito validos, gerador cartao de credito, gerar cartão de crédito, gerar cartao, cartao de credito numeros validos, numero de cartao de credito valido, gerador de cc, cartão fake, cartão falso, cartão teste, cartão de crédito falso, cartão de crédito teste, cartao de credito ficticio, gerador de número de cartão de débito, cartão de débito fake, cartão válido teste, gerador visa, gerador mastercard, gerador elo, gerador american express, cartão fictício checkout, número cartão luhn",
+  title: "Gerador de Cartão de Crédito para Testes de Software (Luhn)",
+  description: "Gere números sintéticos de cartão de crédito para testes de checkout, sandbox de pagamento e QA. Visa, Mastercard, Elo, Hipercard, Amex e débito com algoritmo Luhn válido. Dados fictícios que não pertencem a pessoas reais. Grátis e sem cadastro.",
+  keywords: "gerador de cartao para testes, gerador de cartão de crédito para testes, gerar cartão de crédito sintético, cartão de crédito para testes de software, cartão de crédito para sandbox, cartão fictício para checkout, cartao de credito para QA, cartão para testes de gateway, cartão sintético Luhn, cartão para desenvolvimento, gerador visa para testes, gerador mastercard para testes, gerador elo para testes, gerador american express para testes, número cartão luhn desenvolvimento",
   openGraph: {
-    title: "Gerador de Cartão de Crédito Falso para Testes (Luhn)",
-    description: "Cartão fake Visa, Mastercard, Elo, Hipercard, Amex e débito com Luhn válido. Para testar checkouts e sandbox de pagamento. Grátis.",
+    title: "Gerador de Cartão de Crédito para Testes de Software (Luhn)",
+    description: "Cartão sintético Visa, Mastercard, Elo, Hipercard, Amex e débito com Luhn válido. Para testar checkouts e sandbox de pagamento em ambiente de desenvolvimento. Grátis.",
     type: "website",
   },
   alternates: { canonical: "/gerador-cartao" },
@@ -24,16 +25,18 @@ export const metadata: Metadata = {
 export default function GeradorCartao() {
   return (
     <PageShell>
-      <div className="mb-8">
+      <div className="mb-6">
         <h1 className="text-3xl font-bold tracking-tight">
-          Gerador de <span className="text-primary">Cartão de Crédito</span>
+          Gerador de <span className="text-primary">Cartão de Crédito</span> para testes
         </h1>
         <p className="text-muted mt-2 text-sm leading-relaxed max-w-2xl">
-          Gere números de cartão de crédito fictícios com validação Luhn (mod-10) para
+          Gere números sintéticos de cartão de crédito com validação Luhn (mod-10) para
           bandeiras Visa, Mastercard e Elo. Inclui nome do titular, data de validade e CVV.
-          Ideal para testar checkouts, gateways de pagamento e formulários de cobrança em ambientes de desenvolvimento.
+          Ideal para testar checkouts, gateways de pagamento e formulários de cobrança em ambientes de desenvolvimento e QA.
         </p>
       </div>
+
+      <DevOnlyDisclaimer dataType="cartão de crédito" className="mb-6" />
 
       <ApiCtaTop dataType="cartões de crédito" />
 

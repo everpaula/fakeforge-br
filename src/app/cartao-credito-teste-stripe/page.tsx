@@ -4,15 +4,16 @@ import PageShell from "@/components/PageShell";
 import SingleGenerator from "@/components/SingleGenerator";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import GeneratorSchema from "@/components/GeneratorSchema";
+import DevOnlyDisclaimer from "@/components/DevOnlyDisclaimer";
 
 export const metadata: Metadata = {
-  title: "Cartão Teste Stripe: Fake vs Cartão Oficial do Gateway",
-  description: "Diferença entre cartões de teste oficiais do Stripe (fixos, cenários específicos) e cartões fake gerados (Luhn válido, quantidade infinita). Quando usar cada, snippet Node.js, exemplos para 3D Secure e antifraude.",
-  keywords: "cartão de credito teste stripe, cartao teste stripe, stripe test card brasil, stripe sandbox cartão, cartão para testar checkout stripe, cartão teste mercado pago, cartão sandbox pagseguro, cartão teste cielo, dados teste stripe brasil",
+  title: "Cartão Teste Stripe: Sintético vs Cartão Oficial do Gateway",
+  description: "Diferença entre cartões de teste oficiais do Stripe (fixos, cenários específicos) e cartões sintéticos gerados (Luhn válido, quantidade infinita). Quando usar cada, snippet Node.js, exemplos para 3D Secure e antifraude em ambiente de desenvolvimento.",
+  keywords: "cartão de crédito teste stripe, cartão teste stripe, stripe test card brasil, stripe sandbox cartão, cartão para testar checkout stripe, cartão teste mercado pago, cartão sandbox pagseguro, cartão teste cielo, dados sintéticos teste stripe brasil, cartão sintético para sandbox",
   alternates: { canonical: "/cartao-credito-teste-stripe" },
   openGraph: {
-    title: "Cartão de Crédito Teste Stripe vs Fake - Quando Usar Cada",
-    description: "Quando escolher os 4242 4242... oficiais do Stripe vs gerar cartões fake em massa. Snippets Node.js pra ambos os casos.",
+    title: "Cartão de Crédito Teste Stripe vs Sintético - Quando Usar Cada",
+    description: "Quando escolher os 4242 4242... oficiais do Stripe vs gerar cartões sintéticos em massa para desenvolvimento. Snippets Node.js pra ambos os casos.",
     type: "website",
     locale: "pt_BR",
   },
@@ -21,23 +22,25 @@ export const metadata: Metadata = {
 export default function CartaoCreditoTesteStripe() {
   return (
     <PageShell>
-      <div className="mb-8">
-        <p className="text-[11px] text-muted uppercase tracking-wider mb-2">Cartões de teste + gerador fake</p>
+      <div className="mb-6">
+        <p className="text-[11px] text-muted uppercase tracking-wider mb-2">Cartões de teste + gerador sintético</p>
         <h1 className="text-3xl font-bold tracking-tight">
           Cartão de Crédito <span className="text-primary">Teste Stripe</span> (e Mercado Pago, PagSeguro, Cielo)
         </h1>
         <p className="text-muted mt-2 text-sm leading-relaxed max-w-2xl">
           Testar integração com gateway envolve 2 tipos de cartão: os cartões oficiais publicados pelo PSP
-          (fixos, disparam cenários específicos como approved / declined) e os cartões fake gerados em massa
-          (variados, servem pra validação front-end e seed de banco). Abaixo o gerador fake + tabela de
+          (fixos, disparam cenários específicos como approved / declined) e os cartões sintéticos gerados em massa
+          (variados, servem pra validação front-end e seed de banco). Abaixo o gerador sintético + tabela de
           quando usar cada tipo.
         </p>
       </div>
 
+      <DevOnlyDisclaimer dataType="cartão de crédito" className="mb-6" />
+
       <SingleGenerator
         type="creditCard"
-        label="Cartão fake"
-        description="Pra testar validador front-end ou popular banco. Pra sandbox de gateway, use os cartões oficiais listados abaixo."
+        label="Cartão sintético"
+        description="Pra testar validador front-end ou popular banco de desenvolvimento. Pra sandbox de gateway, use os cartões oficiais listados abaixo."
       />
 
       <BreadcrumbSchema items={[

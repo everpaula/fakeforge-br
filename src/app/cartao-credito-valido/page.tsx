@@ -4,15 +4,16 @@ import PageShell from "@/components/PageShell";
 import SingleGenerator from "@/components/SingleGenerator";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import GeneratorSchema from "@/components/GeneratorSchema";
+import DevOnlyDisclaimer from "@/components/DevOnlyDisclaimer";
 
 export const metadata: Metadata = {
-  title: "Cartão de Crédito Válido: Algoritmo Luhn (mod-10) Passo a Passo",
-  description: "Cartão de crédito válido = passa no algoritmo Luhn (mod-10) usado pela indústria de pagamentos desde 1954. Explicação completa do checksum, exemplos matemáticos e gerador que aplica Luhn corretamente para todas as bandeiras.",
-  keywords: "cartão de credito valido, cartão de crédito válido, cartao de credito numeros validos, numero de cartao de credito valido, numeros de cartao valido, cartão válido teste, luhn, algoritmo luhn, mod 10, cartao valido gerador, gerador cartao credito valido, cartao valido para netflix teste",
+  title: "Cartão de Crédito com Luhn Válido: Explicação do Algoritmo mod-10",
+  description: "Algoritmo Luhn (mod-10) usado pela indústria de pagamentos desde 1954. Explicação completa do checksum, exemplos matemáticos e gerador de cartão sintético que aplica Luhn corretamente para testes de software.",
+  keywords: "algoritmo luhn, mod 10 cartao, luhn mod-10, cartão sintético com Luhn, cartão para testes com checksum válido, ISO 7812 cartão, explicação Luhn passo a passo, gerador cartão para testes com Luhn",
   alternates: { canonical: "/cartao-credito-valido" },
   openGraph: {
-    title: "Cartão de Crédito Válido - Algoritmo Luhn Explicado",
-    description: "Como funciona o mod-10 usado por Visa, Mastercard e Elo. Gerador que aplica Luhn corretamente + exemplo passo a passo do cálculo.",
+    title: "Cartão de Crédito com Luhn Válido - Algoritmo Explicado",
+    description: "Como funciona o mod-10 usado por Visa, Mastercard e Elo. Gerador de cartão sintético para testes que aplica Luhn corretamente + exemplo passo a passo do cálculo.",
     type: "website",
     locale: "pt_BR",
   },
@@ -21,18 +22,20 @@ export const metadata: Metadata = {
 export default function CartaoCreditoValido() {
   return (
     <PageShell>
-      <div className="mb-8">
-        <p className="text-[11px] text-muted uppercase tracking-wider mb-2">Cartão fictício + explicação técnica</p>
+      <div className="mb-6">
+        <p className="text-[11px] text-muted uppercase tracking-wider mb-2">Cartão sintético + explicação técnica</p>
         <h1 className="text-3xl font-bold tracking-tight">
-          Cartão de <span className="text-primary">Crédito Válido</span> (Luhn / mod-10)
+          Cartão de <span className="text-primary">Crédito com Luhn Válido</span> (mod-10)
         </h1>
         <p className="text-muted mt-2 text-sm leading-relaxed max-w-2xl">
-          Cartão válido significa que passa no algoritmo Luhn (mod-10), o checksum criado por Hans
+          Cartão com Luhn válido significa que passa no algoritmo mod-10, o checksum criado por Hans
           Peter Luhn em 1954 na IBM e adotado pela ISO 7812 pra numeração de cartões. Todo cartão
-          gerado pelo FakeForge tem o último dígito calculado corretamente. Abaixo, o gerador +
+          sintético gerado pelo FakeForge tem o último dígito calculado corretamente. Abaixo, o gerador +
           explicação passo a passo do algoritmo.
         </p>
       </div>
+
+      <DevOnlyDisclaimer dataType="cartão de crédito" className="mb-6" />
 
       <SingleGenerator
         type="creditCard"

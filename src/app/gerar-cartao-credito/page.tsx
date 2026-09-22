@@ -4,15 +4,16 @@ import PageShell from "@/components/PageShell";
 import SingleGenerator from "@/components/SingleGenerator";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import GeneratorSchema from "@/components/GeneratorSchema";
+import DevOnlyDisclaimer from "@/components/DevOnlyDisclaimer";
 
 export const metadata: Metadata = {
-  title: "Gerar Cartão de Crédito Válido para Testes (API + Integração)",
-  description: "Gerar cartão de crédito para testes de checkout em Node.js, Python, PHP e React. Snippets prontos de integração, algoritmo Luhn implementado, curl exemplo. Free tier 50 chamadas/dia sem cadastro.",
-  keywords: "gerar cartao de credito, gerar cartão de crédito, gerar cartão de credito valido, gerar cartão de crédito online, gerar cartao credito, como gerar cartão de credito para teste, gerar cartao credito visa, gerar cartão node js python php",
+  title: "Gerar Cartão de Crédito para Testes (API + Integração dev)",
+  description: "Gere números sintéticos de cartão de crédito para testes de checkout em Node.js, Python, PHP e React. Snippets prontos de integração, algoritmo Luhn implementado, curl exemplo. Dados fictícios para ambiente de desenvolvimento. Free tier 50 chamadas/dia sem cadastro.",
+  keywords: "gerar cartão de crédito para testes, gerar cartão sintético para desenvolvimento, snippets cartão para testes node python php, integração cartão para testes de checkout, gerar cartão para sandbox de pagamento, cartão para testes automatizados",
   alternates: { canonical: "/gerar-cartao-credito" },
   openGraph: {
-    title: "Gerar Cartão de Crédito Válido - Snippets Node/Python/PHP/React",
-    description: "Snippets prontos pra integrar geração de cartão fictício no seu stack. API REST grátis + exemplos em 4 linguagens.",
+    title: "Gerar Cartão de Crédito para Testes - Snippets Node/Python/PHP/React",
+    description: "Snippets prontos pra integrar geração de cartão sintético no seu stack de desenvolvimento. API REST grátis + exemplos em 4 linguagens.",
     type: "website",
     locale: "pt_BR",
   },
@@ -21,17 +22,19 @@ export const metadata: Metadata = {
 export default function GerarCartaoCredito() {
   return (
     <PageShell>
-      <div className="mb-8">
+      <div className="mb-6">
         <p className="text-[11px] text-muted uppercase tracking-wider mb-2">Snippets de integração</p>
         <h1 className="text-3xl font-bold tracking-tight">
-          Gerar <span className="text-primary">Cartão de Crédito</span> Válido no Seu Código
+          Gerar <span className="text-primary">Cartão de Crédito</span> para Testes no Seu Código
         </h1>
         <p className="text-muted mt-2 text-sm leading-relaxed max-w-2xl">
-          Snippets prontos pra chamar a geração de cartão via API dentro do seu stack. Node.js, Python,
-          PHP, curl. Todos os cartões passam Luhn (mod-10), inclui bandeira aleatória entre Visa,
-          Mastercard, Elo, Hipercard e Amex. Grátis, sem cadastro.
+          Snippets prontos pra chamar a geração de cartão sintético via API dentro do seu stack de
+          desenvolvimento. Node.js, Python, PHP, curl. Todos os cartões passam Luhn (mod-10), inclui
+          bandeira aleatória entre Visa, Mastercard, Elo, Hipercard e Amex. Grátis, sem cadastro.
         </p>
       </div>
+
+      <DevOnlyDisclaimer dataType="cartão de crédito" className="mb-6" />
 
       <SingleGenerator
         type="creditCard"

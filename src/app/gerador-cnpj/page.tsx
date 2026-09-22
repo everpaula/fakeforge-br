@@ -4,6 +4,7 @@ import PageShell from "@/components/PageShell";
 import SingleGenerator from "@/components/SingleGenerator";
 import ApiCtaBanner from "@/components/ApiCtaBanner";
 import AdBanner from "@/components/AdBanner";
+import DevOnlyDisclaimer from "@/components/DevOnlyDisclaimer";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import GeneratorSchema from "@/components/GeneratorSchema";
 import RelatedGenerators from "@/components/RelatedGenerators";
@@ -12,7 +13,7 @@ import ValidatorCNPJ from "./ValidatorCNPJ";
 export const metadata: Metadata = {
   title: "Gerador de CNPJ Válido Online com Mod-11",
   description: "Gere CNPJ válido online com algoritmo mod-11 e dígitos verificadores corretos. Para testes de cadastros, integração ERP, NF-e em homologação e seed de banco. Grátis, sem cadastro. API REST com 100 chamadas/dia.",
-  keywords: "gerador de cnpj, gerador cnpj, gerar cnpj, gerar um cnpj, gerar cnpj válido, gerador de cnpj válido, gerador de cnpj para testes, cnpj válido, cnpj fictício, cnpj fake, cnpj aleatorio, generate cnpj, gerador cnpj online, gerar cnpj online",
+  keywords: "gerador de cnpj para testes, gerador cnpj, gerar cnpj sintético, gerar cnpj para desenvolvimento, gerar cnpj válido para QA, gerador de cnpj para testes de software, cnpj válido para testes, cnpj sintético, cnpj fictício para testes, cnpj aleatorio para desenvolvimento",
   openGraph: {
     title: "Gerador de CNPJ Válido Online com Mod-11",
     description: "CNPJ fictício com dígito verificador correto pelo algoritmo mod-11. Para testes, integração ERP e NF-e em homologação. Grátis.",
@@ -25,17 +26,19 @@ export const metadata: Metadata = {
 export default function GeradorCNPJ() {
   return (
     <PageShell>
-      <div className="mb-8">
+      <div className="mb-6">
         <h1 className="text-3xl font-bold tracking-tight">
-          Gerador de <span className="text-primary">CNPJ</span> Válido Online
+          Gerador de <span className="text-primary">CNPJ</span> Válido para Testes
         </h1>
         <p className="text-muted mt-2 text-sm leading-relaxed max-w-2xl">
-          Gere CNPJ fictício online com dígitos verificadores matematicamente corretos pelo algoritmo
+          Gere CNPJ sintético online com dígitos verificadores matematicamente corretos pelo algoritmo
           mod-11 da Receita Federal. Os CNPJs gerados usam o sufixo /0001 (matriz) e passam na
           validação de qualquer sistema brasileiro: ERP, NF-e, integração SEFAZ, cadastros B2B
-          e seed de banco. Não pertencem a nenhuma empresa real.
+          e seed de banco de desenvolvimento. Não pertencem a nenhuma empresa real.
         </p>
       </div>
+
+      <DevOnlyDisclaimer dataType="CNPJ" className="mb-6" />
 
       <SingleGenerator
         type="cnpj"

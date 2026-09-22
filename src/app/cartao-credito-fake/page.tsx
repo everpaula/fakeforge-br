@@ -4,15 +4,16 @@ import PageShell from "@/components/PageShell";
 import SingleGenerator from "@/components/SingleGenerator";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import GeneratorSchema from "@/components/GeneratorSchema";
+import DevOnlyDisclaimer from "@/components/DevOnlyDisclaimer";
 
 export const metadata: Metadata = {
-  title: "Cartão de Crédito Fake: Visa, Mastercard, Elo (Luhn)",
-  description: "Gere cartão de crédito fake com número que passa validação Luhn (mod-10). Visa, Mastercard, Elo, Hipercard e Amex. Para testes de checkout, sandbox de pagamento e QA sem risco de fraude. Grátis e sem cadastro.",
-  keywords: "cartao de credito fake, cartão de crédito fake, cartão fake, cartão falso, cartão fictício, cartão de crédito falso, cartão fake teste, cartão fake para netflix teste, cartão fake grátis, gerar cartão fake, cartão de crédito fake válido, cartao fake luhn",
+  title: "Cartão de Crédito para Testes: Visa, Mastercard, Elo (Luhn)",
+  description: "Gere números sintéticos de cartão de crédito que passam validação Luhn (mod-10) para uso em ambiente de desenvolvimento. Visa, Mastercard, Elo, Hipercard e Amex. Dados fictícios para testes de checkout, sandbox de pagamento e QA. Grátis e sem cadastro.",
+  keywords: "cartão de crédito para testes, cartão sintético para desenvolvimento, cartão para testes de checkout, cartão de crédito para sandbox, cartão fictício para QA, gerar cartão para testes, cartão para testes com Luhn, cartão para testes de gateway, cartão de crédito para teste automatizado",
   alternates: { canonical: "/cartao-credito-fake" },
   openGraph: {
-    title: "Cartão de Crédito Fake com Luhn Válido para Testes",
-    description: "Números fake que passam validação matemática, para testar checkout sem tocar em cartão real. Visa, Mastercard, Elo, Hipercard, Amex.",
+    title: "Cartão de Crédito para Testes com Luhn Válido",
+    description: "Números sintéticos que passam validação matemática, para testar checkout em ambiente de desenvolvimento. Visa, Mastercard, Elo, Hipercard, Amex.",
     type: "website",
     locale: "pt_BR",
   },
@@ -21,17 +22,20 @@ export const metadata: Metadata = {
 export default function CartaoCreditoFake() {
   return (
     <PageShell>
-      <div className="mb-8">
+      <div className="mb-6">
         <p className="text-[11px] text-muted uppercase tracking-wider mb-2">Ferramenta para desenvolvedores</p>
         <h1 className="text-3xl font-bold tracking-tight">
-          Cartão de <span className="text-primary">Crédito Fake</span> para Testes
+          Cartão de <span className="text-primary">Crédito para Testes</span>
         </h1>
         <p className="text-muted mt-2 text-sm leading-relaxed max-w-2xl">
-          Números fake que passam a validação matemática (Luhn / mod-10) mas não estão
+          Números sintéticos que passam a validação matemática (Luhn / mod-10) mas não estão
           vinculados a nenhuma conta bancária. Use pra testar formulários de checkout, integração
-          com gateway, validador front-end e fixtures de QA. Nunca funcionam pra compra real.
+          com gateway, validador front-end e fixtures de QA. Não funcionam em compra real
+          porque não existem no sistema financeiro.
         </p>
       </div>
+
+      <DevOnlyDisclaimer dataType="cartão de crédito" className="mb-6" />
 
       <SingleGenerator
         type="creditCard"
