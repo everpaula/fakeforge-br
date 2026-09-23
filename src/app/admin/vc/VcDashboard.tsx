@@ -58,6 +58,26 @@ interface VcData {
   churn: Churn;
 }
 
+interface BotSample { email: string; created_at: string; score: number; has_key: boolean; calls: number }
+interface BotAnalysisData {
+  generated_at: string;
+  total_users: number;
+  bot_analysis: {
+    suspicious_bots_count: number;
+    high_confidence_bots_count: number;
+    suspicious_pct: number;
+    real_users_count: number;
+  };
+  score_breakdown: Record<string, number>;
+  activation: {
+    raw_activation_rate_pct: number;
+    real_activation_rate_pct: number;
+    real_users_activated: number;
+    real_users_total: number;
+  };
+  recent_bot_samples: BotSample[];
+}
+
 function fmtMoney(n: number): string {
   return `R$${n.toLocaleString("pt-BR", { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
 }
@@ -79,6 +99,7 @@ function fmtDuration(min: number): string {
 
 export default function VcDashboard() {
   const [data, setData] = useState<VcData | null>(null);
+  const [botData, setBotData] = useState<BotAnalysisData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -86,11 +107,18 @@ export default function VcDashboard() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch("/api/admin/vc-metrics");
-      if (res.status === 403) return setError("Sem permissão.");
-      if (res.status === 401) return setError("Não autenticado.");
-      const json = await res.json();
-      setData(json);
+      const [vcRes, botRes] = await Promise.all([
+        fetch("/api/admin/vc-metrics"),
+        fetch("/api/admin/bot-analysis"),
+      ]);
+      if (vcRes.status === 403) return setError("Sem permissão.");
+      if (vcRes.status === 401) return setError("Não autenticado.");
+      const vcJson = await vcRes.json();
+      setData(vcJson);
+      if (botRes.ok) {
+        const botJson = await botRes.json();
+        setBotData(botJson);
+      }
     } catch {
       setError("Erro ao carregar.");
     } finally {
@@ -132,6 +160,56 @@ export default function VcDashboard() {
           <h1 className="text-2xl font-bold tracking-tight">FakeForge — Métricas VC-ready</h1>
           <p className="text-xs text-muted-foreground mt-1">Dados em tempo real. Snapshot pronto pra pitch.</p>
         </div>
+
+        {/* ========== BOT ANALYSIS (Sprint 7) ========== */}
+        {botData && (
+          <section>
+            <div className="mb-3 flex items-center justify-between">
+              <p className="text-[11px] uppercase tracking-wider text-muted font-bold">Análise de bots (Sprint 7)</p>
+              <p className="text-[10px] text-muted">Heurística signup pattern + comportamento</p>
+            </div>
+            <div className="rounded-xl border border-danger/30 bg-danger/5 p-5">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+                <div>
+                  <p className="text-[10px] uppercase text-muted mb-1">Bots suspeitos (score ≥3)</p>
+                  <p className="text-2xl font-bold text-danger">{botData.bot_analysis.suspicious_bots_count}</p>
+                  <p className="text-[10px] text-muted">{botData.bot_analysis.suspicious_pct}% da base</p>
+                </div>
+                <div>
+                  <p className="text-[10px] uppercase text-muted mb-1">Alta confiança (≥4)</p>
+                  <p className="text-2xl font-bold text-danger">{botData.bot_analysis.high_confidence_bots_count}</p>
+                </div>
+                <div>
+                  <p className="text-[10px] uppercase text-muted mb-1">Users reais</p>
+                  <p className="text-2xl font-bold text-success">{botData.bot_analysis.real_users_count}</p>
+                </div>
+                <div>
+                  <p className="text-[10px] uppercase text-muted mb-1">Ativação real (excl bots)</p>
+                  <p className="text-2xl font-bold text-foreground">{botData.activation.real_activation_rate_pct}%</p>
+                  <p className="text-[10px] text-muted">vs {botData.activation.raw_activation_rate_pct}% raw</p>
+                </div>
+              </div>
+
+              {botData.recent_bot_samples.length > 0 && (
+                <details className="border-t border-danger/20 pt-3">
+                  <summary className="text-xs cursor-pointer text-muted-foreground hover:text-foreground">
+                    Ver últimos {botData.recent_bot_samples.length} bots suspeitos
+                  </summary>
+                  <div className="mt-3 space-y-1 max-h-64 overflow-y-auto">
+                    {botData.recent_bot_samples.map((s) => (
+                      <div key={s.email} className="flex items-center justify-between text-[11px] px-2 py-1 rounded bg-background/60">
+                        <span className="font-mono text-foreground truncate flex-1">{s.email}</span>
+                        <span className="text-muted ml-2 shrink-0">
+                          score {s.score} · {s.calls} calls · {new Date(s.created_at).toLocaleDateString("pt-BR")}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </details>
+              )}
+            </div>
+          </section>
+        )}
 
         {/* ========== HERO KPIs (F1) ========== */}
         <section>

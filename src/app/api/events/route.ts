@@ -54,6 +54,8 @@ const ALLOWED_TYPES = new Set([
   // Sprint 5 F4 - Onboarding checklist
   "onboarding_step_clicked",
   "onboarding_dismissed",
+  // Sprint 7 P1 - reCAPTCHA v3 anti-bot
+  "signup_blocked_bot",
 ]);
 
 function getClientIP(request: NextRequest): string {
