@@ -162,6 +162,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/blog/qr-code-pix-dinamico-emv-br-code-nodejs`, lastModified: D.may26, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/blog/popular-mysql-dados-brasileiros-fake-staging`, lastModified: D.may26, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/blog/popular-postgresql-dados-brasileiros-staging`, lastModified: D.may26, changeFrequency: "monthly", priority: 0.85 },
+    { url: `${baseUrl}/blog/popular-django-dados-brasileiros-seed-orm`, lastModified: D.home, changeFrequency: "monthly", priority: 0.95 },
     { url: `${baseUrl}/blog/como-gerar-cpf-valido-python-testes`, lastModified: D.may26, changeFrequency: "monthly", priority: 0.85 },
     { url: `${baseUrl}/blog/gerador-placa-mercosul-teste-software`, lastModified: D.may26, changeFrequency: "monthly", priority: 0.85 },
     { url: `${baseUrl}/blog/fakeforge-vs-fakerjs-vs-4devs`, lastModified: D.may26, changeFrequency: "monthly", priority: 0.8 },
