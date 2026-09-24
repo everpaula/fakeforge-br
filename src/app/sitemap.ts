@@ -141,6 +141,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/gerador-pix-curl`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/gerador-pix-jest`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/gerador-pix-pytest`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    // CNH (DENATRAN)
+    { url: `${baseUrl}/gerador-cnh-python`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/gerador-cnh-nodejs`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/gerador-cnh-curl`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/gerador-cnh-jest`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/gerador-cnh-pytest`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    // RG (formato por UF)
+    { url: `${baseUrl}/gerador-rg-python`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/gerador-rg-nodejs`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/gerador-rg-curl`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/gerador-rg-jest`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/gerador-rg-pytest`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/comparacao/fakeforge-vs-faker-py`, lastModified: D.may15, changeFrequency: "monthly", priority: 0.85 },
 
     // Validadores
