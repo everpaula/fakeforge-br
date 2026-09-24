@@ -116,12 +116,31 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/alternativa-ao-4devs-com-api`, lastModified: D.home, changeFrequency: "monthly", priority: 0.95 },
     { url: `${baseUrl}/4devs-tem-api`, lastModified: D.home, changeFrequency: "monthly", priority: 0.95 },
 
-    // Fase 1 4devs: landings gerador CPF + linguagem/framework (intent tecnico alto)
+    // Fase 1 4devs: landings gerador X + linguagem/framework (intent tecnico alto)
+    // CPF
     { url: `${baseUrl}/gerador-cpf-python`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/gerador-cpf-nodejs`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/gerador-cpf-curl`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/gerador-cpf-jest`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/gerador-cpf-pytest`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    // CNPJ (numerico + alfanumerico 2026)
+    { url: `${baseUrl}/gerador-cnpj-python`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/gerador-cnpj-nodejs`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/gerador-cnpj-curl`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/gerador-cnpj-jest`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/gerador-cnpj-pytest`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    // Cartao com Luhn (testes de checkout)
+    { url: `${baseUrl}/gerador-cartao-python`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/gerador-cartao-nodejs`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/gerador-cartao-curl`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/gerador-cartao-jest`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/gerador-cartao-pytest`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    // PIX (4 tipos BACEN)
+    { url: `${baseUrl}/gerador-pix-python`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/gerador-pix-nodejs`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/gerador-pix-curl`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/gerador-pix-jest`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/gerador-pix-pytest`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/comparacao/fakeforge-vs-faker-py`, lastModified: D.may15, changeFrequency: "monthly", priority: 0.85 },
 
     // Validadores
