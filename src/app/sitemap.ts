@@ -115,6 +115,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/comparacao/fakeforge-vs-4devs`, lastModified: D.may15, changeFrequency: "monthly", priority: 0.85 },
     { url: `${baseUrl}/alternativa-ao-4devs-com-api`, lastModified: D.home, changeFrequency: "monthly", priority: 0.95 },
     { url: `${baseUrl}/4devs-tem-api`, lastModified: D.home, changeFrequency: "monthly", priority: 0.95 },
+
+    // Fase 1 4devs: landings gerador CPF + linguagem/framework (intent tecnico alto)
+    { url: `${baseUrl}/gerador-cpf-python`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/gerador-cpf-nodejs`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/gerador-cpf-curl`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/gerador-cpf-jest`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/gerador-cpf-pytest`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/comparacao/fakeforge-vs-faker-py`, lastModified: D.may15, changeFrequency: "monthly", priority: 0.85 },
 
     // Validadores
