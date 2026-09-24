@@ -113,6 +113,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/comparacao/fakeforge-vs-mockaroo`, lastModified: D.may15, changeFrequency: "monthly", priority: 0.85 },
     { url: `${baseUrl}/comparacao/fakeforge-vs-fakerjs`, lastModified: D.may15, changeFrequency: "monthly", priority: 0.85 },
     { url: `${baseUrl}/comparacao/fakeforge-vs-4devs`, lastModified: D.may15, changeFrequency: "monthly", priority: 0.85 },
+    { url: `${baseUrl}/alternativa-ao-4devs-com-api`, lastModified: D.home, changeFrequency: "monthly", priority: 0.95 },
+    { url: `${baseUrl}/4devs-tem-api`, lastModified: D.home, changeFrequency: "monthly", priority: 0.95 },
     { url: `${baseUrl}/comparacao/fakeforge-vs-faker-py`, lastModified: D.may15, changeFrequency: "monthly", priority: 0.85 },
 
     // Validadores
