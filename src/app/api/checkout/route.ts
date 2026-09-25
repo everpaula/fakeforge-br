@@ -34,6 +34,7 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const plan = body.plan as StripePlan;
+    const coupon = typeof body.coupon === "string" ? body.coupon.trim().toUpperCase() : undefined;
 
     if (plan !== "dev" && plan !== "team") {
       return NextResponse.json({ error: "Invalid plan" }, { status: 400 });
@@ -43,6 +44,11 @@ export async function POST(request: NextRequest) {
     if (!priceId) {
       return NextResponse.json({ error: "Price not configured" }, { status: 500 });
     }
+
+    // Valida cupom conhecido (whitelist pra evitar param arbitrário)
+    // Sprint 8: cupom CNPJ2026 = 30% off primeiro mês (Sprint 8 email funnel D14/D16)
+    const KNOWN_COUPONS = new Set(["CNPJ2026"]);
+    const validCoupon = coupon && KNOWN_COUPONS.has(coupon) ? coupon : undefined;
 
     const rawBaseUrl = process.env.NEXT_PUBLIC_BASE_URL?.trim() || "https://fakeforge.com.br";
     const baseUrl = rawBaseUrl.replace(/\/$/, "");
@@ -83,7 +89,11 @@ export async function POST(request: NextRequest) {
       },
       success_url: `${baseUrl}/subscription/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${baseUrl}/pricing?canceled=1`,
-      allow_promotion_codes: true,
+      // Se cupom válido veio via body, aplica direto (não permite código adicional)
+      // Caso contrário, deixa Stripe permitir cupom manual
+      ...(validCoupon
+        ? { discounts: [{ coupon: validCoupon }] }
+        : { allow_promotion_codes: true }),
       billing_address_collection: "auto",
       locale: "pt-BR",
     });

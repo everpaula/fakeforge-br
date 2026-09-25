@@ -56,6 +56,17 @@ const ALLOWED_TYPES = new Set([
   "onboarding_dismissed",
   // Sprint 7 P1 - reCAPTCHA v3 anti-bot
   "signup_blocked_bot",
+  // Sprint 8 - Email funnel D3-D30 + B2B trigger
+  "email_d3_sent", "email_d3_opened", "email_d3_clicked_cta",
+  "email_d7_sent", "email_d7_opened", "email_d7_clicked_cta",
+  "email_d14_sent", "email_d14_opened", "email_d14_clicked_cta",
+  "email_d16_sent", "email_d16_opened", "email_d16_clicked_cta",
+  "email_d30_retention_sent", "email_d30_digest_sent",
+  "checkout_started_from_d3", "checkout_started_from_d7",
+  "checkout_started_from_d14", "checkout_started_from_d16",
+  "coupon_d14_applied", "coupon_d14_expired_unused",
+  "plan_upgraded_dev", "plan_upgraded_team",
+  "b2b_lead_flagged", "b2b_calendly_sent", "b2b_calendly_booked",
 ]);
 
 function getClientIP(request: NextRequest): string {

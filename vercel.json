@@ -11,6 +11,30 @@
     {
       "path": "/api/cron/send-quota-approaching",
       "schedule": "0 13 * * 1"
+    },
+    {
+      "path": "/api/cron/send-nurture-d3",
+      "schedule": "0 13 * * *"
+    },
+    {
+      "path": "/api/cron/send-nurture-d7",
+      "schedule": "10 13 * * *"
+    },
+    {
+      "path": "/api/cron/send-nurture-d14",
+      "schedule": "20 13 * * *"
+    },
+    {
+      "path": "/api/cron/send-nurture-d16",
+      "schedule": "30 13 * * *"
+    },
+    {
+      "path": "/api/cron/send-nurture-d30",
+      "schedule": "40 13 * * *"
+    },
+    {
+      "path": "/api/cron/detect-b2b-leads",
+      "schedule": "0 14 * * *"
     }
   ]
 }
