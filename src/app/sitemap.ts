@@ -153,6 +153,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/gerador-rg-curl`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/gerador-rg-jest`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/gerador-rg-pytest`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    // Endereço (todas UFs)
+    { url: `${baseUrl}/gerador-endereco-python`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/gerador-endereco-nodejs`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/gerador-endereco-curl`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/gerador-endereco-jest`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/gerador-endereco-pytest`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    // CEP (27 capitais)
+    { url: `${baseUrl}/gerador-cep-python`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/gerador-cep-nodejs`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/gerador-cep-curl`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/gerador-cep-jest`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/gerador-cep-pytest`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/comparacao/fakeforge-vs-faker-py`, lastModified: D.may15, changeFrequency: "monthly", priority: 0.85 },
 
     // Validadores

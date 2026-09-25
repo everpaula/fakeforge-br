@@ -23,7 +23,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!estado) return { title: "Estado não encontrado" };
 
   return {
-    title: `Gerador de RG ${estado.uf} - Formato ${estado.rg_orgao_emissor} para Testes`,
+    // Title <60 chars (SEO fix Ubersuggest 2026-09-24)
+    title: `Gerador de RG ${estado.uf} para Testes | ${estado.nome}`,
     description: `Gere RG sintético para testes de software no ${estado.nome} (${estado.uf}). Formato ${estado.rg_orgao_emissor} conforme padrão do estado. Números fictícios que passam validação básica, uso restrito a desenvolvimento e QA. Grátis.`,
     keywords: `gerador de rg ${estado.uf.toLowerCase()}, gerador rg ${estado.nome.toLowerCase()}, rg ${estado.uf.toLowerCase()} para testes, ${estado.rg_orgao_emissor.toLowerCase()} rg, rg sintético ${estado.uf.toLowerCase()}, rg desenvolvimento ${estado.uf.toLowerCase()}`,
     alternates: { canonical: `/gerador-rg/${estado.slug}` },

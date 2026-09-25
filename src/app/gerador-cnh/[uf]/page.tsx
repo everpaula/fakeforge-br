@@ -23,7 +23,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!estado) return { title: "Estado não encontrado" };
 
   return {
-    title: `Gerador de CNH ${estado.uf} - Carteira Nacional de Habilitação para Testes | ${estado.nome}`,
+    // Title <60 chars (SEO fix Ubersuggest 2026-09-24)
+    title: `Gerador de CNH ${estado.uf} para Testes | ${estado.nome}`,
     description: `Gere CNH sintética para testes de software no ${estado.nome} (${estado.uf}). Algoritmo DENATRAN mod-11 com dígitos verificadores corretos. Frota do estado: ${estado.frotaMilhoes} milhões de veículos. Grátis e sem cadastro.`,
     keywords: `gerador de cnh ${estado.uf.toLowerCase()}, gerador cnh ${estado.nome.toLowerCase()}, cnh para testes ${estado.uf.toLowerCase()}, detran ${estado.uf.toLowerCase()} cnh, cnh ${estado.nome.toLowerCase()} desenvolvimento, cnh sintética ${estado.uf.toLowerCase()}`,
     alternates: { canonical: `/gerador-cnh/${estado.slug}` },

@@ -3,7 +3,7 @@ import Link from "next/link";
 import PageShell from "@/components/PageShell";
 
 export const metadata: Metadata = {
-  title: "Preset Ecom — Pedido Completo pra Teste de Checkout Ecommerce (2026)",
+  title: "Preset Ecom para Teste de Checkout Ecommerce | FakeForge",
   description: "1 chamada, pedido completo: cliente + endereços shipping/billing + carrinho (1-5 produtos com variação) + payment (cartão/PIX/boleto) + totais calculados. Ideal pra teste de checkout ecom brasileiro.",
   keywords: "preset ecom testes, pedido ecommerce fake, dados checkout ecom, mock carrinho compras, teste checkout brasileiro, dados teste ecommerce, sku produto fake, carrinho compras teste",
   alternates: { canonical: "/preset-ecom" },
