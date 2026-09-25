@@ -67,6 +67,7 @@ const ALLOWED_TYPES = new Set([
   "coupon_d14_applied", "coupon_d14_expired_unused",
   "plan_upgraded_dev", "plan_upgraded_team",
   "b2b_lead_flagged", "b2b_calendly_sent", "b2b_calendly_booked",
+  "enterprise_inquiry_submitted",
 ]);
 
 function getClientIP(request: NextRequest): string {

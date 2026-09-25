@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import PageShell from "@/components/PageShell";
+import EnterpriseInquiryForm from "./EnterpriseInquiryForm";
 
 export const metadata: Metadata = {
   title: "FakeForge Enterprise: Dados Brasileiros pra Fintech e Bancos",
@@ -30,9 +31,11 @@ const TIERS = [
       "SLA 99.5% uptime",
       "Fatura via NF (Plenor Group LLC)",
     ],
-    cta: "Falar comigo",
-    ctaLink: "mailto:contato@fakeforge.com.br?subject=FakeForge Enterprise Starter",
+    cta: "Preencher form (24h)",
+    ctaLink: "#form-contato",
+    ctaIsAnchor: true,
     highlight: false,
+    isSelfServe: false,
   },
   {
     name: "Growth",
@@ -49,9 +52,11 @@ const TIERS = [
       "Onboarding call 1h",
       "CNPJ alfanumérico 2026 garantido pré-julho",
     ],
-    cta: "Marcar call 15min",
-    ctaLink: "mailto:contato@fakeforge.com.br?subject=FakeForge Enterprise Growth call",
+    cta: "Preencher form (24h)",
+    ctaLink: "#form-contato",
+    ctaIsAnchor: true,
     highlight: true,
+    isSelfServe: false,
   },
   {
     name: "Scale",
@@ -69,9 +74,11 @@ const TIERS = [
       "Audit log completo",
       "SSO / SAML integration",
     ],
-    cta: "Falar sobre requisitos",
-    ctaLink: "mailto:contato@fakeforge.com.br?subject=FakeForge Enterprise Scale",
+    cta: "Preencher form (24h)",
+    ctaLink: "#form-contato",
+    ctaIsAnchor: true,
     highlight: false,
+    isSelfServe: false,
   },
 ];
 
@@ -90,12 +97,12 @@ export default function EmpresaPage() {
           <strong className="text-foreground"> sem tocar em dado real de cliente</strong>.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
-          <a
-            href="mailto:contato@fakeforge.com.br?subject=FakeForge Enterprise call 15min"
+          <Link
+            href="#form-contato"
             className="px-6 py-3 rounded-lg text-sm font-bold bg-primary text-white hover:bg-primary-hover transition-colors"
           >
-            Marcar call de 15 min
-          </a>
+            Preencher form em 30s
+          </Link>
           <Link
             href="#planos"
             className="px-6 py-3 rounded-lg text-sm font-bold border border-border text-foreground hover:bg-card transition-colors"
@@ -103,6 +110,9 @@ export default function EmpresaPage() {
             Ver planos
           </Link>
         </div>
+        <p className="text-[11px] text-muted mt-3">
+          Sem call obrigatória. Se preferir email cru: <a href="mailto:contato@fakeforge.com.br" className="text-primary hover:underline">contato@fakeforge.com.br</a>
+        </p>
       </section>
 
       {/* Social proof / logos */}
@@ -220,7 +230,7 @@ export default function EmpresaPage() {
                   </li>
                 ))}
               </ul>
-              <a
+              <Link
                 href={tier.ctaLink}
                 className={`w-full mt-6 py-2.5 rounded-lg text-sm font-bold text-center block transition-colors ${
                   tier.highlight
@@ -229,7 +239,7 @@ export default function EmpresaPage() {
                 }`}
               >
                 {tier.cta}
-              </a>
+              </Link>
             </div>
           ))}
         </div>
@@ -280,27 +290,24 @@ export default function EmpresaPage() {
         </div>
       </section>
 
-      {/* CTA final */}
-      <section className="rounded-xl bg-primary/5 border-2 border-primary/40 p-8 text-center">
-        <h2 className="text-2xl font-bold text-foreground">Bora conversar 15 minutos?</h2>
-        <p className="text-sm text-muted-foreground mt-2 max-w-lg mx-auto">
-          Sem pitch enrolado. Você conta o que seu time precisa, eu digo se resolvo. Se não resolver, indico quem resolve. Sou fundador solo e não perco meu tempo nem o seu.
-        </p>
-        <div className="mt-5 flex flex-wrap justify-center gap-3">
-          <a
-            href="mailto:contato@fakeforge.com.br?subject=FakeForge Enterprise call 15min&body=Oi Everton,%0A%0AMeu nome:%0AEmpresa:%0ATime:%0AQue caso quero resolver:%0A%0AAbraço"
-            className="px-6 py-3 rounded-lg text-sm font-bold bg-primary text-white hover:bg-primary-hover transition-colors"
-          >
-            Marcar call por email
-          </a>
-          <a
-            href="https://www.linkedin.com/in/evertonsilvapaula"
-            target="_blank"
-            rel="noopener"
-            className="px-6 py-3 rounded-lg text-sm font-bold border border-border text-foreground hover:bg-card transition-colors"
-          >
-            LinkedIn direto
-          </a>
+      {/* CTA final — form contactless */}
+      <section id="form-contato" className="mb-12">
+        <div className="text-center mb-6">
+          <h2 className="text-2xl font-bold text-foreground">Preenche em 30s. Respondo em 24h.</h2>
+          <p className="text-sm text-muted-foreground mt-2 max-w-lg mx-auto">
+            Sem call obrigatória. Se sua dúvida é técnica ou preferir email, respondo por email mesmo. Se quiser call, marcamos no reply. Você escolhe.
+          </p>
+        </div>
+        <div className="max-w-lg mx-auto">
+          <EnterpriseInquiryForm />
+        </div>
+        <div className="text-center mt-6">
+          <p className="text-xs text-muted-foreground">
+            Prefere outros canais?{" "}
+            <a href="mailto:contato@fakeforge.com.br" className="text-primary hover:underline">Email direto</a>{" "}
+            ou{" "}
+            <a href="https://www.linkedin.com/in/evertonsilvapaula" target="_blank" rel="noopener" className="text-primary hover:underline">LinkedIn</a>
+          </p>
         </div>
       </section>
     </PageShell>
