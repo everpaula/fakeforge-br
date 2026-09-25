@@ -78,6 +78,38 @@ interface BotAnalysisData {
   recent_bot_samples: BotSample[];
 }
 
+interface FunnelTemplate {
+  key: string;
+  label: string;
+  sent: number;
+  opened: number;
+  clicked: number;
+  checkoutStarted: number;
+  converted: number;
+  openRate: number;
+  clickRate: number;
+  conversionRate: number;
+}
+
+interface FunnelMetricsData {
+  generated_at: string;
+  window: string;
+  summary: {
+    total_sent: number;
+    total_opened: number;
+    total_clicked: number;
+    total_converted: number;
+    overall_open_rate: number;
+    overall_click_rate: number;
+    overall_conversion_rate: number;
+  };
+  b2b: {
+    triggers_sent: number;
+    calendly_booked: number;
+  };
+  per_template: FunnelTemplate[];
+}
+
 function fmtMoney(n: number): string {
   return `R$${n.toLocaleString("pt-BR", { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
 }
@@ -100,6 +132,7 @@ function fmtDuration(min: number): string {
 export default function VcDashboard() {
   const [data, setData] = useState<VcData | null>(null);
   const [botData, setBotData] = useState<BotAnalysisData | null>(null);
+  const [funnelData, setFunnelData] = useState<FunnelMetricsData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -107,9 +140,10 @@ export default function VcDashboard() {
     setLoading(true);
     setError(null);
     try {
-      const [vcRes, botRes] = await Promise.all([
+      const [vcRes, botRes, funnelRes] = await Promise.all([
         fetch("/api/admin/vc-metrics"),
         fetch("/api/admin/bot-analysis"),
+        fetch("/api/admin/funnel-metrics"),
       ]);
       if (vcRes.status === 403) return setError("Sem permissão.");
       if (vcRes.status === 401) return setError("Não autenticado.");
@@ -118,6 +152,10 @@ export default function VcDashboard() {
       if (botRes.ok) {
         const botJson = await botRes.json();
         setBotData(botJson);
+      }
+      if (funnelRes.ok) {
+        const funnelJson = await funnelRes.json();
+        setFunnelData(funnelJson);
       }
     } catch {
       setError("Erro ao carregar.");
@@ -373,6 +411,88 @@ export default function VcDashboard() {
             )}
           </div>
         </section>
+
+        {/* ========== EMAIL FUNNEL D3-D30 (Sprint 8) ========== */}
+        {funnelData && (
+          <section>
+            <div className="mb-3 flex items-center justify-between">
+              <p className="text-[11px] uppercase tracking-wider text-muted font-bold">Email Funnel D3-D30 (últimos 30d)</p>
+              <p className="text-[10px] text-muted">Sprint 8 · nurture + B2B trigger</p>
+            </div>
+
+            {/* Summary cards */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+              <div className="rounded-lg bg-card border border-border p-4">
+                <p className="text-[10px] uppercase text-muted mb-1">Total enviados</p>
+                <p className="text-2xl font-bold text-foreground">{funnelData.summary.total_sent}</p>
+              </div>
+              <div className="rounded-lg bg-card border border-border p-4">
+                <p className="text-[10px] uppercase text-muted mb-1">Open rate geral</p>
+                <p className="text-2xl font-bold text-foreground">{fmtPct(funnelData.summary.overall_open_rate)}</p>
+                <p className="text-[10px] text-muted mt-0.5">{funnelData.summary.total_opened} abertos</p>
+              </div>
+              <div className="rounded-lg bg-card border border-border p-4">
+                <p className="text-[10px] uppercase text-muted mb-1">Click rate geral</p>
+                <p className="text-2xl font-bold text-foreground">{fmtPct(funnelData.summary.overall_click_rate)}</p>
+                <p className="text-[10px] text-muted mt-0.5">{funnelData.summary.total_clicked} clicks</p>
+              </div>
+              <div className="rounded-lg bg-card border-2 border-success/40 bg-success/5 p-4">
+                <p className="text-[10px] uppercase text-success font-bold mb-1">Converteram</p>
+                <p className="text-2xl font-bold text-success">{funnelData.summary.total_converted}</p>
+                <p className="text-[10px] text-success mt-0.5">{fmtPct(funnelData.summary.overall_conversion_rate)} conversion</p>
+              </div>
+            </div>
+
+            {/* Per-template table */}
+            <div className="rounded-xl bg-card border border-border overflow-hidden">
+              <div className="p-5 border-b border-border">
+                <p className="text-sm font-semibold">Métricas por email</p>
+                <p className="text-[11px] text-muted">Baseline meta: D14 open 40%, click 15%, conversion 3%</p>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full text-xs">
+                  <thead>
+                    <tr className="border-b border-border">
+                      <th className="text-left px-4 py-2 text-muted font-medium">Email</th>
+                      <th className="text-right px-3 py-2 text-muted font-medium">Sent</th>
+                      <th className="text-right px-3 py-2 text-muted font-medium">Open</th>
+                      <th className="text-right px-3 py-2 text-muted font-medium">Click</th>
+                      <th className="text-right px-3 py-2 text-muted font-medium">Checkout</th>
+                      <th className="text-right px-3 py-2 text-muted font-medium">Convert</th>
+                      <th className="text-right px-3 py-2 text-muted font-medium">Open %</th>
+                      <th className="text-right px-3 py-2 text-muted font-medium">CTR %</th>
+                      <th className="text-right px-3 py-2 text-muted font-medium">Conv %</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-border">
+                    {funnelData.per_template.map((t) => (
+                      <tr key={t.key}>
+                        <td className="px-4 py-2 text-foreground font-medium">{t.label}</td>
+                        <td className="px-3 py-2 text-right text-foreground">{t.sent}</td>
+                        <td className="px-3 py-2 text-right text-muted-foreground">{t.opened}</td>
+                        <td className="px-3 py-2 text-right text-muted-foreground">{t.clicked}</td>
+                        <td className="px-3 py-2 text-right text-muted-foreground">{t.checkoutStarted}</td>
+                        <td className="px-3 py-2 text-right text-success font-bold">{t.converted}</td>
+                        <td className="px-3 py-2 text-right text-muted-foreground">{t.sent > 0 ? fmtPct(t.openRate, 0) : "—"}</td>
+                        <td className="px-3 py-2 text-right text-muted-foreground">{t.sent > 0 ? fmtPct(t.clickRate, 0) : "—"}</td>
+                        <td className="px-3 py-2 text-right text-foreground font-bold">{t.sent > 0 ? fmtPct(t.conversionRate, 1) : "—"}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* B2B trigger summary */}
+            <div className="mt-4 rounded-xl bg-card border-l-4 border-accent p-4">
+              <p className="text-sm font-semibold text-foreground mb-1">🎯 B2B trigger (últimos 30d)</p>
+              <p className="text-xs text-muted-foreground">
+                <strong className="text-foreground">{funnelData.b2b.triggers_sent}</strong> leads qualificados via heurística (heavy Free + sinal corporativo) ·{" "}
+                <strong className="text-foreground">{funnelData.b2b.calendly_booked}</strong> agendaram call
+              </p>
+            </div>
+          </section>
+        )}
 
         {/* ========== CHURN (F11) ========== */}
         <section>
