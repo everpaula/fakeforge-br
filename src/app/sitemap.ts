@@ -225,6 +225,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     // Páginas institucionais
     { url: `${baseUrl}/pricing`, lastModified: D.jun01, changeFrequency: "monthly", priority: 0.6 },
+    { url: `${baseUrl}/empresa`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/sobre`, lastModified: D.may15, changeFrequency: "monthly", priority: 0.5 },
     { url: `${baseUrl}/contato`, lastModified: D.may15, changeFrequency: "monthly", priority: 0.4 },
     { url: `${baseUrl}/parceiros`, lastModified: D.may15, changeFrequency: "monthly", priority: 0.4 },
