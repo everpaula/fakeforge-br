@@ -12,6 +12,35 @@ import { track } from "@/lib/analytics";
 // Se site key não estiver setada, o flow segue direto (feature disabled).
 const RECAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
 
+// Bounce rate mitigation (2026-09-28): 5.46% de bounce estava próximo do teto
+// de suspensão do Resend (5%). Maioria dos bounces vinha de typos de humano
+// (gmil.com) e emails descartáveis (mailinator). Fix na fonte.
+const EMAIL_TYPOS: Record<string, string> = {
+  "gmil.com": "gmail.com", "gmial.com": "gmail.com", "gmai.com": "gmail.com",
+  "gnail.com": "gmail.com", "gamil.com": "gmail.com", "gmail.co": "gmail.com",
+  "hotnail.com": "hotmail.com", "hotmial.com": "hotmail.com", "hotmai.com": "hotmail.com",
+  "yahho.com": "yahoo.com", "yaho.com": "yahoo.com", "yahoo.co": "yahoo.com",
+  "outlok.com": "outlook.com", "outllok.com": "outlook.com",
+  "iclod.com": "icloud.com", "iclou.com": "icloud.com",
+  "uol.co": "uol.com.br", "bol.co": "bol.com.br",
+};
+const DISPOSABLE_DOMAINS = new Set([
+  "mailinator.com", "guerrillamail.com", "10minutemail.com", "tempmail.com",
+  "throwawaymail.com", "temp-mail.org", "mailnesia.com", "yopmail.com",
+  "trashmail.com", "sharklasers.com", "getnada.com", "maildrop.cc",
+  "fakeinbox.com", "spamgourmet.com", "mintemail.com", "dispostable.com",
+]);
+
+function checkEmail(email: string): { ok: true } | { suggestion: string } | { disposable: true } {
+  const parts = email.toLowerCase().trim().split("@");
+  if (parts.length !== 2 || !parts[1]) return { ok: true };
+  const domain = parts[1];
+  if (DISPOSABLE_DOMAINS.has(domain)) return { disposable: true };
+  const fix = EMAIL_TYPOS[domain];
+  if (fix) return { suggestion: `${parts[0]}@${fix}` };
+  return { ok: true };
+}
+
 declare global {
   interface Window {
     grecaptcha?: {
@@ -66,6 +95,7 @@ function LoginInner() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [notConfigured, setNotConfigured] = useState(false);
+  const [emailSuggestion, setEmailSuggestion] = useState<string | null>(null);
 
   useEffect(() => {
     if (intentPlan && typeof window !== "undefined") {
@@ -94,10 +124,10 @@ function LoginInner() {
     );
   }
 
-  async function handleMagicLink(e: React.FormEvent) {
-    e.preventDefault();
+  async function sendMagicLink(targetEmail: string) {
     setLoading(true);
     setError("");
+    setEmailSuggestion(null);
 
     track("signup_click", { method: "magic_link", has_intent_plan: !!intentPlan, has_redirect: !!redirect });
 
@@ -116,7 +146,7 @@ function LoginInner() {
     }
 
     const { error } = await supabase!.auth.signInWithOtp({
-      email,
+      email: targetEmail,
       options: { emailRedirectTo: `${window.location.origin}/auth/callback` },
     });
 
@@ -126,6 +156,25 @@ function LoginInner() {
       setSent(true);
     }
     setLoading(false);
+  }
+
+  async function handleMagicLink(e: React.FormEvent) {
+    e.preventDefault();
+
+    // Bounce mitigation: bloqueia descartáveis + sugere correção pra typos comuns.
+    const check = checkEmail(email);
+    if ("disposable" in check) {
+      setError("Emails temporários não são aceitos. Use seu email pessoal ou de trabalho.");
+      track("signup_blocked_disposable", { domain: email.split("@")[1] });
+      return;
+    }
+    if ("suggestion" in check) {
+      setEmailSuggestion(check.suggestion);
+      track("signup_typo_detected", { typed: email, suggested: check.suggestion });
+      return;
+    }
+
+    await sendMagicLink(email);
   }
 
   async function handleGitHub() {
@@ -187,7 +236,7 @@ function LoginInner() {
                 <input
                   type="email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => { setEmail(e.target.value); setEmailSuggestion(null); }}
                   placeholder="seu@email.com"
                   required
                   className="w-full px-4 py-2.5 rounded-lg text-sm bg-background border border-border text-foreground focus:outline-none focus:border-primary"
@@ -200,6 +249,28 @@ function LoginInner() {
                   {loading ? "Enviando..." : "Entrar com email"}
                 </button>
               </form>
+
+              {emailSuggestion && (
+                <div className="mt-3 rounded-lg border border-primary/40 bg-primary/5 p-3 text-center">
+                  <p className="text-xs text-foreground mb-2">
+                    Você quis dizer <strong>{emailSuggestion}</strong>?
+                  </p>
+                  <div className="flex gap-2 justify-center">
+                    <button
+                      onClick={() => { track("signup_typo_accepted"); setEmail(emailSuggestion); sendMagicLink(emailSuggestion); }}
+                      className="px-3 py-1 rounded text-[11px] font-semibold bg-primary text-white hover:bg-primary-hover"
+                    >
+                      Sim, corrigir e enviar
+                    </button>
+                    <button
+                      onClick={() => { track("signup_typo_rejected"); sendMagicLink(email); }}
+                      className="px-3 py-1 rounded text-[11px] font-medium border border-border text-foreground hover:bg-card-hover"
+                    >
+                      Manter como digitei
+                    </button>
+                  </div>
+                </div>
+              )}
 
               {error && (
                 <p className="text-xs text-danger mt-2 text-center">{error}</p>

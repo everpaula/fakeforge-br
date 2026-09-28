@@ -56,6 +56,9 @@ const ALLOWED_TYPES = new Set([
   "onboarding_dismissed",
   // Sprint 7 P1 - reCAPTCHA v3 anti-bot
   "signup_blocked_bot",
+  // Bounce rate mitigation (2026-09-28) - typo detection + disposable domain block
+  "signup_blocked_disposable",
+  "signup_typo_detected", "signup_typo_accepted", "signup_typo_rejected",
   // Sprint 8 - Email funnel D3-D30 + B2B trigger
   "email_d3_sent", "email_d3_opened", "email_d3_clicked_cta",
   "email_d7_sent", "email_d7_opened", "email_d7_clicked_cta",
