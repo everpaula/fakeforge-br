@@ -21,9 +21,17 @@ interface PageProps {
   searchParams: Promise<{ plano?: string; cupom?: string }>;
 }
 
+const VALID_PLANOS = new Set([
+  "dev",
+  "team",
+  "enterprise-starter",
+  "enterprise-growth",
+  "enterprise-scale",
+]);
+
 export default async function CheckoutPage({ searchParams }: PageProps) {
   const params = await searchParams;
-  const plano = params.plano === "team" ? "team" : "dev";
+  const plano = params.plano && VALID_PLANOS.has(params.plano) ? params.plano : "dev";
   const cupom = params.cupom || undefined;
 
   const user = await getUser();
