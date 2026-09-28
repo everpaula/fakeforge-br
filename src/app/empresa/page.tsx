@@ -31,11 +31,9 @@ const TIERS = [
       "SLA 99.5% uptime",
       "Fatura via NF (Plenor Group LLC)",
     ],
-    cta: "Preencher form (24h)",
-    ctaLink: "#form-contato",
-    ctaIsAnchor: true,
+    cta: "Assinar agora",
+    ctaLink: "/checkout?plano=enterprise-starter",
     highlight: false,
-    isSelfServe: false,
   },
   {
     name: "Growth",
@@ -49,36 +47,31 @@ const TIERS = [
       "Presets custom (fintech seu setor)",
       "Suporte via Slack compartilhado",
       "SLA 99.9% uptime",
-      "Onboarding call 1h",
+      "Onboarding call 1h após assinatura",
       "CNPJ alfanumérico 2026 garantido pré-julho",
     ],
-    cta: "Preencher form (24h)",
-    ctaLink: "#form-contato",
-    ctaIsAnchor: true,
+    cta: "Assinar agora",
+    ctaLink: "/checkout?plano=enterprise-growth",
     highlight: true,
-    isSelfServe: false,
   },
   {
     name: "Scale",
-    price: "R$5.000+",
+    price: "R$5.000",
     period: "/mês",
     tagline: "Banco, marketplace, 50+ devs",
     features: [
       "Chamadas ilimitadas",
-      "On-premise deployment (Docker/K8s)",
+      "Multi-API key ilimitado",
       "SLA 99.95% uptime + response time",
       "Presets custom + campos custom",
       "DPO consultation LGPD",
       "Dedicated Slack channel",
-      "Contrato via jurídico BR",
       "Audit log completo",
-      "SSO / SAML integration",
+      "On-premise disponível sob custom quote",
     ],
-    cta: "Preencher form (24h)",
-    ctaLink: "#form-contato",
-    ctaIsAnchor: true,
+    cta: "Assinar agora",
+    ctaLink: "/checkout?plano=enterprise-scale",
     highlight: false,
-    isSelfServe: false,
   },
 ];
 
@@ -98,20 +91,20 @@ export default function EmpresaPage() {
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
           <Link
-            href="#form-contato"
+            href="#planos"
             className="px-6 py-3 rounded-lg text-sm font-bold bg-primary text-white hover:bg-primary-hover transition-colors"
           >
-            Preencher form em 30s
+            Ver planos e assinar
           </Link>
           <Link
-            href="#planos"
+            href="/pricing"
             className="px-6 py-3 rounded-lg text-sm font-bold border border-border text-foreground hover:bg-card transition-colors"
           >
-            Ver planos
+            Ou plano individual R$29
           </Link>
         </div>
         <p className="text-[11px] text-muted mt-3">
-          Sem call obrigatória. Se preferir email cru: <a href="mailto:contato@fakeforge.com.br" className="text-primary hover:underline">contato@fakeforge.com.br</a>
+          Self-service: assina agora, começa em 5 min. Precisa on-premise, contrato via CNPJ BR ou preset custom? <a href="#customizacao" className="text-primary hover:underline">Fala comigo</a>.
         </p>
       </section>
 
@@ -200,8 +193,8 @@ export default function EmpresaPage() {
 
       {/* Planos */}
       <section id="planos" className="mb-12">
-        <h2 className="text-2xl font-bold text-foreground mb-2">Planos Enterprise</h2>
-        <p className="text-sm text-muted-foreground mb-6">Assinatura mensal com NF, sem fidelidade. Cancelamento com 30d aviso prévio.</p>
+        <h2 className="text-2xl font-bold text-foreground mb-2">Planos Enterprise — self-service</h2>
+        <p className="text-sm text-muted-foreground mb-6">Assinatura via Stripe em 3 cliques. Cartão pessoal ou corporativo, NF emitida via Plenor Group LLC. Cancelamento em 1 clique, sem fidelidade.</p>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {TIERS.map((tier) => (
@@ -290,24 +283,37 @@ export default function EmpresaPage() {
         </div>
       </section>
 
-      {/* CTA final — form contactless */}
-      <section id="form-contato" className="mb-12">
-        <div className="text-center mb-6">
-          <h2 className="text-2xl font-bold text-foreground">Preenche em 30s. Respondo em 24h.</h2>
-          <p className="text-sm text-muted-foreground mt-2 max-w-lg mx-auto">
-            Sem call obrigatória. Se sua dúvida é técnica ou preferir email, respondo por email mesmo. Se quiser call, marcamos no reply. Você escolhe.
-          </p>
-        </div>
-        <div className="max-w-lg mx-auto">
-          <EnterpriseInquiryForm />
-        </div>
-        <div className="text-center mt-6">
-          <p className="text-xs text-muted-foreground">
-            Prefere outros canais?{" "}
-            <a href="mailto:contato@fakeforge.com.br" className="text-primary hover:underline">Email direto</a>{" "}
-            ou{" "}
-            <a href="https://www.linkedin.com/in/evertonsilvapaula" target="_blank" rel="noopener" className="text-primary hover:underline">LinkedIn</a>
-          </p>
+      {/* Customização — form contactless SÓ pra quem precisa de algo custom */}
+      <section id="customizacao" className="mb-12">
+        <div className="rounded-xl bg-card border border-border p-6">
+          <div className="mb-6">
+            <p className="text-[11px] uppercase tracking-wider text-muted font-bold mb-1">Só se você precisar</p>
+            <h2 className="text-xl font-bold text-foreground">Precisa customização, on-premise ou contrato via CNPJ BR?</h2>
+            <p className="text-sm text-muted-foreground mt-2">
+              Assinatura self-service acima cobre 90% dos casos. Se o seu não cabe, preenche o form abaixo. Uso comum:
+            </p>
+            <ul className="text-xs text-muted-foreground list-disc list-inside mt-2 space-y-1">
+              <li>Deploy on-premise Docker/K8s (Scale + custom quote)</li>
+              <li>Preset vertical custom (seguros, saúde, logística)</li>
+              <li>Contrato via jurídico BR em vez de Plenor Group LLC</li>
+              <li>SSO/SAML integration</li>
+              <li>SLA custom com multa contratual proporcional</li>
+              <li>Volume acima do Scale (chamadas ilimitadas + arquitetura dedicada)</li>
+            </ul>
+          </div>
+
+          <div className="max-w-lg mx-auto">
+            <EnterpriseInquiryForm />
+          </div>
+
+          <div className="text-center mt-4">
+            <p className="text-xs text-muted-foreground">
+              Ou email direto:{" "}
+              <a href="mailto:contato@fakeforge.com.br" className="text-primary hover:underline">contato@fakeforge.com.br</a>
+              {" · "}
+              <a href="https://www.linkedin.com/in/evertonsilvapaula" target="_blank" rel="noopener" className="text-primary hover:underline">LinkedIn</a>
+            </p>
+          </div>
         </div>
       </section>
     </PageShell>

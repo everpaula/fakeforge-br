@@ -9,7 +9,7 @@ interface Props {
   cupom?: string;
 }
 
-const PLAN_INFO: Record<string, { name: string; price: number; features: string[] }> = {
+const PLAN_INFO: Record<string, { name: string; price: number; features: string[]; fullName?: string }> = {
   dev: {
     name: "Dev",
     price: 29,
@@ -31,6 +31,49 @@ const PLAN_INFO: Record<string, { name: string; price: number; features: string[
       "Múltiplas API keys por ambiente",
       "Todos os presets + suporte prioritário",
       "Cancelamento em 1 clique",
+    ],
+  },
+  "enterprise-starter": {
+    name: "Enterprise Starter",
+    fullName: "Enterprise Starter",
+    price: 500,
+    features: [
+      "50.000 chamadas/dia",
+      "10.000 items por chamada",
+      "5 API keys por ambiente",
+      "Suporte email prioritário 24h",
+      "SLA 99.5% uptime",
+      "Fatura via NF (Plenor Group LLC)",
+      "Cancelamento em 1 clique",
+    ],
+  },
+  "enterprise-growth": {
+    name: "Enterprise Growth",
+    fullName: "Enterprise Growth",
+    price: 1500,
+    features: [
+      "200.000 chamadas/dia",
+      "10 API keys (ambiente + CI paralelo)",
+      "Presets custom (fintech seu setor)",
+      "Slack compartilhado com o founder",
+      "SLA 99.9% uptime",
+      "Onboarding call 1h",
+      "CNPJ alfanumérico 2026 garantido",
+    ],
+  },
+  "enterprise-scale": {
+    name: "Enterprise Scale",
+    fullName: "Enterprise Scale",
+    price: 5000,
+    features: [
+      "Chamadas ilimitadas",
+      "Multi-API key ilimitado",
+      "SLA 99.95% + response time",
+      "Presets custom + campos custom",
+      "DPO consultation LGPD",
+      "Dedicated Slack channel",
+      "Contrato via jurídico BR (setup)",
+      "Audit log completo",
     ],
   },
 };

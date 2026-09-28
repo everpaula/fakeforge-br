@@ -36,7 +36,8 @@ export async function POST(request: NextRequest) {
     const plan = body.plan as StripePlan;
     const coupon = typeof body.coupon === "string" ? body.coupon.trim().toUpperCase() : undefined;
 
-    if (plan !== "dev" && plan !== "team") {
+    const VALID_PLANS: StripePlan[] = ["dev", "team", "enterprise-starter", "enterprise-growth", "enterprise-scale"];
+    if (!VALID_PLANS.includes(plan)) {
       return NextResponse.json({ error: "Invalid plan" }, { status: 400 });
     }
 
