@@ -132,6 +132,58 @@ export default function Post() {
             foi construído. Zero dependências no seu projeto.
           </p>
 
+          <h2 className="text-lg font-semibold text-foreground mt-8 mb-3">Landings específicas por linguagem no FakeForge</h2>
+          <p>
+            Nenhum dos outros três candidatos publica documentação dedicada por linguagem com snippet
+            pronto pra colar. O FakeForge tem página própria pra Python, Node.js e curl em cada tipo de
+            dado, com exemplo de teste (pytest, Jest) já incluído:
+          </p>
+          <ul className="list-disc list-inside space-y-2 pl-2">
+            <li>
+              <Link href="/gerador-telefone-python" className="text-primary hover:underline">Gerador de telefone em Python</Link> —
+              SDK <code className="text-xs bg-background border border-border px-1.5 py-0.5 rounded">pip install fakeforge-br</code>{" "}
+              mais algoritmo local puro em Python pro padrão ANATEL, com exemplo de mock de SMS em pytest.
+            </li>
+            <li>
+              <Link href="/gerador-telefone-nodejs" className="text-primary hover:underline">Gerador de telefone em Node.js</Link> —
+              mesmo SDK via npm, com exemplo de teste em Jest pra validação de formulário de cadastro.
+            </li>
+            <li>
+              <Link href="/gerador-telefone-curl" className="text-primary hover:underline">Gerador de telefone via curl</Link> —
+              chamada direta à API REST, sem instalar nada, pra scripts de shell ou CI/CD.
+            </li>
+            <li>
+              <Link href="/gerador-empresa-python" className="text-primary hover:underline">Gerador de empresa em Python</Link> —
+              CNPJ, razão social, endereço e telefone correlacionados, com seed pronto pra Django.
+            </li>
+            <li>
+              <Link href="/gerador-empresa-nodejs" className="text-primary hover:underline">Gerador de empresa em Node.js</Link> —
+              mesmo preset de empresa completa, com exemplo de seed pra projetos Express/Prisma.
+            </li>
+            <li>
+              <Link href="/gerador-empresa-curl" className="text-primary hover:underline">Gerador de empresa via curl</Link> —
+              geração em lote de empresas fictícias direto da linha de comando, com export em SQL.
+            </li>
+            <li>
+              <Link href="/gerador-placa-python" className="text-primary hover:underline">Gerador de placa em Python</Link> —
+              placas no padrão Mercosul e no formato antigo, com algoritmo local pra quem não quer dependência externa.
+            </li>
+            <li>
+              <Link href="/gerador-placa-nodejs" className="text-primary hover:underline">Gerador de placa em Node.js</Link> —
+              mesmo gerador de placa, com exemplo de teste de máscara de formulário em Jest.
+            </li>
+            <li>
+              <Link href="/gerador-placa-curl" className="text-primary hover:underline">Gerador de placa via curl</Link> —
+              geração via API REST pra scripts de seed e testes de carga sem SDK instalado.
+            </li>
+          </ul>
+          <p>
+            O Faker.js tem documentação genérica por método, não por linguagem de uso real. O 4devs não
+            tem API nem documentação técnica. O fakerbr é uma lib só, sem guia de integração por stack.
+            Essa cobertura por linguagem é diferencial direto pra quem busca &ldquo;gerador de X em Python&rdquo;
+            ou &ldquo;gerador de X em Node&rdquo; no Google e quer o snippet certo de cara.
+          </p>
+
           <h2 className="text-lg font-semibold text-foreground mt-8 mb-3">O problema dos dados não correlacionados</h2>
           <p>
             Se você combina Faker.js + fakerbr, pode gerar uma &ldquo;Maria Silva&rdquo; com CEP de Manaus,

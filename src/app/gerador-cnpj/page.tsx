@@ -46,6 +46,19 @@ export default function GeradorCNPJ() {
         description="Clique em Gerar para criar CNPJs válidos"
       />
 
+      <div className="rounded-xl bg-accent/10 border border-accent/30 p-4 my-6">
+        <p className="text-[11px] uppercase tracking-wider text-accent font-bold mb-1">Novo formato 2026</p>
+        <h3 className="text-sm font-semibold text-foreground mb-2">
+          Precisa do CNPJ alfanumérico que entra em vigor em 01/07/2026?
+        </h3>
+        <p className="text-xs text-muted-foreground mb-2">
+          A partir de julho de 2026 novos CNPJs podem ter letras (A-Z) nas primeiras 12 posições. Testa seu sistema antes da virada.
+        </p>
+        <Link href="/gerador-cnpj-alfanumerico" className="text-xs text-primary hover:underline font-medium">
+          Ir pro Gerador de CNPJ Alfanumérico →
+        </Link>
+      </div>
+
       <div className="mt-8">
         <ValidatorCNPJ />
       </div>
@@ -130,6 +143,42 @@ curl -X POST "https://fakeforge.com.br/api/generate" \\
             do FakeForge. Recomendado validar schema de banco, regex de validação, integrações com SEFAZ
             e eSocial nos próximos meses.
           </p>
+        </section>
+
+        <section>
+          <h2 className="text-lg font-semibold text-foreground mb-2">Diferenças entre CNPJ tradicional e alfanumérico</h2>
+          <p className="mb-3">
+            Os dois formatos convivem a partir de 01/07/2026: o tradicional continua valendo pra sempre,
+            e o alfanumérico passa a ser emitido pra empresas novas. Veja o que muda na prática:
+          </p>
+          <div className="overflow-x-auto rounded-lg bg-background border border-border">
+            <table className="w-full text-xs">
+              <thead>
+                <tr className="border-b border-border">
+                  <th className="text-left px-3 py-2 text-muted">Característica</th>
+                  <th className="text-left px-3 py-2 text-muted">CNPJ tradicional</th>
+                  <th className="text-left px-3 py-2 text-muted">CNPJ alfanumérico</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border">
+                {[
+                  ["Caracteres nas posições 1-12", "Só dígitos (0-9)", "Letras (A-Z) e dígitos (0-9)"],
+                  ["Dígitos verificadores (13-14)", "Numéricos", "Numéricos (sem mudança)"],
+                  ["Formato visual", "XX.XXX.XXX/XXXX-XX", "XX.XXX.XXX/XXXX-XX (mesma máscara)"],
+                  ["Cálculo do dígito verificador", "Módulo 11 direto sobre o dígito", "Módulo 11 com valor ASCII -48 por caractere"],
+                  ["Vigência", "Já em uso, continua válido pra sempre", "A partir de 01/07/2026, só pra CNPJs novos"],
+                  ["Tipo de coluna recomendado no banco", "NUMERIC ou VARCHAR(14)", "VARCHAR(14) ou CHAR(14) obrigatoriamente"],
+                  ["Onde testar no FakeForge", "gerador-cnpj (esta página)", "gerador-cnpj-alfanumerico"],
+                ].map(([c, trad, alfa], i) => (
+                  <tr key={i}>
+                    <td className="px-3 py-2 font-medium text-foreground">{c}</td>
+                    <td className="px-3 py-2 text-muted-foreground">{trad}</td>
+                    <td className="px-3 py-2 text-muted-foreground">{alfa}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </section>
 
         {/* FAQ Section */}

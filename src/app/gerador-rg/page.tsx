@@ -77,14 +77,76 @@ export default function GeradorRG() {
         </section>
 
         <section>
+          <h2 className="text-lg font-semibold text-foreground mb-2">RG em São Paulo (formato SSP-SP)</h2>
+          <p>
+            O RG paulista é emitido pelo IIRGD (Instituto de Identificação Ricardo Gumbleton Daunt),
+            vinculado à Secretaria de Segurança Pública de São Paulo (SSP-SP). O número tem 8 a 9 dígitos
+            sequenciais mais 1 dígito verificador, calculado pelo módulo 11 com pesos de 2 a 9 (o mesmo
+            algoritmo já descrito acima). Quando o dígito verificador dá 10, ele é escrito como X.
+          </p>
+          <p>
+            É o formato mais usado como referência em validadores de formulário no Brasil porque São
+            Paulo concentra a maior base populacional do país (cerca de 46,6 milhões de habitantes), então
+            grande parte dos RGs em circulação segue esse padrão. Formato típico:{" "}
+            <code className="text-xs bg-background border border-border px-1.5 py-0.5 rounded">XX.XXX.XXX-Y</code>.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-lg font-semibold text-foreground mb-2">RG no Rio de Janeiro (formato Detran-RJ / IFP-RJ)</h2>
+          <p>
+            O RG carioca é emitido pelo IFP (Instituto Félix Pacheco), o instituto de identificação mais
+            antigo do Brasil, fundado em 1907, vinculado à Polícia Civil do Rio de Janeiro. O número
+            costuma ter até 8 dígitos, também com dígito verificador que pode aparecer como X quando o
+            cálculo resulta em 10, seguindo lógica de módulo 11 semelhante à de outros estados, mas com
+            variações na aplicação dos pesos em relação ao padrão de SP.
+          </p>
+          <p>
+            Diferente do RG de SP, o carioca é historicamente menos padronizado em sistemas nacionais
+            de validação, por isso alguns formulários exigem confirmação manual quando o titular é do RJ.
+            Formato típico: <code className="text-xs bg-background border border-border px-1.5 py-0.5 rounded">XX.XXX.XXX-Y</code>.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-lg font-semibold text-foreground mb-2">RG em Minas Gerais (formato PC-MG)</h2>
+          <p>
+            O RG mineiro é emitido pelo Instituto de Identificação Prof. Otávio Lord Sales, vinculado à
+            Polícia Civil de Minas Gerais (PC-MG / SSP-MG). O número tem até 9 dígitos, com dígito
+            verificador calculado por módulo 11. Minas Gerais tem a maior malha de emissão do país, com
+            o Detran-MG operando em mais de 850 municípios, o que gera bastante variação de formatação
+            entre cartórios e postos de identificação.
+          </p>
+          <p>
+            Formato de referência usado em testes: <code className="text-xs bg-background border border-border px-1.5 py-0.5 rounded">MG-XX.XXX.XXX</code>,
+            com o dígito verificador podendo vir separado por hífen na última posição.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-lg font-semibold text-foreground mb-2">RG no Rio Grande do Sul (formato IGP-RS)</h2>
+          <p>
+            O RG gaúcho é emitido pelo Instituto Geral de Perícias (IGP), vinculado à SSP-RS. É um dos
+            poucos estados em que o número costuma ter até 10 dígitos, mais longo que o padrão de 8-9
+            dígitos comum na maioria das outras UFs, sem separador padronizado entre os grupos. O cálculo
+            do dígito verificador segue a mesma lógica de módulo 11, mas a quantidade extra de dígitos
+            exige atenção redobrada na hora de validar o tamanho do campo no formulário.
+          </p>
+          <p>
+            Formato típico usado em testes: <code className="text-xs bg-background border border-border px-1.5 py-0.5 rounded">XXXXXXXXXX-Y</code>{" "}
+            (10 dígitos numéricos mais o verificador).
+          </p>
+        </section>
+
+        <section>
           <h2 className="text-lg font-semibold text-foreground mb-4">Perguntas Frequentes</h2>
           <div className="space-y-4">
             {[
-              { q: "O RG gerado funciona em consultas oficiais?", a: "Não. O número passa na validação matemática, mas não corresponde a nenhum cidadão registrado em qualquer instituto de identificação estadual." },
-              { q: "Por que alguns RGs terminam em X?", a: "Quando o dígito verificador calculado é 10, ele é representado como X (algarismo romano). Isso é padrão do formato SP." },
-              { q: "Outros estados usam formato diferente?", a: "Sim. RJ, MG, BA e outros têm formatos próprios. O formato SP é o mais aceito em sistemas nacionais por ser o mais comum no Brasil." },
-              { q: "Posso usar para testar um cadastro real?", a: "Não. Apenas para testes em ambiente de desenvolvimento, homologação ou QA. Usar em cadastros reais constitui falsificação ideológica (CP art. 299)." },
-              { q: "Posso gerar RGs em massa via API?", a: "Sim. Use GET https://fakeforge.com.br/api/generate?type=rg&quantity=100. São 100 chamadas grátis por dia." },
+              { q: "O RG é único em todo o Brasil?", a: "Não necessariamente. Como cada estado tem seu próprio instituto de identificação, é possível (embora raro) que números coincidam entre UFs diferentes. Por isso o RG completo, pra fins de identificação civil, sempre inclui o órgão emissor e a UF junto do número, tipo 12.345.678-9 SSP-SP." },
+              { q: "Por que o RG de SP é o mais usado em testes?", a: "Porque São Paulo concentra a maior população do país (cerca de 46,6 milhões de habitantes) e seu algoritmo de dígito verificador (módulo 11, pesos 2-9) é o mais documentado e replicado em validadores de formulário. A maioria dos sistemas nacionais usa esse formato como padrão de referência." },
+              { q: "A CIN vai substituir o RG?", a: "Sim, gradualmente. A Carteira de Identidade Nacional (CIN) usa o número do CPF como identificador único nacional, substituindo o RG estadual ao longo dos próximos anos. Enquanto a transição não termina, sistemas precisam aceitar RG e CIN em paralelo. Veja o gerador de CIN pra testar esse formato também." },
+              { q: "Como validar RG programaticamente?", a: "Depende do estado. Pro formato SP, some os 8 dígitos multiplicados pelos pesos 2 a 9, calcule o resto da divisão por 11, e o dígito verificador é (11 - resto) % 11 (usando X quando o resultado é 10). Outros estados (RJ, MG, RS) têm variações no número de dígitos e na aplicação dos pesos." },
+              { q: "Posso usar RG fake em cadastro real?", a: "Não. RGs gerados aqui são fictícios e servem só para testes em ambiente de desenvolvimento, homologação ou QA. Usar em cadastro real com intenção de enganar terceiros configura falsificação ideológica (Código Penal, art. 299)." },
             ].map(({ q, a }) => (
               <details key={q} className="group border border-border rounded-lg">
                 <summary className="flex items-center justify-between px-4 py-3 cursor-pointer hover:bg-card-hover transition-colors">
@@ -133,10 +195,11 @@ export default function GeradorRG() {
             "@context": "https://schema.org",
             "@type": "FAQPage",
             mainEntity: [
-              { "@type": "Question", name: "O RG gerado funciona em consultas oficiais?", acceptedAnswer: { "@type": "Answer", text: "Não. O número passa na validação matemática, mas não corresponde a nenhum cidadão registrado em qualquer instituto de identificação estadual." } },
-              { "@type": "Question", name: "Por que alguns RGs terminam em X?", acceptedAnswer: { "@type": "Answer", text: "Quando o dígito verificador calculado é 10, ele é representado como X. Isso é padrão do formato SP." } },
-              { "@type": "Question", name: "Outros estados usam formato diferente?", acceptedAnswer: { "@type": "Answer", text: "Sim. RJ, MG, BA e outros têm formatos próprios. O formato SP é o mais aceito em sistemas nacionais." } },
-              { "@type": "Question", name: "Posso gerar RGs em massa via API?", acceptedAnswer: { "@type": "Answer", text: "Sim. Use GET https://fakeforge.com.br/api/generate?type=rg&quantity=100. São 100 chamadas grátis por dia." } },
+              { "@type": "Question", name: "O RG é único em todo o Brasil?", acceptedAnswer: { "@type": "Answer", text: "Não necessariamente. Como cada estado tem seu próprio instituto de identificação, é possível (embora raro) que números coincidam entre UFs diferentes. Por isso o RG completo, pra fins de identificação civil, sempre inclui o órgão emissor e a UF junto do número, tipo 12.345.678-9 SSP-SP." } },
+              { "@type": "Question", name: "Por que o RG de SP é o mais usado em testes?", acceptedAnswer: { "@type": "Answer", text: "Porque São Paulo concentra a maior população do país (cerca de 46,6 milhões de habitantes) e seu algoritmo de dígito verificador (módulo 11, pesos 2-9) é o mais documentado e replicado em validadores de formulário. A maioria dos sistemas nacionais usa esse formato como padrão de referência." } },
+              { "@type": "Question", name: "A CIN vai substituir o RG?", acceptedAnswer: { "@type": "Answer", text: "Sim, gradualmente. A Carteira de Identidade Nacional (CIN) usa o número do CPF como identificador único nacional, substituindo o RG estadual ao longo dos próximos anos. Enquanto a transição não termina, sistemas precisam aceitar RG e CIN em paralelo." } },
+              { "@type": "Question", name: "Como validar RG programaticamente?", acceptedAnswer: { "@type": "Answer", text: "Depende do estado. Pro formato SP, some os 8 dígitos multiplicados pelos pesos 2 a 9, calcule o resto da divisão por 11, e o dígito verificador é (11 - resto) % 11 (usando X quando o resultado é 10). Outros estados (RJ, MG, RS) têm variações no número de dígitos e na aplicação dos pesos." } },
+              { "@type": "Question", name: "Posso usar RG fake em cadastro real?", acceptedAnswer: { "@type": "Answer", text: "Não. RGs gerados são fictícios e servem só para testes em ambiente de desenvolvimento, homologação ou QA. Usar em cadastro real com intenção de enganar terceiros configura falsificação ideológica (Código Penal, art. 299)." } },
             ],
           }),
         }}
