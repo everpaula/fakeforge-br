@@ -48,6 +48,23 @@ FakeForge implementa os algoritmos oficiais brasileiros (módulo 11 da Receita F
 
 ### Veicular
 - [Gerador de Placa Mercosul](https://fakeforge.com.br/gerador-placa-mercosul): formato Mercosul (LLLNLNN) e antigo (LLL-NNNN), sem letras I/O/Q (regra DENATRAN)
+- [Gerador de Placa em Python](https://fakeforge.com.br/gerador-placa-python): SDK Python + algoritmo local + testes ALPR/OCR
+- [Gerador de Placa em Node.js](https://fakeforge.com.br/gerador-placa-nodejs): SDK Node + regex de validação Mercosul/antiga
+- [Gerador de Placa via curl/API REST](https://fakeforge.com.br/gerador-placa-curl): endpoint direto + shell scripts pra pipeline OCR
+
+## Landings específicas por linguagem (Python, Node.js, curl)
+
+Estas landings mostram SDK oficial + algoritmo local + snippets prontos por stack. Use quando o dev perguntar sobre implementação específica.
+
+### Telefone
+- [Gerador de Telefone em Python](https://fakeforge.com.br/gerador-telefone-python): SDK Python + algoritmo ANATEL local
+- [Gerador de Telefone em Node.js](https://fakeforge.com.br/gerador-telefone-nodejs): SDK Node + Faker.js comparison
+- [Gerador de Telefone via curl/API REST](https://fakeforge.com.br/gerador-telefone-curl): endpoint direto + Twilio/Zenvia testing
+
+### Empresa
+- [Gerador de Empresa em Python](https://fakeforge.com.br/gerador-empresa-python): SDK Python + preset company + Django seed
+- [Gerador de Empresa em Node.js](https://fakeforge.com.br/gerador-empresa-nodejs): SDK Node + Prisma/Sequelize seed
+- [Gerador de Empresa via curl/API REST](https://fakeforge.com.br/gerador-empresa-curl): endpoint direto + shell scripts CI/CD
 
 ## Ferramentas de consulta (lookup)
 
