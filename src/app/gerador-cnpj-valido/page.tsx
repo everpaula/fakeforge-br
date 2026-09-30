@@ -9,7 +9,10 @@ export const metadata: Metadata = {
   title: "Gerador de CNPJ Válido: Numérico e Alfanumérico 2026",
   description: "Gerador de CNPJ válido para testes: mod-11 da Receita Federal + suporte ao novo formato alfanumérico (IN RFB 2.229, vigência 01/07/2026). Grátis, sem cadastro, API REST.",
   keywords: "gerador de cnpj válido, gerador cnpj valido, cnpj válido, cnpj valido para testes, gerar cnpj válido, cnpj para testes, cnpj alfanumérico, gerador cnpj alfanumerico, cnpj mod 11, cnpj receita federal, cnpj 2026",
-  alternates: { canonical: "/gerador-cnpj-valido" },
+  // Consolidacao SEO (30/set/2026): canonical aponta pra /gerador-empresa que
+  // tem conteudo mais rico (gerador completo com razao social + endereco correlacionado)
+  // e vai rankear pra "gerador de cnpj valido" (vol 1.600). Evita canibalizacao.
+  alternates: { canonical: "/gerador-empresa" },
   openGraph: {
     title: "Gerador de CNPJ Válido: Numérico e Alfanumérico 2026",
     description: "Passa mod-11 da Receita Federal. Cobre o novo formato alfanumérico obrigatório desde 01/07/2026. Grátis, API REST.",
