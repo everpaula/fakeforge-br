@@ -30,6 +30,35 @@ const BANDEIRAS = [
   ["American Express", "34, 37", "15", "4 dígitos"],
 ];
 
+const LINK_CLS = "px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors";
+
+const GUIAS_LINGUAGEM = [
+  ["/gerador-cartao-python", "Python"],
+  ["/gerador-cartao-nodejs", "Node.js"],
+  ["/gerador-cartao-curl", "cURL"],
+  ["/gerador-cartao-jest", "Jest"],
+  ["/gerador-cartao-pytest", "pytest"],
+];
+
+const GATEWAYS_TESTE = [
+  ["Stripe", "Visa", "4242 4242 4242 4242", "Aprovado"],
+  ["Stripe", "Mastercard", "5555 5555 5555 4444", "Aprovado"],
+  ["Stripe", "American Express", "3782 822463 10005", "Aprovado"],
+  ["Stripe", "Visa", "4000 0000 0000 0002", "Recusado (card_declined)"],
+  ["Mercado Pago", "Mastercard", "5031 4332 1540 6351", "Aprovado (CVV 123, titular APRO)"],
+  ["Mercado Pago", "Visa", "4235 6477 2802 5682", "Aprovado (CVV 123, titular APRO)"],
+  ["Adyen", "Visa", "4111 1111 4555 1142", "Aprovado (CVV 737, validade 03/30)"],
+  ["Adyen", "Mastercard", "5555 3412 4444 1115", "Aprovado (CVV 737, validade 03/30)"],
+];
+
+const MII_TABELA = [
+  ["4", "Visa", "4", "16 (13 e 19 em emissões antigas)", "Crédito, débito e pré-pago no mundo todo"],
+  ["5", "Mastercard", "51 a 55 e 2221 a 2720", "16", "Crédito, débito e pré-pago"],
+  ["3", "American Express", "34 e 37", "15", "Crédito e cartão corporativo"],
+  ["6", "Elo", "Faixas como 636368, 438935, 504175, 451416, 509048", "16", "Crédito e débito, emissores brasileiros"],
+  ["6", "Hipercard", "606282 e 3841", "16", "Crédito, emissão Itaú"],
+];
+
 export default function GeradorCartao() {
   return (
     <PageShell>
@@ -75,6 +104,13 @@ export default function GeradorCartao() {
         <Link href="/gerar-cartao-credito" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Snippets Node/Python/PHP</Link>
         <Link href="/gerar-cartao-com-cpf" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Cartão + CPF correlacionado</Link>
         <Link href="/cartao-credito-teste-stripe" className="px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors">Fake vs Stripe test</Link>
+      </div>
+
+      <div className="mt-3 flex flex-wrap gap-2">
+        <span className="text-xs text-muted self-center mr-2">Guias por linguagem:</span>
+        {GUIAS_LINGUAGEM.map(([href, label]) => (
+          <Link key={href} href={href} className={LINK_CLS}>{`Cartão em ${label}`}</Link>
+        ))}
       </div>
 
       <ApiCtaBanner dataType="cartões de crédito" />
@@ -167,6 +203,114 @@ export default function GeradorCartao() {
             PSP (Stripe, Mercado Pago, Pagar.me, Adyen, Cielo) que já vêm marcados como débito ou crédito
             no sandbox.
           </p>
+        </section>
+
+        <section>
+          <h2 className="text-lg font-semibold text-foreground mb-2">Números de teste por gateway</h2>
+          <p className="mb-3">
+            Para testar ponta a ponta no sandbox, use os números que o próprio gateway publica. Um número gerado
+            aqui passa no Luhn, mas o gateway só simula aprovação ou recusa para os números da documentação dele.
+          </p>
+          <pre className="bg-card border border-border rounded-lg p-3 text-xs overflow-x-auto mb-3">
+            <code>{`4242 4242 4242 4242 (Stripe, Visa)
+5555 5555 5555 4444 (Stripe, Mastercard)
+4000 0000 0000 0002 (Stripe, recusa genérica)`}</code>
+          </pre>
+          <div className="overflow-x-auto rounded-lg bg-card border border-border">
+            <table className="w-full text-xs">
+              <thead>
+                <tr className="border-b border-border">
+                  <th className="text-left px-3 py-2 text-muted">Gateway</th>
+                  <th className="text-left px-3 py-2 text-muted">Bandeira</th>
+                  <th className="text-left px-3 py-2 text-muted">Número</th>
+                  <th className="text-left px-3 py-2 text-muted">Resultado no sandbox</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border">
+                {GATEWAYS_TESTE.map((r) => (
+                  <tr key={r[0] + r[2]}>
+                    <td className="px-3 py-2 text-foreground">{r[0]}</td>
+                    <td className="px-3 py-2 text-muted-foreground">{r[1]}</td>
+                    <td className="px-3 py-2 text-muted-foreground font-mono whitespace-nowrap">{r[2]}</td>
+                    <td className="px-3 py-2 text-muted-foreground">{r[3]}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="mt-3">
+            A Cielo também publica cartões de sandbox, em que o último dígito define o retorno simulado. Confira
+            sempre a documentação atual de cada gateway, porque esses números mudam. Para entender quando usar
+            cartão gerado e quando usar cartão oficial, veja{" "}
+            <Link href="/cartao-credito-teste-stripe" className="text-primary hover:underline">Fake vs Stripe test</Link>.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-lg font-semibold text-foreground mb-2">Bandeira, BIN e uso (ISO/IEC 7812)</h2>
+          <p className="mb-3">
+            A norma ISO/IEC 7812 define que os primeiros 6 a 8 dígitos formam o IIN (BIN), que identifica o emissor
+            e a bandeira. O primeiro dígito é o MII (Major Industry Identifier): 3 para viagem e entretenimento,
+            4 e 5 para bancos, 6 para bancos e varejo.
+          </p>
+          <div className="overflow-x-auto rounded-lg bg-card border border-border">
+            <table className="w-full text-xs">
+              <thead>
+                <tr className="border-b border-border">
+                  <th className="text-left px-3 py-2 text-muted">MII</th>
+                  <th className="text-left px-3 py-2 text-muted">Bandeira</th>
+                  <th className="text-left px-3 py-2 text-muted">Faixa de BIN</th>
+                  <th className="text-left px-3 py-2 text-muted">Dígitos</th>
+                  <th className="text-left px-3 py-2 text-muted">Uso</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border">
+                {MII_TABELA.map((r) => (
+                  <tr key={r[1]}>
+                    <td className="px-3 py-2 text-foreground">{r[0]}</td>
+                    <td className="px-3 py-2 text-foreground">{r[1]}</td>
+                    <td className="px-3 py-2 text-muted-foreground">{r[2]}</td>
+                    <td className="px-3 py-2 text-muted-foreground">{r[3]}</td>
+                    <td className="px-3 py-2 text-muted-foreground">{r[4]}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section>
+          <h2 className="text-lg font-semibold text-foreground mb-2">Por que Luhn?</h2>
+          <p className="mb-3">
+            Hans Peter Luhn (IBM) criou o algoritmo em 1954 para detectar erros de digitação. Ele pega todo erro de
+            um único dígito e quase todas as trocas de dígitos vizinhos, sem consultar nenhuma base. Não é
+            criptografia nem prova de que a conta existe.
+          </p>
+          <ol className="list-decimal pl-5 space-y-1 mb-3">
+            <li>Separe o último dígito (o verificador). Nos demais, comece pela direita.</li>
+            <li>Dobre um dígito sim, um não, a partir do primeiro da direita. Se o dobro passar de 9, subtraia 9.</li>
+            <li>Some todos os dígitos resultantes.</li>
+            <li>O verificador é (10 - soma mod 10) mod 10. O número é válido quando a soma total, com o verificador, é múltipla de 10.</li>
+          </ol>
+          <p className="mb-3">
+            Exemplo com 424242424242424: os 8 dígitos 4 dobrados viram 8 cada (soma 64), os 7 dígitos 2 somam 14,
+            total 78. O verificador é (10 - 8) mod 10 = 2, o que dá 4242 4242 4242 4242.
+          </p>
+          <pre className="bg-card border border-border rounded-lg p-3 text-xs overflow-x-auto">
+            <code>{`def luhn_valido(numero: str) -> bool:
+    digitos = [int(c) for c in numero if c.isdigit()]
+    soma = 0
+    for i, d in enumerate(reversed(digitos)):
+        if i % 2 == 1:
+            d = d * 2
+            if d > 9:
+                d -= 9
+        soma += d
+    return soma % 10 == 0
+
+print(luhn_valido("4242 4242 4242 4242"))  # True
+print(luhn_valido("4242 4242 4242 4243"))  # False`}</code>
+          </pre>
         </section>
 
         {/* FAQ Section */}

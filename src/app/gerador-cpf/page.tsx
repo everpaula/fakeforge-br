@@ -19,7 +19,25 @@ export const metadata: Metadata = {
     description: "Gere CPF válido e fictício para testes. Dígitos verificadores corretos, grátis e sem cadastro.",
     type: "website",
   },
+  alternates: { canonical: "/gerador-cpf" },
 };
+
+const LINK_CLS = "px-3 py-1.5 rounded-lg text-xs bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border-hover transition-colors";
+
+const GUIAS_LINGUAGEM = [
+  ["/gerador-cpf-python", "Python"],
+  ["/gerador-cpf-nodejs", "Node.js"],
+  ["/gerador-cpf-curl", "cURL"],
+  ["/gerador-cpf-jest", "Jest"],
+  ["/gerador-cpf-pytest", "pytest"],
+];
+
+const ESTRUTURA_CPF = [
+  ["1º ao 8º", "Número-base", "Sequência sorteada pela Receita Federal na inscrição. Não carrega informação da pessoa."],
+  ["9º", "Região fiscal", "Indica o estado de inscrição: 0 (RS), 1 (DF, GO, MS, MT, TO), 2 (AC, AM, AP, PA, RO, RR), 3 (CE, MA, PI), 4 (AL, PB, PE, RN), 5 (BA, SE), 6 (MG), 7 (ES, RJ), 8 (SP), 9 (PR, SC)."],
+  ["10º", "1º dígito verificador", "Mod-11 sobre os 9 primeiros dígitos, pesos de 10 a 2."],
+  ["11º", "2º dígito verificador", "Mod-11 sobre os 10 primeiros dígitos, pesos de 11 a 2."],
+];
 
 export default function GeradorCPF() {
   return (
@@ -49,6 +67,13 @@ export default function GeradorCPF() {
 
       <ApiCtaBanner dataType="CPFs" />
 
+      <div className="mt-6 flex flex-wrap gap-2">
+        <span className="text-xs text-muted self-center mr-2">Guias por linguagem:</span>
+        {GUIAS_LINGUAGEM.map(([href, label]) => (
+          <Link key={href} href={href} className={LINK_CLS}>{`CPF em ${label}`}</Link>
+        ))}
+      </div>
+
       {/* SEO content */}
       <div className="mt-12 space-y-8 text-sm text-muted-foreground leading-relaxed">
         <section>
@@ -73,10 +98,90 @@ export default function GeradorCPF() {
         <section>
           <h2 className="text-lg font-semibold text-foreground mb-2">Para que serve um gerador de CPF?</h2>
           <p>
-            Desenvolvedores precisam de CPFs válidos para testar sistemas que validam esse campo — como cadastros,
-            formulários de e-commerce, integração com gateways de pagamento e testes automatizados.
+            Desenvolvedores precisam de CPFs válidos para testar sistemas que validam esse campo (cadastros,
+            formulários de e-commerce, integração com gateways de pagamento e testes automatizados).
             Usar um CPF real em ambiente de teste viola a LGPD. Geradores criam números fictícios que passam
             na validação sem pertencer a ninguém.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-lg font-semibold text-foreground mb-2">Estrutura do CPF: os 11 dígitos explicados</h2>
+          <p className="mb-3">
+            O CPF é mantido pela Receita Federal e tem 11 dígitos no formato XXX.XXX.XXX-XX.
+            Os 8 primeiros são o número-base, o 9º indica a região fiscal e os 2 últimos são verificadores.
+          </p>
+          <div className="overflow-x-auto rounded-lg bg-card border border-border">
+            <table className="w-full text-xs">
+              <thead>
+                <tr className="border-b border-border">
+                  <th className="text-left px-3 py-2 text-muted">Posição</th>
+                  <th className="text-left px-3 py-2 text-muted">Campo</th>
+                  <th className="text-left px-3 py-2 text-muted">Significado</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border">
+                {ESTRUTURA_CPF.map((r) => (
+                  <tr key={r[0]}>
+                    <td className="px-3 py-2 text-foreground whitespace-nowrap">{r[0]}</td>
+                    <td className="px-3 py-2 text-foreground">{r[1]}</td>
+                    <td className="px-3 py-2 text-muted-foreground">{r[2]}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section>
+          <h2 className="text-lg font-semibold text-foreground mb-2">Algoritmo mod-11 passo a passo</h2>
+          <p className="mb-3">
+            Exemplo com os 9 primeiros dígitos <strong>529.982.247</strong>:
+          </p>
+          <ol className="list-decimal pl-5 space-y-1 mb-3">
+            <li>Multiplique cada dígito pelos pesos 10, 9, 8, 7, 6, 5, 4, 3, 2: 50 + 18 + 72 + 63 + 48 + 10 + 8 + 12 + 14 = 295.</li>
+            <li>Calcule o resto de 295 dividido por 11: 295 mod 11 = 9.</li>
+            <li>Se o resto for menor que 2, o dígito é 0. Senão, é 11 menos o resto: 11 - 9 = <strong>2</strong>.</li>
+            <li>Acrescente o 2 ao final e repita com pesos 11, 10, 9, 8, 7, 6, 5, 4, 3, 2 sobre os 10 dígitos: soma 347, resto 6, dígito 11 - 6 = <strong>5</strong>.</li>
+            <li>Resultado: <strong>529.982.247-25</strong>.</li>
+          </ol>
+          <p className="mb-3">Em Python, a validação completa cabe em poucas linhas:</p>
+          <pre className="bg-card border border-border rounded-lg p-3 text-xs overflow-x-auto mb-3">
+            <code>{`def valida_cpf(cpf: str) -> bool:
+    d = [int(c) for c in cpf if c.isdigit()]
+    if len(d) != 11 or len(set(d)) == 1:  # 111.111.111-11 passa no cálculo, mas é rejeitado
+        return False
+    for i in (9, 10):
+        soma = sum(d[j] * (i + 1 - j) for j in range(i))
+        resto = soma % 11
+        if d[i] != (0 if resto < 2 else 11 - resto):
+            return False
+    return True
+
+print(valida_cpf("529.982.247-25"))  # True
+print(valida_cpf("529.982.247-26"))  # False`}</code>
+          </pre>
+          <p>
+            Precisa de implementação por linguagem? Veja os guias de{" "}
+            <Link href="/gerador-cpf-python" className="text-primary hover:underline">Python</Link>,{" "}
+            <Link href="/gerador-cpf-nodejs" className="text-primary hover:underline">Node.js</Link> e{" "}
+            <Link href="/gerador-cpf-curl" className="text-primary hover:underline">cURL</Link>.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-lg font-semibold text-foreground mb-2">Por que CPF fake é seguro pra testes (LGPD)</h2>
+          <p className="mb-2">
+            A Lei Geral de Proteção de Dados (Lei 13.709/2018) trata o CPF como dado pessoal. Copiar CPFs reais
+            de produção para ambientes de teste, staging ou planilhas de QA amplia a superfície de vazamento e
+            exige base legal para esse uso.
+          </p>
+          <p>
+            Um CPF gerado pelo algoritmo mod-11 tem o formato correto, mas não foi emitido pela Receita Federal
+            para ninguém, então não identifica uma pessoa natural. Há uma ressalva: como o espaço de números é
+            finito (cerca de 1 bilhão de combinações), um CPF sorteado pode coincidir por acaso com um CPF real.
+            Por isso, nunca use CPF gerado em produção, em consultas à base da Receita Federal ou em qualquer
+            fluxo com efeito jurídico. Em homologação e testes automatizados, o risco é desprezível.
           </p>
         </section>
 

@@ -16,6 +16,7 @@ export const metadata: Metadata = {
     type: "website",
     images: ["/api/og?title=Gerador+de+Empresa+Fict%C3%ADcia&subtitle=CNPJ+v%C3%A1lido%2C+raz%C3%A3o+social%2C+endere%C3%A7o+e+contato+correlacionados&category=GERADOR"],
   },
+  alternates: { canonical: "/gerador-empresa" },
 };
 
 const TIPOS_SOCIETARIOS = [
@@ -60,6 +61,54 @@ export default function GeradorEmpresa() {
 
       {/* SEO content */}
       <div className="mt-12 space-y-8 text-sm text-muted-foreground leading-relaxed">
+        <section className="rounded-xl bg-primary/5 border border-primary/20 p-4">
+          <h2 className="text-lg font-semibold text-foreground mb-2">CNPJ válido: o que significa</h2>
+          <p className="mb-3">
+            Um CNPJ válido é um número de 14 dígitos cujos 2 últimos dígitos (verificadores) batem com o cálculo
+            módulo 11 definido pela Receita Federal. Válido não quer dizer registrado: o número passa na
+            validação matemática, mas só existe como empresa se constar na base da Receita Federal.
+          </p>
+          <p className="mb-2 font-medium text-foreground">Como o dígito verificador é calculado (mod-11):</p>
+          <ol className="list-decimal pl-5 space-y-1 mb-3">
+            <li>Pegue os 12 primeiros dígitos (8 da raiz + 4 da ordem) e multiplique pelos pesos 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2.</li>
+            <li>Some os produtos e calcule o resto da divisão por 11.</li>
+            <li>Se o resto for menor que 2, o 1º dígito verificador é 0. Senão, é 11 menos o resto.</li>
+            <li>Acrescente esse dígito aos 12 e repita com os 13 dígitos e os pesos 6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 para achar o 2º dígito.</li>
+          </ol>
+          <p className="mb-3">
+            Exemplo com a base 11.222.333/0001: a soma dos produtos é 102, o resto é 3 e o 1º dígito é 8. Com os
+            13 dígitos a soma é 120, o resto é 10 e o 2º dígito é 1. Resultado: <strong>11.222.333/0001-81</strong>.
+          </p>
+          <p className="mb-2 font-medium text-foreground">Matriz e filial:</p>
+          <p>
+            Os 4 dígitos da ordem (posições 9 a 12) separam os estabelecimentos da mesma empresa. <strong>0001</strong>{" "}
+            é a matriz. <strong>0002</strong>, <strong>0003</strong> e seguintes são filiais. A raiz (8 primeiros
+            dígitos) é a mesma e só os dígitos verificadores mudam, porque dependem da ordem. O gerador desta
+            página usa sempre /0001.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-lg font-semibold text-foreground mb-2">Qual gerador usar: empresa completa ou só o CNPJ</h2>
+          <ul className="space-y-2">
+            <li>
+              Precisa só do número CNPJ (mais rápido)? Use{" "}
+              <Link href="/gerador-cnpj" className="text-primary hover:underline font-medium">gerador-cnpj</Link>.
+            </li>
+            <li>
+              Testar novo formato alfanumérico? Use{" "}
+              <Link href="/gerador-cnpj-alfanumerico" className="text-primary hover:underline font-medium">gerador-cnpj-alfanumerico</Link>.
+            </li>
+            <li>
+              Quer entender CNPJ numérico e alfanumérico lado a lado? Veja{" "}
+              <Link href="/gerador-cnpj-valido" className="text-primary hover:underline font-medium">gerador de CNPJ válido</Link>.
+            </li>
+            <li>
+              Precisa de razão social, endereço e telefone junto do CNPJ? Continue aqui, no gerador de empresa.
+            </li>
+          </ul>
+        </section>
+
         <section>
           <h2 className="text-lg font-semibold text-foreground mb-2">O que é gerado?</h2>
           <p>
@@ -120,11 +169,43 @@ export default function GeradorEmpresa() {
           </p>
         </section>
 
+        <section>
+          <h2 className="text-lg font-semibold text-foreground mb-2">Como validar um CNPJ programaticamente</h2>
+          <p className="mb-3">
+            A validação é o mesmo mod-11 descrito acima. Em Python:
+          </p>
+          <pre className="bg-card border border-border rounded-lg p-3 text-xs overflow-x-auto mb-3">
+            <code>{`def valida_cnpj(cnpj: str) -> bool:
+    d = [int(c) for c in cnpj if c.isdigit()]
+    if len(d) != 14 or len(set(d)) == 1:  # 00.000.000/0000-00 e similares são inválidos
+        return False
+    pesos1 = [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
+    pesos2 = [6] + pesos1
+
+    def digito(base, pesos):
+        resto = sum(n * p for n, p in zip(base, pesos)) % 11
+        return 0 if resto < 2 else 11 - resto
+
+    return d[12] == digito(d[:12], pesos1) and d[13] == digito(d[:13], pesos2)
+
+print(valida_cnpj("11.222.333/0001-81"))  # True
+print(valida_cnpj("11.222.333/0001-82"))  # False`}</code>
+          </pre>
+          <p>
+            Para gerar e validar em lote na mesma rotina, busque os CNPJs pela API e passe cada um pela função:{" "}
+            <code className="text-xs">curl &quot;https://fakeforge.com.br/api/generate?type=cnpj&amp;quantity=10&quot;</code>.
+            Mais detalhes em{" "}
+            <Link href="/gerador-cnpj-python" className="text-primary hover:underline">CNPJ em Python</Link> e{" "}
+            <Link href="/gerador-cnpj-nodejs" className="text-primary hover:underline">CNPJ em Node.js</Link>.
+          </p>
+        </section>
+
         {/* FAQ Section */}
         <section>
           <h2 className="text-lg font-semibold text-foreground mb-4">Perguntas Frequentes</h2>
           <div className="space-y-4">
             {[
+              { q: "Como saber se um CNPJ é válido?", a: "Calcule os 2 dígitos verificadores com o módulo 11 da Receita Federal: pesos 5,4,3,2,9,8,7,6,5,4,3,2 para o primeiro e 6,5,4,3,2,9,8,7,6,5,4,3,2 para o segundo. Se os dígitos calculados baterem com os 2 últimos do número, o CNPJ é válido. Isso confirma só o formato: para saber se a empresa existe, consulte a base da Receita Federal." },
               { q: "O CNPJ da empresa gerada é real?", a: "Não. O CNPJ tem dígitos verificadores válidos (passa na validação mod-11), mas não está registrado na Receita Federal. A empresa não existe." },
               { q: "Posso usar o CNPJ gerado para abrir uma empresa?", a: "Não. Os CNPJs são fictícios e servem exclusivamente para testes de software. Para abrir uma empresa, é necessário registrar um CNPJ real na Receita Federal." },
               { q: "Qual a diferença entre CNPJ matriz e filial?", a: "O CNPJ matriz usa o sufixo /0001. Filiais usam /0002, /0003, etc. O FakeForge gera apenas CNPJs de matriz (/0001), que é o cenário mais comum em testes." },
@@ -154,6 +235,7 @@ export default function GeradorEmpresa() {
             "@context": "https://schema.org",
             "@type": "FAQPage",
             mainEntity: [
+              { "@type": "Question", name: "Como saber se um CNPJ é válido?", acceptedAnswer: { "@type": "Answer", text: "Calcule os 2 dígitos verificadores com o módulo 11 da Receita Federal: pesos 5,4,3,2,9,8,7,6,5,4,3,2 para o primeiro e 6,5,4,3,2,9,8,7,6,5,4,3,2 para o segundo. Se os dígitos calculados baterem com os 2 últimos do número, o CNPJ é válido. Isso confirma só o formato: para saber se a empresa existe, consulte a base da Receita Federal." } },
               { "@type": "Question", name: "O CNPJ da empresa gerada é real?", acceptedAnswer: { "@type": "Answer", text: "Não. O CNPJ tem dígitos verificadores válidos (passa na validação mod-11), mas não está registrado na Receita Federal. A empresa não existe." } },
               { "@type": "Question", name: "Posso usar o CNPJ gerado para abrir uma empresa?", acceptedAnswer: { "@type": "Answer", text: "Não. Os CNPJs são fictícios e servem exclusivamente para testes de software. Para abrir uma empresa, é necessário registrar um CNPJ real na Receita Federal." } },
               { "@type": "Question", name: "Qual a diferença entre CNPJ matriz e filial?", acceptedAnswer: { "@type": "Answer", text: "O CNPJ matriz usa o sufixo /0001. Filiais usam /0002, /0003, etc. O FakeForge gera apenas CNPJs de matriz (/0001), que é o cenário mais comum em testes." } },
