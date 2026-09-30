@@ -7,8 +7,8 @@ import GeneratorSchema from "@/components/GeneratorSchema";
 import RelatedGenerators from "@/components/RelatedGenerators";
 
 export const metadata: Metadata = {
-  title: "Gerador de Empresa Fictícia - CNPJ, Razão Social e Endereço | FakeForge",
-  description: "Gere empresas fictícias completas com CNPJ válido, razão social, nome fantasia, endereço e telefone. Ideal para testes de sistemas B2B e marketplace. Grátis.",
+  title: "Gerador de Empresa Fictícia: CNPJ, Razão Social, Endereço",
+  description: "Gere empresa fictícia com CNPJ válido, razão social, nome fantasia, endereço e telefone. Para testar sistemas B2B. Grátis, sem cadastro.",
   keywords: "gerador de empresa fictícia, gerador de dados empresariais, empresa fake, cnpj razão social, dados empresa teste, gerador empresa brasileira",
   openGraph: {
     title: "Gerador de Empresa Fictícia - FakeForge",
@@ -18,6 +18,14 @@ export const metadata: Metadata = {
   },
 };
 
+const TIPOS_SOCIETARIOS = [
+  ["Ltda.", "Sociedade Limitada", "Tipo mais comum em pequenas e médias empresas. Código Civil, arts. 1.052 a 1.087.", "Sim"],
+  ["S.A.", "Sociedade Anônima", "Capital dividido em ações, usada em empresas de médio e grande porte. Lei 6.404/1976.", "Sim"],
+  ["ME", "Microempresa", "Enquadramento de porte, com receita bruta anual de até R$ 360 mil. Lei Complementar 123/2006.", "Sim"],
+  ["EIRELI", "Empresa Individual de Responsabilidade Limitada", "Extinta em 2022 (Lei 14.382/2022). Aparece em cadastros antigos.", "Sim"],
+  ["S/S", "Sociedade Simples", "Prestação de serviços intelectuais por profissionais. Código Civil, arts. 997 a 1.038.", "Sim"],
+];
+
 export default function GeradorEmpresa() {
   return (
     <PageShell>
@@ -25,6 +33,11 @@ export default function GeradorEmpresa() {
         <h1 className="text-3xl font-bold tracking-tight">
           Gerador de <span className="text-primary">Empresa</span> Fictícia
         </h1>
+        <p className="text-foreground mt-3 text-sm leading-relaxed max-w-2xl">
+          O FakeForge é um gerador de empresa fictícia brasileira que cria CNPJ com os 2 dígitos verificadores
+          válidos (mod-11, regra da Receita Federal), razão social, nome fantasia, endereço e telefone. Grátis
+          sem cadastro, com API REST em JSON, CSV e SQL (100 chamadas por dia no plano gratuito).
+        </p>
         <p className="text-muted mt-2 text-sm leading-relaxed max-w-2xl">
           Gere dados completos de empresas fictícias brasileiras com CNPJ válido (dígitos verificadores
           corretos), razão social, nome fantasia, endereço comercial e telefone. Ideal para testar
@@ -54,6 +67,38 @@ export default function GeradorEmpresa() {
             razão social com tipo societário (LTDA, S.A., ME, EIRELI), nome fantasia,
             endereço comercial completo (rua, bairro, cidade, estado, CEP) e telefone com DDD válido.
             Os CNPJs usam o sufixo /0001 (matriz), que é o formato mais comum em testes.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-lg font-semibold text-foreground mb-2">Tipos societários gerados na razão social</h2>
+          <p className="mb-3">
+            A razão social sai com um dos cinco sufixos abaixo. O CNPJ tem 14 dígitos: 8 da raiz, 4 da ordem (/0001 para matriz) e 2 verificadores, conforme a Receita Federal.
+          </p>
+          <div className="overflow-x-auto rounded-lg bg-card border border-border">
+            <table className="w-full text-xs">
+              <thead>
+                <tr className="border-b border-border">
+                  <th className="text-left px-3 py-2 text-muted">Sigla</th>
+                  <th className="text-left px-3 py-2 text-muted">Nome completo</th>
+                  <th className="text-left px-3 py-2 text-muted">Uso e base legal</th>
+                  <th className="text-left px-3 py-2 text-muted">Gerada</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border">
+                {TIPOS_SOCIETARIOS.map((r) => (
+                  <tr key={r[0]}>
+                    <td className="px-3 py-2 text-foreground">{r[0]}</td>
+                    <td className="px-3 py-2 text-muted-foreground">{r[1]}</td>
+                    <td className="px-3 py-2 text-muted-foreground">{r[2]}</td>
+                    <td className="px-3 py-2 text-muted-foreground">{r[3]}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="mt-3">
+            ME não é um tipo societário, é um enquadramento de porte da Lei Complementar 123/2006. A EIRELI foi extinta pela Lei 14.382/2022 e as existentes viraram sociedade limitada unipessoal. O gerador mantém os dois sufixos porque eles ainda aparecem em bases legadas.
           </p>
         </section>
 

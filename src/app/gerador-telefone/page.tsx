@@ -7,8 +7,8 @@ import GeneratorSchema from "@/components/GeneratorSchema";
 import RelatedGenerators from "@/components/RelatedGenerators";
 
 export const metadata: Metadata = {
-  title: "Gerador de Telefone, Celular e Fixo Residencial com DDD do Brasil",
-  description: "Gere número de celular, telefone fixo ou residencial brasileiro com DDD real (67 DDDs válidos), formato ANATEL e prefixo 9 do celular. Para testes de formulários, SMS, APIs e checkout. Grátis e sem cadastro.",
+  title: "Gerador de Telefone, Celular e Fixo com DDD do Brasil",
+  description: "Gere celular e telefone fixo brasileiro com DDD real (67 DDDs), formato ANATEL e prefixo 9. Para testar formulários, SMS e APIs. Grátis, sem cadastro.",
   keywords: "gerador de telefone, gerador de celular, gerador telefone fixo, números telefones residenciais, número celular fictício, telefone fake brasileiro, DDD válido, gerador número SMS, ANATEL formato, gerar telefone teste, gerador de tel, generador de numero de telefono brasil, numero de telefono brasil generador, generador telefono brasileño",
   openGraph: {
     title: "Gerador de Telefone e Celular Brasileiro Válido",
@@ -19,6 +19,41 @@ export const metadata: Metadata = {
   alternates: { canonical: "/gerador-telefone" },
 };
 
+const DDD_POR_ESTADO = [
+    ["São Paulo (SP)", "11, 12, 13, 14, 15, 16, 17, 18, 19", "11"],
+    ["Rio de Janeiro (RJ)", "21, 22, 24", "21"],
+    ["Espírito Santo (ES)", "27, 28", "27"],
+    ["Minas Gerais (MG)", "31, 32, 33, 34, 35, 37, 38", "31"],
+    ["Paraná (PR)", "41, 42, 43, 44, 45, 46", "41"],
+    ["Santa Catarina (SC)", "47, 48, 49", "48"],
+    ["Rio Grande do Sul (RS)", "51, 53, 54, 55", "51"],
+    ["Distrito Federal (DF)", "61", "61"],
+    ["Goiás (GO)", "62, 64", "62"],
+    ["Tocantins (TO)", "63", "63"],
+    ["Mato Grosso (MT)", "65, 66", "65"],
+    ["Mato Grosso do Sul (MS)", "67", "67"],
+    ["Acre (AC)", "68", "68"],
+    ["Rondônia (RO)", "69", "69"],
+    ["Bahia (BA)", "71, 73, 74, 75, 77", "71"],
+    ["Sergipe (SE)", "79", "79"],
+    ["Pernambuco (PE)", "81, 87", "81"],
+    ["Alagoas (AL)", "82", "82"],
+    ["Paraíba (PB)", "83", "83"],
+    ["Rio Grande do Norte (RN)", "84", "84"],
+    ["Ceará (CE)", "85, 88", "85"],
+    ["Piauí (PI)", "86, 89", "86"],
+    ["Pará (PA)", "91, 93, 94", "91"],
+    ["Amazonas (AM)", "92, 97", "92"],
+    ["Roraima (RR)", "95", "95"],
+    ["Amapá (AP)", "96", "96"],
+    ["Maranhão (MA)", "98, 99", "98"],
+  ];
+
+const TIPOS_TELEFONE = [
+  ["Celular", "11 (DDD + 9 + 8 dígitos)", "9", "(11) 98765-4321"],
+  ["Fixo e residencial", "10 (DDD + 8 dígitos)", "2, 3, 4 ou 5", "(11) 3456-7890"],
+];
+
 export default function GeradorTelefone() {
   return (
     <PageShell>
@@ -26,6 +61,11 @@ export default function GeradorTelefone() {
         <h1 className="text-3xl font-bold tracking-tight">
           Gerador de <span className="text-primary">Telefone</span>, Celular e Fixo Residencial
         </h1>
+        <p className="text-foreground mt-3 text-sm leading-relaxed max-w-2xl">
+          O FakeForge é um gerador de telefone brasileiro que cria celulares (11 dígitos) e fixos (10 dígitos)
+          com um dos 67 DDDs reais e no formato da ANATEL. Os números são fictícios, grátis sem cadastro
+          e saem em JSON, CSV ou SQL pela API REST (100 chamadas por dia no plano gratuito).
+        </p>
         <p className="text-muted mt-2 text-sm leading-relaxed max-w-2xl">
           Gere números de celular, telefone fixo e residencial brasileiros fictícios com DDDs válidos.
           Os números seguem o formato real da ANATEL (celular com 9 dígitos, fixo e residencial com 8),
@@ -65,8 +105,8 @@ export default function GeradorTelefone() {
           <p>
             A ANATEL regulamenta a numeração brasileira. Celulares têm 11 dígitos (DDD + 9 + 8 dígitos)
             e telefones fixos têm 10 dígitos (DDD + 8 dígitos). O DDD identifica a região: 11 é São Paulo,
-            21 é Rio de Janeiro, 31 é Belo Horizonte, e assim por diante. O FakeForge gera números com DDDs
-            reais dos 10 principais estados brasileiros.
+            21 é Rio de Janeiro, 31 é Belo Horizonte, e assim por diante. O FakeForge sorteia números entre os
+            67 DDDs reais do país (tabela abaixo).
           </p>
         </section>
 
@@ -78,6 +118,59 @@ export default function GeradorTelefone() {
             de QA que envolvem contato telefônico. Usar números reais em testes pode gerar ligações indesejadas
             e violar a LGPD.
           </p>
+        </section>
+
+        <section>
+          <h2 className="text-lg font-semibold text-foreground mb-2">DDD por estado no Brasil</h2>
+          <p className="mb-3">
+            O Plano de Numeração da ANATEL define 67 DDDs, agrupados por estado. O gerador sorteia entre todos eles. O DDD da capital está na terceira coluna.
+          </p>
+          <div className="overflow-x-auto rounded-lg bg-card border border-border">
+            <table className="w-full text-xs">
+              <thead>
+                <tr className="border-b border-border">
+                  <th className="text-left px-3 py-2 text-muted">Estado</th>
+                  <th className="text-left px-3 py-2 text-muted">DDDs</th>
+                  <th className="text-left px-3 py-2 text-muted">DDD da capital</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border">
+                {DDD_POR_ESTADO.map((r) => (
+                  <tr key={r[0]}>
+                    <td className="px-3 py-2 text-foreground">{r[0]}</td>
+                    <td className="px-3 py-2 text-muted-foreground">{r[1]}</td>
+                    <td className="px-3 py-2 text-muted-foreground">{r[2]}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section>
+          <h2 className="text-lg font-semibold text-foreground mb-2">Celular vs telefone fixo: formato ANATEL</h2>
+          <div className="overflow-x-auto rounded-lg bg-card border border-border">
+            <table className="w-full text-xs">
+              <thead>
+                <tr className="border-b border-border">
+                  <th className="text-left px-3 py-2 text-muted">Tipo</th>
+                  <th className="text-left px-3 py-2 text-muted">Dígitos (com DDD)</th>
+                  <th className="text-left px-3 py-2 text-muted">Primeiro dígito após o DDD</th>
+                  <th className="text-left px-3 py-2 text-muted">Exemplo</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border">
+                {TIPOS_TELEFONE.map((r) => (
+                  <tr key={r[0]}>
+                    <td className="px-3 py-2 text-foreground">{r[0]}</td>
+                    <td className="px-3 py-2 text-muted-foreground">{r[1]}</td>
+                    <td className="px-3 py-2 text-muted-foreground">{r[2]}</td>
+                    <td className="px-3 py-2 text-muted-foreground">{r[3]}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </section>
 
         <section>

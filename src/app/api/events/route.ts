@@ -71,6 +71,8 @@ const ALLOWED_TYPES = new Set([
   "plan_upgraded_dev", "plan_upgraded_team",
   "b2b_lead_flagged", "b2b_calendly_sent", "b2b_calendly_booked",
   "enterprise_inquiry_submitted",
+  // Success Metric Card no dashboard (30/09)
+  "success_card_shown", "success_card_dismissed", "success_card_clicked",
 ]);
 
 function getClientIP(request: NextRequest): string {

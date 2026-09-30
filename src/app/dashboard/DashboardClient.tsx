@@ -8,6 +8,7 @@ import QuotaMeter from "@/components/QuotaMeter";
 import FirstCallActivation from "@/components/FirstCallActivation";
 import OnboardingChecklist from "@/components/OnboardingChecklist";
 import UsageProfileCard from "@/components/UsageProfileCard";
+import SuccessMetricCard from "@/components/SuccessMetricCard";
 import { track } from "@/lib/analytics";
 
 interface ApiKey {
@@ -211,6 +212,9 @@ export default function DashboardClient({ userId, userEmail }: { userId: string;
           </button>
         </div>
       </div>
+
+      {/* Card de valor extraído (Free, 10+ itens, dismiss 7d, 1x/sessão) */}
+      <SuccessMetricCard />
 
       {/* First call activation - Sprint Ago P0: passar 5.7% -> 25%+ ativação */}
       {!loading && usageToday === 0 && apiKeys.filter(k => k.is_active).length > 0 && (

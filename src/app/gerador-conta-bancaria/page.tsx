@@ -8,7 +8,7 @@ import RelatedGenerators from "@/components/RelatedGenerators";
 
 export const metadata: Metadata = {
   title: "Geradores de Contas Bancárias: Corrente, Poupança, Digital",
-  description: "Gere conta bancária e conta corrente fictícia com banco, agência e número com dígito verificador válido. 17 bancos: Bradesco, Itaú, Nubank, BB, Santander, Inter, C6 e mais. Para testes de pagamento e cadastros. Grátis.",
+  description: "Gere conta bancária fictícia com código COMPE real, agência e conta com dígito. Bradesco, Itaú, Nubank, BB, Inter, C6 e mais. Grátis, sem cadastro.",
   keywords: "gerador de conta bancária, gerador de conta corrente, geradores de contas, gerador conta bancaria, dados bancários teste, conta bancária válida, conta corrente fake, banco agência conta, dados bancários desenvolvimento, gerador banco brasil, compe código banco",
   openGraph: {
     title: "Gerador de Conta Bancária e Conta Corrente Brasileira",
@@ -19,6 +19,24 @@ export const metadata: Metadata = {
   alternates: { canonical: "/gerador-conta-bancaria" },
 };
 
+const BANCOS = [
+  ["Banco do Brasil", "001", "Banco público", "4 dígitos", "6 ou 7 + 1"],
+  ["Santander", "033", "Banco privado", "4 dígitos", "6 ou 7 + 1"],
+  ["Caixa Econômica Federal", "104", "Banco público", "4 dígitos", "6 ou 7 + 1"],
+  ["Bradesco", "237", "Banco privado", "4 dígitos", "6 ou 7 + 1"],
+  ["Itaú Unibanco", "341", "Banco privado", "4 dígitos", "6 ou 7 + 1"],
+  ["Banco Mercantil do Brasil", "389", "Banco privado", "4 dígitos", "6 ou 7 + 1"],
+  ["Banco Safra", "422", "Banco privado", "4 dígitos", "6 ou 7 + 1"],
+  ["Banco Rendimento", "633", "Banco privado", "4 dígitos", "6 ou 7 + 1"],
+  ["Itaú BBA", "652", "Banco de investimento", "4 dígitos", "6 ou 7 + 1"],
+  ["Citibank", "745", "Banco privado", "4 dígitos", "6 ou 7 + 1"],
+  ["Nubank (Nu Pagamentos)", "260", "Instituição de pagamento digital", "4 dígitos", "6 ou 7 + 1"],
+  ["Banco Inter", "077", "Banco digital", "4 dígitos", "6 ou 7 + 1"],
+  ["Banco C6", "336", "Banco digital", "4 dígitos", "6 ou 7 + 1"],
+  ["PagSeguro", "290", "Instituição de pagamento digital", "4 dígitos", "6 ou 7 + 1"],
+  ["PicPay", "380", "Instituição de pagamento digital", "4 dígitos", "6 ou 7 + 1"],
+];
+
 export default function GeradorContaBancaria() {
   return (
     <PageShell>
@@ -26,6 +44,11 @@ export default function GeradorContaBancaria() {
         <h1 className="text-3xl font-bold tracking-tight">
           Gerador de <span className="text-primary">Conta Bancária</span> e Conta Corrente
         </h1>
+        <p className="text-foreground mt-3 text-sm leading-relaxed max-w-2xl">
+          O FakeForge é um gerador de conta bancária brasileira que sorteia um banco com código COMPE real
+          (Banco Central) e devolve agência de 4 dígitos, número da conta e dígito. As contas são fictícias,
+          grátis sem cadastro e saem em JSON, CSV ou SQL pela API REST (100 chamadas por dia no plano gratuito).
+        </p>
         <p className="text-muted mt-2 text-sm leading-relaxed max-w-2xl">
           Gere conta corrente e dados bancários fictícios brasileiros com códigos de banco reais
           (Banco do Brasil, Itaú, Bradesco, Santander, Nubank, Inter, C6, BTG e mais 9 instituições),
@@ -70,6 +93,37 @@ export default function GeradorContaBancaria() {
             Ele aparece em TED, DOC e PIX. O FakeForge usa códigos COMPE reais para que os dados
             passem em validações que verificam se o banco existe.
           </p>
+        </section>
+
+        <section>
+          <h2 className="text-lg font-semibold text-foreground mb-2">Bancos gerados: código COMPE e formato</h2>
+          <p className="mb-3">
+            Os códigos de compensação (COMPE) são os mesmos que o Banco Central do Brasil publica na lista de instituições participantes e que aparecem em TED e DOC. A agência sai com 4 dígitos e a conta com 6 ou 7 dígitos mais 1 dígito final.
+          </p>
+          <div className="overflow-x-auto rounded-lg bg-card border border-border">
+            <table className="w-full text-xs">
+              <thead>
+                <tr className="border-b border-border">
+                  <th className="text-left px-3 py-2 text-muted">Banco</th>
+                  <th className="text-left px-3 py-2 text-muted">Código COMPE</th>
+                  <th className="text-left px-3 py-2 text-muted">Tipo de instituição</th>
+                  <th className="text-left px-3 py-2 text-muted">Agência</th>
+                  <th className="text-left px-3 py-2 text-muted">Conta + dígito</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border">
+                {BANCOS.map((r) => (
+                  <tr key={r[0]}>
+                    <td className="px-3 py-2 text-foreground">{r[0]}</td>
+                    <td className="px-3 py-2 text-muted-foreground">{r[1]}</td>
+                    <td className="px-3 py-2 text-muted-foreground">{r[2]}</td>
+                    <td className="px-3 py-2 text-muted-foreground">{r[3]}</td>
+                    <td className="px-3 py-2 text-muted-foreground">{r[4]}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </section>
 
         <section>

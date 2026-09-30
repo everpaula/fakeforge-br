@@ -11,8 +11,8 @@ import GeneratorSchema from "@/components/GeneratorSchema";
 import RelatedGenerators from "@/components/RelatedGenerators";
 
 export const metadata: Metadata = {
-  title: "Gerador de Cartão de Crédito para Testes de Software (Luhn)",
-  description: "Gere números sintéticos de cartão de crédito para testes de checkout, sandbox de pagamento e QA. Visa, Mastercard, Elo, Hipercard, Amex e débito com algoritmo Luhn válido. Dados fictícios que não pertencem a pessoas reais. Grátis e sem cadastro.",
+  title: "Gerador de Cartão de Crédito para Testes (Luhn Válido)",
+  description: "Gere cartão de crédito sintético para testar checkout e sandbox: Visa, Mastercard, Elo, Hipercard e Amex com Luhn válido. Dados fictícios. Grátis.",
   keywords: "gerador de cartao para testes, gerador de cartão de crédito para testes, gerar cartão de crédito sintético, cartão de crédito para testes de software, cartão de crédito para sandbox, cartão fictício para checkout, cartao de credito para QA, cartão para testes de gateway, cartão sintético Luhn, cartão para desenvolvimento, gerador visa para testes, gerador mastercard para testes, gerador elo para testes, gerador american express para testes, número cartão luhn desenvolvimento",
   openGraph: {
     title: "Gerador de Cartão de Crédito para Testes de Software (Luhn)",
@@ -22,6 +22,14 @@ export const metadata: Metadata = {
   alternates: { canonical: "/gerador-cartao" },
 };
 
+const BANDEIRAS = [
+  ["Visa", "4", "16", "3 dígitos"],
+  ["Mastercard", "51, 52, 53, 54, 55", "16", "3 dígitos"],
+  ["Elo", "636368, 438935, 504175, 451416, 509048", "16", "3 dígitos"],
+  ["Hipercard", "606282, 3841", "16", "3 dígitos"],
+  ["American Express", "34, 37", "15", "4 dígitos"],
+];
+
 export default function GeradorCartao() {
   return (
     <PageShell>
@@ -29,9 +37,14 @@ export default function GeradorCartao() {
         <h1 className="text-3xl font-bold tracking-tight">
           Gerador de <span className="text-primary">Cartão de Crédito</span> para testes
         </h1>
+        <p className="text-foreground mt-3 text-sm leading-relaxed max-w-2xl">
+          O FakeForge é um gerador de cartão de crédito sintético que cria números de Visa, Mastercard, Elo,
+          Hipercard e Amex com dígito verificador Luhn (mod-10, ISO/IEC 7812), CVV e validade. Os números não
+          têm conta nem limite, servem só para testes de checkout, grátis sem cadastro, com API REST.
+        </p>
         <p className="text-muted mt-2 text-sm leading-relaxed max-w-2xl">
           Gere números sintéticos de cartão de crédito com validação Luhn (mod-10) para
-          bandeiras Visa, Mastercard e Elo. Inclui nome do titular, data de validade e CVV.
+          bandeiras Visa, Mastercard, Elo, Hipercard e Amex. Inclui nome do titular, data de validade e CVV.
           Ideal para testar checkouts, gateways de pagamento e formulários de cobrança em ambientes de desenvolvimento e QA.
         </p>
       </div>
@@ -80,7 +93,39 @@ export default function GeradorCartao() {
             Números de cartão de crédito são validados pelo algoritmo de Luhn (mod-10), um checksum
             que detecta erros de digitação. O primeiro dígito identifica a bandeira: 4 para Visa,
             5 para Mastercard. Cartões Elo usam prefixos específicos como 636368 e 438935.
-            O FakeForge gera números que passam na validação Luhn para todas as três bandeiras.
+            O FakeForge gera números que passam na validação Luhn para as cinco bandeiras.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-lg font-semibold text-foreground mb-2">Bandeiras, prefixos e tamanho do número</h2>
+          <p className="mb-3">
+            Todos os números terminam em dígito verificador Luhn. O Amex é o único com 15 dígitos, agrupados em 4-6-5, e CVV de 4 dígitos.
+          </p>
+          <div className="overflow-x-auto rounded-lg bg-card border border-border">
+            <table className="w-full text-xs">
+              <thead>
+                <tr className="border-b border-border">
+                  <th className="text-left px-3 py-2 text-muted">Bandeira</th>
+                  <th className="text-left px-3 py-2 text-muted">Prefixos (BIN) gerados</th>
+                  <th className="text-left px-3 py-2 text-muted">Dígitos</th>
+                  <th className="text-left px-3 py-2 text-muted">CVV</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border">
+                {BANDEIRAS.map((r) => (
+                  <tr key={r[0]}>
+                    <td className="px-3 py-2 text-foreground">{r[0]}</td>
+                    <td className="px-3 py-2 text-muted-foreground">{r[1]}</td>
+                    <td className="px-3 py-2 text-muted-foreground">{r[2]}</td>
+                    <td className="px-3 py-2 text-muted-foreground">{r[3]}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="mt-3">
+            A Mastercard também emite a faixa 2221 a 2720, que este gerador não usa. Os prefixos 4 e 51 a 55 cobrem a grande maioria dos formulários.
           </p>
         </section>
 
