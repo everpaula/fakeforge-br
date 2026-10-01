@@ -197,7 +197,7 @@ export default function SuccessMetricCard({ userId }: { userId: string }) {
           <p className="text-sm text-foreground mt-3 leading-relaxed">
             Nos últimos 30 dias você fez <strong>{calls30}</strong> chamadas e gerou{" "}
             <strong>{itemsFmt}</strong> dados. O Free libera {limit} chamadas por dia. O Dev por
-            R$29/mês tira o teto e custa menos de 1 café por semana.
+            R$29/mês tira o teto. Cancele quando quiser.
           </p>
 
           <ul className="mt-3 space-y-1 text-sm text-foreground list-disc pl-5">

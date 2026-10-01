@@ -7,7 +7,8 @@ import { ESTADOS_BR } from "@/lib/data/estados-br";
 // não confiável e ele passa a ignorar o campo. Aqui mantemos data por
 // página para preservar a sinalização real de crawl budget.
 const D = {
-  sep30: new Date("2026-09-30"),          // validator hub Fase 4A
+  oct01: new Date("2026-10-01"),          // Fase 3 Python RENAVAM/titulo/boleto + blog LGPD
+  sep30: new Date("2026-09-30"),          // validator hub Fase 4A + Fase 3 telefone/empresa/placa + blog Mockaroo
   home: new Date("2026-06-18"),           // último refactor AI-slop + funnel
   newest: new Date("2026-06-17"),         // /buscar-cep + chart 90d
   jun15: new Date("2026-06-15"),          // random number EN + cluster placa
@@ -168,6 +169,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/gerador-cep-pytest`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/comparacao/fakeforge-vs-faker-py`, lastModified: D.may15, changeFrequency: "monthly", priority: 0.85 },
 
+    // Fase 3 (sep 30): telefone, empresa, placa por linguagem (dados AI GSC: top 1-3 verticais)
+    { url: `${baseUrl}/gerador-telefone-python`, lastModified: D.sep30, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/gerador-telefone-nodejs`, lastModified: D.sep30, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/gerador-telefone-curl`, lastModified: D.sep30, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/gerador-empresa-python`, lastModified: D.sep30, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/gerador-empresa-nodejs`, lastModified: D.sep30, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/gerador-empresa-curl`, lastModified: D.sep30, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/gerador-placa-python`, lastModified: D.sep30, changeFrequency: "monthly", priority: 0.85 },
+    { url: `${baseUrl}/gerador-placa-nodejs`, lastModified: D.sep30, changeFrequency: "monthly", priority: 0.85 },
+    { url: `${baseUrl}/gerador-placa-curl`, lastModified: D.sep30, changeFrequency: "monthly", priority: 0.85 },
+
+    // Fase 3 (oct 01): RENAVAM, Titulo de Eleitor, Boleto FEBRABAN em Python
+    { url: `${baseUrl}/gerador-renavam-python`, lastModified: D.oct01, changeFrequency: "monthly", priority: 0.85 },
+    { url: `${baseUrl}/gerador-titulo-eleitor-python`, lastModified: D.oct01, changeFrequency: "monthly", priority: 0.85 },
+    { url: `${baseUrl}/gerador-boleto-python`, lastModified: D.oct01, changeFrequency: "monthly", priority: 0.85 },
+
     // Validadores
     { url: `${baseUrl}/validar-cpf`, lastModified: D.may15, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/validar-cnpj`, lastModified: D.may15, changeFrequency: "monthly", priority: 0.8 },
@@ -238,6 +255,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/blog/validacao-cnpj-nodejs`, lastModified: D.apr15, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/blog/automatizar-dados-teste-ci-cd`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/blog/popular-banco-dados-brasileiros-staging-completo`, lastModified: D.home, changeFrequency: "monthly", priority: 0.95 },
+
+    // Blog pillars (sep 30 - oct 01): comparativo + LGPD
+    { url: `${baseUrl}/blog/mockaroo-vs-fakeforge-qual-escolher-times-brasileiros`, lastModified: D.sep30, changeFrequency: "monthly", priority: 0.95 },
+    { url: `${baseUrl}/blog/lgpd-dados-teste-desenvolvimento-guia-completo-devs-brasileiros`, lastModified: D.oct01, changeFrequency: "monthly", priority: 0.95 },
 
     // Páginas institucionais
     { url: `${baseUrl}/pricing`, lastModified: D.jun01, changeFrequency: "monthly", priority: 0.6 },
