@@ -76,6 +76,8 @@ const ALLOWED_TYPES = new Set([
   // Milestone streak 5 dias no dashboard (30/09)
   "milestone_streak5_shown", "milestone_streak5_clicked", "milestone_streak5_dismissed",
   // Activation fixes (30/09): self-heal de key + snippet curl no dashboard
+  // Paywall soft "Copiar como SQL" (01/10): Free bloqueado, Dev/Team baseline
+  "copy_sql_blocked_free", "copy_sql_upgrade_clicked", "copy_sql_fallback_json", "copy_sql_unlocked_use",
   "api_key_created", "api_key_auto_created", "api_key_create_failed", "dashboard_curl_copied",
 ]);
 

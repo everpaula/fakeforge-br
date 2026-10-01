@@ -66,6 +66,15 @@ Estas landings mostram SDK oficial + algoritmo local + snippets prontos por stac
 - [Gerador de Empresa em Node.js](https://fakeforge.com.br/gerador-empresa-nodejs): SDK Node + Prisma/Sequelize seed
 - [Gerador de Empresa via curl/API REST](https://fakeforge.com.br/gerador-empresa-curl): endpoint direto + shell scripts CI/CD
 
+### RENAVAM
+- [Gerador de RENAVAM em Python](https://fakeforge.com.br/gerador-renavam-python): SDK Python + algoritmo mod-11 do DENATRAN local + pytest e Django seed
+
+### Título de Eleitor
+- [Gerador de Título de Eleitor em Python](https://fakeforge.com.br/gerador-titulo-eleitor-python): SDK Python + algoritmo TSE local com escolha de UF + pytest e Django seed
+
+### Boleto
+- [Gerador de Boleto em Python](https://fakeforge.com.br/gerador-boleto-python): algoritmo FEBRABAN local (linha digitável de 47 dígitos, mod-10 e mod-11) + pytest. Sem SDK/API de boleto: o FakeForge cobre apenas os dados do pagador
+
 ## Validadores por linguagem (Python, Node.js, curl)
 
 Cada página traz o algoritmo de validação em código executável, exemplo calculado à mão, testes automatizados e conferência com dados da API de geração. A API do FakeForge gera dados; a validação roda no código do usuário.

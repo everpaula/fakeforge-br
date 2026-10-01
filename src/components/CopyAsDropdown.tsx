@@ -1,7 +1,9 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import Link from "next/link";
 import { track } from "@/lib/analytics";
+import { useCurrentPlan } from "@/lib/useCurrentPlan";
 import type { DataType } from "@/lib/generators";
 
 type Format = "curl" | "js" | "python" | "postman" | "csv" | "sql" | "json";
@@ -137,7 +139,13 @@ function buildSql(type: DataType, results: unknown[]) {
 export default function CopyAsDropdown({ generatorType, quantity, formatted, results, compact, onCopy }: Props) {
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState<Format | null>(null);
+  const [sqlGateOpen, setSqlGateOpen] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const { plan, loading: planLoading } = useCurrentPlan();
+  // Só dev/team passam. Enquanto o plano carrega, não mostra cadeado
+  // (evita pagante ver paywall por 1 frame).
+  const isPaid = plan === "dev" || plan === "team";
+  const sqlLocked = !planLoading && !isPaid;
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -150,6 +158,11 @@ export default function CopyAsDropdown({ generatorType, quantity, formatted, res
   }, [open]);
 
   async function copyAs(format: Format) {
+    if (format === "sql" && sqlLocked) {
+      track("copy_sql_blocked_free", { generator_type: generatorType, plan, quantity });
+      setSqlGateOpen(true);
+      return;
+    }
     let text = "";
     switch (format) {
       case "curl":
@@ -178,6 +191,7 @@ export default function CopyAsDropdown({ generatorType, quantity, formatted, res
       await navigator.clipboard.writeText(text);
       setCopied(format);
       track("copy_as_clicked", { generator_type: generatorType, format, quantity, has_results: results.length > 0 });
+      if (format === "sql") track("copy_sql_unlocked_use", { generator_type: generatorType, plan, quantity });
       onCopy?.(format);
       setTimeout(() => {
         setCopied(null);
@@ -188,10 +202,16 @@ export default function CopyAsDropdown({ generatorType, quantity, formatted, res
     }
   }
 
+  async function useJsonInstead() {
+    track("copy_sql_fallback_json", { generator_type: generatorType, plan, quantity });
+    setSqlGateOpen(false);
+    await copyAs("json");
+  }
+
   return (
     <div ref={wrapperRef} className="relative">
       <button
-        onClick={() => setOpen(!open)}
+        onClick={() => { setOpen(!open); setSqlGateOpen(false); }}
         className={`inline-flex items-center gap-1.5 rounded-md font-medium transition-all ${
           compact ? "text-[11px] px-2 py-1" : "text-xs px-3 py-1.5"
         } text-primary bg-primary/10 border border-primary/30 hover:bg-primary/20`}
@@ -204,7 +224,43 @@ export default function CopyAsDropdown({ generatorType, quantity, formatted, res
         </svg>
       </button>
 
-      {open && (
+      {open && sqlGateOpen && (
+        <div className="absolute right-0 mt-1 w-72 rounded-lg bg-card border border-border shadow-lg z-20 p-4" role="dialog" aria-label="SQL é um recurso do plano Dev">
+          <div className="flex items-center gap-2 mb-2">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary" aria-hidden="true">
+              <rect x="4" y="11" width="16" height="10" rx="2" />
+              <path d="M8 11V7a4 4 0 0 1 8 0v4" />
+            </svg>
+            <p className="text-sm font-semibold text-foreground">Copiar como SQL é do plano Dev</p>
+          </div>
+          <p className="text-xs text-muted-foreground mb-3">
+            SQL com INSERT pronto pra testar seu banco. Dev R$29/mês tira o cadeado.
+          </p>
+          <ul className="text-xs space-y-1 mb-4">
+            <li className="text-foreground">✅ JSON (Free)</li>
+            <li className="text-foreground">✅ CSV (Free)</li>
+            <li className="text-muted-foreground">🔒 SQL com INSERT INTO (Dev)</li>
+            <li className="text-muted-foreground">🔒 SQL com CREATE TABLE (Dev)</li>
+          </ul>
+          <div className="flex items-center gap-2">
+            <Link
+              href="/pricing?plan=dev&ref=copy_sql"
+              onClick={() => track("copy_sql_upgrade_clicked", { generator_type: generatorType, plan, quantity })}
+              className="flex-1 text-center text-xs font-semibold px-3 py-1.5 rounded-md text-white bg-primary hover:bg-primary-hover transition-colors"
+            >
+              Ver plano Dev →
+            </Link>
+            <button
+              onClick={useJsonInstead}
+              className="flex-1 text-xs font-medium px-3 py-1.5 rounded-md border border-border text-foreground hover:bg-card-hover transition-colors"
+            >
+              Usar JSON agora
+            </button>
+          </div>
+        </div>
+      )}
+
+      {open && !sqlGateOpen && (
         <div className="absolute right-0 mt-1 w-64 rounded-lg bg-card border border-border shadow-lg z-20 overflow-hidden">
           <div className="px-3 py-1.5 border-b border-border">
             <p className="text-[10px] font-semibold uppercase tracking-wider text-muted">Formatos de código</p>
@@ -235,6 +291,8 @@ export default function CopyAsDropdown({ generatorType, quantity, formatted, res
               <span className="text-foreground">{LABELS[f]}</span>
               {copied === f ? (
                 <span className="text-success text-[10px]">✓ copiado</span>
+              ) : f === "sql" && sqlLocked ? (
+                <span className="text-muted text-[10px]">🔒 Dev</span>
               ) : (
                 <span className="text-muted text-[10px]">→</span>
               )}

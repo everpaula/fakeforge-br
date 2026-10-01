@@ -286,7 +286,7 @@ export default function DashboardClient({ userId, userEmail }: { userId: string;
       <MilestoneCelebrationCard />
 
       {/* Card de valor extraído (Free, 10+ itens, dismiss 7d, 1x/sessão) */}
-      <SuccessMetricCard />
+      <SuccessMetricCard userId={userId} />
 
       {/* Upsell hero - persistente pra Free, empurra Dev na primeira coisa que ve.
           NOTE (audit 26/08): removido gate 'usageToday > 0' que impedia o hero
