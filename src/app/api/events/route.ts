@@ -75,6 +75,8 @@ const ALLOWED_TYPES = new Set([
   "success_card_shown", "success_card_dismissed", "success_card_clicked",
   // Milestone streak 5 dias no dashboard (30/09)
   "milestone_streak5_shown", "milestone_streak5_clicked", "milestone_streak5_dismissed",
+  // Activation fixes (30/09): self-heal de key + snippet curl no dashboard
+  "api_key_created", "api_key_auto_created", "api_key_create_failed", "dashboard_curl_copied",
 ]);
 
 function getClientIP(request: NextRequest): string {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -58,11 +58,32 @@ export default function DashboardClient({ userId, userEmail }: { userId: string;
   const [loading, setLoading] = useState(true);
   const [refStats, setRefStats] = useState<ReferralStats>({ total: 0, pending: 0, converted: 0, monthly_recurring: 0, total_earned: 0 });
 
+  const [keyError, setKeyError] = useState<string | null>(null);
+  const [creatingKey, setCreatingKey] = useState(false);
+  const [copiedCurl, setCopiedCurl] = useState(false);
+  const autoCreateTried = useRef(false);
+
   const supabase = useMemo(() => createClient(), []);
   const router = useRouter();
 
-  const loadData = useCallback(async () => {
-    setLoading(true);
+  // Insere uma key e devolve true se deu certo. O erro fica visível pro user
+  // (antes o insert falhava em silêncio e o botão parecia morto).
+  const insertKey = useCallback(async (name: string): Promise<boolean> => {
+    const key = `ff_${generateRandomKey(32)}`;
+    const { error } = await supabase.from("api_keys").insert({ user_id: userId, key, name });
+    if (error) {
+      setKeyError(error.message);
+      track("api_key_create_failed", { name, error: error.message });
+      return false;
+    }
+    setKeyError(null);
+    return true;
+  }, [supabase, userId]);
+
+  // Só o primeiro carregamento mostra "Carregando...". Recargas (após teste
+  // ou criar key) atualizam em silêncio e não desmontam o dashboard inteiro.
+  const loadData = useCallback(async (initial = false) => {
+    if (initial) setLoading(true);
 
     // Load API keys
     const { data: keys } = await supabase
@@ -71,6 +92,21 @@ export default function DashboardClient({ userId, userEmail }: { userId: string;
       .eq("user_id", userId)
       .order("created_at", { ascending: false });
     if (keys) setApiKeys(keys);
+
+    // Self-heal: se o trigger do signup falhou e o user chegou sem key,
+    // cria "my-first-key" agora, antes de ele ver qualquer tela vazia.
+    if (keys && !keys.some((k) => k.is_active) && !autoCreateTried.current) {
+      autoCreateTried.current = true;
+      if (await insertKey("my-first-key")) {
+        track("api_key_auto_created", { source: "dashboard_self_heal" });
+        const { data: fresh } = await supabase
+          .from("api_keys")
+          .select("*")
+          .eq("user_id", userId)
+          .order("created_at", { ascending: false });
+        if (fresh) setApiKeys(fresh);
+      }
+    }
 
     // Load subscription. maybeSingle porque a maioria dos users é Free (sem
     // row em subscriptions) - .single() retornava 406 Not Acceptable pra
@@ -103,9 +139,9 @@ export default function DashboardClient({ userId, userEmail }: { userId: string;
     } catch {/* ignore */}
 
     setLoading(false);
-  }, [supabase, userId]);
+  }, [supabase, userId, insertKey]);
 
-  useEffect(() => { loadData(); }, [loadData]);
+  useEffect(() => { loadData(true); }, [loadData]);
 
   useEffect(() => {
     if (!loading && subscription.plan === "free") {
@@ -116,13 +152,13 @@ export default function DashboardClient({ userId, userEmail }: { userId: string;
   }, [loading, subscription.plan]);
 
   async function createApiKey() {
-    const key = `ff_${generateRandomKey(32)}`;
-    await supabase.from("api_keys").insert({
-      user_id: userId,
-      key,
-      name: `Key ${apiKeys.length + 1}`,
-    });
-    loadData();
+    if (creatingKey) return;
+    setCreatingKey(true);
+    const activeCount = apiKeys.filter((k) => k.is_active).length;
+    const ok = await insertKey(activeCount === 0 ? "my-first-key" : `Key ${apiKeys.length + 1}`);
+    if (ok) track("api_key_created", { manual: true, first: activeCount === 0 });
+    await loadData();
+    setCreatingKey(false);
   }
 
   async function deleteApiKey(id: string) {
@@ -180,8 +216,10 @@ export default function DashboardClient({ userId, userEmail }: { userId: string;
     router.push("/");
   }
 
+  const activeKeys = apiKeys.filter((k) => k.is_active);
   const planInfo = PLAN_LIMITS[subscription.plan];
   const usagePercent = Math.min(100, (usageToday / planInfo.requests) * 100);
+  const curlSnippet = `curl -H "X-API-Key: ${activeKeys[0]?.key ?? "SUA_KEY_AQUI"}" \\\n  "https://fakeforge.com.br/api/generate?preset=customer&quantity=5"`;
 
   if (loading) {
     return (
@@ -214,19 +252,41 @@ export default function DashboardClient({ userId, userEmail }: { userId: string;
         </div>
       </div>
 
+      {/* Activation primeiro: é a única ação que importa pra quem nunca chamou a API.
+          Com key: 3 demos de 1 clique. Sem key (trigger e self-heal falharam): botão único. */}
+      {usageToday === 0 && activeKeys.length > 0 && (
+        <FirstCallActivation
+          apiKey={activeKeys[0].key}
+          onActivated={() => loadData()}
+        />
+      )}
+      {usageToday === 0 && activeKeys.length === 0 && (
+        <div className="mb-6 rounded-xl border-2 border-primary/40 bg-gradient-to-br from-primary/10 via-primary/5 to-transparent p-5 sm:p-6">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-primary">Passo 1 · Ativar sua conta</p>
+          <h2 className="text-lg sm:text-xl font-bold text-foreground leading-tight mt-2">
+            Crie sua key e rode a primeira chamada
+          </h2>
+          <p className="text-sm text-muted-foreground mt-2">Um clique. Sem formulário. Grátis.</p>
+          <button
+            onClick={createApiKey}
+            disabled={creatingKey}
+            className="mt-4 px-5 py-2.5 rounded-lg text-sm font-bold bg-primary text-white hover:bg-primary-hover transition-all disabled:opacity-60"
+          >
+            {creatingKey ? "Criando..." : "Criar minha primeira key"}
+          </button>
+          {keyError && (
+            <p className="mt-3 text-xs text-danger">
+              Não consegui criar a key ({keyError}). Tenta de novo ou escreve pra contato@fakeforge.com.br.
+            </p>
+          )}
+        </div>
+      )}
+
       {/* Milestone streak 5 dias (Free, 1x por milestone, dismiss 7d). Acima do card de valor: mais raro */}
       <MilestoneCelebrationCard />
 
       {/* Card de valor extraído (Free, 10+ itens, dismiss 7d, 1x/sessão) */}
       <SuccessMetricCard />
-
-      {/* First call activation - Sprint Ago P0: passar 5.7% -> 25%+ ativação */}
-      {!loading && usageToday === 0 && apiKeys.filter(k => k.is_active).length > 0 && (
-        <FirstCallActivation
-          apiKey={apiKeys.filter(k => k.is_active)[0].key}
-          onActivated={loadData}
-        />
-      )}
 
       {/* Upsell hero - persistente pra Free, empurra Dev na primeira coisa que ve.
           NOTE (audit 26/08): removido gate 'usageToday > 0' que impedia o hero
@@ -645,16 +705,31 @@ ${(test.data || []).map((cpf, i) => `${i + 1}. ${cpf}`).join("\n")}`}
         </div>
       </div>
 
-      {/* Usage hint */}
+      {/* Snippet pronto com a key real do user e URL absoluta (copiar e colar no terminal) */}
       <div className="rounded-xl bg-primary/5 border border-primary/20 p-5">
-        <h3 className="text-sm font-semibold text-foreground mb-2">Como usar sua API key</h3>
-        <div className="rounded-lg bg-background border border-border p-4 font-mono text-xs leading-6">
-          <div className="text-muted"># Adicione o header X-API-Key</div>
-          <div>
-            <span className="text-success">curl</span> -H <span className="text-accent">&quot;X-API-Key: ff_sua_chave_aqui&quot;</span> \
-          </div>
-          <div>{"  "}&quot;/api/generate?preset=customer&amp;quantity=100&quot;</div>
+        <div className="flex items-center justify-between mb-2">
+          <h3 className="text-sm font-semibold text-foreground">Copie, cole no terminal, pronto</h3>
+          {activeKeys.length > 0 && (
+            <button
+              onClick={async () => {
+                await navigator.clipboard.writeText(curlSnippet);
+                setCopiedCurl(true);
+                track("dashboard_curl_copied", {});
+                setTimeout(() => setCopiedCurl(false), 2000);
+              }}
+              className={`text-[11px] px-2.5 py-1 rounded-md font-medium transition-all ${
+                copiedCurl ? "bg-success text-white" : "bg-primary text-white hover:bg-primary-hover"
+              }`}
+            >
+              {copiedCurl ? "Copiado!" : "Copiar curl"}
+            </button>
+          )}
         </div>
+        <pre className="rounded-lg bg-background border border-border p-4 font-mono text-xs leading-6 overflow-x-auto whitespace-pre-wrap break-all">{curlSnippet}</pre>
+        <p className="text-[11px] text-muted mt-2">
+          Retorna 5 clientes brasileiros correlacionados (CPF, email, endereço, telefone). Mais exemplos em{" "}
+          <Link href="/docs" className="text-primary hover:underline">/docs</Link>.
+        </p>
       </div>
     </div>
   );
