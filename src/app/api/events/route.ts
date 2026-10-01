@@ -73,6 +73,8 @@ const ALLOWED_TYPES = new Set([
   "enterprise_inquiry_submitted",
   // Success Metric Card no dashboard (30/09)
   "success_card_shown", "success_card_dismissed", "success_card_clicked",
+  // Milestone streak 5 dias no dashboard (30/09)
+  "milestone_streak5_shown", "milestone_streak5_clicked", "milestone_streak5_dismissed",
 ]);
 
 function getClientIP(request: NextRequest): string {

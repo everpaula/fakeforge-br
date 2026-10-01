@@ -66,6 +66,35 @@ Estas landings mostram SDK oficial + algoritmo local + snippets prontos por stac
 - [Gerador de Empresa em Node.js](https://fakeforge.com.br/gerador-empresa-nodejs): SDK Node + Prisma/Sequelize seed
 - [Gerador de Empresa via curl/API REST](https://fakeforge.com.br/gerador-empresa-curl): endpoint direto + shell scripts CI/CD
 
+## Validadores por linguagem (Python, Node.js, curl)
+
+Cada página traz o algoritmo de validação em código executável, exemplo calculado à mão, testes automatizados e conferência com dados da API de geração. A API do FakeForge gera dados; a validação roda no código do usuário.
+
+### CPF
+- [Validar CPF em Python](https://fakeforge.com.br/validar-cpf-python): mod-11 da Receita Federal, código com biblioteca padrão e testes pytest
+- [Validar CPF em Node.js](https://fakeforge.com.br/validar-cpf-nodejs): mod-11 da Receita Federal, função ES6 sem dependências e testes Jest
+- [Validar CPF via curl e bash](https://fakeforge.com.br/validar-cpf-curl): mod-11 da Receita Federal, função em bash puro e testes Postman
+
+### CNPJ
+- [Validar CNPJ em Python](https://fakeforge.com.br/validar-cnpj-python): mod-11 tradicional e alfanumérico (IN RFB 2.229/2024), código com biblioteca padrão e testes pytest
+- [Validar CNPJ em Node.js](https://fakeforge.com.br/validar-cnpj-nodejs): mod-11 tradicional e alfanumérico (IN RFB 2.229/2024), função ES6 sem dependências e testes Jest
+- [Validar CNPJ via curl e bash](https://fakeforge.com.br/validar-cnpj-curl): mod-11 tradicional e alfanumérico (IN RFB 2.229/2024), função em bash puro e testes Postman
+
+### CEP
+- [Validar CEP em Python](https://fakeforge.com.br/validar-cep-python): formato de 8 dígitos e existência via ViaCEP, código com biblioteca padrão e testes pytest
+- [Validar CEP em Node.js](https://fakeforge.com.br/validar-cep-nodejs): formato de 8 dígitos e existência via ViaCEP, função ES6 sem dependências e testes Jest
+- [Validar CEP via curl e bash](https://fakeforge.com.br/validar-cep-curl): formato de 8 dígitos e existência via ViaCEP, função em bash puro e testes Postman
+
+### CNH
+- [Validar CNH em Python](https://fakeforge.com.br/validar-cnh-python): mod-11 do DENATRAN com desconto no 2º dígito, código com biblioteca padrão e testes pytest
+- [Validar CNH em Node.js](https://fakeforge.com.br/validar-cnh-nodejs): mod-11 do DENATRAN com desconto no 2º dígito, função ES6 sem dependências e testes Jest
+- [Validar CNH via curl e bash](https://fakeforge.com.br/validar-cnh-curl): mod-11 do DENATRAN com desconto no 2º dígito, função em bash puro e testes Postman
+
+### RG
+- [Validar RG em Python](https://fakeforge.com.br/validar-rg-python): mod-11 do formato de São Paulo, dígito verificador X, código com biblioteca padrão e testes pytest
+- [Validar RG em Node.js](https://fakeforge.com.br/validar-rg-nodejs): mod-11 do formato de São Paulo, dígito verificador X, função ES6 sem dependências e testes Jest
+- [Validar RG via curl e bash](https://fakeforge.com.br/validar-rg-curl): mod-11 do formato de São Paulo, dígito verificador X, função em bash puro e testes Postman
+
 ## Ferramentas de consulta (lookup)
 
 - [Buscar CEP](https://fakeforge.com.br/buscar-cep): consulta de CEP real via API ViaCEP — retorna logradouro, bairro, cidade, UF, DDD, IBGE, SIAFI. Não é gerador fictício, é lookup ao vivo dos Correios.

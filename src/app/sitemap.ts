@@ -7,6 +7,7 @@ import { ESTADOS_BR } from "@/lib/data/estados-br";
 // não confiável e ele passa a ignorar o campo. Aqui mantemos data por
 // página para preservar a sinalização real de crawl budget.
 const D = {
+  sep30: new Date("2026-09-30"),          // validator hub Fase 4A
   home: new Date("2026-06-18"),           // último refactor AI-slop + funnel
   newest: new Date("2026-06-17"),         // /buscar-cep + chart 90d
   jun15: new Date("2026-06-15"),          // random number EN + cluster placa
@@ -170,6 +171,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // Validadores
     { url: `${baseUrl}/validar-cpf`, lastModified: D.may15, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/validar-cnpj`, lastModified: D.may15, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${baseUrl}/validar-cpf-python`, lastModified: D.sep30, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/validar-cpf-nodejs`, lastModified: D.sep30, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/validar-cpf-curl`, lastModified: D.sep30, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/validar-cnpj-python`, lastModified: D.sep30, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/validar-cnpj-nodejs`, lastModified: D.sep30, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/validar-cnpj-curl`, lastModified: D.sep30, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/validar-cep-python`, lastModified: D.sep30, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/validar-cep-nodejs`, lastModified: D.sep30, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/validar-cep-curl`, lastModified: D.sep30, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/validar-cnh-python`, lastModified: D.sep30, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/validar-cnh-nodejs`, lastModified: D.sep30, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/validar-cnh-curl`, lastModified: D.sep30, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/validar-rg-python`, lastModified: D.sep30, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/validar-rg-nodejs`, lastModified: D.sep30, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/validar-rg-curl`, lastModified: D.sep30, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/algoritmo-luhn`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
 
     // AEO / FAQ (Ubersuggest gap 0% AI visibility -> respostas curadas com Schema)

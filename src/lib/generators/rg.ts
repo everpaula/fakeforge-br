@@ -13,11 +13,13 @@ export function generateRG(formatted = true): string {
   for (let i = 0; i < 8; i++) digits.push(randomDigit());
 
   // Calcular dígito verificador (mod-11 com pesos 2..9)
+  // DV = (11 - remainder) % 11, e se der 10 vira 'X'
   const weights = [2, 3, 4, 5, 6, 7, 8, 9];
   let sum = 0;
   for (let i = 0; i < 8; i++) sum += digits[i] * weights[i];
   const remainder = sum % 11;
-  const checkDigit = remainder === 10 ? "X" : String((11 - remainder) % 11);
+  const dv = (11 - remainder) % 11;
+  const checkDigit = dv === 10 ? "X" : String(dv);
 
   const rg = digits.join("") + checkDigit;
   if (formatted) {
@@ -36,7 +38,8 @@ export function validateRG(input: string): boolean {
   let sum = 0;
   for (let i = 0; i < 8; i++) sum += digits[i] * weights[i];
   const remainder = sum % 11;
-  const expected = remainder === 10 ? "X" : String((11 - remainder) % 11);
+  const dv = (11 - remainder) % 11;
+  const expected = dv === 10 ? "X" : String(dv);
 
   return cleaned[8] === expected;
 }

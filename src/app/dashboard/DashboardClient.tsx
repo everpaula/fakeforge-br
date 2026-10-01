@@ -9,6 +9,7 @@ import FirstCallActivation from "@/components/FirstCallActivation";
 import OnboardingChecklist from "@/components/OnboardingChecklist";
 import UsageProfileCard from "@/components/UsageProfileCard";
 import SuccessMetricCard from "@/components/SuccessMetricCard";
+import MilestoneCelebrationCard from "@/components/MilestoneCelebrationCard";
 import { track } from "@/lib/analytics";
 
 interface ApiKey {
@@ -212,6 +213,9 @@ export default function DashboardClient({ userId, userEmail }: { userId: string;
           </button>
         </div>
       </div>
+
+      {/* Milestone streak 5 dias (Free, 1x por milestone, dismiss 7d). Acima do card de valor: mais raro */}
+      <MilestoneCelebrationCard />
 
       {/* Card de valor extraído (Free, 10+ itens, dismiss 7d, 1x/sessão) */}
       <SuccessMetricCard />
