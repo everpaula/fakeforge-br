@@ -260,6 +260,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/blog/mockaroo-vs-fakeforge-qual-escolher-times-brasileiros`, lastModified: D.sep30, changeFrequency: "monthly", priority: 0.95 },
     { url: `${baseUrl}/blog/lgpd-dados-teste-desenvolvimento-guia-completo-devs-brasileiros`, lastModified: D.oct01, changeFrequency: "monthly", priority: 0.95 },
 
+    // Expansao audience (oct 01): synthetic data category + QA Engineer persona + ERP CNPJ pillar
+    { url: `${baseUrl}/dados-sinteticos`, lastModified: D.oct01, changeFrequency: "monthly", priority: 0.95 },
+    { url: `${baseUrl}/para-qa-engineers`, lastModified: D.oct01, changeFrequency: "monthly", priority: 0.95 },
+    { url: `${baseUrl}/blog/dados-sinteticos-brasil-guia-devs-data-scientists-qa`, lastModified: D.oct01, changeFrequency: "monthly", priority: 0.95 },
+    { url: `${baseUrl}/blog/massa-de-dados-qa-brasileira-guia-pratico-automacao`, lastModified: D.oct01, changeFrequency: "monthly", priority: 0.95 },
+    { url: `${baseUrl}/blog/erp-legado-cnpj-alfanumerico-2026-10-cuidados-migracao`, lastModified: D.oct01, changeFrequency: "monthly", priority: 0.95 },
+
     // Páginas institucionais
     { url: `${baseUrl}/pricing`, lastModified: D.jun01, changeFrequency: "monthly", priority: 0.6 },
     { url: `${baseUrl}/empresa`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
