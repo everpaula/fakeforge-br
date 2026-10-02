@@ -5,7 +5,6 @@ import SingleGenerator from "@/components/SingleGenerator";
 import ApiCtaBanner from "@/components/ApiCtaBanner";
 import ApiCtaTop from "@/components/ApiCtaTop";
 import AdBanner from "@/components/AdBanner";
-import DevOnlyDisclaimer from "@/components/DevOnlyDisclaimer";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import GeneratorSchema from "@/components/GeneratorSchema";
 import RelatedGenerators from "@/components/RelatedGenerators";
@@ -77,8 +76,6 @@ export default function GeradorCartao() {
           Ideal para testar checkouts, gateways de pagamento e formulários de cobrança em ambientes de desenvolvimento e QA.
         </p>
       </div>
-
-      <DevOnlyDisclaimer dataType="cartão de crédito" className="mb-6" />
 
       <ApiCtaTop dataType="cartões de crédito" />
 

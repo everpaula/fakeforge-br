@@ -4,7 +4,6 @@ import PageShell from "@/components/PageShell";
 import SingleGenerator from "@/components/SingleGenerator";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import GeneratorSchema from "@/components/GeneratorSchema";
-import DevOnlyDisclaimer from "@/components/DevOnlyDisclaimer";
 
 export const metadata: Metadata = {
   title: "Gerar Cartão de Crédito Válido para Testes (API + Snippets)",
@@ -33,8 +32,6 @@ export default function GerarCartaoCredito() {
           bandeira aleatória entre Visa, Mastercard, Elo, Hipercard e Amex. Grátis, sem cadastro.
         </p>
       </div>
-
-      <DevOnlyDisclaimer dataType="cartão de crédito" className="mb-6" />
 
       <SingleGenerator
         type="creditCard"

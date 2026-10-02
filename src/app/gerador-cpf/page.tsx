@@ -4,7 +4,6 @@ import PageShell from "@/components/PageShell";
 import SingleGenerator from "@/components/SingleGenerator";
 import ApiCtaBanner from "@/components/ApiCtaBanner";
 import AdBanner from "@/components/AdBanner";
-import DevOnlyDisclaimer from "@/components/DevOnlyDisclaimer";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import GeneratorSchema from "@/components/GeneratorSchema";
 import RelatedGenerators from "@/components/RelatedGenerators";
@@ -52,8 +51,6 @@ export default function GeradorCPF() {
           Ideal para testes de software, preenchimento de formulários em ambiente de desenvolvimento e QA.
         </p>
       </div>
-
-      <DevOnlyDisclaimer dataType="CPF" className="mb-6" />
 
       <SingleGenerator
         type="cpf"

@@ -4,7 +4,6 @@ import PageShell from "@/components/PageShell";
 import SingleGenerator from "@/components/SingleGenerator";
 import ApiCtaBanner from "@/components/ApiCtaBanner";
 import AdBanner from "@/components/AdBanner";
-import DevOnlyDisclaimer from "@/components/DevOnlyDisclaimer";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import GeneratorSchema from "@/components/GeneratorSchema";
 import RelatedGenerators from "@/components/RelatedGenerators";
@@ -37,8 +36,6 @@ export default function GeradorCNPJ() {
           e seed de banco de desenvolvimento. Não pertencem a nenhuma empresa real.
         </p>
       </div>
-
-      <DevOnlyDisclaimer dataType="CNPJ" className="mb-6" />
 
       <SingleGenerator
         type="cnpj"

@@ -4,7 +4,6 @@ import PageShell from "@/components/PageShell";
 import SingleGenerator from "@/components/SingleGenerator";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import GeneratorSchema from "@/components/GeneratorSchema";
-import DevOnlyDisclaimer from "@/components/DevOnlyDisclaimer";
 
 export const metadata: Metadata = {
   title: "Cartão Teste Stripe: Fake vs Cartão Oficial do Gateway",
@@ -34,8 +33,6 @@ export default function CartaoCreditoTesteStripe() {
           quando usar cada tipo.
         </p>
       </div>
-
-      <DevOnlyDisclaimer dataType="cartão de crédito" className="mb-6" />
 
       <SingleGenerator
         type="creditCard"

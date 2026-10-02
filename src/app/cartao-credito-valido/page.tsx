@@ -4,7 +4,6 @@ import PageShell from "@/components/PageShell";
 import SingleGenerator from "@/components/SingleGenerator";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import GeneratorSchema from "@/components/GeneratorSchema";
-import DevOnlyDisclaimer from "@/components/DevOnlyDisclaimer";
 
 export const metadata: Metadata = {
   title: "Cartão de Crédito Válido: Algoritmo Luhn (mod-10) Explicado",
@@ -34,8 +33,6 @@ export default function CartaoCreditoValido() {
           explicação passo a passo do algoritmo.
         </p>
       </div>
-
-      <DevOnlyDisclaimer dataType="cartão de crédito" className="mb-6" />
 
       <SingleGenerator
         type="creditCard"
