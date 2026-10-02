@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
-import DevOnlyDisclaimer from "@/components/DevOnlyDisclaimer";
 
 export const metadata: Metadata = {
   title: "Gerador de Cartão para Testes em pytest: Fixture + Luhn",
@@ -22,8 +21,6 @@ export default function GeradorCartaoPytest() {
           Fixture pytest com cartão sintético válido pelo algoritmo Luhn (mod-10). Session fixture pra economizar API calls, conftest.py compartilhado, integração pytest-django + pytest-mock. SDK <code className="text-xs bg-card border border-border px-1.5 py-0.5 rounded">fakeforge-br</code>. Ambiente de desenvolvimento apenas.
         </p>
       </div>
-
-      <DevOnlyDisclaimer dataType="cartão de crédito" className="mb-6" />
 
       <section className="mb-8 rounded-xl bg-primary/5 border border-primary/20 p-5">
         <h2 className="text-lg font-semibold text-foreground mb-3">TL;DR</h2>

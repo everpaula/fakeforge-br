@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
-import DevOnlyDisclaimer from "@/components/DevOnlyDisclaimer";
 
 export const metadata: Metadata = {
   title: "Gerador de Cartão para Testes em Node.js: SDK + Luhn",
@@ -22,8 +21,6 @@ export default function GeradorCartaoNodejs() {
           SDK oficial <code className="text-xs bg-card border border-border px-1.5 py-0.5 rounded">fakeforge-br</code> gera números sintéticos de cartão que passam validação Luhn (mod-10). TypeScript types nativos. Snippets pra Jest, Vitest, NestJS, Express, Playwright E2E. Ambiente de desenvolvimento apenas.
         </p>
       </div>
-
-      <DevOnlyDisclaimer dataType="cartão de crédito" className="mb-6" />
 
       <section className="mb-8 rounded-xl bg-primary/5 border border-primary/20 p-5">
         <h2 className="text-lg font-semibold text-foreground mb-3">TL;DR</h2>

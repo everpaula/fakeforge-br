@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
-import DevOnlyDisclaimer from "@/components/DevOnlyDisclaimer";
 
 export const metadata: Metadata = {
   title: "Gerador de Cartão para Testes via curl: API REST + Luhn",
@@ -22,8 +21,6 @@ export default function GeradorCartaoCurl() {
           API REST do FakeForge gera números sintéticos de cartão com Luhn válido. Zero SDK, só curl e jq. Snippets pra bash puro, GitHub Actions, GitLab CI, Jenkins. Ambiente de desenvolvimento apenas.
         </p>
       </div>
-
-      <DevOnlyDisclaimer dataType="cartão de crédito" className="mb-6" />
 
       <section className="mb-8 rounded-xl bg-primary/5 border border-primary/20 p-5">
         <h2 className="text-lg font-semibold text-foreground mb-3">TL;DR</h2>

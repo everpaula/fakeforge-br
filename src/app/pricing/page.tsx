@@ -44,16 +44,20 @@ export default function Pricing() {
         }}
       />
 
-      {/* Product/Offer schema */}
+      {/* SoftwareApplication schema (SaaS, sem exigências de Merchant listings) */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "Product",
+            "@type": "SoftwareApplication",
             name: "FakeForge API",
+            applicationCategory: "DeveloperApplication",
+            operatingSystem: "Web",
+            url: "https://fakeforge.com.br/pricing",
+            image: "https://fakeforge.com.br/og-image.png",
             description: "API REST para gerar dados brasileiros fictícios (CPF, CNPJ, CEP, PIX, cartão, pessoa) com formatação válida e dígitos verificadores corretos.",
-            brand: { "@type": "Brand", name: "FakeForge" },
+            publisher: { "@type": "Organization", name: "FakeForge", url: "https://fakeforge.com.br" },
             offers: [
               {
                 "@type": "Offer",

@@ -6,7 +6,6 @@ import SingleGenerator from "@/components/SingleGenerator";
 import ApiCtaBanner from "@/components/ApiCtaBanner";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 import GeneratorSchema from "@/components/GeneratorSchema";
-import DevOnlyDisclaimer from "@/components/DevOnlyDisclaimer";
 import { getEstado, getAllEstadoSlugs, getEstadosVizinhos } from "@/lib/data/estados-br";
 
 interface PageProps {
@@ -60,8 +59,6 @@ export default async function GeradorRGPorEstado({ params }: PageProps) {
           formulário e fixtures de QA.
         </p>
       </div>
-
-      <DevOnlyDisclaimer dataType="documentos brasileiros" className="mb-6" />
 
       <SingleGenerator
         type="rg"

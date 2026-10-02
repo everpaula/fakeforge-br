@@ -40,8 +40,8 @@ export default function Post() {
 
         <div className="prose-custom space-y-6 text-sm text-muted-foreground leading-relaxed">
           <p>
-            Se você está construindo um sistema que aceita CNPJ — cadastro de fornecedores, marketplace,
-            emissão de NF-e — precisa validar o formato e os dígitos verificadores. Muitos devs instalam
+            Se você está construindo um sistema que aceita CNPJ (cadastro de fornecedores, marketplace,
+            emissão de NF-e), precisa validar o formato e os dígitos verificadores. Muitos devs instalam
             uma lib para isso, mas a validação é simples o suficiente para implementar em poucas linhas.
           </p>
 
@@ -69,13 +69,13 @@ export default function Post() {
           <div className="rounded-lg bg-background border border-border p-4 font-mono text-xs leading-6 my-4 overflow-x-auto">
             <div><span className="text-primary">function</span> <span className="text-success">validateCNPJ</span>(cnpj: <span className="text-primary">string</span>): <span className="text-primary">boolean</span> {`{`}</div>
             <div>  <span className="text-muted">// Remove formatação</span></div>
-            <div>  <span className="text-primary">const</span> digits = cnpj.replace(<span className="text-warning">/\\D/g</span>, <span className="text-warning">&apos;&apos;</span>);</div>
+            <div>  <span className="text-primary">const</span> digits = cnpj.replace(<span className="text-warning">{"/\\D/g"}</span>, <span className="text-warning">&apos;&apos;</span>);</div>
             <div></div>
             <div>  <span className="text-muted">// Deve ter 14 dígitos</span></div>
             <div>  <span className="text-primary">if</span> (digits.length !== <span className="text-warning">14</span>) <span className="text-primary">return false</span>;</div>
             <div></div>
             <div>  <span className="text-muted">// Rejeita sequências repetidas</span></div>
-            <div>  <span className="text-primary">if</span> (<span className="text-warning">/^(\\d)\\1+$/</span>.test(digits)) <span className="text-primary">return false</span>;</div>
+            <div>  <span className="text-primary">if</span> (<span className="text-warning">{"/^(\\d)\\1+$/"}</span>.test(digits)) <span className="text-primary">return false</span>;</div>
             <div></div>
             <div>  <span className="text-muted">// Calcula dígitos verificadores</span></div>
             <div>  <span className="text-primary">const</span> weights1 = [<span className="text-warning">5,4,3,2,9,8,7,6,5,4,3,2</span>];</div>
@@ -134,12 +134,82 @@ export default function Post() {
             </div>
           </div>
 
+          <h2 className="text-lg font-semibold text-foreground mt-8 mb-3">Edge cases que quebram validadores simples</h2>
+          <p>
+            A função acima cobre o caminho feliz, mas CNPJ em produção chega sujo. Vale testar estes casos
+            antes de publicar:
+          </p>
+          <ul className="list-disc list-inside space-y-2 pl-2">
+            <li><strong className="text-foreground">Tipo errado:</strong> o campo pode chegar como número, <code>null</code> ou <code>undefined</code>. Um CNPJ com zeros à esquerda perde dígitos quando vira <code>number</code> (00.000.000/0001-91 vira 191). Aceite só string e recuse o resto.</li>
+            <li><strong className="text-foreground">Espaços e caracteres invisíveis:</strong> copiar de PDF ou planilha traz espaços não separáveis. A limpeza com regex remove, mas confira o tamanho depois dela.</li>
+            <li><strong className="text-foreground">Zeros à esquerda:</strong> use <code>padStart(14, &quot;0&quot;)</code> só se a origem for um campo numérico legado. Em API pública, exija os 14 dígitos.</li>
+            <li><strong className="text-foreground">Sequências repetidas:</strong> 00000000000000 passa no cálculo do mod-11, por isso a checagem de repetição é obrigatória.</li>
+            <li><strong className="text-foreground">Matriz e filial:</strong> a ordem (0001, 0002...) não altera o algoritmo. Os dígitos verificadores consideram os 12 primeiros dígitos inteiros.</li>
+            <li><strong className="text-foreground">Validade matemática não é existência:</strong> um CNPJ pode passar no mod-11 e não existir na Receita Federal. Para saber se a empresa está ativa, consulte uma fonte oficial.</li>
+          </ul>
+
+          <h2 className="text-lg font-semibold text-foreground mt-8 mb-3">CNPJ alfanumérico a partir de 2026</h2>
+          <p>
+            A Receita Federal passou a emitir CNPJs com letras nas 12 primeiras posições. Os dois últimos
+            caracteres continuam numéricos. O cálculo usa o mesmo mod-11 e os mesmos pesos, mas cada
+            caractere entra como seu código ASCII menos 48 (o 0 vale 0, o A vale 17, o Z vale 42). Se o seu
+            validador limpa a entrada com um regex de &quot;só dígitos&quot;, ele apaga as letras e rejeita CNPJs
+            legítimos. Troque por <code>/[^0-9A-Z]/gi</code> e converta para maiúsculas antes de calcular.
+            Há um passo a passo no <Link href="/gerador-cnpj-alfanumerico" className="text-primary hover:underline">gerador de CNPJ alfanumérico</Link>.
+          </p>
+
+          <h2 className="text-lg font-semibold text-foreground mt-8 mb-3">Usando a validação em Express</h2>
+          <p>
+            Em Express, valide na borda da rota e devolva 422 com mensagem clara. Normalize o CNPJ antes
+            de gravar, para que o índice único no banco não aceite duas versões do mesmo número.
+          </p>
+          <pre className="rounded-lg bg-background border border-border p-4 font-mono text-xs leading-6 my-4 overflow-x-auto"><code className="language-ts">{"import express from \"express\";\nimport { validateCNPJ } from \"./validate-cnpj\";\n\nconst app = express();\napp.use(express.json());\n\napp.post(\"/fornecedores\", (req, res) => {\n  const { cnpj } = req.body ?? {};\n  if (typeof cnpj !== \"string\" || !validateCNPJ(cnpj)) {\n    return res.status(422).json({ error: \"CNPJ inválido\" });\n  }\n  // normaliza antes de salvar\n  const normalizado = cnpj.replace(/\\D/g, \"\");\n  return res.status(201).json({ cnpj: normalizado });\n});"}</code></pre>
+
+          <h2 className="text-lg font-semibold text-foreground mt-8 mb-3">Usando a validação em NestJS</h2>
+          <p>
+            No NestJS o caminho natural é um decorator do <code>class-validator</code>. Assim o
+            {" "}<code>ValidationPipe</code> global rejeita o DTO antes de chegar ao service.
+          </p>
+          <pre className="rounded-lg bg-background border border-border p-4 font-mono text-xs leading-6 my-4 overflow-x-auto"><code className="language-ts">{"import { registerDecorator, ValidationOptions } from \"class-validator\";\nimport { validateCNPJ } from \"./validate-cnpj\";\n\nexport function IsCNPJ(options?: ValidationOptions) {\n  return (object: object, propertyName: string) => {\n    registerDecorator({\n      name: \"isCNPJ\",\n      target: object.constructor,\n      propertyName,\n      options: { message: \"CNPJ inválido\", ...options },\n      validator: {\n        validate: (value: unknown) => typeof value === \"string\" && validateCNPJ(value),\n      },\n    });\n  };\n}\n\n// create-fornecedor.dto.ts\nexport class CreateFornecedorDto {\n  @IsCNPJ()\n  cnpj: string;\n}"}</code></pre>
+
+          <h2 className="text-lg font-semibold text-foreground mt-8 mb-3">Usando a validação em Fastify</h2>
+          <p>
+            No Fastify, o JSON Schema cuida do formato e do tamanho, e um hook <code>preValidation</code>
+            {" "}aplica o dígito verificador. O schema barra lixo barato antes do cálculo.
+          </p>
+          <pre className="rounded-lg bg-background border border-border p-4 font-mono text-xs leading-6 my-4 overflow-x-auto"><code className="language-ts">{"import Fastify from \"fastify\";\nimport { validateCNPJ } from \"./validate-cnpj\";\n\nconst app = Fastify();\n\napp.post(\"/fornecedores\", {\n  schema: {\n    body: {\n      type: \"object\",\n      required: [\"cnpj\"],\n      properties: { cnpj: { type: \"string\", minLength: 14, maxLength: 18 } },\n    },\n  },\n  preValidation: async (req, reply) => {\n    const { cnpj } = req.body as { cnpj: string };\n    if (!validateCNPJ(cnpj)) {\n      return reply.code(422).send({ error: \"CNPJ inválido\" });\n    }\n  },\n}, async () => ({ ok: true }));"}</code></pre>
+
+          <h2 className="text-lg font-semibold text-foreground mt-8 mb-3">Perguntas frequentes</h2>
+          <h3 className="text-base font-semibold text-foreground mt-4 mb-2">Preciso de uma biblioteca para validar CNPJ?</h3>
+          <p>
+            Não. São cerca de 20 linhas e você controla o comportamento com entradas estranhas. Uma
+            dependência só compensa se o time precisar de CPF, CNPJ, título de eleitor e outros documentos
+            com a mesma API.
+          </p>
+          <h3 className="text-base font-semibold text-foreground mt-4 mb-2">Posso usar CNPJs gerados em ambiente de teste?</h3>
+          <p>
+            Sim, para validar formato e fluxo. Um CNPJ gerado passa no mod-11, mas pode coincidir com o de
+            uma empresa real por acaso. Nunca use esses números para emitir nota fiscal ou chamar serviços
+            oficiais.
+          </p>
+          <h3 className="text-base font-semibold text-foreground mt-4 mb-2">O validador deve aceitar CNPJ formatado?</h3>
+          <p>
+            Aceite as duas formas na entrada e grave sempre só os 14 caracteres. Formate apenas na exibição.
+          </p>
+          <h3 className="text-base font-semibold text-foreground mt-4 mb-2">Como testar o validador de forma automatizada?</h3>
+          <p>
+            Gere uma lista de CNPJs válidos pela API e rode todos no teste de aceitação. Depois altere um
+            dígito de cada um e confirme que todos são rejeitados. Isso pega erros de peso e de resto
+            que um único exemplo manual não pega.
+          </p>
+
           <h2 className="text-lg font-semibold text-foreground mt-8 mb-3">Resumo</h2>
           <ul className="list-disc list-inside space-y-2 pl-2">
             <li>Validação de CNPJ são ~20 linhas de código, sem necessidade de libs externas</li>
             <li>O algoritmo mod-11 com pesos específicos valida os 2 dígitos verificadores</li>
             <li>Teste com CNPJs válidos (gerados) e inválidos para cobrir ambos os caminhos</li>
             <li>Use o <Link href="/validar-cnpj" className="text-primary hover:underline">validador online</Link> para checar CNPJs rapidamente</li>
+            <li>Trate tipo, zeros à esquerda e CNPJ alfanumérico antes de confiar no cálculo</li>
             <li>Use a <Link href="/docs" className="text-primary hover:underline">API</Link> para gerar CNPJs em massa no CI/CD</li>
           </ul>
         </div>

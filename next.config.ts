@@ -35,6 +35,11 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        source: "/pix/qrcode",
+        destination: "/blog/qr-code-pix-dinamico-emv-br-code-nodejs",
+        permanent: true,
+      },
+      {
         source: "/blog/popular-banco-dados-ficticios",
         destination: "/blog/popular-postgresql-dados-brasileiros-staging",
         permanent: true,

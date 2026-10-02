@@ -161,7 +161,7 @@ clientes = ff.preset("fintech", 100)`}</code></pre>
       <section className="mb-8">
         <h2 className="text-xl font-bold text-foreground mb-4">Próximos passos</h2>
         <div className="flex flex-wrap gap-2">
-          <a href="/api/generate?preset=fintech&quantity=3" target="_blank" rel="noopener" className="px-4 py-2 rounded-lg text-sm bg-primary text-white font-bold hover:bg-primary-hover transition-colors">Testar API agora</a>
+          <a href="/docs" className="px-4 py-2 rounded-lg text-sm bg-primary text-white font-bold hover:bg-primary-hover transition-colors">Ver documentação da API</a>
           <Link href="/preset-ecom" className="px-4 py-2 rounded-lg text-sm bg-card border border-border text-foreground hover:border-primary/30 transition-colors">Ver Preset Ecom</Link>
           <Link href="/docs" className="px-4 py-2 rounded-lg text-sm bg-card border border-border text-foreground hover:border-primary/30 transition-colors">Docs da API</Link>
           <Link href="/pricing" className="px-4 py-2 rounded-lg text-sm bg-card border border-border text-foreground hover:border-primary/30 transition-colors">Ver Planos</Link>
