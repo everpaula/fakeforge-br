@@ -11,12 +11,12 @@ import GeneratorSchema from "@/components/GeneratorSchema";
 import RelatedGenerators from "@/components/RelatedGenerators";
 
 export const metadata: Metadata = {
-  title: "Gerador de Cartão de Crédito para Testes (Luhn Válido)",
-  description: "Gere cartão de crédito sintético para testar checkout e sandbox: Visa, Mastercard, Elo, Hipercard e Amex com Luhn válido. Dados fictícios. Grátis.",
-  keywords: "gerador de cartao para testes, gerador de cartão de crédito para testes, gerar cartão de crédito sintético, cartão de crédito para testes de software, cartão de crédito para sandbox, cartão fictício para checkout, cartao de credito para QA, cartão para testes de gateway, cartão sintético Luhn, cartão para desenvolvimento, gerador visa para testes, gerador mastercard para testes, gerador elo para testes, gerador american express para testes, número cartão luhn desenvolvimento",
+  title: "Gerador de Cartão de Crédito Fake para Testes (Luhn Válido)",
+  description: "Gere cartão de crédito fake ou falso para testar checkout e sandbox: Visa, Mastercard, Elo, Hipercard e Amex com Luhn válido. Grátis.",
+  keywords: "gerador de cartao, gerador de cartão, gerador de cartões de crédito, gerador de cartoes de credito, gerador de cartoes de credito validos, gerador cartao de credito, gerar cartão de crédito, gerar cartao, cartao de credito numeros validos, numero de cartao de credito valido, cartão fake, cartão falso, cartão teste, cartão de crédito falso, cartão de crédito teste, cartao de credito ficticio, gerador de número de cartão de débito, cartão de débito fake, cartão válido teste, gerador visa, gerador mastercard, gerador elo, gerador american express, cartão fictício checkout, número cartão luhn, gerador de cartão para testes",
   openGraph: {
-    title: "Gerador de Cartão de Crédito para Testes de Software (Luhn)",
-    description: "Cartão sintético Visa, Mastercard, Elo, Hipercard, Amex e débito com Luhn válido. Para testar checkouts e sandbox de pagamento em ambiente de desenvolvimento. Grátis.",
+    title: "Gerador de Cartão de Crédito Falso para Testes (Luhn)",
+    description: "Cartão fake Visa, Mastercard, Elo, Hipercard, Amex e débito com Luhn válido. Para testar checkouts e sandbox de pagamento. Grátis.",
     type: "website",
   },
   alternates: { canonical: "/gerador-cartao" },

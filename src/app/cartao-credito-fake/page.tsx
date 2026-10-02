@@ -7,13 +7,13 @@ import GeneratorSchema from "@/components/GeneratorSchema";
 import DevOnlyDisclaimer from "@/components/DevOnlyDisclaimer";
 
 export const metadata: Metadata = {
-  title: "Cartão de Crédito para Testes: Visa, Mastercard, Elo (Luhn)",
-  description: "Gere números sintéticos de cartão de crédito que passam validação Luhn (mod-10) para uso em ambiente de desenvolvimento. Visa, Mastercard, Elo, Hipercard e Amex. Dados fictícios para testes de checkout, sandbox de pagamento e QA. Grátis e sem cadastro.",
-  keywords: "cartão de crédito para testes, cartão sintético para desenvolvimento, cartão para testes de checkout, cartão de crédito para sandbox, cartão fictício para QA, gerar cartão para testes, cartão para testes com Luhn, cartão para testes de gateway, cartão de crédito para teste automatizado",
+  title: "Cartão de Crédito Fake: Visa, Mastercard, Elo (Luhn)",
+  description: "Gere cartão de crédito fake com Luhn válido (mod-10). Visa, Mastercard, Elo, Hipercard e Amex. Para testes de checkout e sandbox. Grátis, sem cadastro.",
+  keywords: "cartao de credito fake, cartão de crédito fake, cartão fake, cartão falso, cartão fictício, cartão de crédito falso, cartão fake teste, cartão fake grátis, gerar cartão fake, cartão de crédito fake válido, cartao fake luhn, cartão para testes de checkout, cartão sintético para desenvolvimento",
   alternates: { canonical: "/cartao-credito-fake" },
   openGraph: {
-    title: "Cartão de Crédito para Testes com Luhn Válido",
-    description: "Números sintéticos que passam validação matemática, para testar checkout em ambiente de desenvolvimento. Visa, Mastercard, Elo, Hipercard, Amex.",
+    title: "Cartão de Crédito Fake com Luhn Válido para Testes",
+    description: "Números fake que passam validação matemática, para testar checkout sem tocar em cartão real. Visa, Mastercard, Elo, Hipercard, Amex.",
     type: "website",
     locale: "pt_BR",
   },
@@ -25,7 +25,7 @@ export default function CartaoCreditoFake() {
       <div className="mb-6">
         <p className="text-[11px] text-muted uppercase tracking-wider mb-2">Ferramenta para desenvolvedores</p>
         <h1 className="text-3xl font-bold tracking-tight">
-          Cartão de <span className="text-primary">Crédito para Testes</span>
+          Cartão de <span className="text-primary">Crédito Fake</span> para Testes
         </h1>
         <p className="text-muted mt-2 text-sm leading-relaxed max-w-2xl">
           Números sintéticos que passam a validação matemática (Luhn / mod-10) mas não estão

@@ -13,7 +13,7 @@ import ValidatorCPF from "./ValidatorCPF";
 export const metadata: Metadata = {
   title: "Gerador de CPF Válido - Gere CPF para Testes | FakeForge",
   description: "Gere CPF válido e fictício para testes e desenvolvimento. Números com dígitos verificadores corretos, formatados ou sem pontuação. Grátis e sem cadastro.",
-  keywords: "gerador de cpf, cpf válido, gerar cpf para testes, cpf para desenvolvimento, cpf sintético, cpf fictício para testes, cpf para QA, cpf válido para testes de software",
+  keywords: "gerador de cpf, cpf válido, gerar cpf, cpf para testes, cpf fictício, cpf falso válido, cpf sintético, cpf para desenvolvimento",
   openGraph: {
     title: "Gerador de CPF Válido - FakeForge",
     description: "Gere CPF válido e fictício para testes. Dígitos verificadores corretos, grátis e sem cadastro.",

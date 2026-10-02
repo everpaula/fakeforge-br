@@ -7,13 +7,13 @@ import GeneratorSchema from "@/components/GeneratorSchema";
 import DevOnlyDisclaimer from "@/components/DevOnlyDisclaimer";
 
 export const metadata: Metadata = {
-  title: "Cartão Teste Stripe: Sintético vs Cartão Oficial do Gateway",
-  description: "Diferença entre cartões de teste oficiais do Stripe (fixos, cenários específicos) e cartões sintéticos gerados (Luhn válido, quantidade infinita). Quando usar cada, snippet Node.js, exemplos para 3D Secure e antifraude em ambiente de desenvolvimento.",
-  keywords: "cartão de crédito teste stripe, cartão teste stripe, stripe test card brasil, stripe sandbox cartão, cartão para testar checkout stripe, cartão teste mercado pago, cartão sandbox pagseguro, cartão teste cielo, dados sintéticos teste stripe brasil, cartão sintético para sandbox",
+  title: "Cartão Teste Stripe: Fake vs Cartão Oficial do Gateway",
+  description: "Diferença entre cartões de teste oficiais do Stripe (fixos) e cartões fake gerados (Luhn válido, quantidade infinita). Snippet Node.js, 3D Secure e antifraude.",
+  keywords: "cartão de credito teste stripe, cartao teste stripe, stripe test card brasil, stripe sandbox cartão, cartão fake stripe, cartão para testar checkout stripe, cartão teste mercado pago, cartão sandbox pagseguro, cartão teste cielo, dados teste stripe brasil",
   alternates: { canonical: "/cartao-credito-teste-stripe" },
   openGraph: {
-    title: "Cartão de Crédito Teste Stripe vs Sintético - Quando Usar Cada",
-    description: "Quando escolher os 4242 4242... oficiais do Stripe vs gerar cartões sintéticos em massa para desenvolvimento. Snippets Node.js pra ambos os casos.",
+    title: "Cartão de Crédito Teste Stripe vs Fake - Quando Usar Cada",
+    description: "Quando escolher os 4242 4242... oficiais do Stripe vs gerar cartões fake em massa. Snippets Node.js pra ambos os casos.",
     type: "website",
     locale: "pt_BR",
   },
