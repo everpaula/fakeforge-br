@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { getResend, EMAIL_FROM, EMAIL_REPLY_TO } from "@/lib/resend";
+import { getSuppressedUserIds } from "@/lib/email-suppression";
 import { subjectReactivationT24h, htmlReactivationT24h, textReactivationT24h } from "@/lib/email-templates";
 
 // Cron: roda de hora em hora. Busca users que:
@@ -129,7 +130,8 @@ export async function GET(request: NextRequest) {
     .gte("created_at", usageSince);
 
   const usedRecently = new Set((usageRows || []).map((r) => r.user_id));
-  const toSend = hasKey.filter((c) => !usedRecently.has(c.id));
+  const suppressed = await getSuppressedUserIds(admin, hasKey);
+  const toSend = hasKey.filter((c) => !usedRecently.has(c.id) && !suppressed.has(c.id));
 
   if (!toSend.length) {
     return NextResponse.json({

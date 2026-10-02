@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { getResend, EMAIL_FROM, EMAIL_REPLY_TO } from "@/lib/resend";
+import { getSuppressedUserIds, isSuppressed } from "@/lib/email-suppression";
 
 /**
  * Sprint 8 — helper compartilhado pros crons do funil D3/D7/D14/D16/D30 + B2B.
@@ -10,8 +11,11 @@ import { getResend, EMAIL_FROM, EMAIL_REPLY_TO } from "@/lib/resend";
  *   2. busca users candidatos (janela de dias + condições)
  *   3. filtra os que já receberam esse template
  *   4. filtra pelo predicate específico da etapa (ativou API? converteu?)
- *   5. envia email via Resend
+ *   5. envia email via Resend (sendAndLog recusa destinatário suprimido)
  *   6. grava em sent_emails
+ *
+ * Proteção de bounce: getUsersInDayWindow já remove suprimidos em lote e
+ * sendAndLog repete a checagem como última barreira (ver email-suppression.ts).
  */
 
 export function getAdminSupabase() {
@@ -81,7 +85,15 @@ export async function getUsersInDayWindow(
     }
     if (users.length < 500) break;
   }
-  return candidates;
+
+  const suppressed = await getSuppressedUserIds(
+    admin,
+    candidates.map((c) => ({ id: c.id, email: c.email }))
+  );
+  if (suppressed.size > 0) {
+    console.log(`[nurture] ${suppressed.size} destinatário(s) suprimido(s) na janela D${daysAgo}`);
+  }
+  return candidates.filter((c) => !suppressed.has(c.id));
 }
 
 /** Retorna IDs de users que já receberam esse template */
@@ -139,7 +151,12 @@ interface SendEmailArgs {
 }
 
 /** Envia email via Resend + grava em sent_emails. Retorna {ok, error?} */
-export async function sendAndLog({ admin, userId, email, template, subject, html, text }: SendEmailArgs): Promise<{ ok: boolean; error?: string }> {
+export async function sendAndLog({ admin, userId, email, template, subject, html, text }: SendEmailArgs): Promise<{ ok: boolean; error?: string; skipped?: boolean }> {
+  // Última barreira: nunca envia pra quem já bounceou, reclamou ou está na lista local
+  if (await isSuppressed(admin, userId, email)) {
+    console.warn(`[nurture ${template}] suprimido, envio pulado: ${email}`);
+    return { ok: false, skipped: true, error: "suppressed" };
+  }
   const resend = getResend();
   try {
     const result = await resend.emails.send({

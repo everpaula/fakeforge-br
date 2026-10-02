@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { getResend, EMAIL_FROM, EMAIL_REPLY_TO } from "@/lib/resend";
+import { getSuppressedUserIds } from "@/lib/email-suppression";
 import { subjectActivationT10, htmlActivationT10, textActivationT10 } from "@/lib/email-templates";
 
 // Cron: roda a cada 5 min. Busca users que confirmaram email nos
@@ -95,10 +96,12 @@ export async function GET(request: NextRequest) {
     .in("user_id", candidates.map((c) => c.id));
 
   const alreadySent = new Set((sentData || []).map((r) => r.user_id));
-  const toSend = candidates.filter((c) => !alreadySent.has(c.id));
+  // Bounce/complaint prévio, lista local e emails com cara de typo ou bot ficam de fora
+  const suppressed = await getSuppressedUserIds(admin, candidates);
+  const toSend = candidates.filter((c) => !alreadySent.has(c.id) && !suppressed.has(c.id));
 
   if (!toSend.length) {
-    return NextResponse.json({ ok: true, checked: candidates.length, sent: 0, skipped: candidates.length });
+    return NextResponse.json({ ok: true, checked: candidates.length, sent: 0, skipped: candidates.length, suppressed: suppressed.size });
   }
 
   const resend = getResend();

@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getResend } from "@/lib/resend";
 import { getAdminSupabase } from "@/lib/nurture-cron-helper";
+import { addSuppression } from "@/lib/email-suppression";
 
 /**
  * Webhook do Resend. Converte email.opened / email.clicked / email.bounced /
  * email.complained em linhas de funnel_events (e atualiza sent_emails.status
- * em bounce e complaint).
+ * em bounce e complaint, e grava o destinatário em email_suppressions).
  *
  * Sem este endpoint, nenhum evento email_dX_opened chega no banco e o
  * dashboard de funil mostra 0% open rate mesmo com delivery OK.
@@ -67,6 +68,24 @@ export async function POST(request: NextRequest) {
     console.error("[webhooks/resend] lookup error:", sentErr.message);
     return NextResponse.json({ error: "lookup failed" }, { status: 500 });
   }
+
+  // Bounce/complaint vai pra lista local mesmo quando o email não é do funil
+  // (magic link e confirmação de signup não têm linha em sent_emails).
+  if (event.type === "email.bounced" || event.type === "email.complained") {
+    const to = Array.isArray(event.data.to) ? (event.data.to as unknown[]) : [];
+    const bounce = event.data.bounce as { type?: string; subType?: string } | undefined;
+    for (const addr of to) {
+      if (typeof addr !== "string") continue;
+      await addSuppression(
+        admin,
+        addr,
+        event.type === "email.bounced" ? "bounced" : "complained",
+        sent?.user_id ?? null,
+        { resend_id: emailId, bounce_type: bounce?.type ?? null, bounce_sub_type: bounce?.subType ?? null }
+      );
+    }
+  }
+
   // Email que não é do funil (magic link, activation etc): ignora sem erro
   if (!sent) return NextResponse.json({ ok: true, ignored: true });
 

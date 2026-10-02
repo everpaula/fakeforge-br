@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { getResend, EMAIL_FROM, EMAIL_REPLY_TO } from "@/lib/resend";
+import { getSuppressedUserIds } from "@/lib/email-suppression";
 import { subjectQuotaApproaching, htmlQuotaApproaching, textQuotaApproaching } from "@/lib/email-templates";
 
 // Cron weekly (segunda 10h BS = 13h UTC).
@@ -151,6 +152,14 @@ export async function GET(request: NextRequest) {
     if (u.email) userMap.set(u.id, { email: u.email });
   }
 
+  const suppressed = await getSuppressedUserIds(
+    admin,
+    toSend.flatMap((c) => {
+      const info = userMap.get(c.user_id);
+      return info ? [{ id: c.user_id, email: info.email }] : [];
+    })
+  );
+
   const resend = getResend();
   let sent = 0;
   let failed = 0;
@@ -158,6 +167,7 @@ export async function GET(request: NextRequest) {
   for (const user of toSend) {
     const userInfo = userMap.get(user.user_id);
     if (!userInfo) continue;
+    if (suppressed.has(user.user_id)) continue;
 
     try {
       // Puxa items totais 7d desse user pra copy pessoal
@@ -235,5 +245,6 @@ export async function GET(request: NextRequest) {
     failed,
     skipped_paid: paidUserIds.size,
     skipped_recent: recentlySent.size,
+    skipped_suppressed: suppressed.size,
   });
 }

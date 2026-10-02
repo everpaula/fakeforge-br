@@ -57,6 +57,7 @@ export async function GET(request: NextRequest) {
     });
 
     if (result.ok) sent++;
+    else if (result.skipped) skipped++;
     else failed++;
   }
 

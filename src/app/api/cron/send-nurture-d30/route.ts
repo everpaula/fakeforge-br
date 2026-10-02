@@ -67,7 +67,8 @@ export async function GET(request: NextRequest) {
     if (result.ok) {
       if (isPaying) sentRetention++;
       else sentDigest++;
-    } else failed++;
+    } else if (result.skipped) skipped++;
+    else failed++;
   }
 
   return NextResponse.json({
