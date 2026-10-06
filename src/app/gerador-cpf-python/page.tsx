@@ -221,7 +221,7 @@ async def fake_cpfs(quantity: int = 10):
         <h2 className="text-xl font-bold text-foreground mb-3">Próximos passos</h2>
         <div className="flex flex-wrap gap-2">
           <Link href="/" className="px-4 py-2 rounded-lg text-sm bg-primary text-white font-bold hover:bg-primary-hover transition-colors">Testar API</Link>
-          <Link href="/gerador-cpf-django" className="px-4 py-2 rounded-lg text-sm bg-card border border-border text-foreground hover:border-primary/30 transition-colors">Django seed</Link>
+          <Link href="/blog/popular-django-dados-brasileiros-seed-orm" className="px-4 py-2 rounded-lg text-sm bg-card border border-border text-foreground hover:border-primary/30 transition-colors">Django seed</Link>
           <Link href="/gerador-cpf-pytest" className="px-4 py-2 rounded-lg text-sm bg-card border border-border text-foreground hover:border-primary/30 transition-colors">pytest fixture</Link>
           <Link href="/docs" className="px-4 py-2 rounded-lg text-sm bg-card border border-border text-foreground hover:border-primary/30 transition-colors">Docs completas</Link>
         </div>

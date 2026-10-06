@@ -6,15 +6,13 @@ import ShareBar from "@/components/ShareBar";
 import BlogPostingSchema from "@/components/BlogPostingSchema";
 
 export const metadata: Metadata = {
-  title:
-    "Dados Sintéticos no Brasil: Guia Completo pra Devs, Data Scientists e QA",
+  title: "Dados Sintéticos no Brasil: Guia pra Devs, QA e ML",
   description:
     "Guia completo de dados sintéticos no mercado BR: diferença entre anonimização e dados sintéticos, casos de uso em ML, compliance LGPD, ferramentas disponíveis. Com exemplos.",
   keywords:
     "dados sintéticos brasil, synthetic data BR, gerador dados sintéticos, dados sintéticos LGPD, dados teste ML, data augmentation, data scientist synthetic data, QA dados sintéticos, compliance dados teste",
   openGraph: {
-    title:
-      "Dados Sintéticos no Brasil: Guia Completo pra Devs, Data Scientists e QA",
+    title: "Dados Sintéticos no Brasil: Guia pra Devs, QA e ML",
     description:
       "Aprenda como usar dados sintéticos em desenvolvimento, testes e machine learning. Diferenças técnicas, casos de uso, conformidade LGPD e ferramentas disponíveis para o mercado brasileiro.",
     type: "article",

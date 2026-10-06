@@ -6,11 +6,11 @@ import ShareBar from "@/components/ShareBar";
 import BlogPostingSchema from "@/components/BlogPostingSchema";
 
 export const metadata: Metadata = {
-  title: "Popular Django com dados brasileiros: seed do ORM com CPF, CNPJ e PIX",
+  title: "Popular Django com CPF, CNPJ e PIX: seed do ORM BR",
   description: "Guia completo pra popular banco Django com dados brasileiros válidos: CPF, CNPJ, endereços, PIX, cartão. Migração, seed via ORM, comparação Faker vs FakeForge vs python-brasilidades. Código pronto.",
   keywords: "seed django dados brasileiros, popular django cpf cnpj, django orm dados teste br, faker django pt-br, django seed script python, dados fake django orm, django fixtures brasil",
   openGraph: {
-    title: "Popular Django com dados brasileiros: seed do ORM com CPF, CNPJ e PIX",
+    title: "Popular Django com CPF, CNPJ e PIX: seed do ORM BR",
     description: "Guia completo pra popular banco Django com dados brasileiros válidos: CPF, CNPJ, endereços, PIX, cartão. Migração, seed via ORM, comparação Faker vs FakeForge vs python-brasilidades.",
     type: "article",
     images: ["/api/og?title=Popular%20Django%20com%20dados%20brasileiros&subtitle=Seed%20do%20ORM%20com%20CPF%2C%20CNPJ%20e%20PIX&category=TUTORIAIS"],

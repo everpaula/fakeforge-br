@@ -4,7 +4,7 @@ import PageShell from "@/components/PageShell";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "Alternativa ao 4devs com API REST para gerar dados brasileiros (2026)",
+  title: "Alternativa ao 4devs com API REST (dados brasileiros 2026)",
   description: "Precisa da API que o 4devs não tem? FakeForge é a alternativa dev-first com API REST oficial, SDK Node e Python, presets correlacionados, CNPJ alfanumérico 2026 e integração em qualquer stack. Free 50/dia.",
   keywords: "alternativa 4devs, alternativa 4devs com api, 4devs api, 4devs alternativa desenvolvedor, gerador cpf api brasil, gerador dados brasileiros api rest, api gerar cpf cnpj",
   alternates: { canonical: "/alternativa-ao-4devs-com-api" },
