@@ -9,12 +9,12 @@ import RelatedGenerators from "@/components/RelatedGenerators";
 import { CEP_CITIES } from "@/lib/cep-cities";
 
 export const metadata: Metadata = {
-  title: "Gerador de CEP Brasileiro Fictício (e Diferença de Busca de CEP)",
-  description: "Gere CEP brasileiro fictício e válido com cidade, estado e bairro coerentes para testes. Diferença entre gerar CEP fake e consultar CEP real (ViaCEP). Grátis, sem cadastro.",
-  keywords: "gerador de cep, gerar cep, gerar endereço, cep fictício, cep para testes, cep brasileiro falso, cep brasil, ceps brasil, busca cep, busca por cep, consultar cep, cep busca, gerador de cep brasileiro",
+  title: "Gerador de CEP Brasileiro Fictício para Testes de Software",
+  description: "Gere CEP brasileiro fictício com cidade, estado e bairro coerentes pra testes. Pra consultar CEP real, use ViaCEP ou Correios. Grátis, sem cadastro.",
+  keywords: "gerador de cep, gerar cep, gerar endereço, cep fictício, cep para testes, cep brasileiro, cep brasileiro falso, cep brasil, ceps brasil, cep aleatório, gerador de cep brasileiro, cep sintético, gerador cep online",
   openGraph: {
-    title: "Gerador de CEP Brasileiro Fictício (Gerar vs Buscar)",
-    description: "CEP fictício com cidade e estado coerentes para testes. Para buscar CEP real, use ViaCEP/Correios.",
+    title: "Gerador de CEP Brasileiro Fictício para Testes",
+    description: "CEP fictício com cidade e estado coerentes pra testes. Para buscar CEP real, use ViaCEP/Correios.",
     type: "website",
     images: ["/api/og?title=Gerador+de+CEP+Brasileiro&subtitle=CEP+fict%C3%ADcio+com+cidade+e+estado+coerentes+para+testes+de+software&category=GERADOR"],
   },

@@ -874,3 +874,55 @@ export function htmlB2BTrigger({ firstName, volumeSummary, calendlyUrl }: B2BEma
 <p style="${SIG_STYLE}">Abraço,<br>Everton, fundador do FakeForge</p>
 </td></tr></table></td></tr></table></body></html>`;
 }
+
+// ============================================================================
+// Info products — boas-vindas da lista de espera (/api/waitlist)
+// ============================================================================
+
+interface WaitlistWelcomeProps {
+  pitch: string;
+  question: string;
+  teaserLink: string | null;
+}
+
+export function textWaitlistWelcome({ pitch, question, teaserLink }: WaitlistWelcomeProps): string {
+  const delivery = teaserLink
+    ? `A prévia está aqui: ${teaserLink}\n\nÉ ${pitch}.`
+    : `A prévia (${pitch}) chega neste email assim que eu fechar a revisão. Você recebe antes de todo mundo.`;
+
+  return `Oi,
+
+Seu lugar na lista está garantido.
+
+${delivery}
+
+Enquanto isso, me ajuda com uma coisa. Responde esta mensagem contando: ${question}
+
+Leio tudo pessoalmente e uso as respostas pra decidir o que entra no material.
+
+Everton, fundador do FakeForge
+`;
+}
+
+export function htmlWaitlistWelcome({ pitch, question, teaserLink }: WaitlistWelcomeProps): string {
+  const safePitch = escapeHtml(pitch);
+  const safeQuestion = escapeHtml(question);
+  const delivery = teaserLink
+    ? `<p style="text-align:center; margin: 24px 0;"><a href="${escapeHtml(teaserLink)}" style="${BUTTON_STYLE}">Baixar a prévia em PDF</a></p>
+<p style="${PARA_STYLE}">É ${safePitch}.</p>`
+    : `<p style="${PARA_STYLE}">A prévia (${safePitch}) chega neste email assim que eu fechar a revisão. Você recebe antes de todo mundo.</p>`;
+
+  return `<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Você está na lista</title></head>
+<body style="${BASE_STYLE}">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f5f5f5;">
+<tr><td align="center" style="padding: 24px 16px;">
+<table role="presentation" width="560" cellpadding="0" cellspacing="0" style="${CARD_STYLE}">
+<tr><td style="${CONTENT_STYLE}">
+<p style="${PARA_STYLE}">Oi,</p>
+<p style="${PARA_STYLE}">Seu lugar na lista está garantido.</p>
+${delivery}
+<p style="${PARA_STYLE}">Enquanto isso, me ajuda com uma coisa. Responde esta mensagem contando: ${safeQuestion}</p>
+<p style="${PARA_STYLE}">Leio tudo pessoalmente e uso as respostas pra decidir o que entra no material.</p>
+<p style="${SIG_STYLE}">Everton, fundador do FakeForge</p>
+</td></tr></table></td></tr></table></body></html>`;
+}

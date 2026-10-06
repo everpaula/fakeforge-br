@@ -10,8 +10,8 @@ import GeneratorSchema from "@/components/GeneratorSchema";
 import RelatedGenerators from "@/components/RelatedGenerators";
 
 export const metadata: Metadata = {
-  title: "Gerador de Cartão de Crédito Fake para Testes (Luhn Válido)",
-  description: "Gere cartão de crédito fake ou falso para testar checkout e sandbox: Visa, Mastercard, Elo, Hipercard e Amex com Luhn válido. Grátis.",
+  title: "Gerador de Cartão de Crédito Fake Válido para Testes (Luhn)",
+  description: "Cartão de crédito fake pra sandbox Stripe, Pagar.me e Mercado Pago: Visa, Mastercard, Elo, Hipercard e Amex com Luhn válido. Grátis, sem cadastro.",
   keywords: "gerador de cartao, gerador de cartão, gerador de cartões de crédito, gerador de cartoes de credito, gerador de cartoes de credito validos, gerador cartao de credito, gerar cartão de crédito, gerar cartao, cartao de credito numeros validos, numero de cartao de credito valido, cartão fake, cartão falso, cartão teste, cartão de crédito falso, cartão de crédito teste, cartao de credito ficticio, gerador de número de cartão de débito, cartão de débito fake, cartão válido teste, gerador visa, gerador mastercard, gerador elo, gerador american express, cartão fictício checkout, número cartão luhn, gerador de cartão para testes",
   openGraph: {
     title: "Gerador de Cartão de Crédito Falso para Testes (Luhn)",

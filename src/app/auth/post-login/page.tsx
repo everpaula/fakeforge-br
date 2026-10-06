@@ -2,6 +2,19 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
+
+declare global {
+  interface Window {
+    gtag?: (command: string, eventName: string, params?: Record<string, unknown>) => void;
+  }
+}
+
+// Signup novo = user criado nos últimos 2 min. Usado pra distinguir signup
+// completo (evento signup_completed pro GA4) de login recorrente. GA4 Auto
+// Form interactions quase nunca captura o magic link, então a gente dispara
+// explicitamente aqui.
+const NEW_USER_WINDOW_MS = 2 * 60 * 1000;
 
 export default function PostLogin() {
   const router = useRouter();
@@ -16,6 +29,35 @@ export default function PostLogin() {
     // intent onde user quer comprar direto).
     sessionStorage.removeItem("fakeforge_checkout_intent");
     sessionStorage.removeItem("fakeforge_post_login_redirect");
+
+    // GA4: dispara login_completed sempre, e signup_completed se o user
+    // foi criado nos ultimos 2 min (= primeira vez que ele entra). Isso
+    // destrava remarketing + funnel accurate no GA4 ja que Form
+    // interactions nao captura magic link.
+    (async () => {
+      try {
+        const supabase = createClient();
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user || typeof window.gtag !== "function") return;
+
+        const createdAt = new Date(user.created_at).getTime();
+        const isNewSignup = Date.now() - createdAt < NEW_USER_WINDOW_MS;
+
+        window.gtag("event", "login_completed", {
+          method: user.app_metadata?.provider ?? "magic_link",
+          user_id: user.id,
+        });
+
+        if (isNewSignup) {
+          window.gtag("event", "signup_completed", {
+            method: user.app_metadata?.provider ?? "magic_link",
+            user_id: user.id,
+          });
+        }
+      } catch {
+        // GA4 dispatch não deve bloquear o fluxo de login
+      }
+    })();
 
     // Register referral if cookie exists
     const refMatch = document.cookie.match(/(?:^|;\s*)ff_ref=([^;]+)/);

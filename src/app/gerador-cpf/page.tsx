@@ -10,12 +10,12 @@ import RelatedGenerators from "@/components/RelatedGenerators";
 import ValidatorCPF from "./ValidatorCPF";
 
 export const metadata: Metadata = {
-  title: "Gerador de CPF Válido - Gere CPF para Testes | FakeForge",
-  description: "Gere CPF válido e fictício para testes e desenvolvimento. Números com dígitos verificadores corretos, formatados ou sem pontuação. Grátis e sem cadastro.",
-  keywords: "gerador de cpf, cpf válido, gerar cpf, cpf para testes, cpf fictício, cpf falso válido, cpf sintético, cpf para desenvolvimento",
+  title: "Gerador de CPF Válido Online: mod-11 Receita, Grátis",
+  description: "Gere CPF válido e fictício com algoritmo mod-11 da Receita Federal. Formatado ou puro, pronto pra seed de banco, QA e cadastros em homologação. Grátis, sem cadastro.",
+  keywords: "gerador de cpf, cpf válido, gerar cpf, cpf fake, cpf falso, cpf fictício, cpf para testes, gerador cpf online, gerador cpf grátis, cpf aleatório, cpf sintético, cpf válido para teste, gerar cpf fake, cpf receita federal, mod-11 cpf",
   openGraph: {
-    title: "Gerador de CPF Válido - FakeForge",
-    description: "Gere CPF válido e fictício para testes. Dígitos verificadores corretos, grátis e sem cadastro.",
+    title: "Gerador de CPF Válido Online - mod-11 Receita Federal",
+    description: "CPF fictício com mod-11 da Receita Federal, formatado ou puro. Grátis e sem cadastro.",
     type: "website",
   },
   alternates: { canonical: "/gerador-cpf" },

@@ -7,6 +7,7 @@ import { ESTADOS_BR } from "@/lib/data/estados-br";
 // não confiável e ele passa a ignorar o campo. Aqui mantemos data por
 // página para preservar a sinalização real de crawl budget.
 const D = {
+  oct02: new Date("2026-10-02"),          // landing de lista de espera do info product
   oct01: new Date("2026-10-01"),          // Fase 3 Python RENAVAM/titulo/boleto + blog LGPD
   sep30: new Date("2026-09-30"),          // validator hub Fase 4A + Fase 3 telefone/empresa/placa + blog Mockaroo
   home: new Date("2026-06-18"),           // último refactor AI-slop + funnel
@@ -266,6 +267,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/blog/dados-sinteticos-brasil-guia-devs-data-scientists-qa`, lastModified: D.oct01, changeFrequency: "monthly", priority: 0.95 },
     { url: `${baseUrl}/blog/massa-de-dados-qa-brasileira-guia-pratico-automacao`, lastModified: D.oct01, changeFrequency: "monthly", priority: 0.95 },
     { url: `${baseUrl}/blog/erp-legado-cnpj-alfanumerico-2026-10-cuidados-migracao`, lastModified: D.oct01, changeFrequency: "monthly", priority: 0.95 },
+
+    // Info product em validação (oct 02): lista de espera + prévia em PDF
+    { url: `${baseUrl}/como-criar-micro-saas`, lastModified: D.oct02, changeFrequency: "monthly", priority: 0.9 },
 
     // Páginas institucionais
     { url: `${baseUrl}/pricing`, lastModified: D.jun01, changeFrequency: "monthly", priority: 0.6 },

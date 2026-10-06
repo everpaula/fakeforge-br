@@ -59,6 +59,11 @@ const ALLOWED_TYPES = new Set([
   // Bounce rate mitigation (2026-09-28) - typo detection + disposable domain block
   "signup_blocked_disposable",
   "signup_typo_detected", "signup_typo_accepted", "signup_typo_rejected",
+  // Bounce rate mitigation (05/out): regex-reject de formato invalido no cliente
+  "signup_blocked_invalid_format",
+  // Email tracking (05/out): activation_* e reactivation_* agora caem no funil
+  "email_activation_opened", "email_activation_clicked_cta",
+  "email_reactivation_opened", "email_reactivation_clicked_cta",
   // Sprint 8 - Email funnel D3-D30 + B2B trigger
   "email_d3_sent", "email_d3_opened", "email_d3_clicked_cta",
   "email_d7_sent", "email_d7_opened", "email_d7_clicked_cta",
@@ -79,6 +84,8 @@ const ALLOWED_TYPES = new Set([
   // Paywall soft "Copiar como SQL" (01/10): Free bloqueado, Dev/Team baseline
   "copy_sql_blocked_free", "copy_sql_upgrade_clicked", "copy_sql_fallback_json", "copy_sql_unlocked_use",
   "api_key_created", "api_key_auto_created", "api_key_create_failed", "dashboard_curl_copied",
+  // Info products (02/10): lista de espera da landing de validação
+  "waitlist_form_started", "waitlist_submitted", "waitlist_submit_failed",
 ]);
 
 function getClientIP(request: NextRequest): string {

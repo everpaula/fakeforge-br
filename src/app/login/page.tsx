@@ -31,8 +31,22 @@ const DISPOSABLE_DOMAINS = new Set([
   "fakeinbox.com", "spamgourmet.com", "mintemail.com", "dispostable.com",
 ]);
 
-function checkEmail(email: string): { ok: true } | { suggestion: string } | { disposable: true } {
-  const parts = email.toLowerCase().trim().split("@");
+// Regex básica RFC-5322 simplificada: local@domain.tld onde tld tem no
+// mínimo 2 chars (letras ou -). Pega 99% dos typos reais tipo "gmailcom"
+// (sem ponto antes de "com") que o Resend devolve 422 e vira runtime error.
+// Não substitui validação do servidor (Supabase Auth também valida), só
+// bloqueia o typo no cliente antes da chamada.
+const EMAIL_FORMAT = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i;
+
+function checkEmail(email: string):
+  | { ok: true }
+  | { suggestion: string }
+  | { disposable: true }
+  | { invalid: true }
+{
+  const trimmed = email.toLowerCase().trim();
+  if (!EMAIL_FORMAT.test(trimmed)) return { invalid: true };
+  const parts = trimmed.split("@");
   if (parts.length !== 2 || !parts[1]) return { ok: true };
   const domain = parts[1];
   if (DISPOSABLE_DOMAINS.has(domain)) return { disposable: true };
@@ -161,8 +175,14 @@ function LoginInner() {
   async function handleMagicLink(e: React.FormEvent) {
     e.preventDefault();
 
-    // Bounce mitigation: bloqueia descartáveis + sugere correção pra typos comuns.
+    // Bounce mitigation: bloqueia descartáveis, formato inválido (ex: @gmailcom
+    // sem ponto) e sugere correção pra typos comuns.
     const check = checkEmail(email);
+    if ("invalid" in check) {
+      setError("Formato de email inválido. Confere se faltou um ponto antes do \".com\".");
+      track("signup_blocked_invalid_format", { typed: email });
+      return;
+    }
     if ("disposable" in check) {
       setError("Emails temporários não são aceitos. Use seu email pessoal ou de trabalho.");
       track("signup_blocked_disposable", { domain: email.split("@")[1] });
