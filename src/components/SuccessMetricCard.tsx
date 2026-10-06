@@ -41,7 +41,12 @@ export function getVariant(userId: string): Variant {
   return num % 2 === 0 ? "A" : "B";
 }
 
-const MIN_ITEMS = 10;
+// Bar reduzida de 10 → 3 em 06/out. Dados prod mostraram que só 2 de 31
+// users com uso chegavam a 10 itens em 30d (max=13, avg=4). Resultado:
+// zero events em 6 dias de deploy. 3 itens já representa 1 call API bem-
+// sucedida (preset_customer/fintech produzem 3+ items) e ainda sinaliza
+// uso minimo intencional.
+const MIN_ITEMS = 3;
 const DISMISS_KEY = "fakeforge_success_card_dismissed_until";
 const SESSION_KEY = "fakeforge_success_card_shown_session";
 const DISMISS_MS = 7 * 24 * 60 * 60 * 1000;

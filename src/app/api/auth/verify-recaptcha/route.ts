@@ -29,7 +29,12 @@ interface RecaptchaResponse {
   "error-codes"?: string[];
 }
 
-const SCORE_THRESHOLD = 0.5;
+// Threshold subido de 0.5 → 0.7 em 06/out. Analise 05/out mostrou 174 bots
+// suspeitos (23% da base) passando o filtro. Google docs recomendam 0.5 pra
+// maioria dos casos, mas aplicacoes com alvo de fraude (dados brasileiros
+// fakes = atrai mta automacao) sobem pra 0.7-0.8. False positive rate em
+// humanos reais fica em ~2%, aceitavel vs reducao de ~60% em bots.
+const SCORE_THRESHOLD = 0.7;
 
 export async function POST(request: NextRequest) {
   const secret = process.env.RECAPTCHA_SECRET_KEY;

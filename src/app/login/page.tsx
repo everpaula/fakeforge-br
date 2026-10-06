@@ -110,6 +110,10 @@ function LoginInner() {
   const [error, setError] = useState("");
   const [notConfigured, setNotConfigured] = useState(false);
   const [emailSuggestion, setEmailSuggestion] = useState<string | null>(null);
+  // Honeypot (06/out): campo invisivel ao humano. Bot preenche todo input
+  // visivel ou nao via DOM scraping. Se tiver valor, aborta signup sem
+  // consumir reCAPTCHA nem enviar magic link.
+  const [hp, setHp] = useState("");
 
   useEffect(() => {
     if (intentPlan && typeof window !== "undefined") {
@@ -174,6 +178,14 @@ function LoginInner() {
 
   async function handleMagicLink(e: React.FormEvent) {
     e.preventDefault();
+
+    // Honeypot: se preencheu, 100% bot. Finge sucesso sem fazer nada pra
+    // nao sinalizar pro bot que foi detectado (evita adaptacao da heuristica).
+    if (hp) {
+      track("signup_blocked_honeypot");
+      setSent(true);
+      return;
+    }
 
     // Bounce mitigation: bloqueia descartáveis, formato inválido (ex: @gmailcom
     // sem ponto) e sugere correção pra typos comuns.
@@ -253,6 +265,22 @@ function LoginInner() {
           ) : (
             <>
               <form onSubmit={handleMagicLink} className="space-y-3">
+                {/* Honeypot invisivel. Aria-hidden + tabIndex -1 + off-screen
+                    position pra garantir que screen reader + teclado + usuario
+                    normal nao preenchem. Nome generico "website" porque bots
+                    procuram esse padrao. */}
+                <div style={{ position: "absolute", left: "-9999px", width: 0, height: 0, overflow: "hidden" }} aria-hidden="true">
+                  <label htmlFor="website">Website (deixe em branco)</label>
+                  <input
+                    type="text"
+                    name="website"
+                    id="website"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={hp}
+                    onChange={(e) => setHp(e.target.value)}
+                  />
+                </div>
                 <input
                   type="email"
                   value={email}

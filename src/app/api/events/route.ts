@@ -61,6 +61,8 @@ const ALLOWED_TYPES = new Set([
   "signup_typo_detected", "signup_typo_accepted", "signup_typo_rejected",
   // Bounce rate mitigation (05/out): regex-reject de formato invalido no cliente
   "signup_blocked_invalid_format",
+  // Bot mitigation (06/out): honeypot field detected
+  "signup_blocked_honeypot",
   // Email tracking (05/out): activation_* e reactivation_* agora caem no funil
   "email_activation_opened", "email_activation_clicked_cta",
   "email_reactivation_opened", "email_reactivation_clicked_cta",
