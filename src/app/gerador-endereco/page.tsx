@@ -49,6 +49,13 @@ export default function GeradorEndereco() {
         />
       </div>
 
+      <p className="text-xs text-muted mt-4 max-w-2xl">
+        Precisa só do CEP sem endereço completo? Use o{" "}
+        <Link href="/gerador-cep" className="text-primary hover:underline font-medium">Gerador de CEP</Link>,
+        especializado em gerar CEPs brasileiros fictícios com prefixo correto por estado. Essa página aqui
+        inclui logradouro, bairro e cidade junto do CEP.
+      </p>
+
       <ApiCtaBanner dataType="endereços" />
 
       {/* SEO content */}

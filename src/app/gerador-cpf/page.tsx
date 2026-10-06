@@ -46,9 +46,10 @@ export default function GeradorCPF() {
           Gerador de <span className="text-primary">CPF</span> Válido para Testes
         </h1>
         <p className="text-muted mt-2 text-sm leading-relaxed max-w-2xl">
-          Gere números de CPF sintéticos com dígitos verificadores matematicamente corretos.
-          Os CPFs gerados passam na validação do algoritmo mod-11, mas não pertencem a nenhuma pessoa real.
-          Ideal para testes de software, preenchimento de formulários em ambiente de desenvolvimento e QA.
+          Gerar CPF válido online, sem cadastro e sem instalação. Os CPFs são gerados pelo algoritmo mod-11
+          da Receita Federal (mesma matemática que a RFB usa pros dígitos verificadores reais) e passam em
+          qualquer validador. Fake, fictício, aleatório ou sintético: termos usados pelo mesmo CPF, só mudam
+          as palavras. Para testes de software, seed de banco, QA e cadastros em homologação.
         </p>
       </div>
 
@@ -187,11 +188,14 @@ print(valida_cpf("529.982.247-26"))  # False`}</code>
           <h2 className="text-lg font-semibold text-foreground mb-4">Perguntas Frequentes</h2>
           <div className="space-y-4">
             {[
+              { q: "Como gerar CPF válido online?", a: "Clique em Gerar nesta página pra criar CPFs válidos pelo mod-11 da Receita Federal. Também dá pra gerar em massa via API REST: curl 'https://fakeforge.com.br/api/generate?type=cpf&quantity=100'. Grátis 50/dia, sem cadastro." },
+              { q: "O que é CPF aleatório ou CPF fake?", a: "CPF aleatório, CPF fake e CPF fictício são sinônimos pra o mesmo conceito: um CPF gerado algoritmicamente que passa no mod-11 mas não pertence a pessoa real. O FakeForge entrega os três: aleatórios, fakes e válidos ao mesmo tempo." },
               { q: "O CPF gerado é de uma pessoa real?", a: "Não. Todos os CPFs são 100% fictícios, gerados algoritmicamente. Eles passam na validação matemática (mod-11), mas não pertencem a nenhuma pessoa real e não existem na base da Receita Federal." },
               { q: "Gerar CPF para testes é crime?", a: "Não. Gerar números fictícios para testes de software é uma prática comum e legal. Crime seria usar um CPF real de outra pessoa (falsidade ideológica). CPFs gerados algoritmicamente não pertencem a ninguém." },
               { q: "O CPF gerado passa na validação de sistemas?", a: "Sim. Os dígitos verificadores são calculados usando o mesmo algoritmo mod-11 da Receita Federal. Qualquer sistema que valida o formato e os dígitos do CPF aceitará os números gerados." },
-              { q: "Posso usar o gerador de CPF em testes automatizados?", a: "Sim. Use a API REST do FakeForge para gerar CPFs programaticamente em seus testes: GET https://fakeforge.com.br/api/generate?type=cpf&quantity=100. São 100 chamadas grátis por dia." },
+              { q: "Posso usar o gerador de CPF em testes automatizados?", a: "Sim. Use a API REST do FakeForge para gerar CPFs programaticamente em seus testes: GET https://fakeforge.com.br/api/generate?type=cpf&quantity=100. São 50 chamadas grátis por dia sem cadastro." },
               { q: "Qual a diferença entre CPF formatado e sem formato?", a: "CPF formatado inclui pontos e traço (123.456.789-00). Sem formato retorna apenas os 11 dígitos (12345678900). Use o toggle 'Formatado' para alternar entre os dois." },
+              { q: "Como gerar vários CPFs de uma vez pra popular banco?", a: "Use a API no formato SQL: curl 'https://fakeforge.com.br/api/generate?type=cpf&quantity=1000&format=sql'. Devolve 1000 CPFs em INSERT INTO pronto pra executar no banco. Pra correlacionar com nome, email e endereço, use preset=customer." },
               { q: "O FakeForge armazena os CPFs gerados?", a: "Não. Os CPFs são gerados em tempo real no servidor e descartados imediatamente. Nenhum dado é armazenado, logado ou rastreado." },
             ].map(({ q, a }) => (
               <details key={q} className="group border border-border rounded-lg">
@@ -226,11 +230,14 @@ print(valida_cpf("529.982.247-26"))  # False`}</code>
             "@context": "https://schema.org",
             "@type": "FAQPage",
             mainEntity: [
+              { "@type": "Question", name: "Como gerar CPF válido online?", acceptedAnswer: { "@type": "Answer", text: "Clique em Gerar nesta página pra criar CPFs válidos pelo mod-11 da Receita Federal. Também dá pra gerar em massa via API REST: curl 'https://fakeforge.com.br/api/generate?type=cpf&quantity=100'. Grátis 50/dia, sem cadastro." } },
+              { "@type": "Question", name: "O que é CPF aleatório ou CPF fake?", acceptedAnswer: { "@type": "Answer", text: "CPF aleatório, CPF fake e CPF fictício são sinônimos pra o mesmo conceito: um CPF gerado algoritmicamente que passa no mod-11 mas não pertence a pessoa real. O FakeForge entrega os três: aleatórios, fakes e válidos ao mesmo tempo." } },
               { "@type": "Question", name: "O CPF gerado é de uma pessoa real?", acceptedAnswer: { "@type": "Answer", text: "Não. Todos os CPFs são 100% fictícios, gerados algoritmicamente. Eles passam na validação matemática (mod-11), mas não pertencem a nenhuma pessoa real e não existem na base da Receita Federal." } },
               { "@type": "Question", name: "Gerar CPF para testes é crime?", acceptedAnswer: { "@type": "Answer", text: "Não. Gerar números fictícios para testes de software é uma prática comum e legal. Crime seria usar um CPF real de outra pessoa (falsidade ideológica). CPFs gerados algoritmicamente não pertencem a ninguém." } },
               { "@type": "Question", name: "O CPF gerado passa na validação de sistemas?", acceptedAnswer: { "@type": "Answer", text: "Sim. Os dígitos verificadores são calculados usando o mesmo algoritmo mod-11 da Receita Federal. Qualquer sistema que valida o formato e os dígitos do CPF aceitará os números gerados." } },
-              { "@type": "Question", name: "Posso usar o gerador de CPF em testes automatizados?", acceptedAnswer: { "@type": "Answer", text: "Sim. Use a API REST do FakeForge para gerar CPFs programaticamente em seus testes: GET https://fakeforge.com.br/api/generate?type=cpf&quantity=100. São 100 chamadas grátis por dia." } },
+              { "@type": "Question", name: "Posso usar o gerador de CPF em testes automatizados?", acceptedAnswer: { "@type": "Answer", text: "Sim. Use a API REST do FakeForge para gerar CPFs programaticamente em seus testes: GET https://fakeforge.com.br/api/generate?type=cpf&quantity=100. São 50 chamadas grátis por dia sem cadastro." } },
               { "@type": "Question", name: "Qual a diferença entre CPF formatado e sem formato?", acceptedAnswer: { "@type": "Answer", text: "CPF formatado inclui pontos e traço (123.456.789-00). Sem formato retorna apenas os 11 dígitos (12345678900). Use o toggle 'Formatado' para alternar entre os dois." } },
+              { "@type": "Question", name: "Como gerar vários CPFs de uma vez pra popular banco?", acceptedAnswer: { "@type": "Answer", text: "Use a API no formato SQL: curl 'https://fakeforge.com.br/api/generate?type=cpf&quantity=1000&format=sql'. Devolve 1000 CPFs em INSERT INTO pronto pra executar no banco. Pra correlacionar com nome, email e endereço, use preset=customer." } },
               { "@type": "Question", name: "O FakeForge armazena os CPFs gerados?", acceptedAnswer: { "@type": "Answer", text: "Não. Os CPFs são gerados em tempo real no servidor e descartados imediatamente. Nenhum dado é armazenado, logado ou rastreado." } },
             ],
           }),
