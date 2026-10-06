@@ -7,9 +7,9 @@ import GeneratorSchema from "@/components/GeneratorSchema";
 import RelatedGenerators from "@/components/RelatedGenerators";
 
 export const metadata: Metadata = {
-  title: "Gerador de Empresa Fictícia: CNPJ, Razão Social, Endereço",
-  description: "Gere empresa fictícia com CNPJ válido, razão social, nome fantasia, endereço e telefone. Para testar sistemas B2B. Grátis, sem cadastro.",
-  keywords: "gerador de empresa fictícia, gerador de dados empresariais, empresa fake, cnpj razão social, dados empresa teste, gerador empresa brasileira",
+  title: "Gerador de Empresa Fictícia com CNPJ Válido e Razão Social",
+  description: "Gere empresa fictícia com CNPJ válido (mod-11), razão social, nome fantasia, endereço e telefone correlacionados. Pra testar sistemas B2B. Grátis, sem cadastro.",
+  keywords: "gerador de empresa fictícia, gerador de empresa, gerador cnpj, gerador de cnpj, gerar cnpj, gerar empresa, empresa fake, cnpj razão social, dados empresa teste, gerador empresa brasileira, cnpj válido razão social, gerador de dados empresariais, empresa fictícia com cnpj, cnpj aleatório, cnpj completo",
   openGraph: {
     title: "Gerador de Empresa Fictícia - FakeForge",
     description: "Gere empresas fictícias com CNPJ válido, razão social e endereço para testes. Grátis e sem cadastro.",
@@ -32,12 +32,13 @@ export default function GeradorEmpresa() {
     <PageShell>
       <div className="mb-8">
         <h1 className="text-3xl font-bold tracking-tight">
-          Gerador de <span className="text-primary">Empresa</span> Fictícia
+          Gerador de <span className="text-primary">CNPJ Válido</span> e Empresa Fictícia
         </h1>
         <p className="text-foreground mt-3 text-sm leading-relaxed max-w-2xl">
-          O FakeForge é um gerador de empresa fictícia brasileira que cria CNPJ com os 2 dígitos verificadores
-          válidos (mod-11, regra da Receita Federal), razão social, nome fantasia, endereço e telefone. Grátis
-          sem cadastro, com API REST em JSON, CSV e SQL (100 chamadas por dia no plano gratuito).
+          O FakeForge é um gerador de CNPJ válido e empresa fictícia brasileira. Cria CNPJ com os 2 dígitos
+          verificadores corretos (mod-11, regra da Receita Federal), junto com razão social, nome fantasia,
+          endereço e telefone correlacionados. Grátis sem cadastro, com API REST em JSON, CSV e SQL
+          (100 chamadas por dia no plano gratuito).
         </p>
         <p className="text-muted mt-2 text-sm leading-relaxed max-w-2xl">
           Gere dados completos de empresas fictícias brasileiras com CNPJ válido (dígitos verificadores

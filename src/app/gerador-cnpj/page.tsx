@@ -10,12 +10,12 @@ import RelatedGenerators from "@/components/RelatedGenerators";
 import ValidatorCNPJ from "./ValidatorCNPJ";
 
 export const metadata: Metadata = {
-  title: "Gerador de CNPJ Válido Online com Mod-11",
-  description: "Gere CNPJ válido online com algoritmo mod-11 e dígitos verificadores corretos. Para testes de cadastros, integração ERP, NF-e em homologação e seed de banco. Grátis, sem cadastro. API REST com 100 chamadas/dia.",
-  keywords: "gerador de cnpj, gerador cnpj, gerar cnpj, gerar um cnpj, gerar cnpj válido, gerador de cnpj válido, gerador de cnpj para testes, cnpj válido, cnpj fictício, cnpj fake, cnpj aleatorio, generate cnpj, gerador cnpj online, gerar cnpj online, cnpj sintético",
+  title: "Gerador de CNPJ Válido: Fake, Aleatório e Grátis Online",
+  description: "Gere CNPJ fake válido com mod-11 da Receita Federal. Pra teste de cadastro B2B, NF-e em homologação, integração ERP e SEFAZ. Grátis, sem cadastro.",
+  keywords: "gerador de cnpj, gerador cnpj, gerar cnpj, gerar um cnpj, gerar cnpj válido, gerador de cnpj válido, cnpj válido, cnpj fictício, cnpj fake, cnpj aleatório, cnpj aleatorio, generate cnpj, gerador cnpj online, cnpj sintético, cnpj receita federal, mod-11 cnpj",
   openGraph: {
-    title: "Gerador de CNPJ Válido Online com Mod-11",
-    description: "CNPJ fictício com dígito verificador correto pelo algoritmo mod-11. Para testes, integração ERP e NF-e em homologação. Grátis.",
+    title: "Gerador de CNPJ Válido Online - mod-11 Receita Federal",
+    description: "CNPJ fake aleatório com dígito verificador mod-11. Pra NF-e em homologação, integração ERP, teste B2B. Grátis.",
     type: "website",
     images: ["/api/og?title=Gerador+de+CNPJ+V%C3%A1lido&subtitle=CNPJ+fict%C3%ADcio+com+algoritmo+mod-11+e+d%C3%ADgito+verificador+correto+para+testes&category=GERADOR"],
   },
