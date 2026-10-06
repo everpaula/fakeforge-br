@@ -287,18 +287,37 @@ export async function getCustomers() {
 }
 ```
 
-### Qual a diferença entre fakeforge, faker-br, python-brasilidades e validate-docbr?
+### Qual a diferença entre fakeforge-br e as libs populares do npm (`cpf`, `validation-br`, `@br-validators/core`)?
+
+| Biblioteca | Downloads/sem | Gera CPF | Gera CNPJ | Gera PIX | Gera cartão (Luhn) | Correlacionado | API HTTP |
+|---|---|---|---|---|---|---|---|
+| **fakeforge-br** | novo | ✅ | ✅ (num + alfa 2026) | ✅ (4 formatos BACEN) | ✅ (Visa/Master/Elo/Amex) | ✅ (email ↔ nome ↔ DDD ↔ CEP) | ✅ |
+| [cpf](https://www.npmjs.com/package/cpf) | 9.7K | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| [gerador-validador-cpf](https://www.npmjs.com/package/gerador-validador-cpf) | 6.1K | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| [@br-validators/core](https://www.npmjs.com/package/@br-validators/core) | 2.7K | ✅ (val) | ✅ (val) | ❌ | ❌ | ❌ | ❌ |
+| [validation-br](https://www.npmjs.com/package/validation-br) | 1.8K | ✅ (val) | ✅ (val) | ❌ | ❌ | ❌ | ❌ |
+| faker-js/faker (pt-BR) | 10M+ | ⚠️ (só formato) | ❌ | ❌ | ⚠️ (Luhn genérico) | ❌ | ❌ |
+| validate-docbr | ~15K | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+
+**Quando escolher cada uma:**
+
+- **cpf / gerador-validador-cpf** se você só precisa de CPF puro, tratamento mínimo, zero overhead. Lib tiny, não cobre nada além.
+- **@br-validators/core / validation-br** se você só valida (não gera) CPF, CNPJ e outros docs no backend.
+- **faker-js/faker** se você faz testes gerais e aceita CPFs que **não passam** no validador mod-11 real. Útil pra nome/endereço, pouco útil pra documento.
+- **fakeforge-br** se você precisa de **CPF + CNPJ + PIX + cartão correlacionados** em testes end-to-end, seed de banco em escala (10K+ linhas), ou API HTTP pra consumir de qualquer linguagem do stack sem instalar dep.
+
+### Qual a diferença entre fakeforge-br e Faker.js (pt-BR), python-brasilidades e Laravel Brasil?
 
 | Biblioteca | Linguagem | Foco | Validação real |
 |---|---|---|---|
-| **fakeforge** | Node/TS | Todos os documentos BR + presets correlacionados | ✅ mod-11, Luhn, ANATEL, BACEN |
+| **fakeforge-br** | Node/TS + API HTTP | Todos os docs BR + presets correlacionados | ✅ mod-11, Luhn, ANATEL, BACEN |
 | faker-js/faker (pt-BR) | JS/TS | Localização genérica (nome, endereço) | ❌ (formato apenas) |
 | validate-docbr | JS | Só validação de CPF/CNPJ, não geração | ✅ validação |
 | python-brasilidades | Python | Documentos BR | ✅ |
 | laravel-brasil | PHP | Documentos BR | ✅ |
 | caelum-stella | Java | Documentos BR | ✅ |
 
-fakeforge é o único com **API HTTP + SDK** que permite escalar geração em CI/CD sem instalar dependência de biblioteca em cada linguagem do stack.
+fakeforge-br é o único com **API HTTP + SDK** que permite escalar geração em CI/CD sem instalar dependência de biblioteca em cada linguagem do stack.
 
 ## Suporte
 

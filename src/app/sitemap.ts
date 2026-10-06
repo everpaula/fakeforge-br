@@ -211,6 +211,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/validar-renavam-python`, lastModified: D.oct06, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/validar-renavam-nodejs`, lastModified: D.oct06, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/validar-renavam-curl`, lastModified: D.oct06, changeFrequency: "monthly", priority: 0.9 },
+
+    // Blog comparison SDK Python (oct 06): FakeForge vs brutils-py vs pycpfcnpj
+    { url: `${baseUrl}/blog/fakeforge-vs-brutils-vs-pycpfcnpj`, lastModified: D.oct06, changeFrequency: "monthly", priority: 0.85 },
     { url: `${baseUrl}/algoritmo-luhn`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
 
     // AEO / FAQ (Ubersuggest gap 0% AI visibility -> respostas curadas com Schema)

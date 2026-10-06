@@ -77,22 +77,33 @@ Presets disponíveis:
 | `ecommerce_order` | cliente + cartão + entrega |
 | `contact_list` | nome + email + telefone |
 
-## Comparação com faker (pt-BR) e python-brasilidades
+## Comparação com as bibliotecas populares do PyPI
 
-| Recurso | faker (pt-BR) | python-brasilidades | fakeforge |
-|---|---|---|---|
-| CPF com mod-11 válido | ❌ | ✅ | ✅ |
-| CNPJ com mod-11 válido | ❌ | ✅ | ✅ |
-| CNPJ alfanumérico 2026 | ❌ | ❌ | ✅ |
-| Cartão com Luhn | ❌ | ❌ | ✅ |
-| PIX BACEN (4 formatos) | ❌ | ❌ | ✅ |
-| Correlação nome ↔ email ↔ DDD | ❌ | ❌ | ✅ |
-| DDDs oficiais ANATEL | ❌ | Parcial | ✅ (67 DDDs) |
-| 17 bancos brasileiros com DV | ❌ | ❌ | ✅ |
-| Presets bundle (customer, employee, etc) | ❌ | ❌ | ✅ |
-| API HTTP (sem instalar dep em outra linguagem) | ❌ | ❌ | ✅ |
+| Recurso | fakeforge-br | [pycpfcnpj](https://pypi.org/project/pycpfcnpj/) | [brutils-py](https://pypi.org/project/brutils/) | [mkfbr](https://pypi.org/project/mkfbr/) | faker (pt-BR) | python-brasilidades |
+|---|---|---|---|---|---|---|
+| CPF com mod-11 válido | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ |
+| CNPJ com mod-11 válido | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ |
+| CNPJ alfanumérico 2026 | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| Cartão com Luhn + bandeira | ✅ | ❌ | ❌ | ❌ | ⚠️ (genérico) | ❌ |
+| PIX BACEN (4 formatos) | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| QR Code PIX EMV BR Code | ✅ (via API) | ❌ | ❌ | ❌ | ❌ | ❌ |
+| Correlação nome ↔ email ↔ DDD ↔ CEP | ✅ | ❌ | ❌ | ⚠️ parcial | ❌ | ❌ |
+| DDDs oficiais ANATEL | ✅ (67 DDDs) | ❌ | ⚠️ parcial | ❌ | ❌ | ⚠️ parcial |
+| 17 bancos brasileiros com DV | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| Presets bundle (customer, fintech, ecommerce) | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| Export CSV / SQL direto | ✅ (via API) | ❌ | ❌ | ❌ | ❌ | ❌ |
+| API HTTP (sem precisar instalar) | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| Zero dependências runtime | ✅ | ✅ | ✅ | ⚠️ (requer) | ❌ | ✅ |
 
-**fakeforge** é o único com API HTTP + SDK Python que permite escalar geração em CI/CD sem instalar dep de biblioteca em cada linguagem do stack. Perfeito pra times que usam Python no backend mas Node no frontend.
+**Quando escolher cada uma:**
+
+- **pycpfcnpj** se você só precisa de CPF+CNPJ validação/geração puros, lib leve e madura. Sem features extras.
+- **brutils-py** se você quer uma lib standalone cobrindo mais docs BR (CPF, CNPJ, RG, CEP, CNH) sem chamar API externa. Nenhuma correlação ou preset.
+- **mkfbr** se você quer gerar uma pessoa fictícia completa standalone (nome, endereço, CPF, CNPJ, idade), mas sem presets avançados nem PIX/cartão.
+- **python-brasilidades** biblioteca histórica com cobertura média, dev community estabelecida.
+- **fakeforge-br** se você precisa de **pessoas correlacionadas** (customer, fintech, ecommerce_order), **PIX BACEN**, **cartão com Luhn+bandeira**, **CNPJ alfanumérico 2026**, ou **API HTTP** pra consumir de outras linguagens do stack sem instalar dep. Também é o único com export SQL direto pra seed em volume.
+
+**Resumo:** se seu uso é "quero 1 CPF válido em Python puro", qualquer uma funciona — use pycpfcnpj ou brutils-py. Se seu uso é "quero popular banco de staging com 10K customers com nome+email+CPF+endereço+PIX coerentes, direto em SQL, sem gastar 2h escrevendo código de glue", fakeforge-br é a única que entrega isso em 1 chamada.
 
 ## Uso com pytest
 
