@@ -19,10 +19,17 @@ import { addSuppression } from "@/lib/email-suppression";
 
 export const runtime = "nodejs";
 
-// sent_emails.template -> prefixo do event_type
+// sent_emails.template -> prefixo do event_type pra funnel_events.
 // nurture_d3 -> email_d3 | nurture_d30_retention -> email_d30_retention
+// activation_t10 -> email_activation | reactivation_t24h -> email_reactivation
+//
+// Até 05/out só nurture_* tinha prefixo, então 493 emails de activation +
+// reactivation iam direto pra opened_at/clicked_at em sent_emails mas sem
+// evento no funil. Agora todo template abre uma trilha no funil.
 function eventPrefix(template: string): string | null {
   if (template.startsWith("nurture_")) return `email_${template.slice("nurture_".length)}`;
+  if (template.startsWith("activation_")) return "email_activation";
+  if (template.startsWith("reactivation_")) return "email_reactivation";
   return null;
 }
 
@@ -86,7 +93,9 @@ export async function POST(request: NextRequest) {
     }
   }
 
-  // Email que não é do funil (magic link, activation etc): ignora sem erro
+  // Email que não é do funil (magic link, confirmação de signup): ignora sem erro.
+  // Esses não tinham linha em sent_emails porque são enviados pelo Supabase Auth,
+  // não pelos crons.
   if (!sent) return NextResponse.json({ ok: true, ignored: true });
 
   if (event.type === "email.bounced" || event.type === "email.complained") {
@@ -99,8 +108,22 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: true, status });
   }
 
+  // Opens e clicks: carimba timestamp em sent_emails pra TODO template.
+  // Antes só nurture_* ia pro funil; agora activation + reactivation também
+  // ficam visíveis no VC dashboard. WHERE col IS NULL preserva o primeiro
+  // sinal (Apple MPP e scanners corporativos reabrem várias vezes).
+  const timestampCol = event.type === "email.opened" ? "opened_at" : "clicked_at";
+  const { error: tsErr } = await admin
+    .from("sent_emails")
+    .update({ [timestampCol]: new Date().toISOString() })
+    .eq("resend_id", emailId)
+    .is(timestampCol, null);
+  if (tsErr) {
+    console.error("[webhooks/resend] timestamp update error:", tsErr.message);
+  }
+
   const prefix = eventPrefix(sent.template);
-  if (!prefix) return NextResponse.json({ ok: true, ignored: true });
+  if (!prefix) return NextResponse.json({ ok: true, ignored: true, timestamp_updated: true });
 
   const eventType = event.type === "email.opened" ? `${prefix}_opened` : `${prefix}_clicked_cta`;
 

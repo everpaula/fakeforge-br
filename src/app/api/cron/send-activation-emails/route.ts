@@ -96,9 +96,23 @@ export async function GET(request: NextRequest) {
     .in("user_id", candidates.map((c) => c.id));
 
   const alreadySent = new Set((sentData || []).map((r) => r.user_id));
+
+  // Fast activators (05/out): quem já chamou a API antes do cron pegar não
+  // precisa do email "sua primeira chamada". p50 do time-to-first-call é
+  // 1.6min, então ~50% dos ativadores de verdade estariam recebendo um email
+  // obsoleto. Isso polui a bandeja e queima open rate.
+  const { data: alreadyCalledData } = await admin
+    .from("api_usage")
+    .select("user_id")
+    .in("user_id", candidates.map((c) => c.id))
+    .limit(candidates.length);
+  const alreadyCalled = new Set((alreadyCalledData || []).map((r) => r.user_id as string));
+
   // Bounce/complaint prévio, lista local e emails com cara de typo ou bot ficam de fora
   const suppressed = await getSuppressedUserIds(admin, candidates);
-  const toSend = candidates.filter((c) => !alreadySent.has(c.id) && !suppressed.has(c.id));
+  const toSend = candidates.filter(
+    (c) => !alreadySent.has(c.id) && !suppressed.has(c.id) && !alreadyCalled.has(c.id)
+  );
 
   if (!toSend.length) {
     return NextResponse.json({ ok: true, checked: candidates.length, sent: 0, skipped: candidates.length, suppressed: suppressed.size });
@@ -165,5 +179,6 @@ export async function GET(request: NextRequest) {
     sent,
     failed,
     skipped: candidates.length - toSend.length,
+    already_called: alreadyCalled.size,
   });
 }
