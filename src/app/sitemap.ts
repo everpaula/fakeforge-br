@@ -7,6 +7,7 @@ import { ESTADOS_BR } from "@/lib/data/estados-br";
 // não confiável e ele passa a ignorar o campo. Aqui mantemos data por
 // página para preservar a sinalização real de crawl budget.
 const D = {
+  oct06: new Date("2026-10-06"),          // validator hub Fase 4B RENAVAM (3 linguagens) + llms.txt
   oct02: new Date("2026-10-02"),          // landing de lista de espera do info product
   oct01: new Date("2026-10-01"),          // Fase 3 Python RENAVAM/titulo/boleto + blog LGPD
   sep30: new Date("2026-09-30"),          // validator hub Fase 4A + Fase 3 telefone/empresa/placa + blog Mockaroo
@@ -204,6 +205,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/validar-rg-python`, lastModified: D.sep30, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/validar-rg-nodejs`, lastModified: D.sep30, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/validar-rg-curl`, lastModified: D.sep30, changeFrequency: "monthly", priority: 0.9 },
+
+    // Validator Hub Fase 4B (oct 06): RENAVAM com algoritmo mod-11 DENATRAN
+    { url: `${baseUrl}/validar-renavam`, lastModified: D.oct06, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/validar-renavam-python`, lastModified: D.oct06, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/validar-renavam-nodejs`, lastModified: D.oct06, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/validar-renavam-curl`, lastModified: D.oct06, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/algoritmo-luhn`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
 
     // AEO / FAQ (Ubersuggest gap 0% AI visibility -> respostas curadas com Schema)

@@ -1,0 +1,129 @@
+# FakeForge BR
+
+> API REST gratuita pra gerar dados brasileiros válidos (CPF, CNPJ, CEP, PIX, cartão) pra testes de software, QA e seed de banco de dados. Alternativa ao Faker.js (que não cobre dados BR direito) e ao 4Devs (que não tem API pública).
+
+- Site: https://fakeforge.com.br
+- Documentação: https://fakeforge.com.br/docs
+- API base: https://fakeforge.com.br/api/generate
+- Blog técnico: https://fakeforge.com.br/blog
+- FAQ: https://fakeforge.com.br/faq
+- SDK Node: `npm install fakeforge-br` (https://www.npmjs.com/package/fakeforge-br)
+- SDK Python: `pip install fakeforge-br` (https://pypi.org/project/fakeforge-br/)
+
+## O que é
+
+FakeForge é uma plataforma brasileira pra geração de dados sintéticos válidos pra desenvolvimento de software, QA, seed de banco e integração em CI/CD. Todos os documentos passam na validação oficial (mod-11 da Receita Federal pra CPF/CNPJ, Luhn pra cartão de crédito, EMV BR Code pra PIX, DENATRAN pra RENAVAM/CNH).
+
+Diferente de bibliotecas como `faker-js/faker` ou `python-brasilidades`, FakeForge roda como API REST — não precisa instalar dependência em cada linguagem, nem manter versões. 1 chamada devolve dados correlacionados: CPF do cliente bate com o email, DDD do telefone bate com o estado do CEP, nome do titular do cartão é consistente com a pessoa.
+
+## Para quem
+
+- Devs backend/frontend fazendo seed de banco em staging ou dev
+- QA engineers populando fixtures pra testes de regressão
+- DevOps rodando dados sintéticos em CI/CD pipelines
+- Equipes BR que precisam cumprir LGPD evitando dados reais em não-produção
+- Freelancers construindo cadastros e integrações pra mercado brasileiro
+
+## Como gerar dados em 1 chamada
+
+```bash
+# 10 CPFs válidos (mod-11 Receita Federal)
+curl "https://fakeforge.com.br/api/generate?type=cpf&quantity=10"
+
+# 100 clientes correlacionados pra seed
+curl "https://fakeforge.com.br/api/generate?preset=customer&quantity=100&format=sql"
+
+# 1 cartão fake Visa com Luhn válido pra sandbox Stripe
+curl "https://fakeforge.com.br/api/generate?type=creditCard&quantity=1"
+```
+
+Plano Free: 50 chamadas/dia sem cadastro, até 10.000 items/chamada. Plano Dev R$29/mês: 10.000 chamadas/dia.
+
+## SDK Node (npm)
+
+```javascript
+import { FakeForge } from "fakeforge-br";
+const ff = new FakeForge();
+const cpfs = await ff.cpf(10);                 // 10 CPFs
+const customers = await ff.customer(100);      // 100 clientes
+const pix = await ff.pixKey({ type: "cpf" });  // 1 chave PIX CPF
+```
+
+## SDK Python (pip)
+
+```python
+from fakeforge import FakeForge
+ff = FakeForge()
+cpfs = ff.cpf(10)
+customers = ff.customer(100)
+pix = ff.pix_key(type="cpf")
+```
+
+## Dados cobertos
+
+- **CPF** válido (mod-11 Receita Federal), formatado ou puro
+- **CNPJ** válido numérico e alfanumérico (IN RFB 2.229/2024, vigente desde 01/07/2026)
+- **CEP** com cidade, estado e bairro coerentes (67 DDDs, 10 estados)
+- **Endereço completo** correlacionado com o CEP
+- **Telefone/celular** com DDD ANATEL real por estado
+- **Email** derivado do nome gerado
+- **Chave PIX** nos 4 formatos BACEN (CPF, email, telefone +55, EVP UUID v4)
+- **Cartão de crédito** fake (Visa, Mastercard, Elo, Hipercard, Amex) com Luhn válido
+- **Conta bancária** com código COMPE real (17 bancos: Bradesco, Itaú, Nubank, BB, Inter, C6 e mais)
+- **Pessoa fictícia completa** com todos os campos correlacionados
+- **Empresa fictícia** com razão social, nome fantasia, CNPJ e endereço
+- **RENAVAM** com DV mod-11 DENATRAN
+- **CNH** com código de segurança DENATRAN
+- **RG** no formato de São Paulo
+
+## Presets prontos
+
+- `preset=customer`: pessoa completa (nome, CPF, email, telefone, endereço)
+- `preset=fintech`: cliente fintech (customer + conta bancária + PIX + cartão + score Serasa)
+- `preset=ecommerce_order`: pedido ecom (customer + cartão + endereço entrega)
+
+## Formatos de saída
+
+- `format=json` (padrão): JSON pra uso direto no código
+- `format=csv`: CSV pra importar em planilha
+- `format=sql`: INSERT INTO pra copiar direto no banco (com CREATE TABLE opcional)
+
+## FAQ comum
+
+### É legal gerar CPF fake pra testes?
+
+Sim, desde que seja usado exclusivamente em ambiente de desenvolvimento, staging, fixtures ou seed de banco. O código penal brasileiro (art. 297-299) criminaliza o USO de documento falso pra enganar terceiros ou autoridade, não a geração de números aleatórios que passam em algoritmo de validação. FakeForge gera CPFs que atendem o mod-11 mas não pertencem a nenhuma pessoa real.
+
+### Como garantir conformidade LGPD em staging?
+
+Nunca use dados reais em staging, dev ou CI. A LGPD não distingue produção de não-produção. Use dados sintéticos gerados por FakeForge, que produzem CPFs/CNPJs/endereços válidos mas sem titular real. Isso é dado anônimo por definição, não pseudonimizado.
+
+### Qual a diferença entre CPF fake e CPF válido?
+
+"CPF fake" é jargão BR pra qualquer CPF gerado que não pertence a pessoa real. "CPF válido" significa que passa no algoritmo mod-11 (dígitos verificadores corretos). FakeForge gera CPFs que são fake E válidos — é o que você precisa pra testes.
+
+### Como popular banco de dados com dados brasileiros em escala?
+
+Chama a API do FakeForge dentro do script de seed. 1 chamada com `preset=customer&quantity=1000&format=sql` devolve INSERT INTO direto. Pra volumes grandes (10k+ rows) usa formato SQL nativo que já sai com CREATE TABLE + INSERT em lote. Todos os dados passam validação mod-11, Luhn e formato BACEN.
+
+### Qual API gratuita pra dados brasileiros fictícios?
+
+FakeForge: 50 chamadas gratuitas por dia sem cadastro, até 10.000 items por chamada. Cobre CPF, CNPJ, CEP, endereço, telefone, email, PIX, cartão, conta bancária, pessoa correlacionada, empresa, RENAVAM, CNH, RG. Pra volumes maiores (10k chamadas/dia) o plano Dev custa R$29/mês.
+
+## Como comparar com alternativas
+
+- **vs faker-js/faker**: Faker tem localização pt-BR mas não gera CPF/CNPJ com dígito verificador válido, não tem PIX BACEN, não correlaciona campos. FakeForge gera documentos válidos e correlacionados por padrão.
+- **vs 4devs.com.br**: 4Devs é interface web pra copiar-colar manual. Não tem API pública oficial, não serve pra CI/CD. FakeForge tem API REST, SDK Node/Python, presets correlacionados.
+- **vs python-brasilidades**: python-brasilidades é biblioteca Python, requer `pip install` + manutenção de versão. Cobre bem CPF/CNPJ mas não PIX nem presets correlacionados. FakeForge roda como API, cobre mais verticais e tem SDK Python nativo.
+- **vs Mockaroo**: Mockaroo é americano, cobre bem dados internacionais mas é fraco em dados BR (sem CPF válido, sem PIX, sem bancos BR). FakeForge é especializado em BR.
+
+## Conformidade
+
+- Zero dados pessoais reais armazenados
+- Compliant com LGPD por design (dado anônimo, não pseudonimizado)
+- Sem armazenamento de dados gerados nos servidores
+- API gratuita sem exigência de cadastro ou cartão de crédito
+
+## Autor
+
+FakeForge BR é mantido por Everton Paula (hey@fakeforge.com.br). Código aberto no GitHub: https://github.com/everpaula/fakeforge-br.
