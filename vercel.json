@@ -47,6 +47,10 @@
     {
       "path": "/api/cron/scan-mentions",
       "schedule": "0 15 * * 1"
+    },
+    {
+      "path": "/api/cron/submit-new-urls",
+      "schedule": "0 6 * * *"
     }
   ]
 }
