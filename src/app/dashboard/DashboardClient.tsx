@@ -11,6 +11,7 @@ import UsageProfileCard from "@/components/UsageProfileCard";
 import SuccessMetricCard from "@/components/SuccessMetricCard";
 import MilestoneCelebrationCard from "@/components/MilestoneCelebrationCard";
 import LowUsageHint from "@/components/LowUsageHint";
+import CiCdStarter from "@/components/CiCdStarter";
 import { track } from "@/lib/analytics";
 
 interface ApiKey {
@@ -736,6 +737,10 @@ ${(test.data || []).map((cpf, i) => `${i + 1}. ${cpf}`).join("\n")}`}
           <Link href="/docs" className="text-primary hover:underline">/docs</Link>.
         </p>
       </div>
+
+      {/* CI/CD Starter — attack retention catastrofica (avg 1.1 dias distintos
+          por user). Transforma uso pontual em recurring via workflow em cada PR. */}
+      <CiCdStarter apiKey={activeKeys[0]?.key ?? null} />
     </div>
   );
 }

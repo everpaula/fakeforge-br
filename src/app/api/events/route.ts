@@ -91,6 +91,8 @@ const ALLOWED_TYPES = new Set([
   // Paywall soft "Copiar como SQL" (01/10): Free bloqueado, Dev/Team baseline
   "copy_sql_blocked_free", "copy_sql_upgrade_clicked", "copy_sql_fallback_json", "copy_sql_unlocked_use",
   "api_key_created", "api_key_auto_created", "api_key_create_failed", "dashboard_curl_copied",
+  // CI/CD Starter (07/out): retention via automacao no PR do user
+  "cicd_snippet_copied", "cicd_platform_switched", "cicd_platform_requested",
   // Info products (02/10): lista de espera da landing de validação
   "waitlist_form_started", "waitlist_submitted", "waitlist_submit_failed",
 ]);
