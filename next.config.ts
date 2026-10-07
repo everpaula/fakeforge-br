@@ -1,6 +1,19 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Google crawla assets versionados (_next/static/*.js, *.woff2, *.css) com
+  // query ?dpl=... novo a cada deploy. Isso polui o "Crawled - currently not
+  // indexed" com dezenas de entradas por semana. X-Robots-Tag: noindex sinaliza
+  // explicitamente que são assets, não paginas. Googlebot continua fetching
+  // pra render (robots.txt NAO bloqueia), mas eles saem do coverage report.
+  async headers() {
+    return [
+      {
+        source: "/_next/static/:path*",
+        headers: [{ key: "X-Robots-Tag", value: "noindex" }],
+      },
+    ];
+  },
   // Redirect www → non-www to consolidate SEO equity into a single canonical host.
   // Without this, www.fakeforge.com.br and fakeforge.com.br serve identical content
   // and the Google indexer can't tell which one is canonical.
