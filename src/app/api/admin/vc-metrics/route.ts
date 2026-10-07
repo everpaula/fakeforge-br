@@ -423,6 +423,114 @@ export async function GET(request: NextRequest) {
     calls: count,
   }));
 
+  // ---- Sprint 2: MRR + ARPU por tier ----
+  // Benchmark SaaS pre-seed: 60-80% MRR concentrado em tier mid (Dev aqui).
+  // Enterprise tier não existe hoje no pricing (so Free/Dev/Team), mas deixo
+  // o esqueleto pra quando criar.
+  const mrr_by_tier = {
+    dev: { customers: payingDev, mrr: payingDev * (planPrice.dev || 29), arpu: planPrice.dev || 29 },
+    team: { customers: payingTeam, mrr: payingTeam * (planPrice.team || 79), arpu: planPrice.team || 79 },
+    enterprise: { customers: 0, mrr: 0, arpu: 0 }, // placeholder
+  };
+
+  // ---- Sprint 2: Payback period explicit (meses pra recuperar CAC) ----
+  // Com arpu > 0: cac_estimate / arpu. Benchmark best-in-class <12 meses.
+  const payback_period_months = arpu > 0 ? cacEstimate / arpu : 0;
+
+  // ---- Sprint 3: Signup source attribution ----
+  // Fonte: funnel_events.source_page do evento 'session_start' do mesmo
+  // session_id do primeiro signup_click. Como funnel_events não liga 100%
+  // session_id → user_id ainda, usamos aproximação pela source_page do
+  // signup_click.
+  const signupSourceCounts: Record<string, number> = {};
+  const { data: signupClicks } = await admin
+    .from("funnel_events")
+    .select("source_page, user_id")
+    .eq("event_type", "signup_click")
+    .gte("created_at", new Date(Date.now() - 30 * 86400000).toISOString())
+    .range(0, 9999);
+  for (const row of (signupClicks || []) as Array<{ source_page: string | null; user_id: string | null }>) {
+    const src = row.source_page || "(direct)";
+    // Normaliza: /gerador-cpf?utm=... -> /gerador-cpf
+    const normalized = src.split("?")[0].split("#")[0];
+    signupSourceCounts[normalized] = (signupSourceCounts[normalized] || 0) + 1;
+  }
+  const signup_source_30d = Object.entries(signupSourceCounts)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 15)
+    .map(([page, count]) => ({ page, signups: count }));
+
+  // ---- Sprint 3: Top SEO landing → signup conversion ----
+  // Soma signups por source_page / soma de page_views do mesmo page nos 30d.
+  const { data: pageViews } = await admin
+    .from("funnel_events")
+    .select("source_page")
+    .eq("event_type", "page_view")
+    .gte("created_at", new Date(Date.now() - 30 * 86400000).toISOString())
+    .range(0, 49999);
+  const pageViewCounts: Record<string, number> = {};
+  for (const row of (pageViews || []) as Array<{ source_page: string | null }>) {
+    if (!row.source_page) continue;
+    const normalized = row.source_page.split("?")[0].split("#")[0];
+    pageViewCounts[normalized] = (pageViewCounts[normalized] || 0) + 1;
+  }
+  const top_landing_conversion = Object.entries(pageViewCounts)
+    .filter(([page]) => page.startsWith("/gerador-") || page.startsWith("/validar-") || page.startsWith("/blog/"))
+    .map(([page, views]) => ({
+      page,
+      page_views: views,
+      signups: signupSourceCounts[page] || 0,
+      conversion_pct: views > 0 ? ((signupSourceCounts[page] || 0) / views) * 100 : 0,
+    }))
+    .sort((a, b) => b.page_views - a.page_views)
+    .slice(0, 15);
+
+  // ---- Sprint 4: Rolling 7-day cohort ----
+  // Diferente do cohort weekly: pega users que signupou entre day-N e day-(N-7)
+  // e mede % que ativou nos 7 dias seguintes. Mais sensível a mudanças.
+  const rolling_cohort: Array<{ cohort_day: string; signups: number; activated_7d: number; activation_pct: number }> = [];
+  for (let i = 1; i <= 30; i++) {
+    const dayStart = Date.now() - i * 86400000;
+    const dayEnd = dayStart + 86400000;
+    const cohortUsers = users.filter((u) => {
+      const t = new Date(u.created_at).getTime();
+      return t >= dayStart && t < dayEnd;
+    });
+    const cohortIds = new Set(cohortUsers.map((u) => u.id));
+    const activatedCount = new Set(
+      apiUsage
+        .filter((r) => r.user_id && cohortIds.has(r.user_id))
+        .filter((r) => {
+          const callT = new Date(r.created_at).getTime();
+          const signupT = userSignupDate[r.user_id!];
+          return callT >= signupT && callT <= signupT + 7 * 86400000;
+        })
+        .map((r) => r.user_id!)
+    ).size;
+    const dayKeyStr = new Date(dayStart).toISOString().substring(0, 10);
+    rolling_cohort.push({
+      cohort_day: dayKeyStr,
+      signups: cohortUsers.length,
+      activated_7d: activatedCount,
+      activation_pct: cohortUsers.length ? (activatedCount / cohortUsers.length) * 100 : 0,
+    });
+  }
+  rolling_cohort.reverse(); // mais antigo primeiro
+
+  // ---- Sprint 4: NRR / GRR (quando >5 pagantes = n/a até lá) ----
+  // Fórmula: NRR = (Starting MRR + Expansion - Contraction - Churn) / Starting MRR
+  // GRR = (Starting MRR - Churn - Contraction) / Starting MRR (sem expansion)
+  // Hoje com 1 pagante, retorna null com explicação.
+  const nrr_grr = {
+    nrr_pct: totalPaying >= 5 ? null : null, // insufficient data placeholder
+    grr_pct: totalPaying >= 5 ? null : null,
+    starting_mrr_30d_ago: null as number | null,
+    expansion_mrr_30d: 0, // ainda não trackeamos upgrades/downgrades
+    contraction_mrr_30d: 0,
+    churn_mrr_30d: 0,
+    status: totalPaying < 5 ? "insufficient_data_min_5_customers" : "ready",
+  };
+
   // ---- Churn analysis ----
   const churnedSubs = subs.filter((s) => s.status !== "active" && s.current_period_end);
   const churn = {
@@ -436,6 +544,18 @@ export async function GET(request: NextRequest) {
       churn.by_month[k] = (churn.by_month[k] || 0) + 1;
     }
   }
+
+  // ---- Sprint 4: Logo churn vs Revenue churn ----
+  // Logo churn: % de contas que cancelaram. Revenue churn: % de MRR que foi.
+  // Separação relevante quando mix de tiers for diverso. Precisa 5+ pagantes
+  // pra sinal útil.
+  const logo_vs_revenue_churn = {
+    logo_churn_30d_pct: churn.total_churned && totalPaying + churn.total_churned > 0
+      ? (churn.total_churned / (totalPaying + churn.total_churned)) * 100 : 0,
+    revenue_churn_30d_pct: churn.revenue_churned && mrr + churn.revenue_churned > 0
+      ? (churn.revenue_churned / (mrr + churn.revenue_churned)) * 100 : 0,
+    status: totalPaying < 5 ? "insufficient_data_min_5_customers" : "ready",
+  };
 
   // -----------------------------------------------------------------
   // Response
@@ -461,13 +581,27 @@ export async function GET(request: NextRequest) {
         ltv_cac_ratio: ltvCacRatio,
         arpu,
         estimated_monthly_churn: estimatedChurnMonthly * 100,
-        payback_months: arpu > 0 ? cacEstimate / arpu : 0,
+        payback_months: payback_period_months,
+        payback_period_months, // alias explícito pra VC pitch
+        // Burn multiple: Net Burn / Net New MRR. Benchmark a16z <1 = excelente.
+        // Com net_new_mrr baixo (R$29) e burn R$409, hoje = ~14 (muito alto, esperado pré-PMF).
+        burn_multiple: (() => {
+          const net_new_mrr_30d = (mrrHistory[mrrHistory.length - 1]?.mrr || 0) - (mrrHistory[mrrHistory.length - 2]?.mrr || 0);
+          const net_burn_estimate = 409; // ver /api/admin/ops-metrics breakdown
+          return net_new_mrr_30d > 0 ? net_burn_estimate / net_new_mrr_30d : null;
+        })(),
       },
       mrr_history: mrrHistory,
       mrr_forecast: mrrForecast,
+      mrr_by_tier,
       signups_daily: signupsDaily.slice(-90), // last 90 days
+      signup_source_30d,
+      top_landing_conversion,
       funnel,
       cohort_table: cohortTable,
+      rolling_cohort,
+      nrr_grr,
+      logo_vs_revenue_churn,
       time_to_first_call: timeToFirstCall,
       benchmarks,
       power_users: powerUsers,

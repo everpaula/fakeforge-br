@@ -23,7 +23,17 @@ interface UnitEcon {
   arpu: number;
   estimated_monthly_churn: number;
   payback_months: number;
+  payback_period_months: number;
+  burn_multiple: number | null;
 }
+
+interface TierBreakdown { customers: number; mrr: number; arpu: number }
+interface MrrByTier { dev: TierBreakdown; team: TierBreakdown; enterprise: TierBreakdown }
+interface SignupSource { page: string; signups: number }
+interface LandingConversion { page: string; page_views: number; signups: number; conversion_pct: number }
+interface RollingCohortRow { cohort_day: string; signups: number; activated_7d: number; activation_pct: number }
+interface NrrGrr { nrr_pct: number | null; grr_pct: number | null; starting_mrr_30d_ago: number | null; expansion_mrr_30d: number; contraction_mrr_30d: number; churn_mrr_30d: number; status: string }
+interface LogoVsRevenueChurn { logo_churn_30d_pct: number; revenue_churn_30d_pct: number; status: string }
 
 interface MrrPoint { month: string; mrr: number; new_customers: number; churned: number }
 interface ForecastPoint { month: string; mrr_projected: number }
@@ -49,9 +59,15 @@ interface VcData {
   unit_economics: UnitEcon;
   mrr_history: MrrPoint[];
   mrr_forecast: ForecastPoint[];
+  mrr_by_tier: MrrByTier;
   signups_daily: SignupPoint[];
+  signup_source_30d: SignupSource[];
+  top_landing_conversion: LandingConversion[];
   funnel: Funnel;
   cohort_table: CohortRow[];
+  rolling_cohort: RollingCohortRow[];
+  nrr_grr: NrrGrr;
+  logo_vs_revenue_churn: LogoVsRevenueChurn;
   time_to_first_call: TimeToFirstCall;
   benchmarks: Benchmarks;
   power_users: PowerUser[];
@@ -528,6 +544,200 @@ export default function VcDashboard() {
                 </div>
               </div>
             )}
+          </div>
+        </section>
+
+        {/* ========== MRR BY TIER (Sprint 2) ========== */}
+        <section>
+          <div className="rounded-xl bg-card border border-border p-5">
+            <div className="mb-4">
+              <p className="text-sm font-semibold">MRR por tier</p>
+              <p className="text-[11px] text-muted">Breakdown de revenue + ARPU por plano · essencial pra pricing lesson</p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              {([
+                { k: "dev" as const, label: "Dev · R$29/mês", color: "primary" },
+                { k: "team" as const, label: "Team · R$79/mês", color: "accent" },
+                { k: "enterprise" as const, label: "Enterprise · a definir", color: "warning" },
+              ]).map((t) => {
+                const tier = data.mrr_by_tier[t.k];
+                return (
+                  <div key={t.k} className="rounded-lg bg-background border border-border p-4">
+                    <p className="text-[10px] uppercase text-muted mb-1">{t.label}</p>
+                    <p className="text-2xl font-bold text-foreground">{tier.customers}</p>
+                    <p className="text-[11px] text-muted">pagantes · {fmtMoney(tier.mrr)}/mês</p>
+                    {tier.customers > 0 && (
+                      <p className="text-[10px] text-muted mt-1">ARPU {fmtMoney(tier.arpu)}</p>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        {/* ========== UNIT ECONOMICS DETALHADO (Sprint 2) ========== */}
+        <section>
+          <div className="rounded-xl bg-card border border-border p-5">
+            <div className="mb-4">
+              <p className="text-sm font-semibold">Unit economics · pitch VC</p>
+              <p className="text-[11px] text-muted">Payback period + Burn multiple · benchmarks a16z/SaaStr</p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div className="rounded-lg bg-background border border-border p-4">
+                <p className="text-[10px] uppercase text-muted mb-1">Payback period</p>
+                <p className="text-2xl font-bold text-foreground">{ue.payback_period_months.toFixed(1)}mo</p>
+                <p className="text-[10px] text-muted mt-0.5">best-in-class &lt;12mo · CAC/ARPU</p>
+              </div>
+              <div className="rounded-lg bg-background border border-border p-4">
+                <p className="text-[10px] uppercase text-muted mb-1">Burn multiple</p>
+                <p className="text-2xl font-bold text-foreground">
+                  {ue.burn_multiple === null ? "n/a" : ue.burn_multiple.toFixed(1) + "x"}
+                </p>
+                <p className="text-[10px] text-muted mt-0.5">a16z &lt;1 excelente, &lt;3 bom · Net Burn / Net New MRR</p>
+              </div>
+              <div className="rounded-lg bg-background border border-border p-4">
+                <p className="text-[10px] uppercase text-muted mb-1">LTV : CAC</p>
+                <p className="text-2xl font-bold text-foreground">{ue.ltv_cac_ratio.toFixed(1)}x</p>
+                <p className="text-[10px] text-muted mt-0.5">best-in-class &gt;5x · LTV R${ue.ltv.toFixed(0)} / CAC R${ue.cac_estimate}</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ========== NRR / GRR + LOGO VS REVENUE CHURN (Sprint 4) ========== */}
+        <section>
+          <div className="rounded-xl bg-card border border-border p-5">
+            <div className="mb-4">
+              <p className="text-sm font-semibold">Retention adulta · NRR, GRR, Logo vs Revenue churn</p>
+              <p className="text-[11px] text-muted">Métricas que todo VC Series A pergunta · hoje insufficient data (precisa 5+ pagantes)</p>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <div className="rounded-lg bg-background border border-border p-4">
+                <p className="text-[10px] uppercase text-muted mb-1">NRR 30d</p>
+                <p className="text-2xl font-bold text-muted">{data.nrr_grr.nrr_pct === null ? "n/a" : fmtPct(data.nrr_grr.nrr_pct)}</p>
+                <p className="text-[10px] text-muted mt-0.5">benchmark &gt;110%</p>
+              </div>
+              <div className="rounded-lg bg-background border border-border p-4">
+                <p className="text-[10px] uppercase text-muted mb-1">GRR 30d</p>
+                <p className="text-2xl font-bold text-muted">{data.nrr_grr.grr_pct === null ? "n/a" : fmtPct(data.nrr_grr.grr_pct)}</p>
+                <p className="text-[10px] text-muted mt-0.5">benchmark &gt;85%</p>
+              </div>
+              <div className="rounded-lg bg-background border border-border p-4">
+                <p className="text-[10px] uppercase text-muted mb-1">Logo churn 30d</p>
+                <p className="text-2xl font-bold text-foreground">{fmtPct(data.logo_vs_revenue_churn.logo_churn_30d_pct)}</p>
+                <p className="text-[10px] text-muted mt-0.5">% contas canceladas</p>
+              </div>
+              <div className="rounded-lg bg-background border border-border p-4">
+                <p className="text-[10px] uppercase text-muted mb-1">Revenue churn 30d</p>
+                <p className="text-2xl font-bold text-foreground">{fmtPct(data.logo_vs_revenue_churn.revenue_churn_30d_pct)}</p>
+                <p className="text-[10px] text-muted mt-0.5">% MRR perdido</p>
+              </div>
+            </div>
+            {data.nrr_grr.status === "insufficient_data_min_5_customers" && (
+              <p className="text-[10px] text-muted mt-3 italic">⚠ NRR/GRR requer 5+ pagantes pra sinal útil. Hoje: {data.hero.total_paying}.</p>
+            )}
+          </div>
+        </section>
+
+        {/* ========== SIGNUP SOURCE ATTRIBUTION (Sprint 3) ========== */}
+        <section>
+          <div className="rounded-xl bg-card border border-border p-5">
+            <div className="mb-4">
+              <p className="text-sm font-semibold">Signup source attribution (30d)</p>
+              <p className="text-[11px] text-muted">De onde vêm os signups · fonte: funnel_events.source_page</p>
+            </div>
+            {data.signup_source_30d.length === 0 ? (
+              <p className="text-xs text-muted italic">Nenhum signup_click com source_page nos últimos 30d.</p>
+            ) : (
+              <div className="space-y-1">
+                {data.signup_source_30d.map((s) => {
+                  const max = data.signup_source_30d[0]?.signups || 1;
+                  const pct = (s.signups / max) * 100;
+                  return (
+                    <div key={s.page} className="flex items-center gap-3 text-xs">
+                      <span className="font-mono text-[11px] text-muted-foreground w-56 shrink-0 truncate" title={s.page}>{s.page}</span>
+                      <div className="flex-1 bg-background rounded h-5 relative overflow-hidden">
+                        <div className="absolute inset-y-0 left-0 bg-primary/40" style={{ width: `${pct}%` }} />
+                        <span className="absolute inset-0 flex items-center justify-end pr-2 text-[11px] font-bold text-foreground">{s.signups}</span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        </section>
+
+        {/* ========== TOP LANDING CONVERSION (Sprint 3) ========== */}
+        <section>
+          <div className="rounded-xl bg-card border border-border p-5">
+            <div className="mb-4">
+              <p className="text-sm font-semibold">Top landing pages: views × signups (30d)</p>
+              <p className="text-[11px] text-muted">Qual landing converte · não só qual traz tráfego</p>
+            </div>
+            {data.top_landing_conversion.length === 0 ? (
+              <p className="text-xs text-muted italic">Sem dados de page_view ainda. Confere whitelist /api/events.</p>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full text-xs">
+                  <thead>
+                    <tr className="border-b border-border">
+                      <th className="text-left px-3 py-2 text-muted">Página</th>
+                      <th className="text-right px-3 py-2 text-muted">Views</th>
+                      <th className="text-right px-3 py-2 text-muted">Signups</th>
+                      <th className="text-right px-3 py-2 text-muted">Conv %</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-border">
+                    {data.top_landing_conversion.map((l) => (
+                      <tr key={l.page}>
+                        <td className="px-3 py-2 font-mono text-[11px] text-muted-foreground truncate max-w-xs">{l.page}</td>
+                        <td className="px-3 py-2 text-right text-foreground">{l.page_views.toLocaleString("pt-BR")}</td>
+                        <td className="px-3 py-2 text-right text-foreground">{l.signups}</td>
+                        <td className={`px-3 py-2 text-right font-bold ${l.conversion_pct >= 1 ? "text-success" : l.conversion_pct >= 0.3 ? "text-foreground" : "text-muted"}`}>
+                          {l.conversion_pct.toFixed(2)}%
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        </section>
+
+        {/* ========== ROLLING COHORT 7d (Sprint 4) ========== */}
+        <section>
+          <div className="rounded-xl bg-card border border-border p-5">
+            <div className="mb-4">
+              <p className="text-sm font-semibold">Rolling 7-day activation cohort (30 dias)</p>
+              <p className="text-[11px] text-muted">% dos signups de cada dia que ativaram em 7 dias · mais sensível que cohort semanal</p>
+            </div>
+            {(() => {
+              const maxSignups = Math.max(1, ...data.rolling_cohort.map((r) => r.signups));
+              return (
+                <div className="flex items-end gap-0.5 h-32">
+                  {data.rolling_cohort.map((r) => {
+                    const heightPct = (r.signups / maxSignups) * 100;
+                    const activationColor = r.activation_pct >= 15 ? "bg-success" : r.activation_pct >= 5 ? "bg-primary" : "bg-muted-foreground/40";
+                    return (
+                      <div key={r.cohort_day} className="flex-1 flex flex-col justify-end group relative" title={`${r.cohort_day}: ${r.signups} signups, ${r.activation_pct.toFixed(1)}% ativaram em W1`}>
+                        <div className={`${activationColor} rounded-t`} style={{ height: `${heightPct}%` }} />
+                        <div className="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-foreground text-background px-2 py-1 rounded text-[10px] whitespace-nowrap z-10">
+                          {r.cohort_day}: {r.signups}/{r.activation_pct.toFixed(0)}%
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            })()}
+            <div className="flex items-center gap-4 mt-3 text-[10px] text-muted">
+              <span className="flex items-center gap-1"><span className="w-2 h-2 bg-success inline-block" /> ≥15% ativaram</span>
+              <span className="flex items-center gap-1"><span className="w-2 h-2 bg-primary inline-block" /> 5-15% ativaram</span>
+              <span className="flex items-center gap-1"><span className="w-2 h-2 bg-muted-foreground/40 inline-block" /> &lt;5%</span>
+            </div>
           </div>
         </section>
 

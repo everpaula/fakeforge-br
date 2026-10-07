@@ -98,8 +98,22 @@ interface AdminData {
   funnel?: FunnelData;
 }
 
+interface OpsData {
+  generated_at: string;
+  burn: { monthly_total_brl: number; breakdown: Record<string, number> };
+  email_health: { suppressions_total: number; suppressions_7d: number; suppressions_prev7d: number; wow_delta: number };
+  bot_block: { total_14d: number; trend_daily: Array<{ day: string; count: number }> };
+  quota_utilization: { top_users_7d: Array<{ user_id: string; calls: number }> };
+  sdk: {
+    npm: { package: string; last_week?: number; last_month?: number; error?: string };
+    pypi: { package: string; last_day?: number; last_week?: number; last_month?: number; total?: number; error?: string };
+  };
+  github: { repo: string; stars?: number; forks?: number; watchers?: number; open_issues?: number; pushed_at?: string; error?: string };
+}
+
 export default function AdminDashboard() {
   const [data, setData] = useState<AdminData | null>(null);
+  const [ops, setOps] = useState<OpsData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [lastRefresh, setLastRefresh] = useState<Date>(new Date());
@@ -108,17 +122,24 @@ export default function AdminDashboard() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch("/api/admin");
-      if (res.status === 403) {
+      const [resMain, resOps] = await Promise.all([
+        fetch("/api/admin"),
+        fetch("/api/admin/ops-metrics"),
+      ]);
+      if (resMain.status === 403) {
         setError("Acesso negado. Você não é admin.");
         return;
       }
-      if (res.status === 401) {
+      if (resMain.status === 401) {
         setError("Não autenticado.");
         return;
       }
-      const json = await res.json();
+      const json = await resMain.json();
       setData(json);
+      if (resOps.ok) {
+        const opsJson = await resOps.json();
+        setOps(opsJson);
+      }
       setLastRefresh(new Date());
     } catch {
       setError("Erro ao carregar dados.");
@@ -591,6 +612,143 @@ export default function AdminDashboard() {
             <GoalCard label="MRR" current={m.mrr} target={1500} prefix="R$" />
           </div>
         </div>
+
+        {/* ========== OPS METRICS (Sprint 1) ========== */}
+        {ops && (
+          <>
+            <div className="mt-8 rounded-xl bg-card border border-border p-6">
+              <h2 className="text-sm font-semibold mb-1">Burn rate e custos de infra</h2>
+              <p className="text-xs text-muted mb-4">Baseline mensal: {ops.burn.monthly_total_brl.toLocaleString("pt-BR")} BRL. Fonte: faturas 2026-10.</p>
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+                {Object.entries(ops.burn.breakdown).map(([service, cost]) => (
+                  <div key={service} className="rounded-lg bg-background border border-border p-3 text-center">
+                    <p className="text-xs text-muted-foreground font-mono truncate" title={service}>{service.replace(/_/g, " ")}</p>
+                    <p className="text-lg font-bold text-foreground mt-1">R${cost}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-4 pt-4 border-t border-border">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-xs text-muted">Burn mensal estimado vs MRR atual</p>
+                    <p className="text-xs text-muted-foreground mt-1">Negativo = still subsidizing; positivo = profitable</p>
+                  </div>
+                  <div className="text-right">
+                    <p className={`text-2xl font-bold ${m.mrr - ops.burn.monthly_total_brl >= 0 ? "text-success" : "text-danger"}`}>
+                      R$ {(m.mrr - ops.burn.monthly_total_brl).toLocaleString("pt-BR")}
+                    </p>
+                    <p className="text-[10px] text-muted">MRR R${m.mrr} - burn R${ops.burn.monthly_total_brl}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* SDK downloads + GitHub */}
+              <div className="rounded-xl bg-card border border-border p-6">
+                <h2 className="text-sm font-semibold mb-1">SDK + comunidade</h2>
+                <p className="text-xs text-muted mb-4">Adoption externa · atualiza a cada hora</p>
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="rounded-lg bg-background border border-border p-3">
+                    <p className="text-xs text-muted-foreground">npm fakeforge-br</p>
+                    {ops.sdk.npm.error ? (
+                      <p className="text-xs text-danger mt-1">{ops.sdk.npm.error}</p>
+                    ) : (
+                      <>
+                        <p className="text-lg font-bold text-foreground mt-1">{(ops.sdk.npm.last_week ?? 0).toLocaleString("pt-BR")}</p>
+                        <p className="text-[10px] text-muted">downloads últimos 7d</p>
+                        <p className="text-[10px] text-muted mt-0.5">{(ops.sdk.npm.last_month ?? 0).toLocaleString("pt-BR")} / 30d</p>
+                      </>
+                    )}
+                  </div>
+                  <div className="rounded-lg bg-background border border-border p-3">
+                    <p className="text-xs text-muted-foreground">PyPI fakeforge-br</p>
+                    {ops.sdk.pypi.error ? (
+                      <p className="text-xs text-danger mt-1">{ops.sdk.pypi.error}</p>
+                    ) : (
+                      <>
+                        <p className="text-lg font-bold text-foreground mt-1">{(ops.sdk.pypi.last_week ?? 0).toLocaleString("pt-BR")}</p>
+                        <p className="text-[10px] text-muted">downloads últimos 7d</p>
+                        <p className="text-[10px] text-muted mt-0.5">{(ops.sdk.pypi.last_month ?? 0).toLocaleString("pt-BR")} / 30d</p>
+                      </>
+                    )}
+                  </div>
+                  <div className="rounded-lg bg-background border border-border p-3 col-span-2">
+                    <p className="text-xs text-muted-foreground">GitHub {ops.github.repo}</p>
+                    {ops.github.error ? (
+                      <p className="text-xs text-danger mt-1">{ops.github.error}</p>
+                    ) : (
+                      <div className="flex gap-4 mt-1">
+                        <div><p className="text-lg font-bold text-foreground">{ops.github.stars ?? 0}</p><p className="text-[10px] text-muted">stars</p></div>
+                        <div><p className="text-lg font-bold text-foreground">{ops.github.forks ?? 0}</p><p className="text-[10px] text-muted">forks</p></div>
+                        <div><p className="text-lg font-bold text-foreground">{ops.github.watchers ?? 0}</p><p className="text-[10px] text-muted">watchers</p></div>
+                        <div><p className="text-lg font-bold text-foreground">{ops.github.open_issues ?? 0}</p><p className="text-[10px] text-muted">issues</p></div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Bot block + suppression trend */}
+              <div className="rounded-xl bg-card border border-border p-6">
+                <h2 className="text-sm font-semibold mb-1">Health defensiva</h2>
+                <p className="text-xs text-muted mb-4">Bots bloqueados + suppressions · últimos 14d</p>
+                <div className="grid grid-cols-2 gap-3 mb-4">
+                  <div className="rounded-lg bg-background border border-border p-3">
+                    <p className="text-xs text-muted-foreground">Bots bloqueados 14d</p>
+                    <p className="text-lg font-bold text-foreground mt-1">{ops.bot_block.total_14d}</p>
+                    <p className="text-[10px] text-muted">reCAPTCHA + honeypot + regex + disposable</p>
+                  </div>
+                  <div className="rounded-lg bg-background border border-border p-3">
+                    <p className="text-xs text-muted-foreground">Suppressions</p>
+                    <p className="text-lg font-bold text-foreground mt-1">{ops.email_health.suppressions_total}</p>
+                    <p className={`text-[10px] ${ops.email_health.wow_delta > 0 ? "text-danger" : "text-success"}`}>
+                      {ops.email_health.wow_delta >= 0 ? "+" : ""}{ops.email_health.wow_delta} vs semana anterior
+                    </p>
+                  </div>
+                </div>
+                {ops.bot_block.trend_daily.length > 0 && (
+                  <div>
+                    <p className="text-[10px] uppercase text-muted mb-2">Trend diário de bot blocks</p>
+                    <div className="flex items-end gap-1 h-16">
+                      {ops.bot_block.trend_daily.map((d) => {
+                        const max = Math.max(1, ...ops.bot_block.trend_daily.map((x) => x.count));
+                        return (
+                          <div key={d.day} className="flex-1 bg-primary/40 hover:bg-primary rounded-t transition-colors group relative" style={{ height: `${(d.count / max) * 100}%` }}>
+                            <span className="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 bg-foreground text-background px-1.5 py-0.5 rounded text-[9px] whitespace-nowrap">{d.day}: {d.count}</span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Quota utilization top 10 */}
+            {ops.quota_utilization.top_users_7d.length > 0 && (
+              <div className="mt-6 rounded-xl bg-card border border-border p-6">
+                <h2 className="text-sm font-semibold mb-1">Top 10 usuários por chamadas (7d)</h2>
+                <p className="text-xs text-muted mb-4">Candidatos naturais pra upsell Dev/Team</p>
+                <div className="space-y-1">
+                  {ops.quota_utilization.top_users_7d.map((u) => {
+                    const max = ops.quota_utilization.top_users_7d[0]?.calls || 1;
+                    const pct = (u.calls / max) * 100;
+                    return (
+                      <div key={u.user_id} className="flex items-center gap-3 text-xs">
+                        <span className="font-mono text-[11px] text-muted-foreground w-32 shrink-0">{u.user_id}</span>
+                        <div className="flex-1 bg-background rounded h-5 relative overflow-hidden">
+                          <div className="absolute inset-y-0 left-0 bg-accent/40" style={{ width: `${pct}%` }} />
+                          <span className="absolute inset-0 flex items-center justify-end pr-2 text-[11px] font-bold text-foreground">{u.calls}</span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </>
+        )}
       </main>
     </div>
   );
