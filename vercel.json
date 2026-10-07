@@ -43,6 +43,10 @@
     {
       "path": "/api/cron/detect-b2b-leads",
       "schedule": "0 14 * * *"
+    },
+    {
+      "path": "/api/cron/scan-mentions",
+      "schedule": "0 15 * * 1"
     }
   ]
 }

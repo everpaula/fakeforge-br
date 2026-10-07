@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import OutreachInbox from "@/components/OutreachInbox";
+import MentionsInbox from "@/components/MentionsInbox";
 import Link from "next/link";
 import TimeSeriesChart from "@/components/admin/TimeSeriesChart";
 
@@ -606,6 +607,11 @@ export default function AdminDashboard() {
         {/* Outreach inbox — approval gate pros drafts criados pelo Claude */}
         <div className="mt-8">
           <OutreachInbox />
+        </div>
+
+        {/* Mentions inbox — monitoramento de brand mentions na web */}
+        <div className="mt-6">
+          <MentionsInbox />
         </div>
 
         {/* Success metrics targets */}
