@@ -10,6 +10,7 @@ import OnboardingChecklist from "@/components/OnboardingChecklist";
 import UsageProfileCard from "@/components/UsageProfileCard";
 import SuccessMetricCard from "@/components/SuccessMetricCard";
 import MilestoneCelebrationCard from "@/components/MilestoneCelebrationCard";
+import LowUsageHint from "@/components/LowUsageHint";
 import { track } from "@/lib/analytics";
 
 interface ApiKey {
@@ -287,6 +288,10 @@ export default function DashboardClient({ userId, userEmail }: { userId: string;
 
       {/* Card de valor extraído (Free, 10+ itens, dismiss 7d, 1x/sessão) */}
       <SuccessMetricCard userId={userId} />
+
+      {/* Low usage hint (Free, 1-5 calls, dismiss 7d, 1x/sessão). Alvo:
+          perfil "testador" identificado 06/out. Ensina caso de uso. */}
+      <LowUsageHint />
 
       {/* Upsell hero - persistente pra Free, empurra Dev na primeira coisa que ve.
           NOTE (audit 26/08): removido gate 'usageToday > 0' que impedia o hero

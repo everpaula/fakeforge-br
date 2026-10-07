@@ -63,6 +63,11 @@ const ALLOWED_TYPES = new Set([
   "signup_blocked_invalid_format",
   // Bot mitigation (06/out): honeypot field detected
   "signup_blocked_honeypot",
+  // Retention attack (07/out): low-usage hint pro perfil testador
+  "low_usage_hint_shown", "low_usage_hint_clicked", "low_usage_hint_dismissed",
+  // Email funnel (07/out): novos templates nurture_usecases e stale_check
+  "email_usecases_sent", "email_usecases_opened", "email_usecases_clicked_cta",
+  "email_stale_check_sent", "email_stale_check_opened", "email_stale_check_replied",
   // Email tracking (05/out): activation_* e reactivation_* agora caem no funil
   "email_activation_opened", "email_activation_clicked_cta",
   "email_reactivation_opened", "email_reactivation_clicked_cta",

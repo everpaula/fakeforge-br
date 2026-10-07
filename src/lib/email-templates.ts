@@ -926,3 +926,145 @@ ${delivery}
 <p style="${SIG_STYLE}">Everton, fundador do FakeForge</p>
 </td></tr></table></td></tr></table></body></html>`;
 }
+
+// -----------------------------------------------------------------------------
+// Usecases T3 - Para users com 1-5 chamadas em 3-5 dias.
+// Ensina USO, não vende Dev. Mostra fluxos que inherentemente consomem volume.
+// -----------------------------------------------------------------------------
+
+export function subjectNurtureUsecases(): string {
+  return "5 fluxos que exigem a API (e não a UI web)";
+}
+
+export function textNurtureUsecases({ firstName }: NurtureProps): string {
+  return `Fala ${firstName},
+
+Vi que você gerou alguns dados pelo FakeForge nos últimos dias. Antes de me perder, quero te mostrar 5 fluxos que a maioria dos devs descobre tarde: coisas que o gerador web não resolve, mas a API resolve em uma chamada.
+
+Nenhum deles pede upgrade. É Free puro.
+
+1. Seed de banco em staging com 1000 registros em 1 chamada
+
+GET /api/generate?type=cpf&quantity=1000
+
+A UI web gera 1 por vez. A API aceita quantity até 100 no Free. Com um script Node de 5 linhas, você popula tabela customers com dados válidos antes do primeiro teste rodar.
+
+2. CI/CD com fixtures determinísticas
+
+GET /api/generate?type=cpf&seed=my-pipeline
+
+Mesmo seed devolve mesmo CPF. Em pipeline, isso vira: cada PR usa os mesmos dados, teste roda determinístico, flaky test some.
+
+3. Checkout PIX com QR Code dinâmico
+
+GET /api/generate?preset=pix_dynamic
+
+Devolve chave PIX válida + QR Code EMV BR Code + CRC16. Usado em teste E2E de checkout. Zero mock manual.
+
+4. Load test com 100K payloads
+
+Rode no CI com cache. Primeira chamada baixa 1000 items, salva em arquivo, próximas 99 chamadas leem do cache. Load test de K6/Locust fica com dados realistas sem gastar quota.
+
+5. CNPJ alfanumérico pra migrar código antes de 01/07/2026
+
+GET /api/generate?type=cnpj&format=alpha
+
+Nenhuma outra lib BR devolve o formato novo com DV correto. Teste sua lógica de validação agora, antes do switch forçado.
+
+Guia completo com código: https://fakeforge.com.br/blog/5-fluxos-que-exigem-api-fakeforge
+
+Abraço,
+Everton, fundador do FakeForge
+`;
+}
+
+export function htmlNurtureUsecases({ firstName }: NurtureProps): string {
+  const safeName = escapeHtml(firstName);
+  return `<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>${subjectNurtureUsecases()}</title></head>
+<body style="${BASE_STYLE}">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f5f5f5;">
+<tr><td align="center" style="padding: 24px 16px;">
+<table role="presentation" width="560" cellpadding="0" cellspacing="0" style="${CARD_STYLE}">
+<tr><td style="${CONTENT_STYLE}">
+<p style="${PARA_STYLE}">Fala ${safeName},</p>
+<p style="${PARA_STYLE}">Vi que você gerou alguns dados nos últimos dias. Antes de me perder, quero te mostrar <strong>5 fluxos que a UI web não resolve, mas a API resolve em uma chamada</strong>. Nenhum pede upgrade, é Free puro.</p>
+
+<h2 style="${H2_STYLE}">1. Seed de banco com 1000 registros</h2>
+<p style="${PARA_STYLE}">A UI gera 1 por vez. A API aceita <code style="${CODE_STYLE}">quantity=1000</code>. Script Node de 5 linhas popula tabela customers com dados válidos antes do primeiro teste rodar.</p>
+
+<h2 style="${H2_STYLE}">2. CI/CD determinístico via seed</h2>
+<p style="${PARA_STYLE}">Mesmo <code style="${CODE_STYLE}">seed=my-pipeline</code> devolve mesmo CPF. PR usa dados iguais, teste roda determinístico, flaky test some.</p>
+
+<h2 style="${H2_STYLE}">3. QR Code PIX pra E2E checkout</h2>
+<p style="${PARA_STYLE}">Preset <code style="${CODE_STYLE}">pix_dynamic</code> devolve chave + QR Code EMV BR Code + CRC16. Zero mock manual.</p>
+
+<h2 style="${H2_STYLE}">4. Load test com cache local</h2>
+<p style="${PARA_STYLE}">Primeira chamada baixa 1000 items, salva em arquivo. Load test K6/Locust lê do cache. Dados realistas sem gastar quota.</p>
+
+<h2 style="${H2_STYLE}">5. CNPJ alfanumérico (vigor 01/07/2026)</h2>
+<p style="${PARA_STYLE}">Nenhuma outra lib BR devolve com DV correto. Teste sua validação agora, antes do switch forçado.</p>
+
+<p style="text-align:center;"><a href="https://fakeforge.com.br/blog/5-fluxos-que-exigem-api-fakeforge?utm_source=email&amp;utm_campaign=nurture_usecases" style="${BUTTON_STYLE}">Ver os 5 com código completo</a></p>
+
+<p style="${SIG_STYLE}">Abraço,<br>Everton, fundador do FakeForge</p>
+</td></tr></table></td></tr></table></body></html>`;
+}
+
+// -----------------------------------------------------------------------------
+// Stale Check T7 - Para users que signupou >= 7d e nao voltou nos ultimos 5d.
+// Sincero. Zero CTA de pricing. Pede reply direto no email.
+// -----------------------------------------------------------------------------
+
+export function subjectStaleCheck(): string {
+  return "você não voltou. é o produto, a doc ou o caso de uso?";
+}
+
+export function textStaleCheck({ firstName }: NurtureProps): string {
+  return `Oi ${firstName},
+
+Você criou conta no FakeForge e não voltou. Não é cobrança — é curiosidade minha.
+
+Me ajuda a entender em qual dessas você travou?
+
+(A) O produto não resolve o que você precisava. Era pra outra coisa que não gerar dados brasileiros fictícios.
+
+(B) A documentação não cobre o seu caso. Você viu que existe mas não conseguiu entender como aplicar no seu projeto.
+
+(C) O caso de uso evaporou. Você estava testando pra um projeto específico que não foi pra frente.
+
+(D) Outra coisa. Me conta.
+
+Responde esse email com a letra. Uma letra vale. Não precisa escrever justificativa. Eu leio tudo e uso pra decidir o que mexer no produto.
+
+Se você quiser desligar esses emails, tem link no rodapé. Sem drama.
+
+Abraço,
+Everton
+hey@fakeforge.com.br
+`;
+}
+
+export function htmlStaleCheck({ firstName }: NurtureProps): string {
+  const safeName = escapeHtml(firstName);
+  return `<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>${subjectStaleCheck()}</title></head>
+<body style="${BASE_STYLE}">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f5f5f5;">
+<tr><td align="center" style="padding: 24px 16px;">
+<table role="presentation" width="560" cellpadding="0" cellspacing="0" style="${CARD_STYLE}">
+<tr><td style="${CONTENT_STYLE}">
+<p style="${PARA_STYLE}">Oi ${safeName},</p>
+<p style="${PARA_STYLE}">Você criou conta no FakeForge e não voltou. Não é cobrança — é curiosidade minha.</p>
+<p style="${PARA_STYLE}">Me ajuda a entender em qual dessas você travou?</p>
+
+<p style="${PARA_STYLE}"><strong>(A)</strong> O produto não resolve o que você precisava. Era pra outra coisa que não gerar dados brasileiros fictícios.</p>
+<p style="${PARA_STYLE}"><strong>(B)</strong> A documentação não cobre o seu caso. Você viu que existe mas não conseguiu entender como aplicar no seu projeto.</p>
+<p style="${PARA_STYLE}"><strong>(C)</strong> O caso de uso evaporou. Você estava testando pra um projeto específico que não foi pra frente.</p>
+<p style="${PARA_STYLE}"><strong>(D)</strong> Outra coisa. Me conta.</p>
+
+<p style="${PARA_STYLE}"><strong>Responde esse email com a letra.</strong> Uma letra vale. Não precisa escrever justificativa. Eu leio tudo e uso pra decidir o que mexer no produto.</p>
+
+<p style="${PARA_STYLE}">Se você quiser desligar esses emails, tem link no rodapé. Sem drama.</p>
+
+<p style="${SIG_STYLE}">Abraço,<br>Everton<br>hey@fakeforge.com.br</p>
+</td></tr></table></td></tr></table></body></html>`;
+}

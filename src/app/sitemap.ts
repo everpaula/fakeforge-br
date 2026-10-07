@@ -214,6 +214,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     // Blog comparison SDK Python (oct 06): FakeForge vs brutils-py vs pycpfcnpj
     { url: `${baseUrl}/blog/fakeforge-vs-brutils-vs-pycpfcnpj`, lastModified: D.oct06, changeFrequency: "monthly", priority: 0.85 },
+
+    // Blog retention attack (oct 07): 5 fluxos que exigem a API
+    { url: `${baseUrl}/blog/5-fluxos-que-exigem-api-fakeforge`, lastModified: D.oct06, changeFrequency: "monthly", priority: 0.85 },
     { url: `${baseUrl}/algoritmo-luhn`, lastModified: D.home, changeFrequency: "monthly", priority: 0.9 },
 
     // AEO / FAQ (Ubersuggest gap 0% AI visibility -> respostas curadas com Schema)
