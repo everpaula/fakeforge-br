@@ -50,7 +50,15 @@ interface Funnel {
 }
 interface Benchmark { current: number; benchmark: number; best_in_class: number; unit: string; lower_is_better?: boolean }
 interface Benchmarks { [key: string]: Benchmark }
-interface PowerUser { user_id: string; email: string; calls: number }
+interface PowerUser {
+  user_id: string;
+  email: string;
+  calls: number;
+  days_active: number;
+  total_items: number;
+  last_call_days_ago: number;
+  type: "power" | "active" | "tester";
+}
 interface Churn { total_churned: number; revenue_churned: number; by_month: Record<string, number> }
 
 interface VcData {
@@ -397,32 +405,62 @@ export default function VcDashboard() {
           </div>
         </section>
 
-        {/* ========== POWER USERS (F10) ========== */}
+        {/* ========== POWER USERS (F10) — ranking por recorrência ========== */}
         <section>
           <div className="rounded-xl bg-card border border-border overflow-hidden">
             <div className="p-5 border-b border-border">
-              <p className="text-sm font-semibold">Power Users (top 10% em chamadas)</p>
-              <p className="text-[11px] text-muted">Users com maior uso · candidatos naturais pra upsell Dev/Team</p>
+              <p className="text-sm font-semibold">Top usuários por recorrência</p>
+              <p className="text-[11px] text-muted">
+                Score = chamadas × dias_ativos · favorece hábito, não volume de 1 chamada.
+                <span className="ml-2 text-success font-semibold">power</span> (≥20 calls, ≥5 dias) ·
+                <span className="ml-1 text-primary font-semibold">active</span> (≥5 calls, ≥2 dias) ·
+                <span className="ml-1 text-muted font-semibold">tester</span> (resto).
+              </p>
             </div>
             {data.power_users.length === 0 ? (
               <p className="text-xs text-muted text-center py-8">Sem dados ainda</p>
             ) : (
               <div className="divide-y divide-border">
-                {data.power_users.map((pu, i) => (
-                  <div key={pu.user_id} className="flex items-center justify-between px-5 py-2.5">
-                    <div className="flex items-center gap-3">
-                      <span className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center text-[10px] font-bold text-primary">#{i + 1}</span>
-                      <div>
-                        <p className="text-sm text-foreground">{pu.email || <span className="text-muted italic">sem email</span>}</p>
-                        <p className="text-[10px] text-muted font-mono">{pu.user_id}</p>
+                {data.power_users.map((pu, i) => {
+                  const typeColor = pu.type === "power" ? "text-success" : pu.type === "active" ? "text-primary" : "text-muted";
+                  const typeBg = pu.type === "power" ? "bg-success/10" : pu.type === "active" ? "bg-primary/10" : "bg-muted-foreground/10";
+                  const staleFlag = pu.last_call_days_ago >= 7;
+                  return (
+                    <div key={pu.user_id} className="flex items-center justify-between px-5 py-3">
+                      <div className="flex items-center gap-3 min-w-0 flex-1">
+                        <span className={`w-6 h-6 rounded-full ${typeBg} flex items-center justify-center text-[10px] font-bold ${typeColor} shrink-0`}>#{i + 1}</span>
+                        <div className="min-w-0">
+                          <div className="flex items-center gap-2">
+                            <p className="text-sm text-foreground truncate">{pu.email || <span className="text-muted italic">sem email</span>}</p>
+                            <span className={`text-[9px] uppercase px-1.5 py-0.5 rounded ${typeBg} ${typeColor} font-semibold shrink-0`}>{pu.type}</span>
+                            {staleFlag && (
+                              <span className="text-[9px] uppercase px-1.5 py-0.5 rounded bg-danger/10 text-danger font-semibold shrink-0" title="Sem atividade há 7+ dias — provável churn silencioso">stale</span>
+                            )}
+                          </div>
+                          <p className="text-[10px] text-muted font-mono truncate">{pu.user_id}</p>
+                        </div>
+                      </div>
+                      <div className="text-right ml-3 shrink-0">
+                        <p className="text-sm font-bold text-foreground">
+                          {pu.calls} <span className="text-xs text-muted font-normal">calls</span>
+                          <span className="text-xs text-muted font-normal mx-1">·</span>
+                          {pu.days_active} <span className="text-xs text-muted font-normal">dias</span>
+                        </p>
+                        <p className="text-[10px] text-muted">
+                          {pu.total_items.toLocaleString()} items · última há {pu.last_call_days_ago === 0 ? "hoje" : `${pu.last_call_days_ago}d`}
+                        </p>
                       </div>
                     </div>
-                    <div className="text-right">
-                      <p className="text-sm font-bold text-foreground">{pu.calls.toLocaleString()}</p>
-                      <p className="text-[10px] text-muted">items gerados</p>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
+              </div>
+            )}
+            {data.power_users.length > 0 && data.power_users.every((p) => p.type === "tester") && (
+              <div className="px-5 py-3 border-t border-border bg-background">
+                <p className="text-[11px] text-muted">
+                  ⚠ Nenhum power user real hoje. Todos top 10 são <span className="font-semibold text-foreground">testadores</span> (1-5 chamadas em 1-2 dias).
+                  O gap não é pricing — ninguém sente o limite Free. É <span className="font-semibold text-foreground">retention / hábito</span>: casos de uso + nurture devem ensinar a usar mais, não pagar mais.
+                </p>
               </div>
             )}
           </div>

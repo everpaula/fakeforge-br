@@ -406,21 +406,55 @@ export async function GET(request: NextRequest) {
     }
   }
 
-  // ---- Power users (top 10% em API calls) ----
-  const callsByUser: Record<string, number> = {};
+  // ---- Power users (ranking por recorrência, não por volume de 1 chamada) ----
+  // ANTES (bug): somava quantity, inflava quem chamava 1x com quantity=5.
+  // DEPOIS: num_calls × dias_ativos, favorece recorrência real. User que faz 1
+  // chamada e some não é power user; user que volta todo dia por 5 dias é.
+  const userStats: Record<string, { calls: number; days: Set<string>; last_call_ms: number; total_items: number }> = {};
   for (const row of apiUsage) {
-    if (row.user_id) callsByUser[row.user_id] = (callsByUser[row.user_id] || 0) + (row.quantity || 1);
+    if (!row.user_id) continue;
+    if (!userStats[row.user_id]) {
+      userStats[row.user_id] = { calls: 0, days: new Set(), last_call_ms: 0, total_items: 0 };
+    }
+    const s = userStats[row.user_id];
+    s.calls++;
+    s.days.add(row.created_at.substring(0, 10));
+    s.total_items += row.quantity || 1;
+    const t = new Date(row.created_at).getTime();
+    if (t > s.last_call_ms) s.last_call_ms = t;
   }
-  const sortedByUsage = Object.entries(callsByUser)
-    .sort((a, b) => b[1] - a[1]);
-  const top10Count = Math.max(1, Math.ceil(sortedByUsage.length * 0.1));
+
   const emailByUserId: Record<string, string> = {};
   for (const u of users) emailByUserId[u.id] = u.email || "";
 
-  const powerUsers = sortedByUsage.slice(0, top10Count).map(([uid, count]) => ({
-    user_id: uid.slice(0, 8) + "..." + uid.slice(-4),
-    email: emailByUserId[uid] || "—",
-    calls: count,
+  const nowMs = Date.now();
+  const rankedUsers = Object.entries(userStats)
+    .map(([uid, s]) => ({
+      uid,
+      calls: s.calls,
+      days_active: s.days.size,
+      total_items: s.total_items,
+      last_call_days_ago: Math.floor((nowMs - s.last_call_ms) / 86400000),
+      // Score composto: recorrência pesa mais que volume. User com 5 chamadas
+      // em 5 dias ganha de user com 10 chamadas em 1 dia.
+      score: s.calls * s.days.size,
+      // Classificação pré-calculada pra UI mostrar com cor diferente
+      type: (
+        s.days.size >= 5 && s.calls >= 20 ? "power" :
+        s.days.size >= 2 && s.calls >= 5 ? "active" :
+        "tester"
+      ) as "power" | "active" | "tester",
+    }))
+    .sort((a, b) => b.score - a.score);
+
+  const powerUsers = rankedUsers.slice(0, 10).map((r) => ({
+    user_id: r.uid.slice(0, 8) + "..." + r.uid.slice(-4),
+    email: emailByUserId[r.uid] || "—",
+    calls: r.calls,
+    days_active: r.days_active,
+    total_items: r.total_items,
+    last_call_days_ago: r.last_call_days_ago,
+    type: r.type,
   }));
 
   // ---- Sprint 2: MRR + ARPU por tier ----
