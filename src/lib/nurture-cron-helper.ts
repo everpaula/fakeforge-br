@@ -111,6 +111,46 @@ export async function getAlreadySent(
   return new Set((data || []).map((r) => r.user_id));
 }
 
+/**
+ * Email e um test account (plus-addressing +test* ou +teste*).
+ * Nurture nao deve ir pra esses: polui proprio inbox e queima quota Resend.
+ */
+export function isTestAccount(email: string): boolean {
+  return /\+(test|teste)[0-9]*@/i.test(email);
+}
+
+/**
+ * Cap diario de envios por cron. Resend Free = 100/dia pra tudo somado.
+ * Com 10+ crons, cada um precisa ficar baixo. 15/dia por cron da margem.
+ */
+export const DEFAULT_DAILY_CAP_PER_CRON = 15;
+
+/** Rate limit respeitando Resend 10 req/s = 100ms minimo entre sends */
+export const SEND_SLEEP_MS = 150;
+
+/** Dorme N ms. Use entre sends pra respeitar rate limit do Resend */
+export function sleep(ms: number): Promise<void> {
+  return new Promise((r) => setTimeout(r, ms));
+}
+
+/**
+ * Count de envios bem-sucedidos deste template nas ultimas 24h.
+ * Use pra implementar daily cap por cron.
+ */
+export async function getSentCountToday(
+  admin: ReturnType<typeof getAdminSupabase>,
+  template: string
+): Promise<number> {
+  const since = new Date(Date.now() - 24 * 3600 * 1000).toISOString();
+  const { count } = await admin
+    .from("sent_emails")
+    .select("*", { count: "exact", head: true })
+    .eq("template", template)
+    .eq("status", "sent")
+    .gte("sent_at", since);
+  return count || 0;
+}
+
 /** Retorna quantidade de chamadas API do user em N dias */
 export async function getUserApiCallCount(
   admin: ReturnType<typeof getAdminSupabase>,
@@ -152,11 +192,34 @@ interface SendEmailArgs {
 
 /** Envia email via Resend + grava em sent_emails. Retorna {ok, error?} */
 export async function sendAndLog({ admin, userId, email, template, subject, html, text }: SendEmailArgs): Promise<{ ok: boolean; error?: string; skipped?: boolean }> {
-  // Última barreira: nunca envia pra quem já bounceou, reclamou ou está na lista local
+  // Barreira 1: test accounts com plus-addressing nao recebem nurture
+  if (isTestAccount(email)) {
+    return { ok: false, skipped: true, error: "test_account" };
+  }
+  // Barreira 2: nunca envia pra quem já bounceou, reclamou ou está na lista local
   if (await isSuppressed(admin, userId, email)) {
     console.warn(`[nurture ${template}] suprimido, envio pulado: ${email}`);
     return { ok: false, skipped: true, error: "suppressed" };
   }
+  // Barreira 3: insert em sent_emails PRIMEIRO com status pending usando UNIQUE
+  // (user_id, template). Se ja existe, retorna skipped sem enviar. Previne
+  // race condition de multiple cron invocations enviando duplicata.
+  const { error: insertErr } = await admin.from("sent_emails").insert({
+    user_id: userId,
+    template,
+    recipient: email,
+    status: "pending",
+    metadata: {},
+  });
+  if (insertErr) {
+    // 23505 unique_violation = ja enviado antes, isso e esperado
+    if (insertErr.code === "23505") {
+      return { ok: false, skipped: true, error: "already_sent" };
+    }
+    console.error(`[nurture ${template}] insert error:`, insertErr.message);
+    return { ok: false, error: insertErr.message };
+  }
+
   const resend = getResend();
   try {
     const result = await resend.emails.send({
@@ -170,19 +233,24 @@ export async function sendAndLog({ admin, userId, email, template, subject, html
     });
 
     const resendId = result.data?.id || null;
-    await admin.from("sent_emails").insert({
-      user_id: userId,
-      template,
-      recipient: email,
-      resend_id: resendId,
-      status: result.error ? "failed" : "sent",
-      metadata: result.error ? { error: result.error.message } : {},
-    });
+    // Update do pending pro status real
+    await admin.from("sent_emails")
+      .update({
+        resend_id: resendId,
+        status: result.error ? "failed" : "sent",
+        metadata: result.error ? { error: result.error.message } : {},
+      })
+      .eq("user_id", userId)
+      .eq("template", template);
 
     if (result.error) return { ok: false, error: result.error.message };
     return { ok: true };
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
+    await admin.from("sent_emails")
+      .update({ status: "failed", metadata: { error: msg } })
+      .eq("user_id", userId)
+      .eq("template", template);
     console.error(`[nurture ${template}] send error for ${email}:`, msg);
     return { ok: false, error: msg };
   }

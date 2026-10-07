@@ -34,11 +34,11 @@
     },
     {
       "path": "/api/cron/send-nurture-usecases",
-      "schedule": "5 13 * * *"
+      "schedule": "5 13 * * 0"
     },
     {
       "path": "/api/cron/send-stale-check",
-      "schedule": "50 13 * * *"
+      "schedule": "50 13 * * 0"
     },
     {
       "path": "/api/cron/detect-b2b-leads",

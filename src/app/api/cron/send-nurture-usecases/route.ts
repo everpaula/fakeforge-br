@@ -9,6 +9,10 @@ import {
   isUserPaying,
   sendAndLog,
   unauthorizedResponse,
+  DEFAULT_DAILY_CAP_PER_CRON,
+  SEND_SLEEP_MS,
+  sleep,
+  getSentCountToday,
 } from "@/lib/nurture-cron-helper";
 import {
   subjectNurtureUsecases,
@@ -39,6 +43,16 @@ export async function GET(request: NextRequest) {
   if (!verifyCronRequest(request)) return unauthorizedResponse();
 
   const admin = getAdminSupabase();
+
+  // Daily cap: Resend Free = 100/dia pra TODOS os crons somados. Esse limite
+  // protege contra burst (bug 07/out quando stale_check mandou 50+ em 9s e
+  // estourou cota, derrubando emails criticos como password reset).
+  const sentToday = await getSentCountToday(admin, TEMPLATE);
+  if (sentToday >= DEFAULT_DAILY_CAP_PER_CRON) {
+    return NextResponse.json({ ok: true, capped: true, sent_today: sentToday });
+  }
+  const remainingCap = DEFAULT_DAILY_CAP_PER_CRON - sentToday;
+
   // Janela de 3-5 dias pos-signup (3 dias passou o hook, antes do d7)
   const candidates = await getUsersInDayWindow(admin, 3);
   if (!candidates.length) return NextResponse.json({ ok: true, checked: 0, sent: 0 });
@@ -48,6 +62,7 @@ export async function GET(request: NextRequest) {
   let sent = 0, skipped = 0, failed = 0;
 
   for (const user of candidates) {
+    if (sent >= remainingCap) break; // respeita cap diario
     if (alreadySent.has(user.id)) { skipped++; continue; }
     if (await isUserPaying(admin, user.id)) { skipped++; continue; }
 
@@ -67,10 +82,12 @@ export async function GET(request: NextRequest) {
       text: textNurtureUsecases({ firstName }),
     });
 
-    if (result.ok) sent++;
-    else if (result.skipped) skipped++;
+    if (result.ok) {
+      sent++;
+      await sleep(SEND_SLEEP_MS); // respeita rate limit Resend 10 req/s
+    } else if (result.skipped) skipped++;
     else failed++;
   }
 
-  return NextResponse.json({ ok: true, checked: candidates.length, sent, skipped, failed });
+  return NextResponse.json({ ok: true, checked: candidates.length, sent, skipped, failed, cap: remainingCap });
 }
