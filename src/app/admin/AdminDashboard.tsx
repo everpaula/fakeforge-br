@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import OutreachInbox from "@/components/OutreachInbox";
 import Link from "next/link";
 import TimeSeriesChart from "@/components/admin/TimeSeriesChart";
 
@@ -601,6 +602,11 @@ export default function AdminDashboard() {
             </div>
           </section>
         )}
+
+        {/* Outreach inbox — approval gate pros drafts criados pelo Claude */}
+        <div className="mt-8">
+          <OutreachInbox />
+        </div>
 
         {/* Success metrics targets */}
         <div className="mt-8 rounded-xl bg-card border border-border p-6">
