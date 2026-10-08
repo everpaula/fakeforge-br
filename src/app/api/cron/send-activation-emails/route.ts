@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
-import { getResend, EMAIL_FROM, EMAIL_REPLY_TO } from "@/lib/resend";
 import { getSuppressedUserIds } from "@/lib/email-suppression";
 import { subjectActivationT10, htmlActivationT10, textActivationT10 } from "@/lib/email-templates";
+import { sendAndLog, SEND_SLEEP_MS, sleep, isTestAccount } from "@/lib/nurture-cron-helper";
 
 // Cron: roda a cada 5 min. Busca users que confirmaram email nos
 // últimos 15 min e ainda não receberam email de ativação. Envia
@@ -80,6 +80,7 @@ export async function GET(request: NextRequest) {
     .filter((u) => {
       const confirmed = u.email_confirmed_at || u.confirmed_at;
       if (!confirmed || !u.email) return false;
+      if (isTestAccount(u.email)) return false;
       return confirmed >= windowStart && confirmed <= windowEnd;
     })
     .map((u) => ({ id: u.id, email: u.email!, confirmedAt: u.email_confirmed_at || u.confirmed_at! }));
@@ -118,58 +119,46 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ ok: true, checked: candidates.length, sent: 0, skipped: candidates.length, suppressed: suppressed.size });
   }
 
-  const resend = getResend();
   let sent = 0;
   let failed = 0;
+  let capped = 0;
 
   for (const user of toSend) {
-    try {
-      // Busca API key do user (usa a primeira ativa)
-      const { data: keyRow } = await admin
-        .from("api_keys")
-        .select("key")
-        .eq("user_id", user.id)
-        .eq("is_active", true)
-        .order("created_at", { ascending: true })
-        .limit(1)
-        .single();
+    // Busca API key do user (usa a primeira ativa)
+    const { data: keyRow } = await admin
+      .from("api_keys")
+      .select("key")
+      .eq("user_id", user.id)
+      .eq("is_active", true)
+      .order("created_at", { ascending: true })
+      .limit(1)
+      .single();
 
-      // Fallback pra placeholder se ainda não tem API key (raro, mas seguro)
-      const apiKey = keyRow?.key || "ff_criar_uma_no_dashboard";
-      const firstName = await firstNameFromEmail(user.email);
+    const apiKey = keyRow?.key || "ff_criar_uma_no_dashboard";
+    const firstName = await firstNameFromEmail(user.email);
 
-      const result = await resend.emails.send({
-        from: EMAIL_FROM,
-        to: user.email,
-        replyTo: EMAIL_REPLY_TO,
-        subject: subjectActivationT10(),
-        html: htmlActivationT10({ firstName, apiKey }),
-        text: textActivationT10({ firstName, apiKey }),
-        tags: [{ name: "template", value: "activation_t10" }],
-      });
+    const result = await sendAndLog({
+      admin,
+      userId: user.id,
+      email: user.email,
+      template: "activation_t10",
+      subject: subjectActivationT10(),
+      html: htmlActivationT10({ firstName, apiKey }),
+      text: textActivationT10({ firstName, apiKey }),
+      priority: "transactional",
+    });
 
-      const resendId = result.data?.id || null;
-
-      // Registra no sent_emails (unique constraint previne duplicata)
-      await admin.from("sent_emails").insert({
-        user_id: user.id,
-        template: "activation_t10",
-        recipient: user.email,
-        resend_id: resendId,
-        status: result.error ? "failed" : "sent",
-        metadata: result.error ? { error: result.error.message } : {},
-      });
-
-      if (result.error) {
-        failed++;
-        console.error("[cron activation] Resend error for", user.email, result.error);
-      } else {
-        sent++;
-      }
-    } catch (err) {
+    if (result.ok) {
+      sent++;
+      await sleep(SEND_SLEEP_MS);
+    } else if (result.error?.startsWith("global_cap_")) {
+      capped++;
+      break; // sem usar budget resto do cron
+    } else if (result.skipped) {
+      // noop
+    } else {
       failed++;
-      const msg = err instanceof Error ? err.message : String(err);
-      console.error("[cron activation] send error for", user.email, msg);
+      console.error("[cron activation] send failed for", user.email, result.error);
     }
   }
 
@@ -178,6 +167,7 @@ export async function GET(request: NextRequest) {
     checked: candidates.length,
     sent,
     failed,
+    capped,
     skipped: candidates.length - toSend.length,
     already_called: alreadyCalled.size,
   });

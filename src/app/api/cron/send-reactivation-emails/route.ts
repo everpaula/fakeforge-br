@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
-import { getResend, EMAIL_FROM, EMAIL_REPLY_TO } from "@/lib/resend";
 import { getSuppressedUserIds } from "@/lib/email-suppression";
 import { subjectReactivationT24h, htmlReactivationT24h, textReactivationT24h } from "@/lib/email-templates";
+import { sendAndLog, SEND_SLEEP_MS, sleep, isTestAccount } from "@/lib/nurture-cron-helper";
 
 // Cron: roda de hora em hora. Busca users que:
 //   1. Confirmaram email 24-48h atrás (janela larga pra tolerar cron atrasado)
@@ -73,6 +73,7 @@ export async function GET(request: NextRequest) {
     .filter((u) => {
       const confirmed = u.email_confirmed_at || u.confirmed_at;
       if (!confirmed || !u.email) return false;
+      if (isTestAccount(u.email)) return false;
       return confirmed >= windowStart && confirmed <= windowEnd;
     })
     .map((u) => ({ id: u.id, email: u.email! }));
@@ -143,46 +144,34 @@ export async function GET(request: NextRequest) {
     });
   }
 
-  const resend = getResend();
   let sent = 0;
   let failed = 0;
+  let capped = 0;
 
   for (const user of toSend) {
-    try {
-      const apiKey = firstKeyByUser.get(user.id)!;
-      const firstName = firstNameFromEmail(user.email);
+    const apiKey = firstKeyByUser.get(user.id)!;
+    const firstName = firstNameFromEmail(user.email);
 
-      const result = await resend.emails.send({
-        from: EMAIL_FROM,
-        to: user.email,
-        replyTo: EMAIL_REPLY_TO,
-        subject: subjectReactivationT24h(),
-        html: htmlReactivationT24h({ firstName, apiKey }),
-        text: textReactivationT24h({ firstName, apiKey }),
-        tags: [{ name: "template", value: "reactivation_t24h" }],
-      });
+    const result = await sendAndLog({
+      admin,
+      userId: user.id,
+      email: user.email,
+      template: "reactivation_t24h",
+      subject: subjectReactivationT24h(),
+      html: htmlReactivationT24h({ firstName, apiKey }),
+      text: textReactivationT24h({ firstName, apiKey }),
+      priority: "transactional",
+    });
 
-      const resendId = result.data?.id || null;
-
-      await admin.from("sent_emails").insert({
-        user_id: user.id,
-        template: "reactivation_t24h",
-        recipient: user.email,
-        resend_id: resendId,
-        status: result.error ? "failed" : "sent",
-        metadata: result.error ? { error: result.error.message } : {},
-      });
-
-      if (result.error) {
-        failed++;
-        console.error("[cron reactivation] Resend error for", user.email, result.error);
-      } else {
-        sent++;
-      }
-    } catch (err) {
+    if (result.ok) {
+      sent++;
+      await sleep(SEND_SLEEP_MS);
+    } else if (result.error?.startsWith("global_cap_")) {
+      capped++;
+      break;
+    } else if (!result.skipped) {
       failed++;
-      const msg = err instanceof Error ? err.message : String(err);
-      console.error("[cron reactivation] send error for", user.email, msg);
+      console.error("[cron reactivation] send failed for", user.email, result.error);
     }
   }
 
@@ -191,6 +180,7 @@ export async function GET(request: NextRequest) {
     checked: inWindow.length,
     sent,
     failed,
+    capped,
     skipped: inWindow.length - toSend.length,
   });
 }

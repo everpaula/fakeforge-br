@@ -120,10 +120,22 @@ export function isTestAccount(email: string): boolean {
 }
 
 /**
- * Cap diario de envios por cron. Resend Free = 100/dia pra tudo somado.
- * Com 10+ crons, cada um precisa ficar baixo. 15/dia por cron da margem.
+ * Caps diarios. Resend Free = 100/dia TOTAL (compartilhado com Supabase Auth
+ * que manda confirmation + password reset tambem via Resend custom SMTP).
+ *
+ * Alocacao defensiva (incidente 07/out: stale_check mandou 50+ em 9s e
+ * derrubou envio de emails criticos):
+ *   - Supabase Auth transactional: 20 (reservado, nao vem por aqui)
+ *   - Nosso transactional (activation, reactivation, quota): 20 budget
+ *   - Nurture (d3/d7/d14/d16/d30/stale/usecases/b2b): 60 budget
+ *   - Buffer de seguranca: 0
+ *
+ * Expresso como "nao envie nurture se total >= 60" e "nao envie trans
+ * se total >= 80". Supabase Auth tem a diferenca pra 100.
  */
 export const DEFAULT_DAILY_CAP_PER_CRON = 15;
+export const GLOBAL_CAP_NURTURE = 60;
+export const GLOBAL_CAP_TRANSACTIONAL = 80;
 
 /** Rate limit respeitando Resend 10 req/s = 100ms minimo entre sends */
 export const SEND_SLEEP_MS = 150;
@@ -149,6 +161,42 @@ export async function getSentCountToday(
     .eq("status", "sent")
     .gte("sent_at", since);
   return count || 0;
+}
+
+/**
+ * Total de envios bem-sucedidos (todos templates) nas ultimas 24h.
+ * Base pro global cap check — protege contra todos os crons juntos
+ * estourando quota Resend compartilhada.
+ */
+export async function getTotalSentToday(
+  admin: ReturnType<typeof getAdminSupabase>
+): Promise<number> {
+  const since = new Date(Date.now() - 24 * 3600 * 1000).toISOString();
+  const { count } = await admin
+    .from("sent_emails")
+    .select("*", { count: "exact", head: true })
+    .in("status", ["sent", "pending"])
+    .gte("sent_at", since);
+  return count || 0;
+}
+
+/**
+ * Verifica se cron pode enviar mais um email agora. Retorna null se OK,
+ * ou objeto com motivo pra registrar nos logs. Use ANTES de cada send.
+ *
+ * priority='transactional' = emails que o user espera (activation, reset).
+ * priority='nurture' = marketing/retention. Primeiro a bloquear se budget baixo.
+ */
+export async function canSendNow(
+  admin: ReturnType<typeof getAdminSupabase>,
+  priority: "transactional" | "nurture"
+): Promise<{ blocked: true; reason: string; sent_today: number } | null> {
+  const total = await getTotalSentToday(admin);
+  const cap = priority === "transactional" ? GLOBAL_CAP_TRANSACTIONAL : GLOBAL_CAP_NURTURE;
+  if (total >= cap) {
+    return { blocked: true, reason: `global_cap_${priority}_reached`, sent_today: total };
+  }
+  return null;
 }
 
 /** Retorna quantidade de chamadas API do user em N dias */
@@ -188,18 +236,36 @@ interface SendEmailArgs {
   subject: string;
   html: string;
   text: string;
+  /** 'transactional' = user espera (activation, reset). 'nurture' = marketing. */
+  priority?: "transactional" | "nurture";
 }
 
-/** Envia email via Resend + grava em sent_emails. Retorna {ok, error?} */
-export async function sendAndLog({ admin, userId, email, template, subject, html, text }: SendEmailArgs): Promise<{ ok: boolean; error?: string; skipped?: boolean }> {
-  // Barreira 1: test accounts com plus-addressing nao recebem nurture
+/**
+ * Envia email via Resend + grava em sent_emails.
+ *
+ * Guardas (ordem de evaluacao, incidente 07/out levou a adicionar as 4 primeiras):
+ *   1. Test account filter (plus-addressing)
+ *   2. Suppressions (bounce, complaint, lista local)
+ *   3. Global cap check (budget diario Resend)
+ *   4. UNIQUE (user_id, template) via insert pending — previne race
+ *   5. Resend send
+ *   6. Update status pending → sent/failed
+ */
+export async function sendAndLog({ admin, userId, email, template, subject, html, text, priority = "nurture" }: SendEmailArgs): Promise<{ ok: boolean; error?: string; skipped?: boolean }> {
+  // Barreira 1: test accounts com plus-addressing nao recebem nurture nenhuma
   if (isTestAccount(email)) {
     return { ok: false, skipped: true, error: "test_account" };
   }
   // Barreira 2: nunca envia pra quem já bounceou, reclamou ou está na lista local
   if (await isSuppressed(admin, userId, email)) {
-    console.warn(`[nurture ${template}] suprimido, envio pulado: ${email}`);
+    console.warn(`[${priority} ${template}] suprimido, envio pulado: ${email}`);
     return { ok: false, skipped: true, error: "suppressed" };
+  }
+  // Barreira 3: global cap (protege Supabase Auth transactional + reserva orcamento)
+  const capCheck = await canSendNow(admin, priority);
+  if (capCheck) {
+    console.warn(`[${priority} ${template}] global cap atingido: ${capCheck.sent_today}/${priority === "transactional" ? GLOBAL_CAP_TRANSACTIONAL : GLOBAL_CAP_NURTURE}`);
+    return { ok: false, skipped: true, error: capCheck.reason };
   }
   // Barreira 3: insert em sent_emails PRIMEIRO com status pending usando UNIQUE
   // (user_id, template). Se ja existe, retorna skipped sem enviar. Previne
@@ -244,6 +310,10 @@ export async function sendAndLog({ admin, userId, email, template, subject, html
       .eq("template", template);
 
     if (result.error) return { ok: false, error: result.error.message };
+    // Rate limit interno: respeita Resend 10 req/s. Garante que QUALQUER cron
+    // que use sendAndLog (nurture ou transactional) nao faca burst mesmo sem
+    // o chamador se preocupar com isso.
+    await sleep(SEND_SLEEP_MS);
     return { ok: true };
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);

@@ -3,6 +3,7 @@ import { createClient } from "@supabase/supabase-js";
 import { getResend, EMAIL_FROM, EMAIL_REPLY_TO } from "@/lib/resend";
 import { getSuppressedUserIds } from "@/lib/email-suppression";
 import { subjectQuotaApproaching, htmlQuotaApproaching, textQuotaApproaching } from "@/lib/email-templates";
+import { canSendNow, SEND_SLEEP_MS, sleep, isTestAccount } from "@/lib/nurture-cron-helper";
 
 // Cron weekly (segunda 10h BS = 13h UTC).
 //
@@ -163,11 +164,17 @@ export async function GET(request: NextRequest) {
   const resend = getResend();
   let sent = 0;
   let failed = 0;
+  let capped = 0;
 
   for (const user of toSend) {
     const userInfo = userMap.get(user.user_id);
     if (!userInfo) continue;
     if (suppressed.has(user.user_id)) continue;
+    if (isTestAccount(userInfo.email)) continue;
+
+    // Global cap gate — quota_approaching e transactional (user espera o aviso)
+    const capCheck = await canSendNow(admin, "transactional");
+    if (capCheck) { capped++; break; }
 
     try {
       // Puxa items totais 7d desse user pra copy pessoal
@@ -230,6 +237,7 @@ export async function GET(request: NextRequest) {
         console.error("[cron quota] Resend error for", userInfo.email, result.error);
       } else {
         sent++;
+        await sleep(SEND_SLEEP_MS); // respeita rate limit Resend 10 req/s
       }
     } catch (err) {
       failed++;
@@ -243,6 +251,7 @@ export async function GET(request: NextRequest) {
     checked: freeOnly.length,
     sent,
     failed,
+    capped,
     skipped_paid: paidUserIds.size,
     skipped_recent: recentlySent.size,
     skipped_suppressed: suppressed.size,
