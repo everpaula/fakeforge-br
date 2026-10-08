@@ -9,14 +9,21 @@ import GeneratorSchema from "@/components/GeneratorSchema";
 import RelatedGenerators from "@/components/RelatedGenerators";
 import ValidatorCPF from "./ValidatorCPF";
 
+// Title + description otimizados pra competir em "gerador de cpf" (pos 8-9
+// GSC Oct 05, CTR 0.3% em 12.6k impressions). Antes: "Gerador de CPF Válido
+// Online: mod-11 Receita, Grátis" — jargão tecnico ("mod-11") no inicio sem
+// hook de beneficio, zero diferencial numerico, dois pontos+virgula confuso.
+// Agora: beneficio primeiro ("Grátis, Sem Cadastro"), diferencial numerico
+// no description ("50 CPFs/dia"), API como diferencial vs 4devs.
 export const metadata: Metadata = {
-  title: "Gerador de CPF Válido Online: mod-11 Receita, Grátis",
-  description: "Gere CPF válido e fictício com algoritmo mod-11 da Receita Federal. Formatado ou puro, pronto pra seed de banco, QA e cadastros em homologação. Grátis, sem cadastro.",
+  title: "Gerador de CPF Válido — Grátis, Sem Cadastro | FakeForge",
+  description: "Gere CPF válido pra testes de software, QA e seed de banco. Algoritmo mod-11 oficial da Receita Federal, formatado ou puro. 50 CPFs/dia grátis, sem cadastro, com API REST.",
   keywords: "gerador de cpf, cpf válido, gerar cpf, cpf fake, cpf falso, cpf fictício, cpf para testes, gerador cpf online, gerador cpf grátis, cpf aleatório, cpf sintético, cpf válido para teste, gerar cpf fake, cpf receita federal, mod-11 cpf",
   openGraph: {
-    title: "Gerador de CPF Válido Online - mod-11 Receita Federal",
-    description: "CPF fictício com mod-11 da Receita Federal, formatado ou puro. Grátis e sem cadastro.",
+    title: "Gerador de CPF Válido — Grátis, Sem Cadastro",
+    description: "CPF válido com mod-11 da Receita Federal. 50/dia grátis sem cadastro + API REST pra automação.",
     type: "website",
+    images: ["/api/og?title=Gerador+de+CPF+V%C3%A1lido&subtitle=Mod-11+Receita+Federal+%7C+50%2Fdia+gr%C3%A1tis+sem+cadastro&category=GERADOR"],
   },
   alternates: { canonical: "/gerador-cpf" },
 };
